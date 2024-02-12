@@ -1,0 +1,66 @@
+{
+  "name": "vite-react-ts-ghactions-template",
+  "version": "1.0.0",
+  "description": "React + TypeScript + Vite + Github Actions starter template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pchmn/vite-react-ts-ghactions-template.git"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "typescript",
+    "template",
+    "ghactions",
+    "vitest"
+  ],
+  "author": "pchmn",
+  "license": "MIT",
+  "homepage": "https://github.com/pchmn/vite-react-ts-ghactions-template",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:ci": "tsc && vite build && cp 404.html dist/",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ci": "vitest run --coverage",
+    "serve": "vite preview",
+    "prepare": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
+    "lint": "eslint --cache --fix ."
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@commitlint/prompt-cli": "^17.6.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/node": "^18.16.3",
+    "@types/react": "^18.2.1",
+    "@types/react-dom": "^18.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "@vitejs/plugin-react-swc": "^3.3.0",
+    "@vitest/coverage-c8": "^0.31.0",
+    "c8": "^7.13.0",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-testing-library": "^5.10.3",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "happy-dom": "^9.10.8",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.4",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.30.1"
+  }
+}
