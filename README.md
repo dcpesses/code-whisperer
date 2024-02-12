@@ -1,16 +1,17 @@
 <div align="center">
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pchmn/vite-react-ts-ghactions-template/blob/main/license)
-[![ci](https://github.com/pchmn/vite-react-ts-ghactions-template/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pchmn/vite-react-ts-ghactions-template/actions)
-[![codecov.io](https://codecov.io/gh/pchmn/vite-react-ts-ghactions-template/coverage.svg?branch=main)](https://codecov.io/gh/pchmn/vite-react-ts-ghactions-template?branch=master)
-<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4c695ce061c34c1bb1698acc19278f0e)](https://www.codacy.com/gh/pchmn/vite-react-ts-ghactions-template/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pchmn/vite-react-ts-ghactions-template&amp;utm_campaign=Badge_Grade) -->
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dcpesses/vite-react-ts-gh/blob/main/license)
+[![ci](https://github.com/dcpesses/vite-react-ts-gh/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dcpesses/vite-react-ts-gh/actions)
+[![codecov.io](https://codecov.io/gh/dcpesses/vite-react-ts-gh/coverage.svg?branch=main)](https://codecov.io/gh/dcpesses/vite-react-ts-gh?branch=master)
 
 <!-- # React - TypeScript and GitHub Actions Template with Vite -->
 # Vite, React and GitHub Actions
 
 This a React 18 + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
 
-[Demo](https://pchmn.github.io/vite-react-ts-ghactions-template/)
+Based on https://github.com/pchmn/vite-react-ts-ghactions-template/blob/main/.github/workflows/ci.yml
+
+[Demo](https://dcpesses.github.io/vite-react-ts-gh/)
 
 </div>
 
@@ -37,7 +38,7 @@ This a React 18 + TypeScript + Vitest and React Testing Library + GitHub Actions
 ### GitHub Actions
 
 - **Build**, **Test** and **Coverage Analysis** (with [Codecov](https://about.codecov.io/)) at each commit
-- **Deploy** to [GitHub Pages](https://pages.github.com/) on main branch (see deployment of this repo [here](https://pchmn.github.io/vite-react-ts-ghactions-template/))
+- **Deploy** to [GitHub Pages](https://pages.github.com/) on main branch (see deployment of this repo [here](https://dcpesses.github.io/vite-react-ts-gh/))
 
 
 <br>
@@ -47,23 +48,24 @@ This a React 18 + TypeScript + Vitest and React Testing Library + GitHub Actions
 ### Copy template
 
 ```
-npx degit pchmn/vite-react-ts-ghactions-template app_name
+npx degit dcpesses/vite-react-ts-gh app_name
 ```
 
 ### Usage
 
-> Project was built using [`pnpm`](https://pnpm.io/installation#using-npm). If you want to use `npm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`).
+<!-- > Project was built using [`pnpm`](https://pnpm.io/installation#using-npm). If you want to use `npm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`). -->
+> Project built using `npm`. If you want to use `pnpm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`).
 
 #### Install
 
 ```sh
-pnpm i
+npm i
 ```
 
 #### Dev
 
 ```sh
-pnpm dev
+npm run dev
 ```
 
 #### Build
@@ -71,25 +73,25 @@ pnpm dev
 
 ```sh
 # normal build
-pnpm build
+npm run build
 
 # build with 404.html file added for GitHub Pages
-pnpm build:ci
+npm run build:ci
 ```
 > See explanation of `404.html` file [here](#github-pages)
 #### Test
 
 ```sh
 # without coverage
-pnpm test
+npm run test
 
 # with coverage
-pnpm test:ci
+npm run test:ci
 ```
 #### Serve
 
 ```sh
-pnpm serve
+npm run serve
 ```
 
 <br>
@@ -98,7 +100,7 @@ pnpm serve
 
 If you want to use GitHub Actions in your repo, you'll need to make little configuration.
 
-Actual [workflow](https://github.com/pchmn/vite-react-ts-ghactions-template/blob/main/.github/workflows/ci.yml) is:
+Actual [workflow](https://github.com/dcpesses/vite-react-ts-gh/blob/main/.github/workflows/ci.yml) is:
 
 ![image](https://user-images.githubusercontent.com/12658241/236196559-854755f3-03aa-431d-af43-f7352b40f084.png)
 
