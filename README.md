@@ -9,7 +9,7 @@
 
 This a React 18 + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
 
-Based on https://github.com/pchmn/vite-react-ts-ghactions-template/blob/main/.github/workflows/ci.yml
+Based on https://github.com/pchmn/vite-react-ts-ghactions-template/
 
 [Demo](https://dcpesses.github.io/vite-react-ts-gh/)
 
