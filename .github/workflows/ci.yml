@@ -24,25 +24,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: 🏗 Setup pnpm
-        uses: pnpm/action-setup@v2
+      - name: 🏗 Setup npm
+        uses: npm/action-setup@v2
         with:
-          version: 8
+          version: 10
 
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: pnpm
+          cache: npm
 
       - name: 🗂️ Install dependencies
-        run: pnpm i
+        run: npm i
 
       - name: 🔨 Build
-        run: pnpm build:ci
+        run: npm run build:ci
 
       - name: 🧪 Test
-        run: pnpm test:ci
+        run: npm run test:ci
 
       # Upload dist artifacts
       - uses: actions/upload-artifact@v3
@@ -83,8 +83,8 @@ jobs:
     # Manual deployment
     # See https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/
     environment:
-      name: pchmn.github.io/vite-react-ts-ghactions-template
-      url: https://pchmn.github.io/vite-react-ts-ghactions-template/
+      name: dcpesses.github.io/vite-react-ts-gh
+      url: https://dcpesses.github.io/vite-react-ts-gh/
     steps:
       # Download dist artifacts
       - uses: actions/download-artifact@v3
