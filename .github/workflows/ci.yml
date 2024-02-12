@@ -78,7 +78,7 @@ jobs:
     # Manual deployment
     # See https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/
     environment:
-      name: dcpesses.github.io/vite-react-ts-gh
+      name: prod
       url: https://dcpesses.github.io/vite-react-ts-gh/
     steps:
       # Download dist artifacts
