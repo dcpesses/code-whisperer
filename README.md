@@ -133,6 +133,8 @@ Deploy react app to GitHub Pages.
     - `environment.url` = link to your github pages
   - If your want to remove it, just delete `environment` config of `deploy` job in `.github/workflows/ci.yml`
 
+Don't forget to [setup your repo|https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch] to deploy from your GitHub Pages branch. (Defaults to `gh-pages` unless `publish_branch` is specified in the `peaceiris/actions-gh-pages` config.)
+
 ## GitHub Pages
 
 There are modifications on `index.html`, and a new `404.html` file in the project to make it work well with GitHub Pages.
