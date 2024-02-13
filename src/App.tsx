@@ -1,6 +1,7 @@
 import './App.css';
+import {Counter} from './features/counter/Counter';
 
-import { useState } from 'react';
+import {useState} from 'react';
 
 import logo from '@/assets/logo.svg';
 
@@ -12,9 +13,10 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
+        <Counter />
         <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            Count value is: {count}
+          <button title="State Counter" type="button" onClick={() => setCount((countval) => countval + 1)}>
+            State Counter is: {count}
           </button>
         </p>
         <p>

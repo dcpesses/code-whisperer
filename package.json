@@ -1,13 +1,14 @@
 {
   "name": "vite-react-ts-gh",
   "version": "1.0.0",
-  "description": "React + TypeScript + Vite + Github Actions starter template",
+  "description": "React + Redux + TypeScript + Vite + Github Actions starter template",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dcpesses/vite-react-ts-gh.git"
   },
   "keywords": [
     "react",
+    "redux",
     "vite",
     "typescript",
     "template",
@@ -29,8 +30,10 @@
     "lint": "eslint --cache --fix ."
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",

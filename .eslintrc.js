@@ -99,6 +99,7 @@ module.exports = {
     'react/no-unused-state': ['error'],
     'react/no-will-update-set-state': ['error'],
     'react/prop-types': ['error'],
+    // 'react/react-in-jsx-scope': ['warn'],
     'react/require-default-props': [1],
     'react/require-render-return': ['error'],
     'react/self-closing-comp': ['error', {'component': true, 'html': false}],
