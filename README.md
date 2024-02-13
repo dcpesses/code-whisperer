@@ -27,7 +27,7 @@ Based on https://github.com/pchmn/vite-react-ts-ghactions-template/
 
 - VSCode settings & extensions recommendations
 - [EditorConfig](https://editorconfig.org/)
-- [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) configured (with [`eslint-plugin-prettier`](https://github.com/prettier/eslint-plugin-prettier))
+- [ESLint](https://eslint.org/) configured
 
 ### Git Hooks
 

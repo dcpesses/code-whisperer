@@ -9,11 +9,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
     'plugin:react/jsx-runtime',
-    'prettier',
   ],
-  plugins: ['react', 'prettier', 'unused-imports', 'simple-import-sort'],
+  plugins: ['react', 'unused-imports'],
   settings: {
     react: {
       version: 'detect',
@@ -26,9 +24,6 @@ module.exports = {
     },
   ],
   rules: {
-    'prettier/prettier': 'warn',
     'unused-imports/no-unused-imports': 'warn',
-    'simple-import-sort/imports': 'warn',
-    'simple-import-sort/exports': 'warn',
   },
 };
