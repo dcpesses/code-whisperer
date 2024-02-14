@@ -9,8 +9,6 @@ export const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-// weird, was just working a moment ago
-// eslint-disable-next-line no-shadow
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
