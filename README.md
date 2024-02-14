@@ -7,7 +7,7 @@
 <!-- # React - TypeScript and GitHub Actions Template with Vite -->
 # Vite, React and GitHub Actions
 
-This a React 18 + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
+This a React 18 + Redux + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
 
 Based on https://github.com/pchmn/vite-react-ts-ghactions-template/
 
@@ -20,6 +20,7 @@ Based on https://github.com/pchmn/vite-react-ts-ghactions-template/
 
 - ⚡️&nbsp; [Vite 4](https://vitejs.dev/)
 - ⚛️&nbsp; [React 18](https://beta.reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
+- 🗄️&nbsp; [Redux](https://redux.js.org/) with [Redux Toolkit](https://redux-toolkit.js.org/)
 - 🧪&nbsp; [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
 - 🚀&nbsp; [GitHub Actions](https://docs.github.com/en/actions) with deployment on [GitHub Pages](https://pages.github.com/)
 
