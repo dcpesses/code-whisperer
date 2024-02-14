@@ -1,17 +1,35 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
+import {Provider} from 'react-redux';
+import {store} from './app/store';
 
 import App from '@/App';
 
-test('count is 0 at first', () => {
-  render(<App />);
+test('Should render learn react link', () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 
-  expect(screen.getByText('Count value is: 0')).toBeDefined();
+  expect(screen.getByText(/learn/i)).toBeInTheDocument();
 });
 
-test('increments count', () => {
-  render(<App />);
+test('Should display state counter value', () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+  expect(screen.getByText('State Counter is: 0')).toBeDefined();
+});
 
-  fireEvent.click(screen.getByRole('button'));
-
-  expect(screen.getByText('Count value is: 1')).toBeDefined();
+test('Should increment and display state counter value', () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+  const button = screen.getByTitle('State Counter');
+  fireEvent.click(button);
+  expect(screen.getByText('State Counter is: 1')).toBeDefined();
 });
