@@ -1,24 +1,29 @@
 import './App.css';
-import {Counter} from './features/counter/Counter';
-
-import {useState} from 'react';
+import {Counter} from './features/state-counter/Counter';
+import {ReduxCounter} from './features/redux-counter/ReduxCounter';
 
 import logo from '@/assets/logo.svg';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
-        <Counter />
-        <p>
-          <button title="State Counter" type="button" onClick={() => setCount((countval) => countval + 1)}>
-            State Counter is: {count}
-          </button>
-        </p>
+        <div className="container">
+          <div className="col50">
+            <h3 className="App-subheader">Redux Counter Example</h3>
+            <ReduxCounter />
+          </div>
+          <div className="col50">
+            <h3 className="App-subheader">State Counter Example</h3>
+            <Counter />
+          </div>
+        </div>
+
+        <div>
+
+        </div>
         <p>
           Edit <code>App.tsx</code> and save to test HMR updates.
         </p>
