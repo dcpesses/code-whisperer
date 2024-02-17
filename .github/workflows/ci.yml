@@ -87,6 +87,20 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Set current date as env variable
+        run: echo "NOW=$(TZ=America/Los_Angeles date +'%F %T %Z')" >> $GITHUB_ENV
+
+      - name: Debug current date
+        run: echo "${{ env.NOW }}" # Gives "2024-02-16 16:53:32 PST"
+
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "DATE_TIME"
+          replace: "${{ env.NOW }}"
+          regex: false
+          include: "**index.html"
+
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:
