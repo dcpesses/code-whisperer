@@ -21,6 +21,11 @@
 
     "types": ["vite/client", "vitest/globals"],
 
+    /* allow the incremential inclusion of JavaScript files */
+    "allowJs": true,
+    "checkJs": true,
+    "noImplicitAny": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

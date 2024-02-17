@@ -13,11 +13,32 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    include: [
+      '**/*.{test,spec}.?(c|m)[jt]s?(x)',
+    ],
+    exclude: [
+      '**/*.test.js',
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/.{idea,git,cache,output,temp,tmp}/**',
+      '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*'
+    ],
     environment: 'happy-dom',
     setupFiles: './src/setupTests.ts',
     coverage: {
+      enabled: true,
       provider: 'c8',
-      reporter: ['html', 'lcov'],
+      reporter: ['html', 'lcovonly', 'text', 'text-summary'],
+      reportsDirectory: '.tmp/reports/coverage',
+    },
+    css: {
+      modules: {
+        classNameStrategy: 'stable',
+      },
+    },
+    deps: {
+      interopDefault: true,
     },
   },
 });

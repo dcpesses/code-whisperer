@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
@@ -14,7 +14,7 @@ import styles from './ReduxCounter.module.css';
 export function ReduxCounter() {
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
+  const [incrementAmount, setIncrementAmount] = React.useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
 
