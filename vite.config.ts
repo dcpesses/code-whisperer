@@ -30,7 +30,6 @@ export default defineConfig({
       enabled: true,
       provider: 'c8',
       reporter: ['html', 'lcovonly', 'text', 'text-summary'],
-      reportsDirectory: '.tmp/reports/coverage',
     },
     css: {
       modules: {
