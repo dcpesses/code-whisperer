@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Counter > Should render and display state counter value 1`] = `
+<span
+  aria-label="Counter value"
+  class="_value_e43be3"
+>
+  0
+</span>
+`;

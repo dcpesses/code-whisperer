@@ -24,6 +24,15 @@
   color: white;
 }
 
+.App-subheader {
+  font-size: calc(10px + 1.5vmin);
+}
+
+.App-subheader + div {
+  border: 1px solid #999;
+  padding: calc(0.5rem + 0.5vmin)
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -39,4 +48,23 @@
 
 button {
   font-size: calc(10px + 2vmin);
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+.container .col50 {
+  width: 48%;
+  padding: 1%;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .container .col50 {
+    width: 100%;
+  }
 }
