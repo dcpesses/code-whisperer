@@ -66,7 +66,7 @@ npm i
 #### Dev
 
 ```sh
-npm run dev
+npm start
 ```
 
 #### Build
