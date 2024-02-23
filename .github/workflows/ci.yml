@@ -56,13 +56,16 @@ jobs:
     needs: buildAndTest
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       # Download coverage artifacts
       - uses: actions/download-artifact@v4
         with:
           name: coverage
 
       - name: 📈 Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v3.1.5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
