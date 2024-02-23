@@ -4,7 +4,7 @@ on:
   push:
     # Run on all branches
     branches:
-      - "*"
+      - "**"
     # Run only if files modified are not docs
     paths-ignore:
       - "*.md"
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: coverage
-          path: coverage/lcov.info
+          path: coverage/
 
   coverage:
     name: Coverage Analysis
@@ -62,10 +62,9 @@ jobs:
           name: coverage
 
       - name: 📈 Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: lcov.info
 
   deploy:
     name: Deploy
