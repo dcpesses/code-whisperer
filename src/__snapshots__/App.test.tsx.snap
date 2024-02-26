@@ -28,7 +28,48 @@ exports[`Should render as expected 1`] = `
         </div>
         <ul
           class="todos-list"
-        />
+        >
+          <li
+            class="todo-list-item"
+            style="text-decoration: none;"
+          >
+            <span
+              class="item-content"
+            >
+              Hit the gym
+            </span>
+            <span
+              class="item-actions"
+            >
+              <button>
+                Mark Complete
+              </button>
+              <button>
+                Delete
+              </button>
+            </span>
+          </li>
+          <li
+            class="todo-list-item"
+            style="text-decoration: line-through;"
+          >
+            <span
+              class="item-content"
+            >
+              Meet George
+            </span>
+            <span
+              class="item-actions"
+            >
+              <button>
+                Mark Incomplete
+              </button>
+              <button>
+                Delete
+              </button>
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
     <hr />

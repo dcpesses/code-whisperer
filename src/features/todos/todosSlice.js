@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = [
+  { id: 1708982768968, text: 'Hit the gym', completed: false },
+  { id: 1708982943626, text: 'Meet George', completed: true }
+];
+
 const todoSlice = createSlice({
   name: 'todo',
-  initialState: [],
+  initialState,
   reducers: {
     addTodo: (state, action) => {
       const newTodo = {
