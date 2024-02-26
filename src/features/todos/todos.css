@@ -1,0 +1,37 @@
+.todos {
+  width: 100%;
+  max-width: 480px;
+  margin: 20px auto;
+}
+.todos button, .todos input {
+  font-size: inherit;
+}
+
+.todos .add-todo {
+  text-align: center;
+  background-color: #ddd;
+  padding: 3%;
+}
+.todos ul {
+  margin: 0;
+  padding: 0;
+}
+.todos li {
+  list-style-type: none;
+  margin: 10px 0 0;
+  background-color: #bbb;
+  padding: 3%;
+}
+.todos .todo-list-item {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  box-sizing: border-box;
+}
+.todos .todo-list-item .item-content {
+  grid-column: 1/8;
+}
+.todos .todo-list-item .item-action {
+  display: flex;
+  font-size: 1.5em;
+}

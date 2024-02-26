@@ -2,11 +2,20 @@ import './App.css';
 import {Counter} from './features/state-counter/Counter';
 import {ReduxCounter} from './features/redux-counter/ReduxCounter';
 
+import Todo from './features/todos/Todos';
+
 import logo from '@/assets/logo.svg';
 
 function App() {
   return (
     <div className="App">
+      <div className="App-Todos">
+        <h2>Todos</h2>
+        <Todo />
+      </div>
+
+      <hr />
+
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>

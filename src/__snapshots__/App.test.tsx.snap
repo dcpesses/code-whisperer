@@ -5,6 +5,33 @@ exports[`Should render as expected 1`] = `
   <div
     class="App"
   >
+    <div
+      class="App-Todos"
+    >
+      <h2>
+        Todos
+      </h2>
+      <div
+        class="todos"
+      >
+        <div
+          class="add-todo"
+        >
+          <input
+            placeholder="Enter a Todo..."
+            type="text"
+            value=""
+          />
+          <button>
+            Add Todo
+          </button>
+        </div>
+        <ul
+          class="todos-list"
+        />
+      </div>
+    </div>
+    <hr />
     <header
       class="App-header"
     >
