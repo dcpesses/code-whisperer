@@ -10,14 +10,16 @@ const Todos = () => {
   const dispatch = useDispatch();
 
   const createTodoListItem = ({id, completed, text}) => (
-    <li className="todo-list-item" key={id} style={{textDecoration: completedTodoStyle(completed)}} >
-      <span className="item-content">{text}</span>
+    <li className="todo-list-item" key={id}>
+      <span className="item-checkbox">
+        <input type="checkbox" checked={completed} onChange={() => handleToggleComplete(id)} title={completedTodoText(completed)} />
+      </span>
+      <span className="item-content" style={{textDecoration: completedTodoStyle(completed)}}>
+        {text}
+      </span>
       <span className="item-actions">
-        <button onClick={() => handleToggleComplete(id)}>
-          {completedTodoText(completed)}
-        </button>
-        <button onClick={() => handleDeleteTodo(id)}>
-          Delete
+        <button className="item-actions-delete" onClick={() => handleDeleteTodo(id)} title="Delete">
+          ✖
         </button>
       </span>
     </li>

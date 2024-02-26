@@ -6,6 +6,9 @@
 .todos button, .todos input {
   font-size: inherit;
 }
+.todos input[type="checkbox"] {
+  cursor: pointer;
+}
 
 .todos .add-todo {
   text-align: center;
@@ -28,10 +31,31 @@
   gap: 10px;
   box-sizing: border-box;
 }
-.todos .todo-list-item .item-content {
-  grid-column: 1/8;
+
+.todos .todo-list-item > span {
+  align-self: center;
 }
+.todos .todo-list-item .item-content {
+  grid-column: 2/8;
+  text-align: left;
+}
+.todos .todo-list-item .item-checkbox,
 .todos .todo-list-item .item-action {
   display: flex;
-  font-size: 1.5em;
+}
+.todos .todo-list-item button.item-actions-delete {
+  border: 0 none;
+  padding: 0;
+  margin: 0;
+  border-radius: 1.25em;
+  line-height: 1.25em;
+  width: 1.25em;
+  min-height: 1.25em;
+  font-size: 0.8em;
+  color: #fff;
+  background-color: #f00;
+}
+.todos .todo-list-item button.item-actions-delete:hover {
+  background-color: #fff;
+  color: #f00;
 }

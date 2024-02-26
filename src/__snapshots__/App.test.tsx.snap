@@ -31,41 +31,57 @@ exports[`Should render as expected 1`] = `
         >
           <li
             class="todo-list-item"
-            style="text-decoration: none;"
           >
             <span
+              class="item-checkbox"
+            >
+              <input
+                title="Mark Complete"
+                type="checkbox"
+              />
+            </span>
+            <span
               class="item-content"
+              style="text-decoration: none;"
             >
               Hit the gym
             </span>
             <span
               class="item-actions"
             >
-              <button>
-                Mark Complete
-              </button>
-              <button>
-                Delete
+              <button
+                class="item-actions-delete"
+                title="Delete"
+              >
+                ✖
               </button>
             </span>
           </li>
           <li
             class="todo-list-item"
-            style="text-decoration: line-through;"
           >
             <span
+              class="item-checkbox"
+            >
+              <input
+                title="Mark Incomplete"
+                type="checkbox"
+              />
+            </span>
+            <span
               class="item-content"
+              style="text-decoration: line-through;"
             >
               Meet George
             </span>
             <span
               class="item-actions"
             >
-              <button>
-                Mark Incomplete
-              </button>
-              <button>
-                Delete
+              <button
+                class="item-actions-delete"
+                title="Delete"
+              >
+                ✖
               </button>
             </span>
           </li>
