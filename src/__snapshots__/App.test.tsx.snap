@@ -50,6 +50,12 @@ exports[`Should render as expected 1`] = `
               class="item-actions"
             >
               <button
+                class="item-actions-edit"
+                title="Edit"
+              >
+                ✎
+              </button>
+              <button
                 class="item-actions-delete"
                 title="Delete"
               >
@@ -77,6 +83,12 @@ exports[`Should render as expected 1`] = `
             <span
               class="item-actions"
             >
+              <button
+                class="item-actions-edit"
+                title="Edit"
+              >
+                ✎
+              </button>
               <button
                 class="item-actions-delete"
                 title="Delete"

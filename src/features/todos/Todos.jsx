@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, toggleComplete, deleteTodo } from './todosSlice';
+import { addTodo, editTodo, toggleComplete, deleteTodo } from './todosSlice';
 
 import './todos.css';
 
@@ -8,6 +8,9 @@ const Todos = () => {
   const [text, setText] = useState('');
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
+
+  const [editId, setEditId] = useState('');
+  const [isEditing, setEditing] = useState(false);
 
   const createTodoListItem = ({id, completed, text}) => (
     <li className="todo-list-item" key={id}>
@@ -18,6 +21,9 @@ const Todos = () => {
         {text}
       </span>
       <span className="item-actions">
+        <button className="item-actions-edit" onClick={()=>onEditToggle(id, text)} title="Edit">
+          ✎
+        </button>
         <button className="item-actions-delete" onClick={() => handleDeleteTodo(id)} title="Delete">
           ✖
         </button>
@@ -36,6 +42,24 @@ const Todos = () => {
     }
   };
 
+  const onEditToggle = ( id, content ) => {
+    setEditing(true);
+    setEditId(id);
+    setText(content);
+  };
+
+  const handleEditTodo = () => {
+    if (text) {
+      dispatch(editTodo({id: editId, text}));
+      setText('');
+      setEditing(false);
+    }
+  };
+  const handleEditCancel = () => {
+    setText('');
+    setEditing(false);
+  };
+
   const handleToggleComplete = (id) => {
     dispatch(toggleComplete(id));
   };
@@ -49,13 +73,27 @@ const Todos = () => {
 
   return (
     <div className="todos">
-      <div className="add-todo">
-        <input type="text" value={text} onChange={handleInputChange} placeholder="Enter a Todo..." />
-        <button onClick={handleAddTodo}>
-          Add Todo
-        </button>
-      </div>
-      <ul className="todos-list">
+      {
+        isEditing ?
+          <div className="add-todo">
+            <input type="text" value={text} onChange={handleInputChange} placeholder="Edit Todo" />
+            <button onClick={handleEditTodo}>
+              Edit
+            </button>
+            <button onClick={handleEditCancel}>
+              Cancel
+            </button>
+          </div>
+          :
+          <div className="add-todo">
+            <input type="text" value={text} onChange={handleInputChange} placeholder="Enter a Todo..." />
+            <button onClick={handleAddTodo}>
+              Add Todo
+            </button>
+          </div>
+      }
+
+      <ul className={isEditing ? 'todos-list editing' : 'todos-list'}>
         {todos.map(createTodoListItem)}
       </ul>
     </div>

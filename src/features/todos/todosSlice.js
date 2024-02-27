@@ -29,7 +29,13 @@ const todoSlice = createSlice({
         state.splice(index, 1);
       }
     },
+    editTodo: (state, action) => {
+      const index = state.findIndex((todo) => todo.id === action.payload.id);
+      if (index !== -1) {
+        state[index].text = action.payload.text;
+      }
+    }
   },
 });
-export const { addTodo, toggleComplete, deleteTodo } = todoSlice.actions;
+export const { addTodo, editTodo, toggleComplete, deleteTodo } = todoSlice.actions;
 export default todoSlice.reducer;
