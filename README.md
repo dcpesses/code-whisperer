@@ -5,17 +5,31 @@
 [![codecov.io](https://codecov.io/gh/dcpesses/vite-react-ts-gh/coverage.svg?branch=main)](https://codecov.io/gh/dcpesses/vite-react-ts-gh?branch=master)
 
 <!-- # React - TypeScript and GitHub Actions Template with Vite -->
-# Vite, React and GitHub Actions
+# Vite, React, Redux and GitHub Actions
 
-This a React 18 + Redux + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
+This a React 18 + Redux Toolkit + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
 
-Based on https://github.com/pchmn/vite-react-ts-ghactions-template/
+Based on [pchmn/vite-react-ts-ghactions-template](https://github.com/pchmn/vite-react-ts-ghactions-template/)
 
 [Demo](https://dcpesses.github.io/vite-react-ts-gh/)
 
 </div>
 
 ## Features
+
+Designed as a starter template for those with the following requirements:
+
+- Single Page Application with React Hooks
+- Compiles TypeScript yet also allows Javascript
+- Linting for both TypeScript & Javascript
+- Deployment to Github Pages on commit/PR merge to main branch
+
+Additionally provides examples of the following component:
+- Simple counter app using React state
+- Advanced counter app using Redux Toolkit
+ - Includes Async Thunks to emulate API calls
+- To-do app (with CRUD ops) using Redux Toolkit
+
 ### Overview
 
 - ⚡️&nbsp; [Vite 4](https://vitejs.dev/)
@@ -134,7 +148,7 @@ Deploy react app to GitHub Pages.
     - `environment.url` = link to your github pages
   - If your want to remove it, just delete `environment` config of `deploy` job in `.github/workflows/ci.yml`
 
-Don't forget to [setup your repo|https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch] to deploy from your GitHub Pages branch. (Defaults to `gh-pages` unless `publish_branch` is specified in the `peaceiris/actions-gh-pages` config.)
+Don't forget to [setup your repo](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch) to deploy from your GitHub Pages branch. (Defaults to `gh-pages` unless `publish_branch` is specified in the `peaceiris/actions-gh-pages` config.)
 
 ## GitHub Pages
 
