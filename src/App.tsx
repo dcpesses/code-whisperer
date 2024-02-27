@@ -2,6 +2,8 @@ import './App.css';
 import {Counter} from './features/state-counter/Counter';
 import {ReduxCounter} from './features/redux-counter/ReduxCounter';
 
+import Todo from './features/todos/Todos';
+
 import logo from '@/assets/logo.svg';
 
 function App() {
@@ -42,6 +44,13 @@ function App() {
           </a>
         </p>
       </header>
+
+      <hr />
+
+      <div className="App-Todos">
+        <h2>Todos</h2>
+        <Todo />
+      </div>
     </div>
   );
 }

@@ -17,7 +17,6 @@ export default defineConfig({
       '**/*.{test,spec}.?(c|m)[jt]s?(x)',
     ],
     exclude: [
-      '**/*.test.js',
       '**/node_modules/**',
       '**/dist/**',
       '**/coverage/**',

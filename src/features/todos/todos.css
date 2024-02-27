@@ -1,0 +1,84 @@
+.todos {
+  width: 100%;
+  max-width: 480px;
+  margin: 20px auto;
+}
+.todos button, .todos input {
+  font-size: inherit;
+}
+.todos input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.todos .add-todo {
+  text-align: center;
+  background-color: #ddd;
+  padding: 3%;
+}
+
+.todos .todos-list.editing {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.todos ul {
+  margin: 0;
+  padding: 0;
+}
+.todos li {
+  list-style-type: none;
+  margin: 10px 0 0;
+  background-color: #bbb;
+  padding: 3%;
+}
+.todos .todo-list-item {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.todos .todo-list-item > span {
+  align-self: center;
+}
+.todos .todo-list-item .item-content {
+  grid-column: 2/8;
+  text-align: left;
+}
+.todos .todo-list-item .item-checkbox,
+.todos .todo-list-item .item-action {
+  display: flex;
+}
+.todos .todo-list-item button {
+  border: 0 none;
+  padding: 0;
+  margin: 0 1px;
+  border-radius: 1.25em;
+  line-height: 1.25em;
+  width: 1.25em;
+  min-height: 1.25em;
+  font-size: 0.8em;
+}
+.todos .todo-list-item button.item-actions-edit {
+  color: #fff;
+  background-color: #00f;
+  font-weight: bolder;
+  text-shadow: 0 0 0px white;
+}
+.todos .todo-list-item button.item-actions-edit:hover {
+  background-color: #fff;
+  color: #00f;
+}
+
+.todos .todo-list-item button.item-actions-delete {
+  color: #fff;
+  background-color: #f00;
+}
+.todos .todo-list-item button.item-actions-delete:hover {
+  background-color: #fff;
+  color: #f00;
+}

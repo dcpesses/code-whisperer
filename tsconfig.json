@@ -23,7 +23,6 @@
 
     /* allow the incremential inclusion of JavaScript files */
     "allowJs": true,
-    "checkJs": true,
     "noImplicitAny": true,
 
     "baseUrl": ".",
