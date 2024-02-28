@@ -152,7 +152,7 @@ exports[`Should render as expected 1`] = `
           </div>
         </div>
         <div
-          class="App-example _col50"
+          class="App-example"
         >
           <h3
             class="App-subheader"
@@ -214,7 +214,7 @@ exports[`Should render as expected 1`] = `
           </div>
         </div>
         <div
-          class="App-example _col50"
+          class="App-example"
         >
           <h3
             class="App-subheader"

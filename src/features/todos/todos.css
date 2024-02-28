@@ -1,6 +1,15 @@
+:root {
+  --todo-text-primary: #000;
+  --todo-bg-form: #ccc;
+  --todo-bg-item: #bbb;
+  --todo-action-primary: #fff;
+  --todo-action-delete: #f00;
+  --todo-action-edit: #00f;
+}
+
 .todos {
   width: 100%;
-  max-width: 480px;
+  max-width: 640px;
   margin: 20px auto;
 }
 .todos button, .todos input {
@@ -12,7 +21,9 @@
 
 .todos .add-todo {
   text-align: center;
-  background-color: #ddd;
+  background-color: var(--todo-bg-form);
+  color: var(--todo-text-primary);
+  border-radius: 0.25rem;
   padding: 3%;
 }
 
@@ -32,7 +43,9 @@
 .todos li {
   list-style-type: none;
   margin: 10px 0 0;
-  background-color: #bbb;
+  background-color: var(--todo-bg-item);
+  color: var(--todo-text-primary);
+  border-radius: 0.25rem;
   padding: 3%;
 }
 .todos .todo-list-item {
@@ -64,21 +77,20 @@
   font-size: 0.8em;
 }
 .todos .todo-list-item button.item-actions-edit {
-  color: #fff;
-  background-color: #00f;
+  color: var(--todo-action-primary);
+  background-color: var(--todo-action-edit);
   font-weight: bolder;
-  text-shadow: 0 0 0px white;
+  text-shadow: 0 0 0px var(--todo-action-primary);
 }
 .todos .todo-list-item button.item-actions-edit:hover {
-  background-color: #fff;
-  color: #00f;
+  background-color: var(--todo-action-primary);
+  color: var(--todo-action-edit);
 }
-
 .todos .todo-list-item button.item-actions-delete {
-  color: #fff;
-  background-color: #f00;
+  color: var(--todo-action-primary);
+  background-color: var(--todo-action-delete);
 }
 .todos .todo-list-item button.item-actions-delete:hover {
-  background-color: #fff;
-  color: #f00;
+  background-color: var(--todo-action-primary);
+  color: var(--todo-action-delete);
 }

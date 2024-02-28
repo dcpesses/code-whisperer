@@ -1,10 +1,11 @@
-import './App.css';
 import {Counter} from './features/state-counter/Counter';
 import {ReduxCounter} from './features/redux-counter/ReduxCounter';
 
 import Todo from './features/todos/Todos';
 
 import logo from '@/assets/logo.svg';
+
+import './App.css';
 
 function App() {
   return (
@@ -43,12 +44,12 @@ function App() {
             <Todo />
           </div>
 
-          <div className="App-example _col50">
+          <div className="App-example">
             <h3 className="App-subheader">Redux Counter</h3>
             <ReduxCounter />
           </div>
 
-          <div className="App-example _col50">
+          <div className="App-example">
             <h3 className="App-subheader">State Counter</h3>
             <Counter />
           </div>
