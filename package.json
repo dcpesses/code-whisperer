@@ -1,10 +1,10 @@
 {
-  "name": "vite-react-ts-gh",
+  "name": "code-whisperer",
   "version": "1.0.0",
   "description": "React + Redux + TypeScript + Vite + Github Actions starter template",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dcpesses/vite-react-ts-gh.git"
+    "url": "git+https://github.com/dcpesses/code-whisperer.git"
   },
   "keywords": [
     "react",
@@ -17,7 +17,7 @@
   ],
   "author": "Daniel Pesses",
   "license": "MIT",
-  "homepage": "https://github.com/dcpesses/vite-react-ts-gh",
+  "homepage": "https://github.com/dcpesses/code-whisperer",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
