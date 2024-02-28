@@ -73,7 +73,7 @@ npx degit dcpesses/vite-react-ts-gh app_name
 
 ### Usage
 
- Project built using `npm`. If you want to use `pnpm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`).
+ Project built using `npm`. If you want to use `pnpm` or `yarn`, just don't forget to update GitHub Actions workflow ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
 #### Install
 
@@ -122,7 +122,7 @@ npm run serve
 
 In order to use GitHub Actions in your repo, you'll need to first make a few configuration updates.
 
-The actual [workflow](https://github.com/dcpesses/vite-react-ts-gh/blob/main/.github/workflows/ci.yml) can be found under [/.github/workflows/ci.yml](.github/workflows/ci.yml)
+The actual workflow can be found under [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ![image](https://github.com/dcpesses/vite-react-ts-gh/assets/184237/182f4ad6-adab-4270-9d3c-d83538d272b0)
 
