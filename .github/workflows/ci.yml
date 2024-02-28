@@ -81,7 +81,7 @@ jobs:
     # See https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/
     environment:
       name: prod
-      url: https://dcpesses.github.io/vite-react-ts-gh/
+      url: https://dcpesses.github.io/vite-react-ts-gh/ # <- Change to your site url
     steps:
       # Download dist artifacts
       - uses: actions/download-artifact@v4
@@ -92,8 +92,8 @@ jobs:
       - name: Set current date as env variable
         run: echo "NOW=$(TZ=America/Los_Angeles date +'%F %T %Z')" >> $GITHUB_ENV
 
-      - name: Debug current date
-        run: echo "${{ env.NOW }}" # Gives "2024-02-16 16:53:32 PST"
+      # - name: Debug current date
+      #   run: echo "${{ env.NOW }}" # Gives "2024-02-16 16:53:32 PST"
 
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@v3

@@ -9,26 +9,31 @@
 
 This a React 18 + Redux Toolkit + TypeScript + Vitest and React Testing Library + GitHub Actions starter template built with Vite.
 
-Based on [pchmn/vite-react-ts-ghactions-template](https://github.com/pchmn/vite-react-ts-ghactions-template/)
-
 [Demo](https://dcpesses.github.io/vite-react-ts-gh/)
+
+![image](https://github.com/dcpesses/vite-react-ts-gh/assets/184237/8817ca34-77e2-4eaa-b220-b94c31a9ba6a)
+
+Based on [pchmn/vite-react-ts-ghactions-template](https://github.com/pchmn/vite-react-ts-ghactions-template/)
 
 </div>
 
 ## Features
 
-Designed as a starter template for those with the following requirements:
+Designed as a nifty React/Vite starter template with the following furnishings:
 
-- Single Page Application with React Hooks
+- Simple single page application - no routing required
 - Compiles TypeScript yet also allows Javascript
+  - Allows transitioning existing .js(x) files
 - Linting for both TypeScript & Javascript
-- Deployment to Github Pages on commit/PR merge to main branch
-
-Additionally provides examples of the following component:
-- Simple counter app using React state
-- Advanced counter app using Redux Toolkit
- - Includes Async Thunks to emulate API calls
-- To-do app (with CRUD ops) using Redux Toolkit
+- Automatic precommit linting and git message validation
+- Deployment to Github Pages on commit/PR merge to primary branch
+  - Workflow includes Codecov integration for coverage analysis
+  - Automatically writes date & time of deployment to HTML
+- Demo playground of example apps, with 100% unit-test coverage
+  - Simple counter app using React state
+  - Advanced counter app using Redux Toolkit
+    - Includes Async Thunks to emulate API calls
+  - To-do CRUD app using Redux Toolkit
 
 ### Overview
 
@@ -68,8 +73,7 @@ npx degit dcpesses/vite-react-ts-gh app_name
 
 ### Usage
 
-<!-- > Project was built using [`pnpm`](https://pnpm.io/installation#using-npm). If you want to use `npm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`). -->
-> Project built using `npm`. If you want to use `pnpm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`).
+ Project built using `npm`. If you want to use `pnpm` or `yarn`, just don't forget to update GitHub Actions workflow (`.github/workflows/ci.yml`).
 
 #### Install
 
@@ -102,6 +106,9 @@ npm run test
 
 # with coverage
 npm run test:ci
+
+# watch for changes
+npm run test:watch
 ```
 #### Serve
 
@@ -113,11 +120,11 @@ npm run serve
 
 ## Configuration for GitHub Actions
 
-If you want to use GitHub Actions in your repo, you'll need to make little configuration.
+In order to use GitHub Actions in your repo, you'll need to first make a few configuration updates.
 
-Actual [workflow](https://github.com/dcpesses/vite-react-ts-gh/blob/main/.github/workflows/ci.yml) is:
+The actual [workflow](https://github.com/dcpesses/vite-react-ts-gh/blob/main/.github/workflows/ci.yml) can be found under [/.github/workflows/ci.yml](.github/workflows/ci.yml)
 
-![image](https://user-images.githubusercontent.com/12658241/236196559-854755f3-03aa-431d-af43-f7352b40f084.png)
+![image](https://github.com/dcpesses/vite-react-ts-gh/assets/184237/182f4ad6-adab-4270-9d3c-d83538d272b0)
 
 ### Build & Test
 
@@ -132,7 +139,9 @@ Build and test react app.
 Run [Codecov](https://about.codecov.io/) analysis.
 
 **Configuration**: <br>
-[Create a Codecov token](https://docs.codecov.com/docs/quick-start#step-2-get-the-repository-upload-token) for your repo and add it as a `CODECOV_TOKEN` secret in your repo.
+[Create a Codecov token](https://docs.codecov.com/docs/quick-start#step-2-get-the-repository-upload-token) for your repo and add it as a `CODECOV_TOKEN` secret in your repo under Secrets and variables > Actions > Repository secrets.
+
+![image](https://github.com/dcpesses/vite-react-ts-gh/assets/184237/bb9f7da1-8d90-455e-b131-43577842cc5e)
 
 ### Deploy
 
@@ -146,12 +155,12 @@ Deploy react app to GitHub Pages.
   - If you want to keep it, you need to create a [new environment with manual approve](https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/) in your repo, and then replace `environment` config of `deploy` job in `.github/workflows/ci.yml`:
     - `environment.name` = name of the environment created in your repo
     - `environment.url` = link to your github pages
-  - If your want to remove it, just delete `environment` config of `deploy` job in `.github/workflows/ci.yml`
+  - If your want to remove it, just delete the `environment` config section of the `deploy` job in `.github/workflows/ci.yml`
 
 Don't forget to [setup your repo](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch) to deploy from your GitHub Pages branch. (Defaults to `gh-pages` unless `publish_branch` is specified in the `peaceiris/actions-gh-pages` config.)
 
 ## GitHub Pages
 
-There are modifications on `index.html`, and a new `404.html` file in the project to make it work well with GitHub Pages.
+There are additional modifications on `index.html`, and a new `404.html` file in the project to make it work well with GitHub Pages.
 
 > See https://github.com/rafgraph/spa-github-pages for more info.
