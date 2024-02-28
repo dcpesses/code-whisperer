@@ -10,22 +10,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <div className="container">
-          <div className="col50">
-            <h3 className="App-subheader">Redux Counter Example</h3>
-            <ReduxCounter />
-          </div>
-          <div className="col50">
-            <h3 className="App-subheader">State Counter Example</h3>
-            <Counter />
-          </div>
-        </div>
 
-        <div>
-
-        </div>
+        <p>
+          <img src={logo} className="App-logo" alt="logo" />
+          <span className="h2">Hello Vite + React!</span>
+        </p>
         <p>
           Edit <code>App.tsx</code> and save to test HMR updates.
         </p>
@@ -45,11 +34,27 @@ function App() {
         </p>
       </header>
 
-      <hr />
+      <h1>Examples</h1>
 
-      <div className="App-Todos">
-        <h2>Todos</h2>
-        <Todo />
+      <div className="App-examples">
+        <div>
+          <div className="App-example">
+            <h3 className="App-subheader">Redux To-Dos</h3>
+            <Todo />
+          </div>
+
+          <div className="App-example _col50">
+            <h3 className="App-subheader">Redux Counter</h3>
+            <ReduxCounter />
+          </div>
+
+          <div className="App-example _col50">
+            <h3 className="App-subheader">State Counter</h3>
+            <Counter />
+          </div>
+        </div>
+
+
       </div>
     </div>
   );

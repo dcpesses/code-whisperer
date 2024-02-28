@@ -8,24 +8,156 @@ exports[`Should render as expected 1`] = `
     <header
       class="App-header"
     >
-      <img
-        alt="logo"
-        class="App-logo"
-        src="/vite-react-ts-gh/src/assets/logo.svg"
-      />
       <p>
-        Hello Vite + React!
+        <img
+          alt="logo"
+          class="App-logo"
+          src="/vite-react-ts-gh/src/assets/logo.svg"
+        />
+        <span
+          class="h2"
+        >
+          Hello Vite + React!
+        </span>
       </p>
-      <div
-        class="container"
-      >
+      <p>
+        Edit 
+        <code>
+          App.tsx
+        </code>
+         and save to test HMR updates.
+      </p>
+      <p>
+        <a
+          class="App-link"
+          href="https://reactjs.org"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Learn React
+        </a>
+         | 
+        <a
+          class="App-link"
+          href="https://vitejs.dev/guide/features.html"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Vite Docs
+        </a>
+      </p>
+    </header>
+    <h1>
+      Examples
+    </h1>
+    <div
+      class="App-examples"
+    >
+      <div>
         <div
-          class="col50"
+          class="App-example"
         >
           <h3
             class="App-subheader"
           >
-            Redux Counter Example
+            Redux To-Dos
+          </h3>
+          <div
+            class="todos"
+          >
+            <div
+              class="add-todo"
+            >
+              <input
+                placeholder="Enter a Todo..."
+                type="text"
+                value=""
+              />
+              <button>
+                Add Todo
+              </button>
+            </div>
+            <ul
+              class="todos-list"
+            >
+              <li
+                class="todo-list-item"
+              >
+                <span
+                  class="item-checkbox"
+                >
+                  <input
+                    title="Mark Complete"
+                    type="checkbox"
+                  />
+                </span>
+                <span
+                  class="item-content"
+                  style="text-decoration: none;"
+                >
+                  Hit the gym
+                </span>
+                <span
+                  class="item-actions"
+                >
+                  <button
+                    class="item-actions-edit"
+                    title="Edit"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    class="item-actions-delete"
+                    title="Delete"
+                  >
+                    ✖
+                  </button>
+                </span>
+              </li>
+              <li
+                class="todo-list-item"
+              >
+                <span
+                  class="item-checkbox"
+                >
+                  <input
+                    title="Mark Incomplete"
+                    type="checkbox"
+                  />
+                </span>
+                <span
+                  class="item-content"
+                  style="text-decoration: line-through;"
+                >
+                  Meet George
+                </span>
+                <span
+                  class="item-actions"
+                >
+                  <button
+                    class="item-actions-edit"
+                    title="Edit"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    class="item-actions-delete"
+                    title="Delete"
+                  >
+                    ✖
+                  </button>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="App-example _col50"
+        >
+          <h3
+            class="App-subheader"
+          >
+            Redux Counter
           </h3>
           <div>
             <div
@@ -82,12 +214,12 @@ exports[`Should render as expected 1`] = `
           </div>
         </div>
         <div
-          class="col50"
+          class="App-example _col50"
         >
           <h3
             class="App-subheader"
           >
-            State Counter Example
+            State Counter
           </h3>
           <div>
             <div
@@ -129,129 +261,6 @@ exports[`Should render as expected 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div />
-      <p>
-        Edit 
-        <code>
-          App.tsx
-        </code>
-         and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          class="App-link"
-          href="https://reactjs.org"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Learn React
-        </a>
-         | 
-        <a
-          class="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
-    <hr />
-    <div
-      class="App-Todos"
-    >
-      <h2>
-        Todos
-      </h2>
-      <div
-        class="todos"
-      >
-        <div
-          class="add-todo"
-        >
-          <input
-            placeholder="Enter a Todo..."
-            type="text"
-            value=""
-          />
-          <button>
-            Add Todo
-          </button>
-        </div>
-        <ul
-          class="todos-list"
-        >
-          <li
-            class="todo-list-item"
-          >
-            <span
-              class="item-checkbox"
-            >
-              <input
-                title="Mark Complete"
-                type="checkbox"
-              />
-            </span>
-            <span
-              class="item-content"
-              style="text-decoration: none;"
-            >
-              Hit the gym
-            </span>
-            <span
-              class="item-actions"
-            >
-              <button
-                class="item-actions-edit"
-                title="Edit"
-              >
-                ✎
-              </button>
-              <button
-                class="item-actions-delete"
-                title="Delete"
-              >
-                ✖
-              </button>
-            </span>
-          </li>
-          <li
-            class="todo-list-item"
-          >
-            <span
-              class="item-checkbox"
-            >
-              <input
-                title="Mark Incomplete"
-                type="checkbox"
-              />
-            </span>
-            <span
-              class="item-content"
-              style="text-decoration: line-through;"
-            >
-              Meet George
-            </span>
-            <span
-              class="item-actions"
-            >
-              <button
-                class="item-actions-edit"
-                title="Edit"
-              >
-                ✎
-              </button>
-              <button
-                class="item-actions-delete"
-                title="Delete"
-              >
-                ✖
-              </button>
-            </span>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
