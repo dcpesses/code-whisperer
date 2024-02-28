@@ -12,7 +12,7 @@ exports[`Should render as expected 1`] = `
         <img
           alt="logo"
           class="App-logo"
-          src="/vite-react-ts-gh/src/assets/logo.svg"
+          src="/code-whisperer/src/assets/logo.svg"
         />
         <span
           class="h2"

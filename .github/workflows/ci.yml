@@ -81,7 +81,7 @@ jobs:
     # See https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/
     environment:
       name: prod
-      url: https://dcpesses.github.io/vite-react-ts-gh/ # <- Change to your site url
+      url: https://dcpesses.github.io/code-whisperer/
     steps:
       # Download dist artifacts
       - uses: actions/download-artifact@v4
