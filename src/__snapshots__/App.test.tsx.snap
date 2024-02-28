@@ -150,6 +150,7 @@ exports[`Should render as expected 1`] = `
               </li>
             </ul>
           </div>
+          <div />
         </div>
         <div
           class="App-example"
@@ -212,6 +213,7 @@ exports[`Should render as expected 1`] = `
               </div>
             </div>
           </div>
+          <div />
         </div>
         <div
           class="App-example"
@@ -260,6 +262,7 @@ exports[`Should render as expected 1`] = `
               </button>
             </div>
           </div>
+          <div />
         </div>
       </div>
     </div>

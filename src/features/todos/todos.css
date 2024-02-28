@@ -1,7 +1,8 @@
 :root {
   --todo-text-primary: #000;
-  --todo-bg-form: #ccc;
-  --todo-bg-item: #bbb;
+  --todo-bg-form-rgb: 204, 204, 204;
+  --todo-bg-item-rgb: 187, 187, 187;
+  --todo-bg-alpha: 0.95;
   --todo-action-primary: #fff;
   --todo-action-delete: #f00;
   --todo-action-edit: #00f;
@@ -21,7 +22,8 @@
 
 .todos .add-todo {
   text-align: center;
-  background-color: var(--todo-bg-form);
+  border: 1px solid rgb(var(--todo-bg-form-rgb));
+  background-color: rgba(var(--todo-bg-form-rgb), var(--todo-bg-alpha));
   color: var(--todo-text-primary);
   border-radius: 0.25rem;
   padding: 3%;
@@ -43,7 +45,8 @@
 .todos li {
   list-style-type: none;
   margin: 10px 0 0;
-  background-color: var(--todo-bg-item);
+  border: 1px solid rgb(var(--todo-bg-item-rgb));
+  background-color: rgba(var(--todo-bg-item-rgb), var(--todo-bg-alpha));
   color: var(--todo-text-primary);
   border-radius: 0.25rem;
   padding: 3%;

@@ -42,16 +42,19 @@ function App() {
           <div className="App-example">
             <h3 className="App-subheader">Redux To-Dos</h3>
             <Todo />
+            <div></div>
           </div>
 
           <div className="App-example">
             <h3 className="App-subheader">Redux Counter</h3>
             <ReduxCounter />
+            <div></div>
           </div>
 
           <div className="App-example">
             <h3 className="App-subheader">State Counter</h3>
             <Counter />
+            <div></div>
           </div>
         </div>
 

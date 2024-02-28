@@ -5,8 +5,10 @@
   --bg-secondary: #13111c;
 
   /* component override examples */
-  --todo-bg-form: #96c!important;
-  --todo-bg-item: #69c!important;
+  --todo-text-primary: #fff!important;
+  --todo-bg-form-rgb: 153, 102, 204!important;
+  --todo-bg-item-rgb: 102, 153, 204!important;
+  --todo-bg-alpha: 0.35!important;
 }
 
 /* reset */
@@ -115,6 +117,7 @@ button {
 .App-example {
   display:flex;
   flex-direction: column;
+  justify-content: space-between;
   min-width: 100%;
   width: 80vw;
   box-sizing: border-box;
