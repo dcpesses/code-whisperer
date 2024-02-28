@@ -27,7 +27,7 @@ export default defineConfig({
     setupFiles: './src/setupTests.ts',
     coverage: {
       enabled: true,
-      provider: 'c8',
+      provider: 'v8',
       reporter: ['html', 'lcovonly', 'text', 'text-summary'],
     },
     css: {
