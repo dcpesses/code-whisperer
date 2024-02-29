@@ -24,42 +24,36 @@ body, p, ul, li {
 body {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-
 }
-
+.h1, .h2, .h3, .h4, .h5, .h6,
+h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
 button {
   cursor: pointer;
 }
 
-.App {
+.Demo {
   text-align: center;
 }
 
-.App-header {
+.Demo-header {
   background-color: var(--bg-primary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1vmin);
   color: var(--text-primary);
-  min-height: 100vh;
+  padding: 1rem;
 }
-.h1 {
-  font-size: calc(12px + 2.5vmin);
-  font-weight: bold;
-}
-.h2 {
-  font-size: calc(10px + 2vmin);
-  font-weight: bold;
+.Demo-header:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-.App-header p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
 
-.App-subheader {
+.Demo-subheader {
   font-size: calc(10px + 1.25vmin);
   border-bottom: 1px solid #495057;
   color: #dee2e6;
@@ -68,18 +62,7 @@ button {
   padding-bottom: 0.5rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-logo + .h2 {
+.Demo-logo + .h2 {
   display: inline-block;
   font-size: calc(10px + 1.5vmin);
   line-height: 5vmin;
@@ -89,20 +72,14 @@ button {
   font-weight: bold;
 }
 
-.App-link,
-.App-link:visited {
+.Demo-link,
+.Demo-link:visited {
   color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.App-examples {
+.Demo-examples {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,7 +87,7 @@ button {
   margin-right: auto;
 }
 
-.App-examples > div {
+.Demo-examples > div {
   display: grid;
   align-items: flex-start;
   justify-content: space-evenly;
@@ -120,7 +97,7 @@ button {
   margin-right: 1rem;
 }
 
-.App-example {
+.Demo-example {
   display:flex;
   flex-direction: column;
   justify-content: space-between;
@@ -136,19 +113,12 @@ button {
 }
 
 @media (min-width: 960px) {
-  .App-examples > div {
+  .Demo-examples > div {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-rows: 1fr;
   }
-  .App-example {
+  .Demo-example {
     height: 100%;
     width: 100%;
   }
-}
-
-.last-updated {
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  font-size: 1rem;
 }
