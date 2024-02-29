@@ -4,6 +4,12 @@ import logo from '@/assets/logo.svg';
 
 import '@/App.css';
 
+declare global {
+  interface Window {
+    lastUpdated: string;
+  }
+}
+
 const Home = () => (
   <header className="App-header">
     <img src={logo} className="App-logo" alt="logo" />
@@ -36,6 +42,7 @@ const Home = () => (
     </p>
     <p className="last-updated">
       <small>
+        { window.lastUpdated }
       </small>
     </p>
   </header>
