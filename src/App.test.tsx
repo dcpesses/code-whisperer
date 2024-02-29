@@ -1,24 +1,20 @@
-import {render, screen} from '@testing-library/react';
+import {render} from '@testing-library/react';
+import {HashRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {store} from './app/store';
+import {store} from '@/app/store';
 
 import App from '@/App';
 
-test('Should render as expected', () => {
-  const {container} = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+describe('App', () => {
+  test('Should render as expected', () => {
+    const {container} = render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>
+    );
 
-  expect(container).toMatchSnapshot();
-});
-test('Should render learn react link', () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-
-  expect(screen.getByText(/learn/i)).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
+  });
 });

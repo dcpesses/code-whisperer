@@ -1,66 +1,59 @@
-import {Counter} from './features/state-counter/Counter';
-import {ReduxCounter} from './features/redux-counter/ReduxCounter';
-
-import Todo from './features/todos/Todos';
-
+import { Link, Routes, Route } from 'react-router-dom';
+import Demo from '@/pages/demo';
 import logo from '@/assets/logo.svg';
 
-import './App.css';
+import '@/App.css';
+
+declare global {
+  interface Window {
+    lastUpdated: string;
+  }
+}
+
+const Home = () => (
+  <header className="App-header">
+    <img src={logo} className="App-logo" alt="logo" />
+    <p>
+      <span className="h2">Hello Vite + React!</span>
+    </p>
+    <p>
+      Edit <code>App.tsx</code> and save to test HMR updates.
+    </p>
+    <p>
+      <span className="h1">
+        <Link className="App-link" to="/demo">
+          View Demos
+        </Link>
+      </span>
+    </p>
+    <p>
+      <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+        Learn React
+      </a>
+      {' | '}
+      <a
+        className="App-link"
+        href="https://vitejs.dev/guide/features.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Vite Docs
+      </a>
+    </p>
+    <p className="last-updated">
+      <small>
+        { window.lastUpdated }
+      </small>
+    </p>
+  </header>
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
-        <p>
-          <img src={logo} className="App-logo" alt="logo" />
-          <span className="h2">Hello Vite + React!</span>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-
-      <h1>Examples</h1>
-
-      <div className="App-examples">
-        <div>
-          <div className="App-example">
-            <h3 className="App-subheader">Redux To-Dos</h3>
-            <Todo />
-            <div></div>
-          </div>
-
-          <div className="App-example">
-            <h3 className="App-subheader">Redux Counter</h3>
-            <ReduxCounter />
-            <div></div>
-          </div>
-
-          <div className="App-example">
-            <h3 className="App-subheader">State Counter</h3>
-            <Counter />
-            <div></div>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/demo" element={<Demo />} />
+    </Routes>
   );
 }
 
