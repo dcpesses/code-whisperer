@@ -1,0 +1,252 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Demo > Should render as expected 1`] = `
+<div>
+  <div
+    class="Demo"
+  >
+    <header
+      class="Demo-header"
+    >
+      <div
+        style="css-float: left;"
+      >
+        <a
+          class="Demo-link"
+          href="#/"
+        >
+          ← Home
+        </a>
+      </div>
+      <div
+        style="css-float: right;"
+      >
+        Edit 
+        <code>
+          pages/demo/index.tsx
+        </code>
+         and save to test HMR updates.
+      </div>
+    </header>
+    <h1>
+      Demos & Examples
+    </h1>
+    <div
+      class="Demo-examples"
+    >
+      <div>
+        <div
+          class="Demo-example"
+        >
+          <h3
+            class="Demo-subheader"
+          >
+            Redux To-Dos
+          </h3>
+          <div
+            class="todos"
+          >
+            <div
+              class="add-todo"
+            >
+              <input
+                placeholder="Enter a Todo..."
+                type="text"
+                value=""
+              />
+              <button>
+                Add Todo
+              </button>
+            </div>
+            <ul
+              class="todos-list"
+            >
+              <li
+                class="todo-list-item"
+              >
+                <span
+                  class="item-checkbox"
+                >
+                  <input
+                    title="Mark Complete"
+                    type="checkbox"
+                  />
+                </span>
+                <span
+                  class="item-content"
+                  style="text-decoration: none;"
+                >
+                  Hit the gym
+                </span>
+                <span
+                  class="item-actions"
+                >
+                  <button
+                    class="item-actions-edit"
+                    title="Edit"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    class="item-actions-delete"
+                    title="Delete"
+                  >
+                    ✖
+                  </button>
+                </span>
+              </li>
+              <li
+                class="todo-list-item"
+              >
+                <span
+                  class="item-checkbox"
+                >
+                  <input
+                    title="Mark Incomplete"
+                    type="checkbox"
+                  />
+                </span>
+                <span
+                  class="item-content"
+                  style="text-decoration: line-through;"
+                >
+                  Meet George
+                </span>
+                <span
+                  class="item-actions"
+                >
+                  <button
+                    class="item-actions-edit"
+                    title="Edit"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    class="item-actions-delete"
+                    title="Delete"
+                  >
+                    ✖
+                  </button>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div />
+        </div>
+        <div
+          class="Demo-example"
+        >
+          <h3
+            class="Demo-subheader"
+          >
+            Redux Counter
+          </h3>
+          <div>
+            <div
+              class="_row_503e3a"
+            >
+              <button
+                aria-label="Decrement value"
+                class="_button_503e3a"
+              >
+                 - 
+              </button>
+              <span
+                aria-label="Counter value"
+                class="_value_503e3a"
+              >
+                0
+              </span>
+              <button
+                aria-label="Increment value"
+                class="_button_503e3a"
+              >
+                 + 
+              </button>
+            </div>
+            <div
+              class="_row_503e3a"
+            >
+              <input
+                aria-label="Set increment amount"
+                class="_textbox_503e3a"
+                value="2"
+              />
+              <button
+                aria-label="Add increment amount"
+                class="_button_503e3a"
+              >
+                Add
+              </button>
+              <div>
+                <button
+                  aria-label="Add async increment amount"
+                  class="_asyncButton_503e3a"
+                >
+                  Add Async
+                </button>
+                <button
+                  aria-label="Add increment amount if odd"
+                  class="_button_503e3a"
+                >
+                  Add If Odd
+                </button>
+              </div>
+            </div>
+          </div>
+          <div />
+        </div>
+        <div
+          class="Demo-example"
+        >
+          <h3
+            class="Demo-subheader"
+          >
+            State Counter
+          </h3>
+          <div>
+            <div
+              class="_row_e43be3"
+            >
+              <button
+                aria-label="Decrement value"
+                class="_button_e43be3"
+              >
+                 - 
+              </button>
+              <span
+                aria-label="Counter value"
+                class="_value_e43be3"
+              >
+                0
+              </span>
+              <button
+                aria-label="Increment value"
+                class="_button_e43be3"
+              >
+                 + 
+              </button>
+            </div>
+            <div
+              class="_row_e43be3"
+            >
+              <input
+                aria-label="Set increment amount"
+                class="_textbox_e43be3"
+                value="2"
+              />
+              <button
+                aria-label="Add increment amount"
+                class="_button_e43be3"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

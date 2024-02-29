@@ -21,7 +21,8 @@ Based on [pchmn/vite-react-ts-ghactions-template](https://github.com/pchmn/vite-
 
 Designed as a nifty React/Vite starter template with the following furnishings:
 
-- Simple single page application - no routing required
+- Single page application with hash routing
+  - Compatible with hosting via Github Pages
 - Compiles TypeScript yet also allows Javascript
   - Allows transitioning existing .js(x) files
 - Linting for both TypeScript & Javascript

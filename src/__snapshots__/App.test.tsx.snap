@@ -1,271 +1,65 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Should render as expected 1`] = `
+exports[`App > Should render as expected 1`] = `
 <div>
-  <div
-    class="App"
+  <header
+    class="App-header"
   >
-    <header
-      class="App-header"
-    >
-      <p>
-        <img
-          alt="logo"
-          class="App-logo"
-          src="/vite-react-ts-gh/src/assets/logo.svg"
-        />
-        <span
-          class="h2"
-        >
-          Hello Vite + React!
-        </span>
-      </p>
-      <p>
-        Edit 
-        <code>
-          App.tsx
-        </code>
-         and save to test HMR updates.
-      </p>
-      <p>
+    <img
+      alt="logo"
+      class="App-logo"
+      src="/vite-react-ts-gh/src/assets/logo.svg"
+    />
+    <p>
+      <span
+        class="h2"
+      >
+        Hello Vite + React!
+      </span>
+    </p>
+    <p>
+      Edit 
+      <code>
+        App.tsx
+      </code>
+       and save to test HMR updates.
+    </p>
+    <p>
+      <span
+        class="h1"
+      >
         <a
           class="App-link"
-          href="https://reactjs.org"
-          rel="noopener noreferrer"
-          target="_blank"
+          href="#/demo"
         >
-          Learn React
+          View Demos
         </a>
-         | 
-        <a
-          class="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
-    <h1>
-      Examples
-    </h1>
-    <div
-      class="App-examples"
+      </span>
+    </p>
+    <p>
+      <a
+        class="App-link"
+        href="https://reactjs.org"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Learn React
+      </a>
+       | 
+      <a
+        class="App-link"
+        href="https://vitejs.dev/guide/features.html"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Vite Docs
+      </a>
+    </p>
+    <p
+      class="last-updated"
     >
-      <div>
-        <div
-          class="App-example"
-        >
-          <h3
-            class="App-subheader"
-          >
-            Redux To-Dos
-          </h3>
-          <div
-            class="todos"
-          >
-            <div
-              class="add-todo"
-            >
-              <input
-                placeholder="Enter a Todo..."
-                type="text"
-                value=""
-              />
-              <button>
-                Add Todo
-              </button>
-            </div>
-            <ul
-              class="todos-list"
-            >
-              <li
-                class="todo-list-item"
-              >
-                <span
-                  class="item-checkbox"
-                >
-                  <input
-                    title="Mark Complete"
-                    type="checkbox"
-                  />
-                </span>
-                <span
-                  class="item-content"
-                  style="text-decoration: none;"
-                >
-                  Hit the gym
-                </span>
-                <span
-                  class="item-actions"
-                >
-                  <button
-                    class="item-actions-edit"
-                    title="Edit"
-                  >
-                    ✎
-                  </button>
-                  <button
-                    class="item-actions-delete"
-                    title="Delete"
-                  >
-                    ✖
-                  </button>
-                </span>
-              </li>
-              <li
-                class="todo-list-item"
-              >
-                <span
-                  class="item-checkbox"
-                >
-                  <input
-                    title="Mark Incomplete"
-                    type="checkbox"
-                  />
-                </span>
-                <span
-                  class="item-content"
-                  style="text-decoration: line-through;"
-                >
-                  Meet George
-                </span>
-                <span
-                  class="item-actions"
-                >
-                  <button
-                    class="item-actions-edit"
-                    title="Edit"
-                  >
-                    ✎
-                  </button>
-                  <button
-                    class="item-actions-delete"
-                    title="Delete"
-                  >
-                    ✖
-                  </button>
-                </span>
-              </li>
-            </ul>
-          </div>
-          <div />
-        </div>
-        <div
-          class="App-example"
-        >
-          <h3
-            class="App-subheader"
-          >
-            Redux Counter
-          </h3>
-          <div>
-            <div
-              class="_row_503e3a"
-            >
-              <button
-                aria-label="Decrement value"
-                class="_button_503e3a"
-              >
-                 - 
-              </button>
-              <span
-                aria-label="Counter value"
-                class="_value_503e3a"
-              >
-                0
-              </span>
-              <button
-                aria-label="Increment value"
-                class="_button_503e3a"
-              >
-                 + 
-              </button>
-            </div>
-            <div
-              class="_row_503e3a"
-            >
-              <input
-                aria-label="Set increment amount"
-                class="_textbox_503e3a"
-                value="2"
-              />
-              <button
-                aria-label="Add increment amount"
-                class="_button_503e3a"
-              >
-                Add
-              </button>
-              <div>
-                <button
-                  aria-label="Add async increment amount"
-                  class="_asyncButton_503e3a"
-                >
-                  Add Async
-                </button>
-                <button
-                  aria-label="Add increment amount if odd"
-                  class="_button_503e3a"
-                >
-                  Add If Odd
-                </button>
-              </div>
-            </div>
-          </div>
-          <div />
-        </div>
-        <div
-          class="App-example"
-        >
-          <h3
-            class="App-subheader"
-          >
-            State Counter
-          </h3>
-          <div>
-            <div
-              class="_row_e43be3"
-            >
-              <button
-                aria-label="Decrement value"
-                class="_button_e43be3"
-              >
-                 - 
-              </button>
-              <span
-                aria-label="Counter value"
-                class="_value_e43be3"
-              >
-                0
-              </span>
-              <button
-                aria-label="Increment value"
-                class="_button_e43be3"
-              >
-                 + 
-              </button>
-            </div>
-            <div
-              class="_row_e43be3"
-            >
-              <input
-                aria-label="Set increment amount"
-                class="_textbox_e43be3"
-                value="2"
-              />
-              <button
-                aria-label="Add increment amount"
-                class="_button_e43be3"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-          <div />
-        </div>
-      </div>
-    </div>
-  </div>
+      <small />
+    </p>
+  </header>
 </div>
 `;
