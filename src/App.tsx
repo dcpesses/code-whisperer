@@ -1,6 +1,9 @@
 import { Link, Routes, Route } from 'react-router-dom';
-import Demo from '@/pages/demo';
 import logo from '@/assets/new-logo.svg';
+
+// Pages
+import Demo from '@/pages/demo';
+import Login from '@/pages/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '@/App.css';
@@ -55,6 +58,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/demo" element={<Demo />} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<Error404 />} />
     </Routes>
   );
