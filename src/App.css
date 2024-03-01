@@ -24,21 +24,29 @@ body, p, ul, li {
 body {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-
 }
 
+.ls-1 {
+  letter-spacing: 0.025rem;
+}
+.ls-2 {
+  letter-spacing: 0.05rem;
+}
 
-/* App */
-
-.App-header {
-  background-color: var(--bg-primary);
+.full-pg {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
   min-height: 100vh;
+}
+
+/* App */
+
+.App-header {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .App-header p {

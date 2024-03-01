@@ -3,7 +3,7 @@
 exports[`App > Should render as expected 1`] = `
 <div>
   <header
-    class="App-header"
+    class="App-header full-pg"
   >
     <a
       class="App-link"
