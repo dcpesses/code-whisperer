@@ -10,8 +10,6 @@ const loginUrl = 'https://id.twitch.tv/oauth2/authorize'
     + `&response_type=code&scope=${scopes}`
     + `&redirect_uri=${import.meta.env.VITE_APP_REDIRECT_URI}`;
 
-console.log({loginUrl});
-
 class Login extends Component {
 
   render() {
