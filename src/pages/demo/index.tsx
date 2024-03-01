@@ -12,6 +12,19 @@ import {Link} from 'react-router-dom';
 
 import './demo.css';
 
+const createDemoExample = (component: JSX.Element, title: string) => (
+  <Col className="Demo-example" lg="4">
+    <Card bg="dark" text="white" border="primary" className="shadow h-100">
+      <Card.Body>
+        <Card.Title className="pb-1 border-bottom border-secondary-subtle">
+          {title}
+        </Card.Title>
+        {component}
+      </Card.Body>
+    </Card>
+  </Col>
+);
+
 function Demo() {
   return (
     <div className="Demo">
@@ -30,42 +43,16 @@ function Demo() {
         <small>Oh, hey, you found some...</small>
 
         <h2 className="py-3">Demos & Examples</h2>
+
       </Container>
 
       <Container className="Demo-examples" data-bs-theme="dark">
         <Row>
-          <Col className="Demo-example" lg="4">
-            <Card bg="dark" text="white" border="primary" className="shadow h-100">
-              <Card.Body>
-                <Card.Title className="pb-1 border-bottom border-secondary-subtle">
-                  Redux To-Dos
-                </Card.Title>
-                <Todo />
-              </Card.Body>
-            </Card>
-          </Col>
+          {createDemoExample(<Todo />, 'Redux To-Dos')}
 
-          <Col className="Demo-example" lg="4">
-            <Card bg="dark" text="white" border="primary" className="shadow h-100">
-              <Card.Body>
-                <Card.Title className="pb-1 border-bottom border-secondary-subtle">
-                  Redux Counter
-                </Card.Title>
-                <ReduxCounter />
-              </Card.Body>
-            </Card>
-          </Col>
+          {createDemoExample(<ReduxCounter />, 'Redux Counter')}
 
-          <Col className="Demo-example" lg="4">
-            <Card bg="dark" text="white" border="primary" className="shadow h-100">
-              <Card.Body>
-                <Card.Title className="pb-1 border-bottom border-secondary-subtle">
-                  State Counter
-                </Card.Title>
-                <Counter />
-              </Card.Body>
-            </Card>
-          </Col>
+          {createDemoExample(<Counter />, 'State Counter')}
         </Row>
       </Container>
     </div>
