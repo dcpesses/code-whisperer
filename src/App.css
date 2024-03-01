@@ -26,14 +26,24 @@ body {
   color: var(--text-primary);
 
 }
-
+.h1 {
+  font-size: calc(12px + 2.5vmin);
+  font-weight: bold;
+}
+.h2 {
+  font-size: calc(10px + 2vmin);
+  font-weight: bold;
+}
+.h3 {
+  font-size: calc(10px + 1.5vmin);
+  font-weight: normal;
+}
 button {
   cursor: pointer;
 }
 
-.App {
-  text-align: center;
-}
+
+/* App */
 
 .App-header {
   background-color: var(--bg-primary);
@@ -45,28 +55,12 @@ button {
   color: var(--text-primary);
   min-height: 100vh;
 }
-.h1 {
-  font-size: calc(12px + 2.5vmin);
-  font-weight: bold;
-}
-.h2 {
-  font-size: calc(10px + 2vmin);
-  font-weight: bold;
-}
 
 .App-header p {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
-.App-subheader {
-  font-size: calc(10px + 1.25vmin);
-  border-bottom: 1px solid #495057;
-  color: #dee2e6;
-  font-size: 16px;
-  text-align: left;
-  padding-bottom: 0.5rem;
-}
 
 .App-logo {
   height: 40vmin;
@@ -75,18 +69,8 @@ button {
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-rock infinite alternate 3s ease-in-out;
   }
-}
-
-.App-logo + .h2 {
-  display: inline-block;
-  font-size: calc(10px + 1.5vmin);
-  line-height: 5vmin;
-  vertical-align: top;
-  padding-right: 2vmin;
-  margin: 0;
-  font-weight: bold;
 }
 
 .App-link,
@@ -94,57 +78,11 @@ button {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.App-examples {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
+@keyframes App-logo-rock {
+  from {transform: rotate(5deg);}
+  to {transform: rotate(-5deg);}
 }
 
-.App-examples > div {
-  display: grid;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.App-example {
-  display:flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: 100%;
-  width: 80vw;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 16px rgba(40,97,230, 0.2);
-  background-color: rgb(33, 37, 41, 0.8);
-  border: 1px solid rgb(40, 97, 230, 0.8);
-  padding: calc(0.5rem + 0.5vmin);
-  border-radius: 0.5rem;
-  padding: 1rem;
-}
-
-@media (min-width: 960px) {
-  .App-examples > div {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: 1fr;
-  }
-  .App-example {
-    height: 100%;
-    width: 100%;
-  }
-}
 
 .last-updated {
   position: absolute;

@@ -5,55 +5,29 @@ exports[`App > Should render as expected 1`] = `
   <header
     class="App-header"
   >
-    <img
-      alt="logo"
-      class="App-logo"
-      src="/code-whisperer/src/assets/logo.svg"
-    />
-    <p>
-      <span
-        class="h2"
-      >
-        Hello Vite + React!
-      </span>
-    </p>
-    <p>
-      Edit 
-      <code>
-        App.tsx
-      </code>
-       and save to test HMR updates.
-    </p>
+    <a
+      class="App-link"
+      href="#/demo"
+    >
+      <img
+        alt="logo"
+        class="App-logo"
+        src="/code-whisperer/src/assets/new-logo.svg"
+      />
+    </a>
     <p>
       <span
         class="h1"
       >
-        <a
-          class="App-link"
-          href="#/demo"
-        >
-          View Demos
-        </a>
+        Game Code Whisperer
       </span>
     </p>
     <p>
-      <a
-        class="App-link"
-        href="https://reactjs.org"
-        rel="noopener noreferrer"
-        target="_blank"
+      <span
+        class="h3"
       >
-        Learn React
-      </a>
-       | 
-      <a
-        class="App-link"
-        href="https://vitejs.dev/guide/features.html"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Vite Docs
-      </a>
+        Coming Soon
+      </span>
     </p>
     <p
       class="last-updated"

@@ -15,11 +15,9 @@ function Demo() {
             ← Home
           </Link>
         </div>
-
-        <div style={{float: 'right'}}>
-          Edit <code>pages/demo/index.tsx</code> and save to test HMR updates.
-        </div>
       </header>
+
+      <small>Oh, hey, you found some...</small>
 
       <h1>Demos & Examples</h1>
 
