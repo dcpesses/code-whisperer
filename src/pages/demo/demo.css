@@ -45,13 +45,13 @@ button {
   font-size: calc(10px + 1vmin);
   color: var(--text-primary);
   padding: 1rem;
+  margin-bottom: 1rem;
 }
 .Demo-header:after {
   content: "";
   display: table;
   clear: both;
 }
-
 
 .Demo-subheader {
   font-size: calc(10px + 1.25vmin);
@@ -60,16 +60,6 @@ button {
   font-size: 16px;
   text-align: left;
   padding-bottom: 0.5rem;
-}
-
-.Demo-logo + .h2 {
-  display: inline-block;
-  font-size: calc(10px + 1.5vmin);
-  line-height: 5vmin;
-  vertical-align: top;
-  padding-right: 2vmin;
-  margin: 0;
-  font-weight: bold;
 }
 
 .Demo-link,

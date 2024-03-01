@@ -1,6 +1,6 @@
 import { Link, Routes, Route } from 'react-router-dom';
 import Demo from '@/pages/demo';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/new-logo.svg';
 
 import '@/App.css';
 
@@ -12,33 +12,16 @@ declare global {
 
 const Home = () => (
   <header className="App-header">
-    <img src={logo} className="App-logo" alt="logo" />
+    <Link className="App-link" to="/demo">
+      <img src={logo} className="App-logo" alt="logo" />
+    </Link>
     <p>
-      <span className="h2">Hello Vite + React!</span>
+      <span className="h1">Game Code Whisperer</span>
     </p>
     <p>
-      Edit <code>App.tsx</code> and save to test HMR updates.
-    </p>
-    <p>
-      <span className="h1">
-        <Link className="App-link" to="/demo">
-          View Demos
-        </Link>
+      <span className="h3">
+        Coming Soon
       </span>
-    </p>
-    <p>
-      <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-        Learn React
-      </a>
-      {' | '}
-      <a
-        className="App-link"
-        href="https://vitejs.dev/guide/features.html"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Vite Docs
-      </a>
     </p>
     <p className="last-updated">
       <small>
