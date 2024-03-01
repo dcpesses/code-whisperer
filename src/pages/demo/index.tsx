@@ -1,3 +1,9 @@
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+
 import {Counter} from '@/features/state-counter/Counter';
 import {ReduxCounter} from '@/features/redux-counter/ReduxCounter';
 
@@ -6,42 +12,49 @@ import {Link} from 'react-router-dom';
 
 import './demo.css';
 
+const createDemoExample = (component: JSX.Element, title: string) => (
+  <Col className="Demo-example" lg="4">
+    <Card bg="dark" text="white" border="primary" className="shadow h-100">
+      <Card.Body>
+        <Card.Title className="pb-1 border-bottom border-secondary-subtle">
+          {title}
+        </Card.Title>
+        {component}
+      </Card.Body>
+    </Card>
+  </Col>
+);
+
 function Demo() {
   return (
     <div className="Demo">
-      <header className="Demo-header">
-        <div style={{float: 'left'}}>
-          <Link className="Demo-link" to="/">
-            ← Home
-          </Link>
-        </div>
-      </header>
+      <Navbar bg="dark" data-bs-theme="dark" sticky="top" >
+        <Container>
+          <Navbar.Brand>
+            <Link className="navbar-brand" to="/">
+              ← Home
+            </Link>
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
 
-      <small>Oh, hey, you found some...</small>
+      <Container className="text-center pt-2">
 
-      <h1>Demos & Examples</h1>
+        <small>Oh, hey, you found some...</small>
 
-      <div className="Demo-examples">
-        <div>
-          <div className="Demo-example">
-            <h3 className="Demo-subheader">Redux To-Dos</h3>
-            <Todo />
-            <div></div>
-          </div>
+        <h2 className="py-3">Demos & Examples</h2>
 
-          <div className="Demo-example">
-            <h3 className="Demo-subheader">Redux Counter</h3>
-            <ReduxCounter />
-            <div></div>
-          </div>
+      </Container>
 
-          <div className="Demo-example">
-            <h3 className="Demo-subheader">State Counter</h3>
-            <Counter />
-            <div></div>
-          </div>
-        </div>
-      </div>
+      <Container className="Demo-examples" data-bs-theme="dark">
+        <Row>
+          {createDemoExample(<Todo />, 'Redux To-Dos')}
+
+          {createDemoExample(<ReduxCounter />, 'Redux Counter')}
+
+          {createDemoExample(<Counter />, 'State Counter')}
+        </Row>
+      </Container>
     </div>
   );
 }
