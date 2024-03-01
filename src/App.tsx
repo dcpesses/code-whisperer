@@ -2,6 +2,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 import Demo from '@/pages/demo';
 import logo from '@/assets/new-logo.svg';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import '@/App.css';
 
 declare global {
