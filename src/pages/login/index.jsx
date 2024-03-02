@@ -5,14 +5,18 @@ import logo from '@/assets/new-logo.svg';
 import './login.css';
 
 const scopes = 'chat:read chat:edit moderation:read user:manage:whispers';
-const loginUrl = 'https://id.twitch.tv/oauth2/authorize'
-    + `?client_id=${import.meta.env.VITE_APP_TWITCH_CLIENT_ID}`
-    + `&response_type=code&scope=${scopes}`
-    + `&redirect_uri=${import.meta.env.VITE_APP_REDIRECT_URI}`;
 
 class Login extends Component {
 
+  getLoginUrl() {
+    return 'https://id.twitch.tv/oauth2/authorize'
+    + `?client_id=${import.meta.env.VITE_APP_TWITCH_CLIENT_ID}`
+    + `&response_type=code&scope=${scopes}`
+    + `&redirect_uri=${import.meta.env.VITE_APP_REDIRECT_URI}`;
+  }
+
   render() {
+    let loginUrl = this.getLoginUrl();
     return (
       <div id="login-screen" className="container full-pg fade-in">
         <div className="text-center pb-4">
