@@ -27,6 +27,7 @@ class AuthenticatedApp extends Component {
     this.state = {
       username: localStorage.getItem('__username'),
       user_id: localStorage.getItem('__user_id'),
+      profile_image_url: localStorage.getItem('__profile_image_url'),
       access_token: localStorage.getItem('__access_token'),
       expires_in: localStorage.getItem('__expires_in') || 0,
       expiry_time: localStorage.getItem('__expiry_time') || 0,
@@ -75,6 +76,7 @@ class AuthenticatedApp extends Component {
     }
     localStorage.removeItem('__username');
     localStorage.removeItem('__user_id');
+    localStorage.removeItem('__profile_image_url');
     localStorage.removeItem('__access_token');
     localStorage.removeItem('__expires_in');
     localStorage.removeItem('__expiry_time');
@@ -143,6 +145,7 @@ class AuthenticatedApp extends Component {
     // }
     localStorage.setItem('__username', userInfo.data[0].login);
     localStorage.setItem('__user_id', userInfo.data[0].id);
+    localStorage.setItem('__profile_image_url', userInfo.data[0].profile_image_url);
     // const respMods = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${userInfo.data[0].id}`, {
     //   headers: {
     //     'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
@@ -162,7 +165,8 @@ class AuthenticatedApp extends Component {
       return this.promisedSetState({
         username: userInfo.data[0].login,
         user_id: userInfo.data[0].id,
-        modList
+        modList,
+        profile_image_url: userInfo.data[0].profile_image_url
       });
     }
     return;
@@ -171,6 +175,7 @@ class AuthenticatedApp extends Component {
   async logOut() {
     localStorage.removeItem('__username');
     localStorage.removeItem('__user_id');
+    localStorage.removeItem('__profile_image_url');
     localStorage.removeItem('__access_token');
     localStorage.removeItem('__expires_in');
     localStorage.removeItem('__expiry_time');
@@ -303,6 +308,12 @@ class AuthenticatedApp extends Component {
     );
     let classNames = ['authenticated-app', 'container', 'text-center'];
     if (this.state.username && this.state.modList) {
+      let img;
+      if (this.state.profile_image_url) {
+        img = (
+          <img src={this.state.profile_image_url} className="rounded-circle" alt={this.state.username} />
+        );
+      }
       mainContent = (
         <div className="col full-pg">
           <h2 className="text-center">Authenticated!</h2>

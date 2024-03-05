@@ -78,6 +78,29 @@ export default class TwitchApi {
       return await Promise.resolve(error);
     }
   }
+
+  async requestUserInfo({id, login}) {
+    let params = {};
+    if (id) {
+      params.id = id;
+    }
+    if (login) {
+      params.login = login;
+    }
+    const requestParams = new URLSearchParams(params);
+    try {
+      const response = await fetch(`https://api.twitch.tv/helix/users?${requestParams}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      return await Promise.resolve(error);
+    }
+  }
+
   async requestUsers(access_token) {
     if (access_token) {
       this._accessToken = access_token;
