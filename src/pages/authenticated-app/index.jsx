@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LoadingRipple from '@/components/LoadingRipple';
 import {Navigate} from 'react-router-dom';
+import TwitchApi from '@/api/twitch';
 import {withRouter} from '@/utils';
 import queryString from 'query-string';
 
@@ -33,6 +34,11 @@ class AuthenticatedApp extends Component {
       failed_login: false,
       has_logged_out: false
     };
+    this.twitchApi = new TwitchApi({
+      redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
+      clientId: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+      clientSecret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET,
+    });
     this.getAuth = this.getAuth.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -47,6 +53,7 @@ class AuthenticatedApp extends Component {
   componentDidMount() {
     this._isMounted = true;
     if (!this.state.access_token) {
+      console.log('authenticated-app - componentDidMount -> getAuth');
       return this.getAuth();
     } else {
       return this.getUsers(this.state.access_token)
@@ -59,6 +66,7 @@ class AuthenticatedApp extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    console.log('authenticated-app - componentWillUnmount');
   }
 
   async getAuth(e) {
@@ -75,20 +83,22 @@ class AuthenticatedApp extends Component {
 
     const queryParams = queryString.parse(this.props.router.location.search);
 
-    const requestParams = new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: queryParams.code,
-      redirect_uri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
-      client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      client_secret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET
-    });
-    return await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/vnd.twitchtv.v5+json'
-      }
-    })
-      .then(r => r.json())
+    // const requestParams = new URLSearchParams({
+    //   grant_type: 'authorization_code',
+    //   code: queryParams.code,
+    //   redirect_uri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
+    //   client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+    //   client_secret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET
+    // });
+    // return await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/vnd.twitchtv.v5+json'
+    //   }
+    // })
+
+    return await this.twitchApi.requestAuthentication({code: queryParams.code})
+      // .then(r => r.json())
       .then((oauth) => {
 
         if (oauth.status >= 300 && oauth.message) {
@@ -117,13 +127,14 @@ class AuthenticatedApp extends Component {
   }
 
   async getUsers(access_token) {
-    const respUsers = await fetch('https://api.twitch.tv/helix/users', {
-      headers: {
-        'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-        Authorization: `Bearer ${this.state.access_token}`
-      }
-    });
-    const userInfo = await respUsers.json();
+    // const respUsers = await fetch('https://api.twitch.tv/helix/users', {
+    //   headers: {
+    //     'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+    //     Authorization: `Bearer ${this.state.access_token}`
+    //   }
+    // });
+    // const userInfo = await respUsers.json();
+    const userInfo = await this.twitchApi.requestUsers(access_token);
     console.log({userInfo: JSON.stringify(userInfo)}); // login [aka lowercase username?], display_name, profile_image_url, description
     // if (userInfo.error) {
     //   // throw new Error(userInfo.error, userInfo);
@@ -132,13 +143,14 @@ class AuthenticatedApp extends Component {
     // }
     localStorage.setItem('__username', userInfo.data[0].login);
     localStorage.setItem('__user_id', userInfo.data[0].id);
-    const respMods = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${userInfo.data[0].id}`, {
-      headers: {
-        'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-        Authorization: `Bearer ${access_token}`
-      }
-    });
-    const modInfo = await respMods.json();
+    // const respMods = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${userInfo.data[0].id}`, {
+    //   headers: {
+    //     'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+    //     Authorization: `Bearer ${access_token}`
+    //   }
+    // });
+    // const modInfo = await respMods.json();
+    const modInfo = await this.twitchApi.requestModerators(userInfo.data[0].id);
     const modList = (!modInfo.data)
       ? null
       : modInfo.data.map(
@@ -164,20 +176,23 @@ class AuthenticatedApp extends Component {
     localStorage.removeItem('__expiry_time');
     localStorage.removeItem('__refresh_token');
 
-    const requestParams = new URLSearchParams({
-      client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      token: this.state.access_token,
-      redirect_uri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE
-    });
+    // const requestParams = new URLSearchParams({
+    //   client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+    //   token: this.state.access_token,
+    //   redirect_uri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE
+    // });
 
     try {
-      await fetch(`https://id.twitch.tv/oauth2/revoke?${requestParams}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/vnd.twitchtv.v5+json'
-        }
-      });
+      // await fetch(`https://id.twitch.tv/oauth2/revoke?${requestParams}`, {
+      //   method: 'POST',
+      //   headers: {
+      //     Accept: 'application/vnd.twitchtv.v5+json'
+      //   }
+      // });
+      await this.twitchApi.logOut();
       localStorage.removeItem('__error_msg');
+
+      // //   // return redirect('/login');
       return window.location.reload();
     } catch {
       return (<Navigate to="/login" />);
@@ -214,20 +229,21 @@ class AuthenticatedApp extends Component {
   async refreshToken() {
     console.log('refreshToken');
     let token = this.state.refresh_token;
-    const requestParams = new URLSearchParams({
-      grant_type: 'refresh_token',
-      client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      client_secret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET,
-      refresh_token: token
-    });
-    return await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `OAuth ${token}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
-      .then(r => r.json())
+    // const requestParams = new URLSearchParams({
+    //   grant_type: 'refresh_token',
+    //   client_id: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+    //   client_secret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET,
+    //   refresh_token: token
+    // });
+    // return await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Authorization: `OAuth ${token}`,
+    //     'Content-Type': 'application/x-www-form-urlencoded'
+    //   }
+    // })
+    //   .then(r => r.json())
+    return await this.twitchApi.requestRefreshToken(token)
       .then(this.onAuthenticated)
       .catch(e => {
         console.error(e);
@@ -239,13 +255,14 @@ class AuthenticatedApp extends Component {
     if (!token) {
       token = this.state.access_token;
     }
-    return await fetch('https://id.twitch.tv/oauth2/validate', {
-      method: 'GET',
-      headers: {
-        Authorization: `OAuth ${token}`
-      }
-    })
-      .then(r => r.json())
+    // return await fetch('https://id.twitch.tv/oauth2/validate', {
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: `OAuth ${token}`
+    //   }
+    // })
+    //   .then(r => r.json())
+    return await this.twitchApi.validateToken(token)
       .then(validateResp => {
         if (validateResp.status === 401) {
           console.log('calling this.refreshToken();...');
