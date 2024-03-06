@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "node-fetch": "^3.3.2",
     "query-string": "^9.0.0",
@@ -50,6 +51,7 @@
     "@types/node": "^18.19.20",
     "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.2",
+    "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "@vitejs/plugin-react-swc": "^3.3.0",
@@ -62,6 +64,7 @@
     "happy-dom": "^13.6.2",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "react-test-renderer": "^18.2.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.4",
     "vite-tsconfig-paths": "^4.2.0",
