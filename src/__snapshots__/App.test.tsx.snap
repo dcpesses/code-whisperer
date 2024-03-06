@@ -2,38 +2,25 @@
 
 exports[`App > Should render as expected 1`] = `
 <div>
-  <header
-    class="App-header full-pg"
+  <div
+    id="authenticated-app container text-center"
   >
-    <a
-      class="App-link"
-      href="#/demo"
+    <div
+      class="col display-6 text-center full-pg"
     >
-      <img
-        alt="logo"
-        class="App-logo"
-        src="/code-whisperer/src/assets/new-logo.svg"
-      />
-    </a>
-    <p>
-      <span
-        class="h1"
-      >
-        Game Code Whisperer
-      </span>
-    </p>
-    <p>
-      <span
-        class="h3"
-      >
-        Coming Soon
-      </span>
-    </p>
-    <p
-      class="last-updated"
-    >
-      <small />
-    </p>
-  </header>
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
+    </div>
+  </div>
 </div>
 `;

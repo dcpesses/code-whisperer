@@ -1,0 +1,116 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Login > render > Should render as expected 1`] = `
+<div>
+  <div
+    class="container full-pg fade-in"
+    id="login-screen"
+  >
+    <div
+      class="text-center pb-4"
+    >
+      <img
+        alt="Logo"
+        class="login-logo w-50 mx-auto mb-4"
+        src="/code-whisperer/src/assets/new-logo.svg"
+      />
+    </div>
+    <a
+      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers&redirect_uri=VITE_APP_REDIRECT_URI"
+    >
+      Log In With 
+      <strong>
+        Twitch
+      </strong>
+    </a>
+    <div>
+      <small>
+        v1.0.0
+      </small>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Login > render > Should render with error during development 1`] = `
+<div>
+  <div
+    class="container full-pg fade-in"
+    id="login-screen"
+  >
+    <div
+      class="text-center pb-4"
+    >
+      <img
+        alt="Logo"
+        class="login-logo w-50 mx-auto mb-4"
+        src="/code-whisperer/src/assets/new-logo.svg"
+      />
+    </div>
+    <div>
+      <code
+        class="small w-50 fs-6 mb-3"
+      >
+        Error: 
+        Error Message
+      </code>
+    </div>
+    <a
+      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers&redirect_uri=VITE_APP_REDIRECT_URI"
+    >
+      Log In With 
+      <strong>
+        Twitch
+      </strong>
+    </a>
+    <div>
+      <small>
+        v1.0.0
+      </small>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Login > render > Should render without error in production 1`] = `
+<div>
+  <div
+    class="container full-pg fade-in"
+    id="login-screen"
+  >
+    <div
+      class="text-center pb-4"
+    >
+      <img
+        alt="Logo"
+        class="login-logo w-50 mx-auto mb-4"
+        src="/code-whisperer/src/assets/new-logo.svg"
+      />
+    </div>
+    <div>
+      <code
+        class="small w-50 fs-6 mb-3"
+      >
+        Error: 
+        Error Message
+      </code>
+    </div>
+    <a
+      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers&redirect_uri=VITE_APP_REDIRECT_URI"
+    >
+      Log In With 
+      <strong>
+        Twitch
+      </strong>
+    </a>
+    <div>
+      <small>
+        v1.0.0
+      </small>
+    </div>
+  </div>
+</div>
+`;

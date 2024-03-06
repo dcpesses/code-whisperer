@@ -1,0 +1,12 @@
+#login-screen a {
+    background-color: #663399;
+    color: white;
+}
+#login-screen a:not(:hover) {
+    text-decoration: none;
+}
+
+#login-screen small {
+    font-size: calc(6px + 0.75vmin);
+    color: rgba(255, 255, 255, 0.2);
+}
