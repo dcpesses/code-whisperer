@@ -17,4 +17,10 @@ describe('App', () => {
 
     expect(container).toMatchSnapshot();
   });
+  test('should detect required environment build variables', () => {
+    expect(import.meta.env.VITE_APP_TWITCH_CLIENT_ID).toBeDefined();
+    expect(import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET).toBeDefined();
+    expect(import.meta.env.VITE_APP_REDIRECT_URI).toBeDefined();
+    expect(import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE).toBeDefined();
+  });
 });

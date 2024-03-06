@@ -21,6 +21,11 @@ jobs:
   buildAndTest:
     name: Build & Test
     runs-on: ubuntu-latest
+    env:
+      VITE_APP_TWITCH_CLIENT_ID: ${{ secrets.VITE_APP_TWITCH_CLIENT_ID }}
+      VITE_APP_TWITCH_CLIENT_SECRET: ${{ secrets.VITE_APP_TWITCH_CLIENT_SECRET }}
+      VITE_APP_REDIRECT_URI: "${{ secrets.VITE_APP_REDIRECT_URI }}"
+      VITE_APP_REDIRECT_URI_NOENCODE: "${{ secrets.VITE_APP_REDIRECT_URI_NOENCODE }}"
     steps:
       - uses: actions/checkout@v4
 

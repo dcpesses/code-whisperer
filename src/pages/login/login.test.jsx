@@ -4,6 +4,13 @@ import {vi} from 'vitest';
 import Login from './index';
 import React from 'react';
 
+vi.mock('../../../package.json', () => {
+  return {
+    ...vi.importActual('../../../package.json'),
+    version: '0.0.0'
+  };
+});
+
 describe('Login', () => {
   describe('render', () => {
     beforeEach(()=>{

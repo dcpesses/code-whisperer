@@ -1,7 +1,7 @@
 {
   "name": "code-whisperer",
-  "version": "1.0.0",
-  "description": "React + Redux + TypeScript + Vite + Github Actions starter template",
+  "version": "0.0.1",
+  "description": "Twitch Code Whisperer for Party Game Streamers",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dcpesses/code-whisperer.git"
@@ -13,7 +13,9 @@
     "typescript",
     "template",
     "ghactions",
-    "vitest"
+    "vitest",
+    "twitch",
+    "oauth"
   ],
   "author": "Daniel Pesses",
   "license": "MIT",
