@@ -1,6 +1,5 @@
 export default class TwitchApi {
-  constructor({channel, clientId, clientSecret, redirectUri, code, accessToken, refreshToken, onTokenUpdated}) {
-    this._channel = channel;
+  constructor({clientId, clientSecret, redirectUri, code, accessToken, refreshToken, onTokenUpdated}) {
     this._clientId = clientId;
     this._clientSecret = clientSecret;
     this._redirectUri = redirectUri;
@@ -8,30 +7,19 @@ export default class TwitchApi {
     this._accessToken = accessToken;
     this._refreshToken = refreshToken;
     this._updateTokens = onTokenUpdated;
+    this._expires_in;
+    this._expiry_time;
+    this._userInfo;
 
-
+    this.resetLocalStorageItems = this.resetLocalStorageItems.bind(this);
     this.requestAuthentication = this.requestAuthentication.bind(this);
     this.requestUsers = this.requestUsers.bind(this);
     this.requestModerators = this.requestModerators.bind(this);
     this.logOut = this.logOut.bind(this);
     this.requestRefreshToken = this.requestRefreshToken.bind(this);
+    this.setAuthentication = this.setAuthentication.bind(this);
     this.validateToken = this.validateToken.bind(this);
-
-    // this.lastMessageTimes = {};
-    // this.getUsers = this.gsers.bind(this);
-    // this.logOut = this.logOut.bind(this);
-    // this.onAuthenticated = this.onAuthenticated.bind(this);
-    // this.promisedSetState = this.promisedSetState.bind(this);
-    // this.refreshToken = this.refreshToken.bind(this);
-    // this.validateToken = this.validateToken.bind(this);
-
-    // this.getStatusPromise = this.getStatusPromise.bind(this);
-
-    // this.sendWhisper = this.sendWhisper.bind(this);
   }
-
-  get channel() {return this._channel;}
-  set channel(channel) {this._channel = channel;}
 
   get clientId() {return this._clientId;}
   set clientId(clientId) {this._clientId = clientId;}
@@ -54,6 +42,13 @@ export default class TwitchApi {
   get onTokenUpdated() {return this._updateTokens;}
   set onTokenUpdated(onTokenUpdated) {this._updateTokens = onTokenUpdated;}
 
+  get userInfo() {return this._userInfo;}
+
+  get expires_in() {return this._expires_in;}
+
+  get expiry_time() {return this._expiry_time;}
+
+
   async requestAuthentication({code}) {
     if (code) {
       this._code = code;
@@ -61,9 +56,9 @@ export default class TwitchApi {
     const requestParams = new URLSearchParams({
       grant_type: 'authorization_code',
       code: this._code,
-      redirect_uri: this._redirectUri, // import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
-      client_id: this._clientId, // import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      client_secret: this._clientSecret, // import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET
+      redirect_uri: this._redirectUri,
+      client_id: this._clientId,
+      client_secret: this._clientSecret,
     });
 
     try {
@@ -73,7 +68,9 @@ export default class TwitchApi {
           Accept: 'application/vnd.twitchtv.v5+json'
         }
       });
-      return await response.json();
+      const responseJson = await response.json();
+      this.setAuthentication(responseJson);
+      return responseJson;
     } catch (error) {
       return await Promise.resolve(error);
     }
@@ -112,7 +109,13 @@ export default class TwitchApi {
           Authorization: `Bearer ${this._accessToken}`
         }
       });
-      return await response.json();
+      const responseJson = await response.json();
+      if (responseJson?.data[0]) {
+        localStorage.setItem('__username', responseJson.data[0].login);
+        localStorage.setItem('__user_id', responseJson.data[0].id);
+        localStorage.setItem('__profile_image_url', responseJson.data[0].profile_image_url);
+      }
+      return responseJson;
     } catch (error) {
       return await Promise.resolve(error);
     }
@@ -132,11 +135,21 @@ export default class TwitchApi {
     }
   }
 
+  resetLocalStorageItems() {
+    localStorage.removeItem('__username');
+    localStorage.removeItem('__user_id');
+    localStorage.removeItem('__profile_image_url');
+    localStorage.removeItem('__access_token');
+    localStorage.removeItem('__expires_in');
+    localStorage.removeItem('__expiry_time');
+    localStorage.removeItem('__refresh_token');
+  }
+
   async logOut() {
     const requestParams = new URLSearchParams({
-      client_id: this._clientId, // import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+      client_id: this._clientId,
       token: this._accessToken,
-      redirect_uri: this._redirectUri, // import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE
+      redirect_uri: this._redirectUri,
     });
 
     try {
@@ -157,43 +170,68 @@ export default class TwitchApi {
     }
     const requestParams = new URLSearchParams({
       grant_type: 'refresh_token',
-      client_id: this._clientId, // import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      client_secret: this._clientSecret, // import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET
+      client_id: this._clientId,
+      client_secret: this._clientSecret,
       refresh_token: this._refreshToken
     });
-    return await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
+    const response = await fetch(`https://id.twitch.tv/oauth2/token?${requestParams}`, {
       method: 'POST',
       headers: {
         Authorization: `OAuth ${this._refreshToken}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       }
-    }).then(r => r.json());
+    });
+    const responseJson = await response.json();
+    this.setAuthentication(responseJson);
+    return responseJson;
+  }
+
+  /**
+   * Handles the API response after authenticating
+   *
+   * @param {object} oauth The api response object (access_token, refresh_token, expires_in, scope)
+   * @returns Promise (via requestUsers)
+   */
+  setAuthentication(oauth) {
+    let expiry_time = Date.now() + oauth.expires_in;
+    localStorage.setItem('__access_token', oauth.access_token);
+    localStorage.setItem('__expires_in', oauth.expires_in);
+    localStorage.setItem('__expiry_time', expiry_time);
+    localStorage.setItem('__refresh_token', oauth.refresh_token);
+
+    this.access_token = oauth.access_token;
+    this.refresh_token = oauth.refresh_token;
+    this.expires_in = oauth.expires_in;
+    this.expiry_time = oauth.expiry_time;
   }
 
   async validateToken(token) {
     if (!token) {
-      token = this.state.access_token;
+      token = this._accessToken;
     }
-    return await fetch('https://id.twitch.tv/oauth2/validate', {
-      method: 'GET',
-      headers: {
-        Authorization: `OAuth ${token}`
+    try {
+      const response = await fetch('https://id.twitch.tv/oauth2/validate', {
+        method: 'GET',
+        headers: {
+          Authorization: `OAuth ${token}`
+        }
+      });
+      const responseJson = await response.json();
+      this.setAuthentication(responseJson);
+      if (responseJson.status === 401) {
+        console.log('calling this.requestRefreshToken();...');
+        return this.requestRefreshToken();
       }
-    }).then(r => r.json());
-    // .then(validateResp => {
-    //   if (validateResp.status === 401) {
-    //     console.log('calling requestRefreshToken();...');
-    //     return this.requestRefreshToken();
-    //   }
-    //   return Promise.resolve();
-    // })
-    // .catch(e => {
-    //   console.error(e);
-    //   if (e.status === 401) {
-    //     console.log('calling requestRefreshToken();...');
-    //     return this.requestRefreshToken();
-    //   }
-    //   return;
-    // });
+      return responseJson;
+    } catch (e) {
+      console.error(e);
+      if (e.status === 401) {
+        console.log('calling this.requestRefreshToken();...');
+        return this.requestRefreshToken();
+      }
+      return;
+    }
+
+
   }
 }
