@@ -56,7 +56,7 @@ class AuthenticatedApp extends Component {
   componentDidMount() {
     this._isMounted = true;
     if (!this.state.access_token) {
-      // console.log('authenticated-app - componentDidMount -> getAuth');
+      console.log('authenticated-app - componentDidMount -> getAuth');
       return this.getAuth();
     } else {
       return this.getUsers(this.state.access_token)
@@ -69,7 +69,7 @@ class AuthenticatedApp extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-    // console.log('authenticated-app - componentWillUnmount');
+    console.log('authenticated-app - componentWillUnmount');
   }
 
   async getAuth(e) {
