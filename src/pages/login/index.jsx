@@ -12,6 +12,12 @@ class Login extends Component {
     this.state = {
       login_status: localStorage.getItem('__error_msg') || ''
     };
+    if (!import.meta?.env?.VITE_APP_TWITCH_CLIENT_ID) {
+      console.log('getLoginUrl: no client id found; listing vars');
+      console.log(import.meta.env);
+    } else {
+      console.log('client id found!');
+    }
   }
 
   getLoginUrl() {
@@ -49,6 +55,12 @@ class Login extends Component {
             {`v${version}`}
           </small>
         </div>
+        <p className="last-updated">
+          <small>
+            { window.lastUpdated }
+          </small>
+        </p>
+
       </div>
     );
   }

@@ -29,6 +29,11 @@ exports[`Login > render > Should render as expected 1`] = `
         v1.0.0
       </small>
     </div>
+    <p
+      class="last-updated"
+    >
+      <small />
+    </p>
   </div>
 </div>
 `;
@@ -70,6 +75,11 @@ exports[`Login > render > Should render with error during development 1`] = `
         v1.0.0
       </small>
     </div>
+    <p
+      class="last-updated"
+    >
+      <small />
+    </p>
   </div>
 </div>
 `;
@@ -111,6 +121,11 @@ exports[`Login > render > Should render without error in production 1`] = `
         v1.0.0
       </small>
     </div>
+    <p
+      class="last-updated"
+    >
+      <small />
+    </p>
   </div>
 </div>
 `;
