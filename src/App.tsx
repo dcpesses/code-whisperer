@@ -1,7 +1,7 @@
 import { Link, Routes, Route } from 'react-router-dom';
-import logo from '@/assets/new-logo.svg';
 
 // Pages
+import AuthenticatedApp from '@/pages/authenticated-app';
 import Demo from '@/pages/demo';
 import Login from '@/pages/login';
 
@@ -24,7 +24,7 @@ const Error404 = () => (
         </small>
       </p>
       <div className="col-6 mx-auto">
-        <Link className="btn btn-outline-primary btn-lgg mt-5" to="/">
+        <Link className="btn btn-outline-primary btn-lg mt-5" to="/">
           Go Home
         </Link>
       </div>
@@ -32,34 +32,14 @@ const Error404 = () => (
   </div>
 );
 
-const Home = () => (
-  <header className="App-header full-pg">
-    <Link className="App-link" to="/demo">
-      <img src={logo} className="App-logo" alt="logo" />
-    </Link>
-    <p>
-      <span className="h1">Game Code Whisperer</span>
-    </p>
-    <p>
-      <span className="h3">
-        Coming Soon
-      </span>
-    </p>
-    <p className="last-updated">
-      <small>
-        { window.lastUpdated }
-      </small>
-    </p>
-  </header>
-);
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route path="/demo" element={<Demo />} />
       <Route path="/login" element={<Login />} />
-      <Route path="*" element={<Error404 />} />
+      <Route path="/error" element={<Error404 />} />
+      <Route path="/*" element={<AuthenticatedApp />} />
     </Routes>
   );
 }

@@ -110,6 +110,7 @@ export default class TwitchApi {
         }
       });
       const responseJson = await response.json();
+      this._userInfo = responseJson;
       if (responseJson?.data[0]) {
         localStorage.setItem('__username', responseJson.data[0].login);
         localStorage.setItem('__user_id', responseJson.data[0].id);
