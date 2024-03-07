@@ -7,6 +7,15 @@ import {Navigate} from 'react-router-dom';
 import TwitchApi from '@/api/twitch';
 import {withRouter} from '@/utils';
 import queryString from 'query-string';
+import {uuid} from '@/utils';
+
+let UUID;
+
+const TWITCH_API = new TwitchApi({
+  redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
+  clientId: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
+  clientSecret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET,
+});
 
 class AuthenticatedApp extends Component {
   static get propTypes() {
@@ -32,15 +41,12 @@ class AuthenticatedApp extends Component {
       expires_in: localStorage.getItem('__expires_in') || 0,
       expiry_time: localStorage.getItem('__expiry_time') || 0,
       refresh_token: localStorage.getItem('__refresh_token'),
+      auth_pending: false,
       failed_login: false,
       has_logged_out: false
     };
 
-    this.twitchApi = new TwitchApi({
-      redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
-      clientId: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-      clientSecret: import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET,
-    });
+    this.twitchApi = TWITCH_API;
 
     this.getAuth = this.getAuth.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -49,32 +55,128 @@ class AuthenticatedApp extends Component {
     this.onAuthenticated = this.onAuthenticated.bind(this);
     this.promisedSetState = this.promisedSetState.bind(this);
     this.refreshToken = this.refreshToken.bind(this);
+    this.waitForAuth = this.waitForAuth.bind(this);
+    this.onTwitchAuthInit = this.onTwitchAuthInit.bind(this);
+    this.onTwitchAuthError = this.onTwitchAuthError.bind(this);
+
     this.hasAlreadyInit = false;
     this._isMounted = false;
+
+    this.twitchAuthReady = false;
   }
 
   componentDidMount() {
+    console.log(UUID);
+    UUID = uuid();
     this._isMounted = true;
-    if (!this.state.access_token) {
-      console.log('authenticated-app - componentDidMount -> getAuth');
-      return this.getAuth();
-    } else {
-      return this.getUsers(this.state.access_token)
-        .catch(e => {
-          console.error(e);
-          return this.getAuth(e);
-        });
-    }
+
+    console.log(UUID, 'authenticated-app - componentDidMount');
+
+    // TWITCH_API.onTokenUpdateCallback = this.onTwitchAuthInit();
+    // TWITCH_API.authErrorCallback = this.onTwitchAuthError();
+
+    // this.setState({
+    //   auth_pending: false
+    // }, this.waitForAuth);
+
+    this.authAwaitInt = setTimeout(this.waitForAuth, 2000);
+
+    // if (!this.state.access_token) {
+    //   console.log(UUID, 'authenticated-app - componentDidMount -> getAuth');
+    //   return this.getAuth();
+    // } else {
+    //   console.log(UUID, 'authenticated-app - componentDidMount -> getUsers');
+    //   return this.getUsers(this.state.access_token)
+    //     .catch(e => {
+    //       console.log(UUID, 'authenticated-app - componentDidMount -> getUsers: error');
+    //       console.error(e);
+    //       return this.getAuth(e);
+    //     });
+    // }
   }
 
   componentWillUnmount() {
     this._isMounted = false;
-    console.log('authenticated-app - componentWillUnmount');
+    // TWITCH_API.onTokenUpdateCallback = ()=>{};
+    // TWITCH_API.authErrorCallback = ()=>{};
+    clearTimeout(this.authAwaitInt);
+    console.log(UUID, 'authenticated-app - componentWillUnmount');
   }
 
-  async getAuth(e) {
-    if (e) {
-      console.error(e);
+  waitForAuth() {
+    console.log(UUID, 'authenticated-app - waitForAuth');
+    if (this.twitchAuthReady === true) {
+      clearTimeout(this.authAwaitInt);
+      return this.setState({
+        auth_pending: false
+      });
+    }
+    if (this.twitchApi.isInit === true) {
+      // call setState with user info
+      return this.onTwitchAuthInit();
+    } else if (!this.state.username) {
+      this.setState({
+        auth_pending: true
+      });
+      // setInterval listener
+      this.authAwaitInt = setTimeout(this.waitForAuth, 1000);
+    }
+    return;
+  }
+
+  onTwitchAuthInit() {
+    let userInfo = TWITCH_API.userInfo;
+    console.log({userInfo});
+    if (!userInfo.data) {
+      console.log('onTwitchAuthInit - no user info');
+      return this.setState({
+        auth_pending: false,
+        failed_login: true,
+      });
+    }
+    this.setState({
+      username: userInfo.data[0].login,
+      user_id: userInfo.data[0].id,
+      // modList,
+      profile_image_url: userInfo.data[0].profile_image_url,
+      auth_pending: false,
+    });
+  }
+
+  onTwitchAuthError(e) {
+    console.log(UUID, 'authenticated-app - onTwitchAuthError', e);
+    return this.setState({
+      auth_pending: false,
+      failed_login: true,
+    });
+  }
+
+  async initAuth() {
+    if (this.state.auth_pending === false) {
+      this.setState({
+        auth_pending: true
+      }, async() =>{
+        if (!this.state.access_token) {
+          console.log(UUID, 'authenticated-app - componentDidMount -> getAuth');
+          return this.getAuth();
+        } else {
+          console.log(UUID, 'authenticated-app - componentDidMount -> getUsers');
+          return this.getUsers(this.state.access_token)
+            .catch(e => {
+              console.log(UUID, 'authenticated-app - componentDidMount -> getUsers: error');
+              console.error(e);
+              return this.getAuth(e);
+            });
+        }
+      });
+    }
+
+  }
+
+  async getAuth(event) {
+    if (event) {
+      console.log(UUID, 'getAuth: event', event);
+      console.error(event);
     }
 
     this.twitchApi.resetLocalStorageItems();
@@ -82,24 +184,27 @@ class AuthenticatedApp extends Component {
 
     const queryParams = queryString.parse(this.props.router.location.search);
 
-    return await this.twitchApi.requestAuthentication({code: queryParams.code})
+    return await this.twitchApi.requestAuthentication(queryParams.code)
       .then((oauth) => {
-
+        console.log(UUID, 'getAuth: error');
         if (oauth.status >= 300 && oauth.message) {
           localStorage.setItem('__error_msg', oauth.message);
         }
         //console.log(oauth);  access_token, refresh_token, expires_in, scope ['...']
         if (this._isMounted) {
-          if (!oauth.access_token) {
+          if (!oauth.access_token && !this.twitchApi.accessToken) {
+            console.log(UUID, 'getAuth: no access token');
             return this.setState({
               failed_login: true
             });
           }
+          console.log(UUID, 'getAuth -> onAuthenticated');
           return this.onAuthenticated(oauth);
         }
         return;
       })
       .catch(e => {
+        console.log(UUID, 'getAuth: error: no access token');
         console.error(e, 'failed_login');
         if (this._isMounted) {
           return this.setState({
@@ -112,13 +217,15 @@ class AuthenticatedApp extends Component {
 
   async getUserInfo(username) {
     const userInfo = await this.twitchApi.requestUserInfo({login: username});
-    console.log({userInfo: JSON.stringify(userInfo)});
+    console.log(UUID, {userInfo: JSON.stringify(userInfo)});
   }
 
   async getUsers(access_token) {
+    console.log(UUID, 'getUsers');
     const userInfo = await this.twitchApi.requestUsers(access_token);
-    console.log({userInfo: JSON.stringify(userInfo)}); // login [aka lowercase username?], display_name, profile_image_url, description
+    console.log(UUID, {users: JSON.stringify(userInfo)}); // login [aka lowercase username?], display_name, profile_image_url, description
 
+    console.log(UUID, 'getUsers -> requestModerators');
     const modInfo = await this.twitchApi.requestModerators(userInfo.data[0].id);
     const modList = (!modInfo.data)
       ? null
@@ -127,7 +234,9 @@ class AuthenticatedApp extends Component {
           ? null
           : modObj.user_name.toLowerCase()
       ).filter(user => user);
+
     if (this._isMounted) {
+      console.log(UUID, 'getUsers -> promisedSetState');
       return this.promisedSetState({
         username: userInfo.data[0].login,
         user_id: userInfo.data[0].id,
@@ -139,14 +248,21 @@ class AuthenticatedApp extends Component {
   }
 
   async logOut() {
+    console.log(UUID, 'logOut');
     this.twitchApi.resetLocalStorageItems();
 
     try {
       await this.twitchApi.logOut();
       localStorage.removeItem('__error_msg');
       // return redirect('/login');
-      return window.location.reload();
+      // console.log(UUID, 'logOut: reload');
+      // return window.location.reload();
+      console.log(UUID, 'logOut: setState - has_logged_out');
+      return this.setState({
+        has_logged_out: true
+      });
     } catch {
+      console.log(UUID, 'logOut: error');
       return (<Navigate to="/login" />);
     }
   }
@@ -157,27 +273,28 @@ class AuthenticatedApp extends Component {
      * @param {object} oauth The api response object (access_token, refresh_token, expires_in, scope)
      * @returns Promise (via getUsers)
      */
-  onAuthenticated(oauth) {
+  onAuthenticated(/* oauth */) {
+    console.log(UUID, 'onAuthenticated');
     window.location.assign('#');
 
-    this.setState({
-      access_token: oauth.access_token,
-      expires_in: oauth.expires_in,
-      expiry_time: this.twitchApi.expiry_time,
-      refresh_token: oauth.refresh_token
-    });
-
+    // this.setState({
+    //   access_token: oauth.access_token,
+    //   expires_in: oauth.expires_in,
+    //   expiry_time: this.twitchApi.expiry_time,
+    //   refresh_token: oauth.refresh_token
+    // });
     return this.getUsers();
   }
 
   promisedSetState = (newState) => new Promise(resolve => this.setState(newState, resolve));
 
   async refreshToken() {
-    console.log('refreshToken');
-    let token = this.state.refresh_token;
-    return await this.twitchApi.requestRefreshToken(token)
+    console.log(UUID, 'refreshToken');
+    // let token = this.state.refresh_token ?? this.twitchApi.refreshToken;
+    return await this.twitchApi.requestRefreshToken()
       .then(this.onAuthenticated)
       .catch(e => {
+        console.log(UUID, 'refreshToken: error');
         console.error(e);
         return this.logOut();
       });
@@ -195,7 +312,8 @@ class AuthenticatedApp extends Component {
   };
 
   render() {
-    if (this.state.failed_login /*|| this.state.has_logged_out === true*/) {
+    if (this._isMounted && this.state.failed_login === true || this.state.has_logged_out === true) {
+      console.log(UUID, 'render: navigate to login');
       return (<Navigate to="/login"/>);
     }
 
@@ -212,7 +330,7 @@ class AuthenticatedApp extends Component {
     );
 
     let classNames = ['authenticated-app', 'container', 'text-center'];
-    if (this.state.username && this.state.modList) {
+    if (this.state.username) {
       let img;
       if (this.state.profile_image_url) {
         img = (
@@ -232,7 +350,7 @@ class AuthenticatedApp extends Component {
             <div>profile_image_url: {img}</div>
             <div>channel: {this.state.username} | {this.twitchApi.username}</div>
             <div>id: {this.state.user_id} | {this.twitchApi.userId}</div>
-            <div>access_token: {this.state.access_token} | {this.twitchApi.accessToken}</div>
+            <div>access_token: {this.twitchApi.accessToken}</div>
             <div>modList: {this.state.modList}</div>
           </div>
           <div className="text-center">

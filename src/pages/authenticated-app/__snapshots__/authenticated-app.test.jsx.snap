@@ -40,8 +40,6 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
       </div>
       <div>
         access_token: 
-        yadayadayada
-         | 
       </div>
       <div>
         modList: 
