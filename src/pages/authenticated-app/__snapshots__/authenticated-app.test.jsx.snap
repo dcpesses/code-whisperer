@@ -65,6 +65,12 @@ exports[`AuthenticatedApp > render > should render with Navigate on failed login
 />
 `;
 
+exports[`AuthenticatedApp > render > should render with Navigate on has_logged_out state 1`] = `
+<Navigate
+  to="/login"
+/>
+`;
+
 exports[`AuthenticatedApp > render > should render with null 1`] = `
 <div
   id="authenticated-app container text-center"
