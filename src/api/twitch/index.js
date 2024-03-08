@@ -183,7 +183,6 @@ export default class TwitchApi {
       }
     });
     const responseJson = await response.json();
-    this.setAuthentication(responseJson);
     return responseJson;
   }
 
@@ -194,16 +193,21 @@ export default class TwitchApi {
    * @returns Promise (via requestUsers)
    */
   setAuthentication(oauth) {
+    if (oauth.status) {
+      // error occurred
+      this.resetLocalStorageItems();
+      return;
+    }
     let expiry_time = Date.now() + oauth.expires_in;
     localStorage.setItem('__access_token', oauth.access_token);
     localStorage.setItem('__expires_in', oauth.expires_in);
     localStorage.setItem('__expiry_time', expiry_time);
     localStorage.setItem('__refresh_token', oauth.refresh_token);
 
-    this.access_token = oauth.access_token;
-    this.refresh_token = oauth.refresh_token;
-    this.expires_in = oauth.expires_in;
-    this.expiry_time = oauth.expiry_time;
+    this.accessToken = oauth.access_token;
+    this.refreshToken = oauth.refresh_token;
+    this._expires_in = oauth.expires_in;
+    this._expiry_time = oauth.expiry_time;
   }
 
   async validateToken(token) {
@@ -218,7 +222,6 @@ export default class TwitchApi {
         }
       });
       const responseJson = await response.json();
-      this.setAuthentication(responseJson);
       if (responseJson.status === 401) {
         console.log('calling this.requestRefreshToken();...');
         return this.requestRefreshToken();
