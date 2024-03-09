@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import React, {Component} from 'react';
 import LoadingRipple from '@/components/LoadingRipple';
+import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
 import TwitchApi from '@/api/twitch';
 import {withRouter} from '@/utils';
@@ -181,33 +182,41 @@ class AuthenticatedApp extends Component {
 
     let classNames = ['authenticated-app', 'container', 'text-center'];
     if (this.state.username) {
-      let img;
-      if (this.state.profile_image_url) {
-        img = (
-          <img src={this.state.profile_image_url} className="rounded-circle" alt={this.state.username} style={{maxHeight: 'calc(20px + 2vmin)'}} />
-        );
-      }
+      // let img;
+      // if (this.state.profile_image_url) {
+      //   img = (
+      //     <img src={this.state.profile_image_url} className="rounded-circle" alt={this.state.username} style={{maxHeight: 'calc(20px + 2vmin)'}} />
+      //   );
+      // }
+      // mainContent = (
+      //   <div className="col full-pg">
+      //     <h2 className="text-center">Authenticated!</h2>
+      //     <div>
+      //       <input type="text" value={this.state.username} onChange={this.handleUsernameInputChange} placeholder="Enter a Streamer" />
+      //       <button onClick={this.handleUsername}>
+      //         Load
+      //       </button>
+      //     </div>
+      //     <div>
+      //       <div>profile_image_url: {img}</div>
+      //       <div>channel: {this.state.username} | {/*this.twitchApi.username*/}</div>
+      //       <div>id: {this.state.user_id} | {/*this.twitchApi.userId*/}</div>
+      //       <div>access_token: {this.twitchApi.accessToken}</div>
+      //       <div>modList: {this.state.modList}</div>
+      //     </div>
+      //     <div className="text-center">
+      //       <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
+      //     </div>
+      //   </div>
+      // );
       mainContent = (
-        <div className="col full-pg">
-          <h2 className="text-center">Authenticated!</h2>
-          <div>
-            <input type="text" value={this.state.username} onChange={this.handleUsernameInputChange} placeholder="Enter a Streamer" />
-            <button onClick={this.handleUsername}>
-              Load
-            </button>
-          </div>
-          <div>
-            <div>profile_image_url: {img}</div>
-            <div>channel: {this.state.username} | {/*this.twitchApi.username*/}</div>
-            <div>id: {this.state.user_id} | {/*this.twitchApi.userId*/}</div>
-            <div>access_token: {this.twitchApi.accessToken}</div>
-            <div>modList: {this.state.modList}</div>
-          </div>
-          <div className="text-center">
-            <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
-          </div>
-        </div>
-
+        <MainScreen
+          accessToken={this.state.accessToken}
+          onLogOut={this.onLogOut}
+          profile_image_url={this.state.profile_image_url}
+          user_id={this.state.user_id}
+          username={this.state.username}
+        />
       );
     }
 
