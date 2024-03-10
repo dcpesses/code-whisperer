@@ -2,14 +2,12 @@
 /* eslint-env jest */
 import {AuthenticatedApp} from '@/pages/authenticated-app';
 import {createRenderer} from 'react-test-renderer/shallow';
-import fetch from 'node-fetch';
 // import MainScreen from '../landing/MainScreen';
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {vi} from 'vitest';
 
 // vi.mock('../landing/MainScreen');
-vi.mock('node-fetch');
 vi.mock('react-router-dom', () => {
   const reactRouterDom = vi.importActual('react-router-dom');
   return {
@@ -32,13 +30,6 @@ describe('AuthenticatedApp', () => {
         hash: ''
       }
     },
-    router: {
-      location: {
-        pathname: '/',
-        search: '?code=foobar&scope=chat:read chat:edit moderation:read whispers:edit',
-        hash: ''
-      },
-    },
     match: {
       path: '/',
       url: '/',
@@ -48,228 +39,101 @@ describe('AuthenticatedApp', () => {
   };
 
   describe('componentDidMount', () => {
-    test('should call getAuth when no access_token set in state', () => {
+    test('should call onDelayedMount', () => {
       let component = new AuthenticatedApp();
-      vi.spyOn(component, 'getAuth').mockResolvedValue(null);
+      vi.spyOn(component, 'onDelayedMount').mockResolvedValue(null);
 
       component.componentDidMount();
-      expect(component.getAuth).toHaveBeenCalledTimes(1);
+      expect(component.onDelayedMount).toHaveBeenCalledTimes(1);
     });
-    test('should call getUsers when access_token found in state', () => {
+  });
+
+  describe('onDelayedMount', () => {
+    test('should reuse existing access token from localStorage if available', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('MOCK TOKEN');
       let component = new AuthenticatedApp();
-      vi.spyOn(component, 'getUsers').mockResolvedValue(null);
-      component.state.access_token = 'vroom-vroom-lewmon-crew';
-
-      component.componentDidMount();
-
-      expect(component.getUsers).toHaveBeenCalledTimes(1);
-    });
-    test('should call getAuth when an error is caught from getUsers', async() => {
-      let component = new AuthenticatedApp();
-      vi.spyOn(component, 'getAuth').mockResolvedValue(null);
-      vi.spyOn(component, 'getUsers').mockRejectedValue('error stub');
-      vi.spyOn(console, 'error').mockImplementation(() => {});
-      component.state.access_token = 'vroom-vroom-lewmon-crew';
-
-      await component.componentDidMount();
-
-      expect(component.getUsers).toHaveBeenCalledTimes(1);
-      expect(component.getAuth).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('getAuth', () => {
-    const props = {
-      router: {
-        location: {
-          search: 'code=54vabs9d2sd1f08pk4bjmwyjpx3iju&scope=chat%3Aread+chat%3Aedit+moderation%3Aread+whispers%3Aedit'
-        }},
-    };
-    test.skip('should call setState and getUsers', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
-      fetch.mockImplementation(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({
-            access_token: 'vroom-vroom-lewmon-crew'
-          }),
-        });
-      });
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'getUsers').mockResolvedValue(true);
-      vi.spyOn(component, 'setState').mockImplementation(() => {});
-      component._isMounted = true;
-      component.props = props;
-
-      await component.getAuth();
-
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledTimes(8);
-      expect(component.getUsers).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls).toMatchSnapshot();
-    });
-    test('should log events if passed and only call setState if no token returned', async() => {
-      vi.spyOn(console, 'error');
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
-      fetch.mockImplementation(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({}),
-        });
-      });
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'setState').mockImplementation(() => {});
-      component._isMounted = true;
-      component.props = props;
-
-      await component.getAuth('error stub');
-
-      expect(console.error).toHaveBeenCalledWith('error stub');
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledTimes(8);
-      expect(component.setState).toHaveBeenCalledWith({
-        failed_login: true
-      });
-    });
-    test('should catch any fetch errors and call setState', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
-      fetch.mockImplementation(() => {
-        return Promise.resolve({
-          json: () => Promise.reject({}),
-        });
-      });
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'setState').mockImplementation(() => {});
-      component._isMounted = true;
-      component.props = props;
-
-      await component.getAuth();
-
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledTimes(8);
-      expect(component.setState).toHaveBeenCalledWith({
-        failed_login: true
-      });
-    });
-
-    test('should not call setState if not mounted', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
-      fetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({}),
-        });
-      }).mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.reject({}),
-        });
-      });
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'setState').mockImplementation(() => {});
-      component.props = props;
-
-      await component.getAuth();
-      await component.getAuth();
-
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledTimes(16);
-      expect(component.setState).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('promisedSetState', () => {
-    const props = {
-      router: {
-        location: {
-          search: 'code=54vabs9d2sd1f08pk4bjmwyjpx3iju&scope=chat%3Aread+chat%3Aedit+moderation%3Aread+whispers%3Aedit'
-        }
-      },
-    };
-    test('should call setState with expected values', async() => {
-      let component = new AuthenticatedApp(props);
-
-      vi.spyOn(component, 'setState').mockImplementation(( obj, cb=()=>{} ) => cb());
-
-      await component.promisedSetState({ username: 'sirfarewell' });
-
-      expect(component.setState).toHaveBeenCalledWith(
-        { username: 'sirfarewell' },
-        expect.any(Function) // anonymous function
-      );
-
-    });
-  });
-
-  describe.skip('getUsers', () => {
-    const props = {
-      router: {
-        location: {
-          search: 'code=54vabs9d2sd1f08pk4bjmwyjpx3iju&scope=chat%3Aread+chat%3Aedit+moderation%3Aread+whispers%3Aedit'
-        }},
-    };
-    test('should call setState with broadcaster and list of mods', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
-      fetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        requestUsers: vi.fn().mockReturnValue(
+          {
             data: [{
-              id: '123456789',
-              login: 'sirfarewell'
-            }]
-          }),
-        });
-      }).mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({
-            data: [{
-              broadcaster_type: '',
-              created_at: '2019-11-18T00:47:34Z',
-              display_name: 'SirFarewell',
-              id: '123456789',
-              login: 'sirfarewell'
-            }, {
-              user_name: 'HerooftheSprites'
+              login: 'mockUsername',
+              id: 'mockUserId',
+              profile_image_url: 'mockProfileImageUrl'
             }],
-            pagination: {}
-          }),
-        });
-      });
+          }
+        )
+      };
 
+      await component.onDelayedMount();
+      expect(component.twitchApi.accessToken).toBe('MOCK TOKEN');
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
 
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'promisedSetState').mockResolvedValue();
-      component._isMounted = true;
-      component.props = props;
+    test('should initialize the Twitch API class and call onTwitchAuthInit when completed', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      let component = new AuthenticatedApp();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        _accessToken: null,
+        init: vi.fn().mockResolvedValue({auth: true, users: true})
+      };
 
-      await component.getUsers();
+      await component.onDelayedMount();
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+  });
 
+  describe('onTwitchAuthInit', () => {
+    test('should handle response with user info', () => {
+      let component = new AuthenticatedApp();
+      vi.spyOn(component, 'setState');
+      component.twitchApi = {
+        userInfo: {
+          data: [{
+            login: 'mockUsername',
+            id: 'mockUserId',
+            profile_image_url: 'mockProfileImageUrl'
+          }],
+        }
+      };
 
-      expect(window.localStorage.__proto__.setItem).toHaveBeenCalledTimes(2);
-      expect(component.promisedSetState).toHaveBeenCalledWith({
-        username: 'sirfarewell',
-        user_id: '123456789',
-        modList: ['heroofthesprites']
+      component.onTwitchAuthInit();
+      expect(component.setState).toHaveBeenCalledTimes(1);
+      expect(component.setState).toHaveBeenCalledWith({
+        username: 'mockUsername',
+        user_id: 'mockUserId',
+        profile_image_url: 'mockProfileImageUrl',
+        auth_pending: false,
+        failed_login: false,
       });
     });
-    test('should not call promisedSetState if not mounted', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
-      fetch.mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({
-            data: [{
-              id: '123456789',
-              login: 'sirfarewell'
-            }]
-          }),
-        });
-      }).mockImplementationOnce(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({}),
-        });
+
+    test('should handle response with no user info', () => {
+      let component = new AuthenticatedApp();
+      component.twitchApi._userInfo = {};
+      vi.spyOn(component, 'setState');
+
+      component.onTwitchAuthInit();
+
+      expect(component.setState).toHaveBeenCalledWith({
+        auth_pending: false,
+        failed_login: true,
       });
+    });
+  });
 
+  describe('onTwitchAuthError', () => {
+    test('should set state with failed login', () => {
+      let component = new AuthenticatedApp();
+      vi.spyOn(component, 'setState');
 
-      let component = new AuthenticatedApp(props);
-      vi.spyOn(component, 'promisedSetState').mockImplementation(() => {});
-      component.props = props;
-
-      await component.getUsers();
-
-      expect(window.localStorage.__proto__.setItem).toHaveBeenCalledTimes(2);
-      expect(component.promisedSetState).toHaveBeenCalledTimes(0);
+      component.onTwitchAuthError();
+      expect(component.setState).toHaveBeenCalledWith({
+        auth_pending: false,
+        failed_login: true,
+      });
     });
   });
 
@@ -284,18 +148,29 @@ describe('AuthenticatedApp', () => {
     afterAll(() => {
       window.location = location;
     });
-    test('should log out of api and reload window', async() => {
+    test('should log out of api and update has_logged_out state', async() => {
       vi.spyOn(window.localStorage.__proto__, 'removeItem');
-      fetch.mockImplementation(() => {
-        return Promise.resolve({
-          json: () => Promise.resolve({}),
-        });
-      });
       let component = new AuthenticatedApp();
+      vi.spyOn(component, 'setState');
+      component.twitchApi = {
+        logOut: vi.fn().mockResolvedValue({})
+      };
       await component.logOut();
 
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalledTimes(8);
-      // expect(window.location.reload).toHaveBeenCalled();
+      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalled();
+      expect(component.setState).toHaveBeenCalled();
+    });
+    test('should handle error and update has_logged_out state', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      let component = new AuthenticatedApp();
+      vi.spyOn(component, 'setState');
+      component.twitchApi = {
+        logOut: vi.fn().mockRejectedValue({})
+      };
+      await component.logOut();
+
+      expect(component.setState).toHaveBeenCalled();
+      expect(window.localStorage.__proto__.removeItem).not.toHaveBeenCalled();
     });
   });
 
@@ -319,9 +194,26 @@ describe('AuthenticatedApp', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
+      instance._isMounted = true;
       instance.setState({
         access_token: null,
         failed_login: true,
+        username: null
+      });
+      let component = shallowRenderer.getRenderOutput();
+      expect(component.type).toBe(Navigate);
+      expect(component).toMatchSnapshot();
+      shallowRenderer.unmount();
+    });
+    test('should render with Navigate on has_logged_out state', () => {
+      const shallowRenderer = createRenderer();
+      shallowRenderer.render(<AuthenticatedApp {...props} />);
+      let instance = shallowRenderer.getMountedInstance();
+      instance._isMounted = true;
+      instance.setState({
+        access_token: null,
+        failed_login: false,
+        has_logged_out: true,
         username: null
       });
       let component = shallowRenderer.getRenderOutput();

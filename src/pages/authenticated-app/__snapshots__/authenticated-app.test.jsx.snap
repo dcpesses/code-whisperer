@@ -4,64 +4,22 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 <div
   id="authenticated-app container text-center"
 >
-  <div
-    className="col full-pg"
-  >
-    <h2
-      className="text-center"
-    >
-      Authenticated!
-    </h2>
-    <div>
-      <input
-        onChange={[Function]}
-        placeholder="Enter a Streamer"
-        type="text"
-        value="sirgoosewell"
-      />
-      <button
-        onClick={[Function]}
-      >
-        Load
-      </button>
-    </div>
-    <div>
-      <div>
-        profile_image_url: 
-      </div>
-      <div>
-        channel: 
-        sirgoosewell
-         | 
-      </div>
-      <div>
-        id: 
-         | 
-      </div>
-      <div>
-        access_token: 
-        yadayadayada
-         | 
-      </div>
-      <div>
-        modList: 
-      </div>
-    </div>
-    <div
-      className="text-center"
-    >
-      <button
-        className="btn btn-primary"
-        onClick={[Function]}
-      >
-        Log Out
-      </button>
-    </div>
-  </div>
+  <MainScreen
+    accessToken=""
+    profile_image_url=""
+    user_id=""
+    username="sirgoosewell"
+  />
 </div>
 `;
 
 exports[`AuthenticatedApp > render > should render with Navigate on failed login 1`] = `
+<Navigate
+  to="/login"
+/>
+`;
+
+exports[`AuthenticatedApp > render > should render with Navigate on has_logged_out state 1`] = `
 <Navigate
   to="/login"
 />
