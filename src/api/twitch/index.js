@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 
-const noop = () => {};
+export const noop = () => {};
 export default class TwitchApi {
   constructor({
     clientId,
@@ -215,7 +215,7 @@ export default class TwitchApi {
     }
     const requestParams = new URLSearchParams(params);
     try {
-      const response = await fetch(`https://api.twitch.tv/helix/users?${requestParams}`, {
+      const response = await this.refetch(`https://api.twitch.tv/helix/users?${requestParams}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
@@ -233,7 +233,7 @@ export default class TwitchApi {
       this._accessToken = access_token;
     }
     try {
-      const response = await fetch('https://api.twitch.tv/helix/users', {
+      const response = await this.refetch('https://api.twitch.tv/helix/users', {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
@@ -373,5 +373,51 @@ export default class TwitchApi {
       }
       return;
     }
+  };
+
+  // equivalent to normal fetch but will retry once in case of network error
+  refetch = async(endpoint, config) => {
+
+    try {
+      let response = await fetch(endpoint, config);
+      // response = await this.handleApiInvalid(response);
+      return response;
+    } catch (error) {
+      window.console.log('TwitchApi.fetch', 'response NOT valid!');
+      window.console.warn(error);
+      try {
+        const prevToken = this._accessToken || localStorage.getItem('__accessToken');
+        const validateTokenResponse = await this.validateToken();
+        window.console.log('TwitchApi.fetch', 'validate token: ok', validateTokenResponse);
+        // replace token if it exist in Authorization header
+        let nextConfig = config;
+        if (config?.headers?.Authorization) {
+          let headerAuth = config.headers.Authorization;
+          headerAuth = headerAuth.replace(prevToken, validateTokenResponse.access_token);
+          nextConfig.headers.Authorization = headerAuth;
+        }
+        let response = await fetch(endpoint, nextConfig);
+        // response = await this.handleApiInvalid(response);
+        window.console.log('TwitchApi.fetch', 'on retry: response valid!');
+        return response;
+      } catch (err) {
+        window.console.log('TwitchApi.fetch', 'validate session: error');
+        window.console.warn(error);
+        window.console.warn('*** NEEDS REAUTH ***');
+        throw error;
+      }
+    }
+  };
+
+  // throw an error for invalid response
+  // not yet tested
+  handleApiInvalid = (response) => {
+    if (response.status >= 300) {
+      if (response.status >= 500) {
+        return window.console.error('TwitchApi:', 'Please check Twitch status page: https://status.twitch.com/');
+      }
+      throw response;
+    }
+    return response;
   };
 }
