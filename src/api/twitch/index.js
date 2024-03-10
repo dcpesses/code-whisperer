@@ -172,12 +172,7 @@ export default class TwitchApi {
         }
       });
       const responseJson = await response.json();
-      this._accessToken = responseJson.access_token;
-      this._refreshToken = responseJson.refresh_token;
-      this._expires_in = responseJson.expires_in;
-      this._authError = false;
       return this.setAuthentication(responseJson);
-      // return responseJson;
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - requestAuthentication: error', error);}
       return await Promise.resolve(error);
@@ -190,7 +185,7 @@ export default class TwitchApi {
    * @param {object} oauth The api response object (access_token, refresh_token, expires_in, scope)
    * @returns Promise (via requestUsers)
    */
-  setAuthentication(oauth) {
+  setAuthentication = (oauth) => {
     if (oauth.access_token) {
       this._accessToken = oauth.access_token;
       localStorage.setItem('__access_token', oauth.access_token);
@@ -206,8 +201,9 @@ export default class TwitchApi {
       this._refreshToken = oauth.refresh_token;
       localStorage.setItem('__refresh_token', oauth.refresh_token);
     }
+    this._authError = false;
     return oauth;
-  }
+  };
 
   requestUserInfo = async({id, login}) => {
     let params = {};
@@ -341,6 +337,7 @@ export default class TwitchApi {
         }
       });
       const responseJson = await response.json();
+      this.setAuthentication(responseJson);
       return responseJson;
     } catch (e) {
       this._authError = true;
