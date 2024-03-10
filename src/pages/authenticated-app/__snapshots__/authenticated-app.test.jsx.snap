@@ -6,8 +6,10 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 >
   <MainScreen
     accessToken=""
+    onLogOut={[Function]}
     profile_image_url=""
-    user_id=""
+    updateUsername={[Function]}
+    user_id={0}
     username="sirgoosewell"
   />
 </div>
