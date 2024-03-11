@@ -74,6 +74,17 @@ exports[`Header > Should render as expected 1`] = `
               role="button"
               tabindex="0"
             >
+              Switch Debug View
+            </a>
+            <hr
+              class="border-bottom my-2"
+            />
+            <a
+              class="nav-link"
+              href="#"
+              role="button"
+              tabindex="0"
+            >
               Logout
             </a>
           </div>

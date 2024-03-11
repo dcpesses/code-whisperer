@@ -6,6 +6,7 @@ import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
+import ImportedMainScreen from '@/components/twitch-wheel/ImportedMainScreen';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -22,10 +23,11 @@ class AuthenticatedApp extends Component {
       username: localStorage.getItem('__username') || '',
       user_id: localStorage.getItem('__user_id') || 0,
       profile_image_url: localStorage.getItem('__profile_image_url') || '',
-      access_token: localStorage.getItem('__access_token') || '',
+      accessToken: localStorage.getItem('__access_token') || '',
       auth_pending: false,
       failed_login: false,
-      has_logged_out: false
+      has_logged_out: false,
+      debugView: false,
     };
 
     this.twitchApi = TWITCH_API;
@@ -165,6 +167,12 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
+  toggleDebugView = () => {
+    this.setState((prevState) => ({
+      debugView: !prevState.debugView
+    }));
+  };
+
   render() {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       console.log('render: navigate to login');
@@ -184,18 +192,38 @@ class AuthenticatedApp extends Component {
     );
 
     let classNames = ['authenticated-app', 'container', 'text-center'];
+
     if (this.state.username) {
-      mainContent = (
-        <MainScreen
-          accessToken={this.state.accessToken}
-          onLogOut={this.logOut}
-          profile_image_url={this.state.profile_image_url}
-          user_id={this.state.user_id}
-          username={this.state.username}
-          updateUsername={this.updateUsername}
-        />
-      );
+      if (this.state.debugView) {
+        mainContent = (
+          <ImportedMainScreen
+            access_token={this.TwitchApi?.accessToken}
+            modList={this.state.modList}
+            onLogOut={this.logOut}
+            profile_image_url={this.state.profile_image_url}
+            toggleDebugView={this.toggleDebugView}
+            TwitchApi={this.TwitchApi}
+            user_id={this.state.user_id}
+            username={this.state.username}
+            updateUsername={this.updateUsername}
+          />
+        );
+      } else {
+        mainContent = (
+          <MainScreen
+            accessToken={this.TwitchApi?.accessToken}
+            onLogOut={this.logOut}
+            toggleDebugView={this.toggleDebugView}
+            profile_image_url={this.state.profile_image_url}
+            user_id={this.state.user_id}
+            username={this.state.username}
+            updateUsername={this.updateUsername}
+          />
+        );
+      }
+
     }
+
 
     return (
       <div id={classNames.join(' ')}>
