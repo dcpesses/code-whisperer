@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TestUserForm > Should render as expected 1`] = `
+<div>
+  <div
+    class="p-3 my-3 text-white bg-secondary-subtle rounded shadow-sm libre-franklin-font"
+  >
+    <div
+      class="text-center input-group"
+    >
+      <input
+        aria-describedby="btn-load-user-info"
+        class="form-control libre-franklin-font"
+        placeholder="Enter a Streamer"
+        type="text"
+        value=""
+      />
+      <button
+        class="btn btn-primary libre-franklin-font"
+        id="btn-load-user-info"
+        type="button"
+      >
+        Load User Info
+      </button>
+    </div>
+    <div
+      class="pt-2"
+    >
+      <button
+        class="btn btn-primary"
+      >
+        Log Out
+      </button>
+    </div>
+  </div>
+</div>
+`;

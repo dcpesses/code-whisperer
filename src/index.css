@@ -8,3 +8,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.libre-franklin-font {
+  font-family: "Libre Franklin", sans-serif!important;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.raleway-font {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.saira-condensed {
+  font-family: "Saira Condensed", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+}

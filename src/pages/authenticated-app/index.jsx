@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-console */
 import React, {Component} from 'react';
-import LoadingRipple from '@/components/LoadingRipple';
+import LoadingRipple from '@/components/loading-ripple';
 import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
 import TwitchApi from '@/api/twitch';
-import {withRouter} from '@/utils';
+import {withRouter, Debounce} from '@/utils';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -19,10 +19,10 @@ class AuthenticatedApp extends Component {
   constructor() {
     super();
     this.state = {
-      username: localStorage.getItem('__username'),
-      user_id: localStorage.getItem('__user_id'),
-      profile_image_url: localStorage.getItem('__profile_image_url'),
-      access_token: localStorage.getItem('__access_token'),
+      username: localStorage.getItem('__username') || '',
+      user_id: localStorage.getItem('__user_id') || 0,
+      profile_image_url: localStorage.getItem('__profile_image_url') || '',
+      access_token: localStorage.getItem('__access_token') || '',
       auth_pending: false,
       failed_login: false,
       has_logged_out: false
@@ -32,15 +32,14 @@ class AuthenticatedApp extends Component {
     // this.twitchApi.onInit = this.onTwitchAuthInit.bind(this);
     // this.twitchApi.authError = this.onTwitchAuthError.bind(this);
 
-    this.handleUsernameInputChange = this.handleUsernameInputChange.bind(this);
-    this.handleUsername = this.handleUsername.bind(this);
-
     this.hasAlreadyInit = false;
     this._isMounted = false;
 
     this.twitchAuthReady = false;
 
     this.componentDidMountDelayInt = 0;
+
+    this.onDelayedMount = Debounce(this.onMount.bind(this), 50);
   }
 
   componentDidMount() {
@@ -55,7 +54,9 @@ class AuthenticatedApp extends Component {
     console.log('authenticated-app - componentWillUnmount');
   }
 
-  onDelayedMount = async() => {
+  promisedSetState = (newState) => new Promise(resolve => this.setState(newState, resolve));
+
+  onMount = async() => {
     if (this._isMounted !== true) {
       console.log('authenticated-app - onDelayedMount: not mounted');
     }
@@ -141,9 +142,6 @@ class AuthenticatedApp extends Component {
     }
   };
 
-
-  handleUsernameInputChange = (e) => this.setState({username: e.target.value});
-
   handleUsername = async() => {
     try {
       await this.twitchApi.validateToken();
@@ -152,6 +150,7 @@ class AuthenticatedApp extends Component {
       const userInfo = await this.twitchApi.requestUserInfo({login});
       console.log({userInfo: JSON.stringify(userInfo)});
       this.setState({
+        userInfo,
         username: userInfo.data[0].login,
         user_id: userInfo.data[0].id,
         profile_image_url: userInfo.data[0].profile_image_url,
@@ -162,10 +161,14 @@ class AuthenticatedApp extends Component {
     }
   };
 
+  updateUsername = (username) => {
+    this.setState({username}, this.handleUsername);
+  };
+
   render() {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       console.log('render: navigate to login');
-      return (<Navigate to="/login"/>);
+      return (<Navigate to="/login" />);
     }
 
     let mainContent = (
@@ -182,40 +185,14 @@ class AuthenticatedApp extends Component {
 
     let classNames = ['authenticated-app', 'container', 'text-center'];
     if (this.state.username) {
-      // let img;
-      // if (this.state.profile_image_url) {
-      //   img = (
-      //     <img src={this.state.profile_image_url} className="rounded-circle" alt={this.state.username} style={{maxHeight: 'calc(20px + 2vmin)'}} />
-      //   );
-      // }
-      // mainContent = (
-      //   <div className="col full-pg">
-      //     <h2 className="text-center">Authenticated!</h2>
-      //     <div>
-      //       <input type="text" value={this.state.username} onChange={this.handleUsernameInputChange} placeholder="Enter a Streamer" />
-      //       <button onClick={this.handleUsername}>
-      //         Load
-      //       </button>
-      //     </div>
-      //     <div>
-      //       <div>profile_image_url: {img}</div>
-      //       <div>channel: {this.state.username} | {/*this.twitchApi.username*/}</div>
-      //       <div>id: {this.state.user_id} | {/*this.twitchApi.userId*/}</div>
-      //       <div>access_token: {this.twitchApi.accessToken}</div>
-      //       <div>modList: {this.state.modList}</div>
-      //     </div>
-      //     <div className="text-center">
-      //       <button onClick={this.logOut} className="btn btn-primary">Log Out</button>
-      //     </div>
-      //   </div>
-      // );
       mainContent = (
         <MainScreen
           accessToken={this.state.accessToken}
-          onLogOut={this.onLogOut}
+          onLogOut={this.logOut}
           profile_image_url={this.state.profile_image_url}
           user_id={this.state.user_id}
           username={this.state.username}
+          updateUsername={this.updateUsername}
         />
       );
     }

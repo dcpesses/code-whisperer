@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Header > Should render as expected 1`] = `
+<div>
+  <div
+    class="text-center"
+  >
+    <input
+      placeholder="Enter a Streamer"
+      type="text"
+      value=""
+    />
+    <button>
+      Load
+    </button>
+    <div
+      class="pt-2"
+    >
+      <button
+        class="btn btn-primary"
+      >
+        Log Out
+      </button>
+    </div>
+  </div>
+</div>
+`;

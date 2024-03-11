@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GameQueue > Should render as expected 1`] = `
+<div>
+  <div
+    class="px-2 py-3 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div>
+        <strong
+          class="text-body-emphasis fs-4 saira-condensed fw-bold"
+        />
+        <span
+          class="text-info-emphasis d-block smaller fw-semibold"
+        >
+          9 mins ago
+        </span>
+      </div>
+      <button
+        class="btn btn-secondary btn-sm fw-semibold"
+      >
+        Add to Playing
+      </button>
+    </div>
+  </div>
+</div>
+`;
