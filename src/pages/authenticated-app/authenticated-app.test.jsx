@@ -48,7 +48,7 @@ describe('AuthenticatedApp', () => {
     });
   });
 
-  describe('onDelayedMount', () => {
+  describe('onMount', () => {
     test('should reuse existing access token from localStorage if available', async() => {
       vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('MOCK TOKEN');
       let component = new AuthenticatedApp();
@@ -66,7 +66,7 @@ describe('AuthenticatedApp', () => {
         )
       };
 
-      await component.onDelayedMount();
+      await component.onMount();
       expect(component.twitchApi.accessToken).toBe('MOCK TOKEN');
       expect(component.onTwitchAuthInit).toHaveBeenCalled();
     });
@@ -80,7 +80,7 @@ describe('AuthenticatedApp', () => {
         init: vi.fn().mockResolvedValue({auth: true, users: true})
       };
 
-      await component.onDelayedMount();
+      await component.onMount();
       expect(component.onTwitchAuthInit).toHaveBeenCalled();
     });
   });

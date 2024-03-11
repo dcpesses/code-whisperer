@@ -5,7 +5,7 @@ import LoadingRipple from '@/components/loading-ripple';
 import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
 import TwitchApi from '@/api/twitch';
-import {withRouter} from '@/utils';
+import {withRouter, Debounce} from '@/utils';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -38,6 +38,8 @@ class AuthenticatedApp extends Component {
     this.twitchAuthReady = false;
 
     this.componentDidMountDelayInt = 0;
+
+    this.onDelayedMount = Debounce(this.onMount.bind(this), 50);
   }
 
   componentDidMount() {
@@ -52,7 +54,9 @@ class AuthenticatedApp extends Component {
     console.log('authenticated-app - componentWillUnmount');
   }
 
-  onDelayedMount = async() => {
+  promisedSetState = (newState) => new Promise(resolve => this.setState(newState, resolve));
+
+  onMount = async() => {
     if (this._isMounted !== true) {
       console.log('authenticated-app - onDelayedMount: not mounted');
     }
