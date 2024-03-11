@@ -11,127 +11,21 @@ code {
 
 
 
-.bebas-neue-regular {
-  font-family: "Bebas Neue", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .libre-franklin-font {
   font-family: "Libre Franklin", sans-serif!important;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
 }
-.teko-font {
-  font-family: "Teko", sans-serif;
+
+.raleway-font {
+  font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.saira-condensed {
+  font-family: "Saira Condensed", sans-serif;
+  font-style: normal;
   font-weight: 700;
-  font-style: normal;
-}
-
-/*			// <uniquifier>: Use a uniquifier for the class name*/
-
-.inter-font {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings:
-    "slnt" 0;
-}
-
-/*			// <uniquifier>: Use a uniquifier for the class name*/
-
-.oswald-font {
-  font-family: "Oswald", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-/**/
-/* .encode-sans condensed-regular, */
-.encode-sans-condensed-regular {
-  font-family: "Encode Sans Condensed", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* .encode-sans condensed-medium, */
-.encode-sans-condensed-medium {
-  font-family: "Encode Sans Condensed", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-/* .encode-sans condensed-semibold, */
-.encode-sans-condensed-semibold {
-  font-family: "Encode Sans Condensed", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-/* .encode-sans condensed-bold, */
-.encode-sans-condensed-bold {
-  font-family: "Encode Sans Condensed", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-
-
-.saira-condensed-thin {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.saira-condensed-extralight {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.saira-condensed-light {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.saira-condensed-regular {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.saira-condensed-medium {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.saira-condensed-semibold {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.saira-condensed-bold {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.saira-condensed-extrabold {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.saira-condensed-black {
-  font-family: "Saira Condensed", sans-serif;
-  font-weight: 900;
-  font-style: normal;
 }

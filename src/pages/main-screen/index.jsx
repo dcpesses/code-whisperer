@@ -21,11 +21,12 @@ function MainScreen({accessToken, onLogOut, profile_image_url, user_id, username
         username={username}
       />
 
-      <div className="mx-auto col-md-6">
+      <div id="content" className="mx-auto col-11">
 
         <GameCodeForm />
 
-        <GameQueue />
+        <GameQueue label="play queue" />
+        <GameQueue label="interested" />
 
         <TestUserForm
           user={{username}}

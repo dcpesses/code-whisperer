@@ -3,18 +3,17 @@
 exports[`Header > Should render as expected 1`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 inter-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
       class="container-fluid"
     >
-      <a
-        class="navbar-brand"
-        href="#"
+      <span
+        class="fw-semibold navbar-brand"
       >
          
-      </a>
+      </span>
       <button
         aria-controls="offcanvasNavbar-expand-"
         aria-label="Toggle navigation"
@@ -27,14 +26,14 @@ exports[`Header > Should render as expected 1`] = `
       </button>
       <div
         aria-labelledby="offcanvasNavbarLabel-expand-"
-        class="offcanvas offcanvas-end"
+        class="raleway-font offcanvas offcanvas-end"
         id="offcanvasNavbar-expand-"
       >
         <div
           class="offcanvas-header"
         >
           <div
-            class="offcanvas-title h5"
+            class="fw-bold offcanvas-title h5"
             id="offcanvasNavbarLabel-expand-"
           >
             Settings
@@ -46,7 +45,7 @@ exports[`Header > Should render as expected 1`] = `
           />
         </div>
         <div
-          class="offcanvas-body"
+          class="fw-medium offcanvas-body"
         >
           <div
             class="justify-content-end flex-grow-1 pe-3 navbar-nav"
