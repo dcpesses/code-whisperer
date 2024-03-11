@@ -8,7 +8,7 @@ import ChatActivity, { ActivityStatus } from '../ChatActivity';
 // import ConfettiExplosion from 'react-confetti-explosion';
 // import GameRequest from '../GameRequest';
 import MessageHandler from '../MessageHandler';
-// import OptionsMenu from '../OptionsMenu';
+import OptionsMenu from '../OptionsMenu';
 import PlayerSelect from '../PlayerSelect';
 // import Sidebar from '../Sidebar';
 // import WheelComponent from '../WheelComponent'; //'react-wheel-of-prizes'
@@ -23,7 +23,7 @@ export default class ImportedMainScreen extends Component {
   constructor(props) {
     super(props);
     this.chatActivity = new ChatActivity(this.props.channel);
-    let settings = {};
+    let settings = {enableRoomCode: true};
     let isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
     try {
       let savedSettings = localStorage.getItem('__settings');
@@ -265,8 +265,20 @@ export default class ImportedMainScreen extends Component {
 
   getOptionsMenu = () => {
     return [{
-      label: 'Reload Game List',
-      onClick: this.messageHandler?.reloadGameList
+    //   label: 'Reload Game List',
+    //   onClick: this.messageHandler?.reloadGameList
+    // }, {
+      label: 'Load Mock Game & Player Requests',
+      onClick: () => {
+        return this.setState(
+          Object.assign({}, fakeStates.ImportedMainScreen, {
+            showPlayerSelect: true
+          }),
+          () => {
+            this.playerSelector?.setState(fakeStates.PlayerSelect);
+          }
+        );
+      }
     }];
   };
 
@@ -666,6 +678,8 @@ export default class ImportedMainScreen extends Component {
       );*/
     }
 
+    let gamesList = this.getGamesList();
+
     return (
       <div className="main-screen-wrapper">
         <nav className="main-screen-nav navbar-dark">
@@ -725,7 +739,7 @@ export default class ImportedMainScreen extends Component {
           </div>
           {rightColumn}
           {gameSelectedModal}
-          {/* <OptionsMenu
+          <OptionsMenu
             gamesList={gamesList}
             parentState={this.state}
             debugItems={this.getOptionsDebugMenu()}
@@ -735,7 +749,8 @@ export default class ImportedMainScreen extends Component {
             onLogout={this.props.onLogout}
             onSettingsUpdate={this.onSettingsUpdate}
             settings={this.state.settings}
-            showOptionsMenu={this.state.showOptionsMenu} /> */}
+            showOptionsMenu={this.state.showOptionsMenu}
+            toggleDebugView={this.props.toggleDebugView} />
         </div>
       </div>
     );

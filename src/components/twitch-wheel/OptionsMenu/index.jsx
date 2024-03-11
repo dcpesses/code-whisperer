@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Button, Collapse, Dropdown, Offcanvas} from 'react-bootstrap';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
-import {version} from '../../package.json';
+import {version} from '../../../../package.json';
 
 import './OptionsMenu.css';
 
@@ -274,6 +274,11 @@ export default class OptionsMenu extends Component {
               </div>
             </Collapse>
             {optionMenuItems}
+            <li className="mb-1 fs-4 d-grid text-start">
+              <Button variant="link" className="btn reload-game-list" onClick={this.props.toggleDebugView}>
+                Switch Debug View
+              </Button>
+            </li>
             <li className="mb-1 fs-4 d-grid text-start d-none">
               <Button variant="link" className="btn reload-game-list" onClick={this.props.reloadGameList}>
                 Refresh Game List
@@ -284,13 +289,6 @@ export default class OptionsMenu extends Component {
                 Game List
               </Button>
             </li>
-            {/* <Collapse in={this.state.showGameList}>
-              <div>
-                <OptionsGameList
-                  allowedGames={this.props.gamesList?.allowedGames}
-                  validGames={this.props.gamesList?.validGames} />
-              </div>
-            </Collapse> */}
           </ul>
 
           <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">

@@ -26,7 +26,8 @@ class AuthenticatedApp extends Component {
       accessToken: localStorage.getItem('__access_token') || '',
       auth_pending: false,
       failed_login: false,
-      has_logged_out: false
+      has_logged_out: false,
+      debugView: false,
     };
 
     this.twitchApi = TWITCH_API;
@@ -166,6 +167,12 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
+  toggleDebugView = () => {
+    this.setState((prevState) => ({
+      debugView: !prevState.debugView
+    }));
+  };
+
   render() {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       console.log('render: navigate to login');
@@ -187,14 +194,14 @@ class AuthenticatedApp extends Component {
     let classNames = ['authenticated-app', 'container', 'text-center'];
 
     if (this.state.username) {
-
-      if (window.location.hash.indexOf('fakestate=true') !== -1) {
+      if (this.state.debugView) {
         mainContent = (
           <ImportedMainScreen
             access_token={this.TwitchApi?.accessToken}
             modList={this.state.modList}
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}
+            toggleDebugView={this.toggleDebugView}
             TwitchApi={this.TwitchApi}
             user_id={this.state.user_id}
             username={this.state.username}
@@ -206,6 +213,7 @@ class AuthenticatedApp extends Component {
           <MainScreen
             accessToken={this.TwitchApi?.accessToken}
             onLogOut={this.logOut}
+            toggleDebugView={this.toggleDebugView}
             profile_image_url={this.state.profile_image_url}
             user_id={this.state.user_id}
             username={this.state.username}

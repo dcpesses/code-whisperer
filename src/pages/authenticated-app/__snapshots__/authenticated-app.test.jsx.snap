@@ -8,6 +8,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
     accessToken=""
     onLogOut={[Function]}
     profile_image_url=""
+    toggleDebugView={[Function]}
     updateUsername={[Function]}
     user_id={0}
     username="sirgoosewell"
