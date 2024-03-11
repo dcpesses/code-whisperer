@@ -1,0 +1,168 @@
+#main-screen {
+    display: flex;
+}
+.main-screen-wrapper > nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#main-screen.game-select .left-column {
+    width: 45vw;
+}
+#main-screen.player-select .left-column {
+    width: 90vw;
+}
+
+#main-screen .left-column h1 {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+#main-screen .left-column h4 {
+    color: yellow;
+    font-size: 20px;
+    font-weight:  400;
+    margin-bottom: 12px;
+    margin-top: 6px;
+}
+#main-screen.player-select .subheading-game,
+#main-screen.game-select .subheading-player {
+    display: none;
+}
+
+.left-column .left-column-body {
+    display: flex;
+    align-items: flex-start;
+    /* height: 100vh; */ /* this adds a scrollbar to the entire page! */
+}
+.left-column .left-column-inner-body {
+    flex-grow: 2;
+    margin-left: 15px;
+}
+
+.game-select .left-column .left-column-inner-body {
+    overflow-y: auto;
+    max-height: calc(100vh - 150px);
+}
+
+#main-screen .right-column {
+    /* width: 50vw; */
+    text-transform: capitalize;
+}
+
+.wheel-wrapper {
+    font-size: 16px;
+    overflow: hidden;
+    width: 600px;
+    max-height: 100vh;
+}
+.wheel-wrapper canvas {
+    cursor: pointer;
+    /* avoid clicking in blank space around wheel */
+    clip-path: circle(255px at 50% 40%);
+}
+
+.main-screen-wrapper .btn {
+    padding: 1px 6px;
+    color: #fff;
+}
+.App:not(.theme) .main-screen-wrapper .btn {
+    background-color: darkcyan;
+}
+
+.main-screen-wrapper .options {
+    left:  0;
+}
+
+.main-screen-wrapper .logout {
+    right:  0;
+}
+
+.main-screen-wrapper .btn.btn-toggle-options {
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    border: 2px solid #ddd;
+    opacity: 0.125;
+    margin: 5px;
+    transition: opacity 0.15s linear;
+}
+.main-screen-wrapper .btn.btn-toggle-options:hover {
+    opacity: 0.8;
+}
+.main-screen-wrapper .btn.btn-toggle-options:focus {
+    box-shadow: 0 0 0 0.05rem;
+}
+
+#main-screen .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+#main-screen .confetti-wrapper {
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    bottom: 50;
+}
+#main-screen .fade-in-out {
+    opacity: 0;
+    animation: 3.5s linear 0s main-modal-fade;
+    animation-fill-mode: forwards;
+}
+#main-screen .confetti-modal {
+    position: fixed;
+    backface-visibility: hidden;
+    background: rgba(0,0,0,0.5);
+    padding: 2vh 4vw;
+    color: #fff;
+}
+#main-screen .confetti-modal.modal-game-chosen {
+    top: 0;
+    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#main-screen .confetti-modal.modal-options {
+    height: 70vh;
+    margin: auto;
+    width: 70%;
+}
+@keyframes main-modal-fade {
+    0%,100% { opacity: 0 }
+    5%,95% { opacity: 1 }
+}
+
+#main-screen .confetti-modal .options-list {
+    overflow-y: auto;
+    height: 56vh;
+}
+#main-screen .confetti-modal .options-list ul {
+    font-size: 18px;
+    text-align: left;
+    text-rendering: optimizeLegibility;
+    list-style-type: none;
+}
+/* // ------ The checkbox */
+#main-screen .confetti-modal .options-list input[type="checkbox"] {
+    height: 18px;
+    width: 18px;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+    cursor: pointer;
+    appearance: none;
+}
+#main-screen .confetti-modal .options-list input[type="checkbox"]:checked {
+    background-color: #333;
+    border: 1px solid #fff;
+}
+#main-screen .confetti-modal .options-list input[type="checkbox"]:checked ~ label {
+    color:#888;
+}

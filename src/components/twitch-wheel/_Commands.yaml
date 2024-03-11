@@ -1,0 +1,188 @@
+
+###
+### Game Requests
+###
+
+request:
+  Example: '!request MSM'
+  Availability: 'Everyone'
+  Description: 'Adds the requested game to the wheel. (If you already had a different active game request, it will be replaced - unless you are the broadcaster.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!request'
+
+subrequest:
+  Example: '!subrequest MSM'
+  Availability: 'Subscribers'
+  Description: 'Adds the requested game to the wheel in a separate section when enabled in settings; this will not replace a previously request game using the !request command. (If you already had a different active game request, it will be not replaced unless Limit 1 Sub Request is enabled in streamer settings.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+nextgame:
+  Example: '!nextgame'
+  Availability: 'Everyone'
+  Description: 'Responds with a list of all upcoming games in the queue.'
+  OnScreenEquivalent: 'The very next game is shown in the "Up Next" box in the top left; all other upcoming games are shown in the History box in the bottom left.'
+  Variants: 'n/a'
+
+lastgame:
+  Example: '!lastgame'
+  Available to: 'Everyone'
+  Description: 'Responds with a list of the most recently played games.'
+  OnScreenEquivalent: 'Previously played games are shown in the History box in the bottom left.'
+  Variants: 'n/a'
+
+selectnextgame:
+  Example: '!selectnextgame'
+  Availability: 'Mods + broadcaster'
+  Description: 'Moves the queue position forward by one.'
+  OnScreenEquivalent: 'Click the right arrow key below the "Up Next" box in the top left of the screen.'
+  Variants: '!nextgamefwd, !nextgameforward, !advancenextgame'
+
+selectprevgame:
+  Example: '!selectprevgame'
+  Availability: 'Mods + broadcaster'
+  Description: 'Moves the queue position backwards by one.'
+  OnScreenEquivalent: 'Click the left arrow key below the "Up Next" box in the top left of the screen.'
+  Variants: '!nextgameback, !nextgamebackward, !advanceprevgame'
+
+redeemgame:
+  Example: '!redeemgame MSM'
+  Availability: 'Mods + broadcaster'
+  Description: 'Allows the specified game to "jump the queue", inserting it the queue as the next game to be played ahead of any other games that won the wheel spin. (If other games were previously inserted with this command, however, those will still have priority.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!setnextgame, !sng'
+
+addpack:
+  Example: '!addpack 9'
+  Availability: 'Mods + broadcaster'
+  Description: 'Adds all of the games from a specific Jackbox Party Pack to the game request queue. (This does not support any standalone games.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!pack'
+
+disablerequests:
+  Example: '!disablerequests'
+  Availability: 'Mods + broadcaster'
+  Description: 'Prevents game requests from being received and added to the wheel. Existing requests will remain unaffected.'
+  OnScreenEquivalent: 'Click the yellow subheader on the requests screen.'
+  Variants: 'n/a'
+
+enablerequests:
+  Example: '!enablerequests'
+  Availability: 'Mods + broadcaster'
+  Description: 'Allows for game requests to be received again after using the !disablerequests command.'
+  OnScreenEquivalent: 'Click the empty space on the requests screen previously occupied by the yellow subheader.'
+  Variants: 'n/a'
+
+listrequests:
+  Example: '!listrequests'
+  Availability: 'Everyone'
+  Description: 'Lists all of the requested games currently on the wheel.'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!gamesqueued, !onthewheel'
+
+removegame:
+  Example: '!removegame'
+  Availability: 'Mods + broadcaster'
+  Description: 'Removes the currently selected game from the game history.'
+  OnScreenEquivalent: 'Hover over the "Up Next" game and click the "X" to the right of the name.'
+  Variants: 'n/a'
+
+
+###
+### Seat Requests
+###
+
+new:
+  Example: '!new'
+  Availability: 'Everyone'
+  Description: 'Adds the requesting user to the "interested" column. (If the !caniplay command is used, a confirmation message will be sent in chat.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!caniplay'
+
+leave:
+  Example: '!leave'
+  Availability: 'Everyone'
+  Description: 'Removes the requesting user from the board.'
+  OnScreenEquivalent: 'Hover over the user name card and click the "X" button that appears on its far right side.'
+  Variants: '!murd'
+
+clear:
+  Example: '!clear'
+  Availability: 'Mods + broadcaster'
+  Description: 'Removes all users from the board.'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+open:
+  Example: '!open'
+  Availability: 'Mods + broadcaster'
+  Description: 'Switches to the seat selection screen. Compatible with the PlayWithViewers bot, for streamers who use that to send multiple room code whispers.'
+  OnScreenEquivalent: 'Click the "Open seat requests" button at the bottom of the "Up Next" box in the top left of the screen.'
+  Variants: 'n/a'
+
+clearopen:
+  Example: '!clearopen'
+  Availability: 'Mods + broadcaster'
+  Description: 'Switches to the seat selection screen and removes all users from the board. Compatible with the PlayWithViewers bot, for streamers who use that to send multiple room code whispers.'
+  OnScreenEquivalent: 'Click the "Open seat requests" button at the bottom of the "Up Next" box in the top left of the screen, and then removing all redeemed users.'
+  Variants: 'n/a'
+
+close:
+  Example: '!close'
+  Availability: 'Mods + broadcaster'
+  Description: '"Locks" the queue; allows the seat selection screen to remain open, but any further !caniplay and !new commands will be ignored. (The same queue may be repeatedly closed and reopened as desired.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+redeemseat:
+  Example: '!redeemseat @asukii314 (or !redeemseat asukii314)'
+  Availability: 'Mods + broadcaster'
+  Description: 'Adds the specified user to the top of the "playing" column on the board, with a star beside their name. (If the queue is closed, they will be added to the top of the "interested" column instead, for consideration.)'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!priorityseat, !adduser'
+
+removeuser:
+  Example: '!removeuser @dewinblack'
+  Availability: 'Mods + broadcaster'
+  Description: 'Removes the specified user from the "playing" column on the board.'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+startgame:
+  Example: '!startgame'
+  Availability: 'Mods + broadcaster'
+  Description: 'Closes the player select screen and moves the next game counter forward by one. (Does nothing if the player select screen was already closed.)'
+  OnScreenEquivalent: 'The "Start Game" button in the top right hand corner of the seat request screen.'
+  Variants: 'n/a'
+
+###
+### Other / misc
+###
+
+commands:
+  Example: '!commands'
+  Availability: 'Everyone'
+  Description: 'Responds with a list of all available chat commands.'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+gamelist:
+  Example: '!gamelist'
+  Availability: 'Everyone'
+  Description: 'Responds with a URL to a page displaying all requestable games, and the "short-forms" you can use to request them (e.g. "MSM" for Monster Seeking Monster).'
+  OnScreenEquivalent: 'n/a'
+  Variants: '!gameslist'
+
+whichpack:
+  Example: '!whichpack TMP 2'
+  Availability: 'Everyone'
+  Description: 'Looks up the specified game and responds with which party pack (if any) it is in.'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'
+
+wheelcommands:
+  Example: '!wheelcommands'
+  Availability: 'Everyone'
+  Description: 'Responds with a link to this documentation page.'
+  OnScreenEquivalent: 'n/a'
+  Variants: 'n/a'

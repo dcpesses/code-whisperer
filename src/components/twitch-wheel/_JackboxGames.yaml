@@ -1,0 +1,818 @@
+# Here's a list of all Jackbox games (as of December 2022)
+# along with some other popular standalone party games,
+# and all the different ways you can !request them.
+# (Any capitalization is fine.)
+#
+# If you tried to request a real Jackbox game in a different way
+# and the bot didn't recognize it, message @dcpesses or @asukii314 on
+# twitch to get that variant added!
+
+
+Any Version:
+  Quiplash:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - quiplash
+      - quip
+      - ql
+  Trivia Murder Party:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - tmp
+      - trivia murder party
+  Fibbage:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - fibbage
+  You Don't Know Jack:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - ydkj
+      - you dont know jack
+      - you don't know jack
+  Drawful:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - drawful
+      - drawfull
+      - draw full
+
+
+Party Pack 1:
+  You Don't Know Jack:
+    Min players: 1
+    Max players: 4
+    Variants:
+      - ydkj 1
+      - ydkj 2015
+      - you dont know jack 1
+      - you dont know jack 2015
+      - you don't know jack 1
+      - you don't know jack 2015
+      - "you don't know jack: 2015"
+  Drawful:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - drawful1
+      - drawful 1
+      - drawfull 1
+      - draw full 1
+  Word Spud:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - word spud
+      - wordspud
+  Lie Swatter:
+    Min players: 1
+    Max players: 100
+    Variants:
+      - lie swatter
+      - lieswatter
+  Fibbage:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - fibbage1
+      - fibbage 1
+      - fibbage xl
+
+
+Party Pack 2:
+  Quiplash 1:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - quiplash 1
+      - quiplash1
+      - quip 1
+      - quip1
+      - ql1
+      - ql 1
+      - quiplash xl
+      - ql xl
+      - qlxl
+  Fibbage 2:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - fibbage2
+      - fibbage 2
+  Bidiots:
+    Min players: 3
+    Max players: 6
+    Variants:
+      - bidiots
+  Bomb Corp:
+    Min players: 1
+    Max players: 4
+    Variants:
+      - bomb
+      - bomb corp
+      - bombcorp
+  Earwax:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - earwax
+      - ear wax
+
+
+Party Pack 3:
+  Fakin' It:
+    Min players: 3
+    Max players: 6
+    Variants:
+      - fakin
+      - fakin it
+      - fakin' it
+      - faking it
+      - fake it
+  Guesspionage:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - guesspionage
+  Tee K.O.:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - tko
+      - t ko
+      - tee ko
+      - tee k.o
+      - tee k.o.
+      - t.k.o.
+  Trivia Murder Party 1:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - tmp1
+      - tmp 1
+      - trivia murder party 1
+  Quiplash 2:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - quiplash 2
+      - quiplash2
+      - quip 2
+      - quip2
+      - ql2
+      - ql 2
+
+
+Party Pack 4:
+  "Fibbage 3: Enough About You":
+    Min players: 2
+    Max players: 8
+    Variants:
+      - 3eay
+      - 3 enough about you
+      - f3eay
+      - fibbage 3 eay
+      - "fibbage 3: eay"
+      - fibbage 3 enough about you
+      - "fibbage 3: enough about you"
+  Fibbage 3:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - fibbage 3
+      - fibbage3
+  Survive The Internet:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - survive
+      - survive the internet
+      - sti
+  Monster Seeking Monster:
+    Min players: 3
+    Max players: 7
+    Variants:
+      - msm
+      - monster seeking monster
+      - monster seeking monsters
+      - monsters seeking monsters
+  Bracketeering:
+    Min players: 3
+    Max players: 16
+    Variants:
+      - bracketeering
+      - bracketeer
+      - bracket
+  Civic Doodle:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - civic doodle
+      - civicdoodle
+      - civic
+
+
+Party Pack 5:
+  You Don't Know Jack:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - ydkj 2
+      - ydkj fs
+      - ydkjfs
+      - you dont know jack 2
+      - you don't know jack 2
+      - you don't know jack full stream
+      - you don't know jack full steam
+      - "you don't know jack: full stream"
+  Mad Verse City:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - mvc
+      - madverse
+      - mad verse
+      - madversecity
+      - mad verse city
+  Patently Stupid:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - patently stupid
+      - patentlystupid
+      - patently
+      - patent
+  Zeeple Dome:
+    Min players: 1
+    Max players: 6
+    Variants:
+      - zeeple
+      - zeeple dome
+      - zeepledome
+  Split the Room:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - split the room
+      - splittheroom
+      - split room
+      - room split
+      - split
+      - str
+
+
+Party Pack 6:
+  Trivia Murder Party 2:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - tmp2
+      - tmp 2
+      - trivia murder party 2
+  Push The Button:
+    Min players: 4
+    Max players: 10
+    Variants:
+      - ptb
+      - push the b
+      - push the button
+      - push da button
+  Dictionarium:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - dictionarium
+      - dictionary
+  Role Models:
+    Min players: 3
+    Max players: 6
+    Variants:
+      - role models
+      - roles models
+      - role model
+      - rolemodel
+      - rolemodels
+  Joke Boat:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - joke boat
+      - jokeboat
+
+
+Party Pack 7:
+  Quiplash 3:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - ql3
+      - ql 3
+      - quip 3
+      - quip3
+      - quiplash 3
+      - quiplash3
+  Champ'd Up:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - champd
+      - champed
+      - champd up
+      - champ'd
+      - champ'd up
+      - champed up
+  Blather 'Round:
+    Min players: 2
+    Max players: 6
+    Variants:
+      - blather
+      - blather round
+      - blather 'round
+      - blatherround
+      - blatheround
+  Talking Points:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - talking points
+      - talkingpoints
+      - talk points
+  The Devils and the Details:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - devils
+      - devils in details
+      - devils and details
+      - devils & details
+      - devil's in details
+      - devil's and details
+      - devil's & details
+      - devils in the details
+      - devils and the details
+      - devils & the details
+      - devil's in the details
+      - devil's and the details
+      - devil's & the details
+      - the devils in the details
+      - the devils and the details
+      - the devils & the details
+      - the devil's in the details
+      - the devil's and the details
+      - the devil's & the details
+
+Party Pack 8:
+  Job Job:
+    Min players: 3
+    Max players: 10
+    Variants:
+      - job job
+      - jobjob
+      - job
+      - jj
+  The Poll Mine:
+    Min players: 2
+    Max players: 10
+    Variants:
+      - the poll mine
+      - the pole mine
+      - poll mine
+      - pole mine
+      - pollmine
+      - pm
+  "Drawful: Animate":
+    Min players: 3
+    Max players: 10
+    Variants:
+      - drawful animated
+      - drawful animate
+      - draw full animate
+      - drawfull animate
+      - drawful 3
+  The Wheel of Enormous Proportions:
+    Min players: 4
+    Max players: 8
+    Variants:
+      - wheel of enormous proportions
+      - wheel o enormous proportions
+      - wheel o enormus proportions
+      - wheel of giant proportions
+      - enormous proportions wheel
+      - wheel of proportions
+      - wep
+      - woep
+      - wheel
+  Weapons Drawn:
+    Min players: 4
+    Max players: 8
+    Variants:
+      - weapons drawn
+      - weapon drawn
+      - weaponsdrawn
+      - weapondrawn
+      - weapons
+      - drawn weapons
+      - wd
+
+
+Party Pack 9:
+  Junktopia:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - junktopia
+      - junktopea
+      - junk
+  Nonsensory:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - nonsensory
+      - nonsense
+  Quixort:
+    Min players: 1
+    Max players: 10
+    Variants:
+      - quixort
+  Fibbage 4:
+    Min players: 2
+    Max players: 8
+    Variants:
+      - fibbage 4
+      - fibbage4
+  "Fibbage 4: Enough About You":
+    Min players: 2
+    Max players: 8
+    Variants:
+      - eay
+      - 4eay
+      - enough about you
+      - 4 enough about you
+      - feay
+      - f4eay
+      - fibbage eay
+      - fibbage 4 eay
+      - "fibbage: eay"
+      - "fibbage 4: eay"
+      - fibbage enough about you
+      - fibbage 4 enough about you
+      - "fibbage: enough about you"
+      - "fibbage 4: enough about you"
+  Roomerang:
+    Min players: 4
+    Max players: 9
+    Variants:
+      - roomerang
+      - roommerang
+      - roomerrang
+      - boomerang
+      - room
+
+Party Pack 10:
+  Dodo Re Mi:
+    Min players: 1
+    Max players: 9
+    Variants:
+      - dodo re mi
+      - dodo re me
+      - dodo re mee
+      - dodoremi
+      - do re mi
+      - do re me
+      - do re mee
+      - doreme
+      - doremi
+      - drm
+  FixyText:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - fixytext
+      - fixtext
+      - fixytest
+      - ft
+  Tee K.O. 2:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - tko2
+      - tko 2
+      - t ko 2
+      - tee ko 2
+      - tee k.o 2
+      - tee k.o. 2
+      - t.k.o. 2
+  Timejinx:
+    Min players: 1
+    Max players: 8
+    Variants:
+      - timejinx
+      - timejinks
+      - time jinx
+      - time jinks
+      - tj
+  Hypnotorious:
+    Min players: 4
+    Max players: 8
+    Variants:
+      - hypnotorious
+      - hypnotorius
+      - hypno
+      - hyp
+
+Standalone:
+  Drawful 2:
+    Min players: 3
+    Max players: 8
+    Variants:
+      - drawful 2
+      - drawfull 2
+      - draw full 2
+
+  What the Dub?!:
+    Min players: 2
+    Max players: 6
+    Variants:
+      - what the dub
+      - wtd
+      - what the dub?
+
+  Gartic Phone:
+    Min players: 4
+    Max players: 12
+    Variants:
+      - gartic phone
+      - garticphone
+      - garlic phone
+      - garlicphone
+      - gartic
+      - garlic
+
+  Among Us:
+    Min players: 4
+    Max players: 10
+    Variants:
+      - among us
+      - amongus
+      - amogus
+
+  Paper Pirates:
+    Min players: 4
+    Max players: 10
+    Variants:
+      - paper pirates
+      - paperpirates
+      - pirates
+      - paper
+
+  StopotS:
+    Min players: 4
+    Max players: 20
+    Variants:
+      - stopots
+      - stobots
+
+  Use Your Words:
+    Min players: 4
+    Max players: 6
+    Variants:
+      - use your words
+      - useyourwords
+      - uyw
+      - your words
+
+  Papa's Quiz:
+    Min Players: 4
+    Max players: 8
+    Variants:
+      - papa's quiz
+      - papas quiz
+      - papa's
+      - papas
+      - pq
+
+  Gartic on Stream:
+    Min Players: 4
+    Max Players: 50
+    Variants:
+      - gartic on stream
+      - garlic on stream
+      - garlic stream
+      - gartic stream
+      - gos
+
+  Words on Stream:
+    Min Players: 4
+    Max Players: 50
+    Variants:
+      - words on stream
+      - word on stream
+      - words stream
+      - word stream
+      - words
+      - wos
+
+  Codenames:
+    Min Players: 4
+    Max Players: 64
+    Variants:
+      - codenames
+      - code names
+      - codename
+
+  Bomb Party:
+    Min Players: 3
+    Max Players: 16
+    Variants:
+      - bomb party
+      - bombparty
+
+  Wordeous:
+    Min Players: 2
+    Max Players: 50
+    Variants:
+      - wordeous
+      - wordious
+      - wordeos
+      - wordeus
+      - wordius
+
+  CityGuesser:
+    Min Players: 2
+    Max Players: 50
+    Variants:
+      - cityguesser
+      - cityguess
+      - city guess
+      - city guesser
+      - cs
+
+  Make It Meme:
+    Min Players: 2
+    Max Players: 15
+    Variants:
+      - make it meme
+      - making memes
+      - makeitmeme
+      - make memes
+      - meme
+      - meme maker
+
+  Kukoro:
+    Min Players: 2
+    Max Players: 50
+    Variants:
+      - kukoro
+      - kuroko
+      - kokoro
+      - kuruko
+      - kukuro
+      - kucoro
+
+  Draw Battle:
+    Min Players: 2
+    Max Players: 16
+    Variants:
+      - draw battle
+      - battle draw
+      - drawing battle
+
+  ChefSquad:
+    Min Players: 2
+    Max Players: 30
+    Variants:
+      - chefsquad
+      - chef squad
+      - chefs squad
+      - chef's squad
+
+  Just Act Natural:
+    Min Players: 2
+    Max Players: 8
+    Variants:
+      - just act natural
+      - just act naturally
+      - act natural
+      - act naturally
+      - natural
+      - jan
+
+  GeoGuesser:
+    Min Players: 2
+    Max Players: 50
+    Variants:
+      - geoguesser
+      - geoguess
+      - geo guess
+      - geo guesser
+      - gg
+
+  Marbles on Stream:
+    Min Players: 2
+    Max Players: 50
+    Variants:
+      - marbles on stream
+      - marbles stream
+      - marbles
+      - marble
+      - mos
+
+  RiffTrax:
+    Min players: 2
+    Max players: 6
+    Variants:
+      - rifftrax
+      - rifftracks
+      - rifftrack
+      - rifftraxs
+      - riftracks
+      - riftrack
+      - riftrax
+      - riftraxs
+      - riff
+      - rt
+
+  "Pwnk: Stream Battle Royale":
+    Min players: 2
+    Max players: 50
+    Variants:
+      - Pwnk Stream Battle Royale
+      - Pwnk Battle Royale
+      - Pwnk Stream Royale
+      - pwnk
+      - pnwk
+
+  Sketchful:
+    Min players: 2
+    Max players: 50
+    Variants:
+      - sketchful
+      - skribbl
+      - skribble
+      - sketch
+      - sketchful.io
+      - skribbl.io
+
+  Stream Pairs:
+    Min players: 2
+    Max players: 50
+    Variants:
+      - stream pairs
+      - stream pair
+      - steam pairs
+      - steam pair
+      - stream pars
+      - sp
+
+  Songlio:
+    Min players: 2
+    Max players: 50
+    Variants:
+      - songlio
+      - song
+      - songleo
+      - songio
+      - songlo
+      - songeo
+
+  Whatsamusic:
+    Min players: 2
+    Max players: 50
+    Variants:
+      - whatsamusic
+      - whatamusic
+      - wam
+      - watsamusic
+      - watamusic
+      - what a music
+      - whatsmusic
+      - whatmusic
+      - wam
+
+  Crashword:
+    Min players: 2
+    Max players: 50
+    Variants:
+      - crashword
+      - crashwords
+      - crash
+      - cashword
+      - crashwrd
+      - cw
+
+  Fall Guys:
+    Min players: 1
+    Max players: 4
+    Variants:
+      - fallguys
+      - fall guys
+      - fall guy
+      - fallguy
+      - falguys
+      - falguy
+      - fg
