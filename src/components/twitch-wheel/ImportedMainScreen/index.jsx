@@ -1,22 +1,17 @@
+/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-/* eslint--disable */
 
 import {Component} from 'react';
-import {Button, Modal} from 'react-bootstrap';
-import ChatActivity, { ActivityStatus } from '../ChatActivity';
-// import ConfettiExplosion from 'react-confetti-explosion';
-// import GameRequest from '../GameRequest';
+// import {Button, Modal} from 'react-bootstrap';
+import ChatActivity, {/* ActivityStatus */} from '../ChatActivity';
+
 import MessageHandler from '../MessageHandler';
 import OptionsMenu from '../OptionsMenu';
 import PlayerSelect from '../PlayerSelect';
-// import Sidebar from '../Sidebar';
-// import WheelComponent from '../WheelComponent'; //'react-wheel-of-prizes'
 import * as fakeStates from '../example-states';
 
 import './MainScreen.css';
-// import 'bootstrap/dist/css/bootstrap.css';
-// const randomColor = require('randomcolor');
 
 
 export default class ImportedMainScreen extends Component {
@@ -59,17 +54,7 @@ export default class ImportedMainScreen extends Component {
     this.playerSelector = null;
     this.messageHandler = null;
 
-    this.changeNextGameIdx = this.changeNextGameIdx.bind(this);
-    this.moveNextGameFwd = this.moveNextGameFwd.bind(this);
-    this.moveNextGameBack = this.moveNextGameBack.bind(this);
-    this.addGameRequest = this.addGameRequest.bind(this);
-    this.toggleLock = this.toggleLock.bind(this);
-    this.setNextGame = this.setNextGame.bind(this);
-    this.addGameToQueue = this.addGameToQueue.bind(this);
-    this.onWheelSpun = this.onWheelSpun.bind(this);
-    this.removeGame = this.removeGame.bind(this);
     this.onMessage = this.onMessage.bind(this);
-    this.toggleAllowGameRequests = this.toggleAllowGameRequests.bind(this);
     this.togglePlayerSelect = this.togglePlayerSelect.bind(this);
     this.routePlayRequest = this.routePlayRequest.bind(this);
     this.routeLeaveRequest = this.routeLeaveRequest.bind(this);
@@ -94,122 +79,6 @@ export default class ImportedMainScreen extends Component {
       );
     }
   }
-
-  changeNextGameIdx = (delta = 1) => {
-    if (this.state.nextGameIdx + delta > this.state.history.length) {return false;}
-    if (this.state.nextGameIdx + delta < 0) {return false;}
-    this.setState((state) => {
-      return {
-        nextGameIdx: state.nextGameIdx + delta
-      };
-    });
-    return true;
-  };
-
-  changeGameOrder = (history, nextGameIdx) => {
-    if (nextGameIdx > history.length) {return false;}
-    this.setState({
-      history,
-      nextGameIdx
-    });
-    return true;
-  };
-
-  moveNextGameFwd = () => {
-    return this.changeNextGameIdx();
-  };
-
-  moveNextGameBack = () => {
-    return this.changeNextGameIdx(-1);
-  };
-
-  addGameRequest = (gameObj, user, isSubRequest) => {
-    this.setState((state) => {
-      return {
-        ...state,
-        messages: {
-          ...this.state.messages,
-          [gameObj.longName]: {
-            ...gameObj,
-            username: user,
-            isSubRequest,
-            time: Date.now(),
-            locked: false,
-            chosen: false
-          }
-        },
-        counter: this.state.counter + 1
-      };
-    });
-  };
-
-  toggleLock = (game) => {
-    const stateCopy = {...this.state.messages[game]};
-    stateCopy.locked = !stateCopy.locked;
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        messages: {
-          ...this.state.messages,
-          [game]: stateCopy
-        }
-      };
-    });
-  };
-
-  // @return: the number of games ahead of this one, after successfully inserting in queue
-  // (i.e. if it's the very next game, return 0; if there's one ahead, return 1; etc)
-  setNextGame = (gameObj) => {
-    let idx = this.state.nextGameIdx;
-
-    // insert next game at next up position by default, but
-    //      *after* any other manually inserted games
-    while (idx < this.state.history.length && this.state.history[idx]?.override) {
-      idx++;
-    }
-
-    this.setState((state) => {
-      return {
-        ...state,
-        history: [
-          ...state.history.slice(0, Math.max(0, idx)),
-          {
-            ...gameObj,
-            override: true,
-            time: Date.now()
-          },
-          ...state.history.slice(idx)
-        ]
-      };
-    });
-
-    return idx - this.state.nextGameIdx;
-  };
-
-  addGameToQueue = (gameObj) => {
-    // update history + game card highlight color
-    this.setState((state) => {
-      return {
-        ...state,
-        gameSelected: gameObj,
-        history: [
-          ...this.state.history,
-          {
-            ...gameObj,
-            override: false
-          }
-        ],
-        messages: {
-          ...state.messages,
-          [gameObj.longName]: {
-            ...state.messages[gameObj.longName],
-            chosen: true
-          }
-        }
-      };
-    });
-  };
 
   clearModal = () => {
     this.setState({
@@ -265,9 +134,6 @@ export default class ImportedMainScreen extends Component {
 
   getOptionsMenu = () => {
     return [{
-    //   label: 'Reload Game List',
-    //   onClick: this.messageHandler?.reloadGameList
-    // }, {
       label: 'Load Mock Game & Player Requests',
       onClick: () => {
         return this.setState(
@@ -280,69 +146,6 @@ export default class ImportedMainScreen extends Component {
         );
       }
     }];
-  };
-
-  onWheelSpun = (gameLongName) => {
-    const gameRequestObj = this.state.messages?.[gameLongName];
-    if (!gameRequestObj) {return;}
-
-    // send confirmation message in chat
-    const requester = gameRequestObj.username;
-
-    this.addGameToQueue(gameRequestObj);
-
-    // remove card unless it's locked
-    if (!this.state.messages[gameLongName].locked) {
-      setTimeout(() => {
-        this.removeGame(gameLongName);
-        this.clearModal();
-      }, 4000);
-    }
-
-    return this.chatActivity.getStatusPromise(requester).then((status) => {
-      let msg = '';
-      switch (status) {
-      case ActivityStatus.DISCONNECTED:
-        msg = `/me ${gameRequestObj.name} just won the spin, but it doesn't seem like @${requester} is still around. Hope someone else wants to play!`;
-        break;
-
-      case ActivityStatus.ACTIVE:
-        msg = `/me @${requester}, good news - ${gameRequestObj.name} just won the spin!`;
-        break;
-
-      case ActivityStatus.IDLE:
-      default:
-        msg = `/me @${requester}, good news - ${gameRequestObj.name} just won the spin! (I hope you're still around!)`;
-      }
-      return this.messageHandler.sendMessage(msg);
-    });
-
-  };
-
-  removeGame = (gameLongName) => {
-    const newMessageObj = {...this.state.messages};
-    delete newMessageObj[gameLongName];
-    this.setState((state) => {
-      return {
-        ...state,
-        messages: newMessageObj,
-        counter: this.state.counter + 1
-      };
-    });
-  };
-
-  removeSelectedGameFromHistory = () => {
-    let {history, nextGameIdx} = this.state;
-    if (!history[nextGameIdx]) {
-      return false;
-    }
-    let currGame = history[nextGameIdx];
-    delete history[nextGameIdx];
-    this.setState({
-      history: history.filter(h => !!h),
-      nextGameIdx: Math.max(-1, Math.min(nextGameIdx, history.length))
-    });
-    return currGame;
   };
 
   onMessage = (message, user, metadata) => {
@@ -363,18 +166,6 @@ export default class ImportedMainScreen extends Component {
     return this.setState(prevState => ({
       settings: Object.assign({}, settings, nextSettings)
     }));
-  };
-
-  toggleAllowGameRequests = (allow=null) => {
-    let {allowGameRequests} = this.state;
-    if (allow !== null && typeof allow !== 'object') {
-      allowGameRequests = !allow;
-    }
-    this.setState((state) => {
-      return {
-        allowGameRequests: !allowGameRequests
-      };
-    });
   };
 
   toggleOptionsMenu = () => {
@@ -458,7 +249,6 @@ export default class ImportedMainScreen extends Component {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
-        // Accept: 'application/vnd.twitchtv.v5+json',
         Authorization: `Bearer ${this.props.access_token}`,
         'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
         'Content-Type': 'application/json'
@@ -496,7 +286,6 @@ export default class ImportedMainScreen extends Component {
   startGame = () => {
     if (this.state.showPlayerSelect) {
       this.togglePlayerSelect();
-      this.moveNextGameFwd();
       return true;
     }
     return false;
@@ -510,106 +299,13 @@ export default class ImportedMainScreen extends Component {
     this.playerSelector = mh;
   };
 
-  renderGameChosenModal(gameObj) {
-    // let confettiProps = {
-    //   force: 0.6,
-    //   duration: 3500,
-    //   particleCount: 100,
-    //   floorHeight: Math.max(window.outerWidth, window.outerHeight),
-    //   floorWidth: Math.max(window.outerWidth, window.outerHeight)
-    // };
-    let requestedBy;
-    if (gameObj.username) {
-      requestedBy = (<h4>requested by @{gameObj.username}</h4>);
-    }
-    return (
-      <>
-        <div className="overlay fade-in-out">
-          {/* <div className="confetti-wrapper">
-            <ConfettiExplosion {...confettiProps} />
-          </div> */}
-        </div>
-        <div className="confetti-modal modal-game-chosen fade-in-out" onClick={()=>this.removeGame(gameObj.longName)}>
-          <h1>{gameObj.name}</h1>
-          {requestedBy}
-        </div>
-      </>
-    );
-  }
-
-  renderOptionsModal() {
-    let {allowedGames, validGames} = this.messageHandler.state;
-    let gamePackList = [].concat(...Object.entries(validGames).map((packData, idx) => {
-      return Object.keys(packData[1]).map(gameData => {
-        let gameId = `${packData[0]} ${gameData}`.replace(/\W/ig, '_');
-        return {
-          id: gameId,
-          game: gameData,
-          pack: packData[0]
-        };
-      });
-    }));
-    // let gamesList = gamePackList.map(g => g.game);
-    console.log('gamePackList:', gamePackList, allowedGames);
-
-    return (
-      <Modal
-        show={this.state.showOptionsModal}
-        onHide={()=>this.toggleOptionsModal(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered>
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Options
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Options</h4>
-          <div className="options-list">
-            <ul>
-              {gamePackList.map(({id, game, pack}, idx) => {
-                // let gameId = `${g.pack} ${g.game}`.replace(/\W/ig, '_');
-                return (
-                  <li key={id}>
-                    <input type="checkbox" id={id} name={id} value={id} /> <label htmlFor={id}>{pack}: {game}</label>
-                  </li>
-                );
-              }
-              )}
-            </ul>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button data-bs-dismiss="modal">Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
   render() {
-    const gameRequestArray = Object.keys(this.state.messages);
-
-
-    let gameSelectedModal;
-    if (this.state.showOptionsModal) {
-      gameSelectedModal = this.renderOptionsModal();
-    } else if (this.state.gameSelected) {
-      gameSelectedModal = this.renderGameChosenModal(this.state.gameSelected);
-    }
 
     let mainClassName = this.state.showPlayerSelect ? 'player-select' : 'game-select';
 
-    let subheading = this.state.showPlayerSelect ? (
+    let subheading = (
       <span className="subheading-player fade-in-delay">
         Type <b>!new</b> in {this.props.channel}&apos;s chat if you want to join the next game
-      </span>
-    ) : (
-      <span
-        className={`subheading-game ${(this.state.allowGameRequests === true ? 'fade-in-delay' : 'fade-out')}`}
-        title={`Click to ${this.state.allowGameRequests === true ? 'disable' : 'enable'} game requests.`}
-        onClick={this.toggleAllowGameRequests}>
-        Type e.g. <b>&quot;!request Blather Round&quot;</b> in {this.props.channel}&apos;s chat to add
       </span>
     );
 
@@ -628,54 +324,6 @@ export default class ImportedMainScreen extends Component {
           userLookup={this.state.userLookup}
         />
       );
-    } else {
-      innerContent = gameRequestArray.map((gameName, i) => (
-        <div key={i}>
-          <div>gameName: {gameName}</div>
-          <div>metadata: {JSON.stringify(this.state.messages[gameName])}</div>
-        </div>
-      ));
-      rightColumn = (
-        <div className="right-column" width="50px">
-          <div className="wheel-wrapper fade-in">
-            Wheel
-          </div>
-        </div>
-      );
-      /*innerContent = gameRequestArray.map((gameName, i) =>
-        <GameRequest
-          key={i}
-          gameName={gameName}
-          metadata={this.state.messages[gameName]}
-          onDelete={this.removeGame}
-          toggleLock={this.toggleLock.bind(gameName)}
-          getActivity={this.chatActivity.getStatusPromise}
-        />
-      );
-      // reduce spin time for large number of game requests
-      let upDuration = (gameRequestArray.length < 5) ? 100 : (500 / gameRequestArray.length);
-      let downDuration = (gameRequestArray.length < 5) ? 1000 : (5000 / gameRequestArray.length);
-
-      rightColumn = (
-        <div className="right-column" width="50px">
-          <div className="wheel-wrapper fade-in">
-            <WheelComponent
-              key={this.state.counter}
-              segments={gameRequestArray}
-              segColors={this.state.colors}
-              onFinished={this.onWheelSpun}
-              isOnlyOnce={false}
-              size={250}
-              upDuration={upDuration}
-              downDuration={downDuration}
-              primaryColor={'white'}
-              contrastColor={'black'}
-              fontFamily={'Arial'}
-              multilineDelimiter={' ('}
-            />
-          </div>
-        </div>
-      );*/
     }
 
     let gamesList = this.getGamesList();
@@ -716,29 +364,17 @@ export default class ImportedMainScreen extends Component {
           />
           <div className="left-column fade-in">
 
-            <h1>{this.state.showPlayerSelect ? 'Seat Requests' : 'Game Requests'}</h1>
+            <h1>Seat Requests</h1>
             <h4>{subheading}</h4>
 
             <div className="left-column-body">
-              {/* <Sidebar
-                changeGameOrder={this.changeGameOrder}
-                parentState={this.state}
-                history={this.state.history}
-                nextGameIdx={this.state.nextGameIdx}
-                changeNextGameIdx={this.changeNextGameIdx}
-                moveNextGameFwd={this.moveNextGameFwd}
-                moveNextGameBack={this.moveNextGameBack}
-                togglePlayerSelect={this.togglePlayerSelect}
-                requestMode={this.state.showPlayerSelect ? 'seat' : 'game'}
-                removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
-              /> */}
               <div className="left-column-inner-body">
                 {innerContent}
               </div>
             </div>
           </div>
           {rightColumn}
-          {gameSelectedModal}
+          {/* {gameSelectedModal} */}
           <OptionsMenu
             gamesList={gamesList}
             parentState={this.state}
