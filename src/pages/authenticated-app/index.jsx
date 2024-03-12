@@ -70,26 +70,25 @@ class AuthenticatedApp extends Component {
       });
       try {
         this.twitchApi.accessToken = accessToken;
-        const userInfo = await this.twitchApi.requestUsers();
-        if (userInfo.status >= 300 && userInfo.message) {
-          console.log('onDelayedMount - unexpected userInfo response', userInfo);
-        } else {
-          console.log('onDelayedMount - successful response!', userInfo);
+        const resumeResponse = await this.twitchApi.resume();
+        if (resumeResponse && !resumeResponse.error) {
+          console.log('onDelayedMount - successful resume response!', resumeResponse);
           return this.onTwitchAuthInit();
         }
+        console.log('onDelayedMount - unexpected resume response', resumeResponse);
       } catch (e) {
         console.log('onDelayedMount - previous init not valid', e);
       }
     }
     console.log('onDelayedMount - calling init');
     try {
-      const response = await this.twitchApi.init();
-      console.log('onDelayedMount - initialized response:', response);
-      if (!response) {
+      const initResponse = await this.twitchApi.init();
+      console.log('onDelayedMount - initialized response:', initResponse);
+      if (!initResponse) {
         throw 'No response';
       }
-      if (response.error) {
-        throw response.error;
+      if (initResponse.error) {
+        throw initResponse.error;
       }
       return this.onTwitchAuthInit();
     } catch (e) {
@@ -101,7 +100,7 @@ class AuthenticatedApp extends Component {
   onTwitchAuthInit = () => {
     let userInfo = this.twitchApi.userInfo;
     console.log('onTwitchAuthInit', {userInfo});
-    if (!userInfo?.data) {
+    if (!userInfo?.login) {
       console.log('onTwitchAuthInit - no user info');
       return this.setState({
         auth_pending: false,
@@ -109,10 +108,10 @@ class AuthenticatedApp extends Component {
       });
     }
     this.setState({
-      username: userInfo.data[0].login,
-      user_id: userInfo.data[0].id,
+      username: userInfo.login,
+      user_id: userInfo.id,
       // modList,
-      profile_image_url: userInfo.data[0].profile_image_url,
+      profile_image_url: userInfo.profile_image_url,
       auth_pending: false,
       failed_login: false,
     });
@@ -203,7 +202,7 @@ class AuthenticatedApp extends Component {
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}
             toggleDebugView={this.toggleDebugView}
-            TwitchApi={this.TwitchApi}
+            twitchApi={this.twitchApi}
             user_id={this.state.user_id}
             username={this.state.username}
             updateUsername={this.updateUsername}

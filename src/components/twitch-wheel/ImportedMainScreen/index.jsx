@@ -68,9 +68,14 @@ export default class ImportedMainScreen extends Component {
     this.setPlayerSelectRef = this.setPlayerSelectRef.bind(this);
 
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
+
+    this.twitchApi = this.props.twitchApi;
   }
 
   componentDidMount() {
+    if (!this.twitchApi) {
+      this.twitchApi = this.props.twitchApi;
+    }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(
         Object.assign({}, fakeStates.ImportedMainScreen, {
@@ -225,8 +230,9 @@ export default class ImportedMainScreen extends Component {
   };
 
   sendMessage = (msg) => {
+    return this.twitchApi?.sendMessage(msg);
     // this feels so janky...but it works
-    return this.messageHandler?.sendMessage(msg);
+    // return this.messageHandler?.sendMessage(msg);
   };
 
   // https://dev.twitch.tv/docs/api/reference/#send-whisper
@@ -239,6 +245,9 @@ export default class ImportedMainScreen extends Component {
      * @returns Promise
      */
   sendWhisper = async(player, msg) => {
+    if (this.twitchApi) {
+      return this.twitchApi?.sendWhisper(player, msg);
+    }
     let requestParams = new URLSearchParams({
       from_user_id: this.props.id,
       to_user_id: player.id
@@ -316,8 +325,8 @@ export default class ImportedMainScreen extends Component {
       innerContent = (
         <PlayerSelect
           game={this.state.history?.[this.state.nextGameIdx]}
-          sendMessage={this.sendMessage}
-          sendWhisper={this.sendWhisper}
+          sendMessage={this.twitchApi?.sendMessage}
+          sendWhisper={this.twitchApi?.sendWhisper}
           settings={this.state.settings}
           startGame={this.startGame}
           ref={this.setPlayerSelectRef}
