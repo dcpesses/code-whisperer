@@ -55,15 +55,11 @@ describe('AuthenticatedApp', () => {
       vi.spyOn(component, 'onTwitchAuthInit');
       component.twitchApi = {
         accessToken: null,
-        requestUsers: vi.fn().mockReturnValue(
-          {
-            data: [{
-              login: 'mockUsername',
-              id: 'mockUserId',
-              profile_image_url: 'mockProfileImageUrl'
-            }],
-          }
-        )
+        resume: vi.fn().mockResolvedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+        })
       };
 
       await component.onMount();
@@ -91,11 +87,9 @@ describe('AuthenticatedApp', () => {
       vi.spyOn(component, 'setState');
       component.twitchApi = {
         userInfo: {
-          data: [{
-            login: 'mockUsername',
-            id: 'mockUserId',
-            profile_image_url: 'mockProfileImageUrl'
-          }],
+          login: 'mockUsername',
+          id: 'mockUserId',
+          profile_image_url: 'mockProfileImageUrl',
         }
       };
 
@@ -179,6 +173,7 @@ describe('AuthenticatedApp', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
+      instance.twitchApi = {mock: 'TwitchApi'};
       instance.setState({
         access_token: 'yadayadayada',
         failed_login: false,
