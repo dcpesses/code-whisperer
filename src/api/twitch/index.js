@@ -2,6 +2,15 @@ import queryString from 'query-string';
 import tmi from 'tmi.js';
 
 export const noop = () => {};
+
+export const ActivityStatus = {
+  ACTIVE: 1,
+  IDLE: 2,
+  DISCONNECTED: 3
+};
+
+export const MAX_IDLE_TIME_MINUTES = 10;
+
 export default class TwitchApi {
   constructor({
     clientId,
@@ -30,6 +39,8 @@ export default class TwitchApi {
     this._userInfo = {};
 
     this._channel = null;
+
+    this._lastMessageTimes = {};
 
     this._isAuth = false; // indicates if class has successfully authenticated
     this._isInit = false; // indicates if init() has both executed and completed
@@ -94,6 +105,9 @@ export default class TwitchApi {
 
   get isAuth() {return this._isAuth;}
   get isInit() {return this._isInit;}
+
+  get channel() {return this._channel;}
+  get lastMessageTimes() {return this._lastMessageTimes;}
 
   _init = async() => {
 
@@ -586,5 +600,65 @@ export default class TwitchApi {
       throw response;
     }
     return response;
+  };
+
+  // ChatActivity Status
+
+  updateLastMessageTime = (user) => {
+    this.lastMessageTimes = {
+      ...this.lastMessageTimes,
+      [user]: Date.now()
+    };
+  };
+
+  minsSinceLastChatMessage = (user) => {
+    return Math.floor((Date.now() - this.lastMessageTimes[user]) / 60000);
+  };
+
+  requestChatters = async(first=500, after=null) => {
+    if (this.debug) {window.console.log('requestChatters: this._userInfo', this._userInfo);}
+    const params = {
+      broadcaster_id: this._userInfo.id,
+      moderator_id: this._userInfo.id,
+      first,
+    };
+    if (after !== null) {
+      params.after = after;
+    }
+    const requestParams = new URLSearchParams(params);
+    try {
+      const response = await fetch(`https://api.twitch.tv/helix/chat/chatters?${requestParams}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestChatters: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
+  getChatterStatus = async(user) => {
+    // broadcaster always counts as active
+    if (user === this.channel) {
+      return ActivityStatus.ACTIVE;
+    }
+
+    // sent a chat message in the last X mins?
+    if (this.lastMessageTimes[user] && this.minsSinceLastChatMessage(user) < MAX_IDLE_TIME_MINUTES) {
+      return ActivityStatus.ACTIVE;
+    }
+
+    let chatters = await this.requestChatters();
+    if (!chatters) {
+      return ActivityStatus.DISCONNECTED;
+    }
+    chatters = chatters.data.map(c => c.user_login);
+    if (!chatters.includes(user)) {
+      return ActivityStatus.DISCONNECTED;
+    }
+    return ActivityStatus.IDLE;
   };
 }
