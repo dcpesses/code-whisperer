@@ -1,6 +1,16 @@
 import queryString from 'query-string';
+import tmi from 'tmi.js';
 
 export const noop = () => {};
+
+export const ActivityStatus = {
+  ACTIVE: 1,
+  IDLE: 2,
+  DISCONNECTED: 3
+};
+
+export const MAX_IDLE_TIME_MINUTES = 10;
+
 export default class TwitchApi {
   constructor({
     clientId,
@@ -10,6 +20,7 @@ export default class TwitchApi {
     accessToken,
     refreshToken,
     onInit,
+    onMessage,
     onTokenUpdate,
     authError,
     debug,
@@ -27,6 +38,12 @@ export default class TwitchApi {
     this._expires_in = null;
     this._expiry_time = null;
     this._userInfo = {};
+
+    this._channel = null;
+    this._onMessageCallback = onMessage ?? noop;
+    this._chatClient = null;
+
+    this._lastMessageTimes = {};
 
     this._isAuth = false; // indicates if class has successfully authenticated
     this._isInit = false; // indicates if init() has both executed and completed
@@ -69,6 +86,13 @@ export default class TwitchApi {
     }
   }
 
+  get onMessage() {return this._onMessageCallback;}
+  set onMessage(callback) {
+    if (typeof callback === 'function') {
+      this._onMessageCallback = callback;
+    }
+  }
+
   get onTokenUpdate() {return this._onTokenUpdateCallback;}
   set onTokenUpdate(callback) {
     if (typeof callback === 'function') {
@@ -92,31 +116,47 @@ export default class TwitchApi {
   get isAuth() {return this._isAuth;}
   get isInit() {return this._isInit;}
 
+  get channel() {return this._channel;}
+  get lastMessageTimes() {return this._lastMessageTimes;}
+
   _init = async() => {
 
     try {
       const oauth = await this.requestAuthentication();
       if (oauth.status >= 300 && oauth.message) {
         if (this.debug) {window.console.log('TwitchApi - init: oauth issue', oauth);}
-        await this._authErrorCallback({oauth: null, users: null, error: oauth});
-        return {oauth: null, users: null, error: oauth};
+        await this._authErrorCallback({oauth: null, users: null, valid: null, error: oauth});
+        return {oauth: null, users: null, valid: null, error: oauth};
+      }
+      const valid = await this.validateToken();
+      if (valid.status >= 300 && valid.message) {
+        if (this.debug) {window.console.log('TwitchApi - init: valid issue', valid);}
+        await this._authErrorCallback({oauth, users: null, valid: null, error: valid});
+        return {oauth, users: null, valid: null, error: valid};
       }
       const users = await this.requestUsers();
       if (users.status >= 300 && users.message) {
         if (this.debug) {window.console.log('TwitchApi - init: users issue', users);}
-        await this._authErrorCallback({oauth, users: null, error: users});
-        return {oauth, users: null, error: users};
+        await this._authErrorCallback({oauth, users: null, valid, error: users});
+        return {oauth, users: null, valid, error: users};
+      }
+      this._channel = valid.login;
+      localStorage.setItem('__channel', valid.login);
+      let userInfo = users.data.filter(u => u.login === valid.login);
+      if (userInfo.length === 1) {
+        this.setStreamerInfo(userInfo[0]);
       }
       window.console.log('TwitchApi - init: isInit');
       this._isInit = true;
       this._authError = false;
+      this.initChatClient();
       this._onInitCallback();
-      return {oauth, users};
+      return {oauth, users, valid};
     } catch (e) {
       if (this.debug) {window.console.log('TwitchApi - init: error', e);}
       this._authError = true;
-      this._authErrorCallback({oauth: null, users: null, error: e});
-      return {oauth: null, users: null, error: e};
+      this._authErrorCallback({oauth: null, users: null, valid: null, error: e});
+      return {oauth: null, users: null, valid: null, error: e};
     }
   };
 
@@ -150,6 +190,109 @@ export default class TwitchApi {
 
       return {error: `Missing one or more required parameters: ${varNames.join(', ')}`};
     }
+  };
+
+  resume = async(accessToken, oauth={}) => {
+    if (!accessToken) {
+      if (!this._accessToken) {
+        window.console.warn('TwitchApi - resume: error', 'accessToken not valid');
+        return;
+      }
+      accessToken = this._accessToken;
+    }
+    try {
+      const valid = await this.validateToken(accessToken);
+      if (valid.status >= 300 && valid.message) {
+        if (this.debug) {window.console.log('TwitchApi - resume: valid issue', valid);}
+        await this._authErrorCallback({oauth, users: null, valid: null, error: valid});
+        return {oauth, users: null, valid: null, error: valid};
+      }
+      const users = await this.requestUsers();
+      if (users.status >= 300 && users.message) {
+        if (this.debug) {window.console.log('TwitchApi - resume: users issue', users);}
+        await this._authErrorCallback({oauth, users: null, valid, error: users});
+        return {oauth, users: null, valid, error: users};
+      }
+      this._channel = valid.login;
+      localStorage.setItem('__channel', valid.login);
+      let userInfo = users.data.filter(u => u.login === valid.login);
+      if (userInfo.length === 1) {
+        this.setStreamerInfo(userInfo[0]);
+      }
+      window.console.log('TwitchApi - resume: isInit');
+      this._isInit = true;
+      this._authError = false;
+      this._onInitCallback();
+      if (!this._chatClient) {
+        this.initChatClient();
+      }
+      return {oauth, users, valid};
+    } catch (e) {
+      if (this.debug) {window.console.log('TwitchApi - resume: error', e);}
+      this._authError = true;
+      this._authErrorCallback({oauth: null, users: null, valid: null, error: e});
+      return {oauth: null, users: null, valid: null, error: e};
+    }
+  };
+
+  initChatClient = (callback, username=null, access_token=null, options=null) => {
+    const client = this._initChatClient(username, access_token, options, callback);
+    return client;
+  };
+
+  _initChatClient = (channel, access_token, opts, callback) => {
+    if (!channel) {
+      channel = this._channel;
+    }
+    if (!access_token) {
+      access_token = this._accessToken;
+    }
+    if (!callback) {
+      callback = this._onMessageCallback;
+      if (!callback && this.debug) {
+        callback = window.console.log;
+      }
+    }
+    window.console.log('_initChatClient');
+    this._chatClient = new tmi.client({
+      identity: {
+        username: channel,
+        password: access_token
+      },
+      channels: [channel],
+      options: Object.assign({}, {
+        skipUpdatingEmotesets: true,
+        updateEmotesetsTimer: 0
+      }, opts),
+    });
+    this._chatClient.on('message', callback);
+    this._chatClient.connect();
+    return this._chatClient;
+  };
+
+  closeChatClient = () => {
+    try {
+      if (this._chatClient && typeof this._chatClient.disconnect === 'function') {
+        const resp = this._chatClient.disconnect();
+        this._chatClient = null;
+        return resp;
+      }
+    } catch (e) {
+      window.console.log('Error', e);
+    }
+  };
+
+  setStreamerInfo = (userInfo) => {
+    if (userInfo) {
+      this._userInfo = userInfo;
+      this._channel = userInfo.login;
+      localStorage.setItem('__channel', userInfo.login);
+      localStorage.setItem('__users', JSON.stringify(userInfo));
+      localStorage.setItem('__username', userInfo.login);
+      localStorage.setItem('__user_id', userInfo.id);
+      localStorage.setItem('__profile_image_url', userInfo.profile_image_url);
+    }
+    return userInfo;
   };
 
   requestAuthentication = async(code) => {
@@ -221,7 +364,9 @@ export default class TwitchApi {
           Authorization: `Bearer ${this._accessToken}`
         }
       });
-      return await response.json();
+      const responseJson = await response.json();
+      if (this.debug) {window.console.log('TwitchApi - requestUserInfo: responseJson', responseJson);}
+      return responseJson;
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - requestUserInfo: error', error);}
       return await Promise.resolve(error);
@@ -241,13 +386,7 @@ export default class TwitchApi {
       });
       const responseJson = await response.json();
       if (this.debug) {window.console.log('TwitchApi - requestUsers: responseJson', responseJson);}
-      this._userInfo = responseJson;
-      if (responseJson?.data[0]) {
-        localStorage.setItem('__users', JSON.stringify(responseJson.data));
-        localStorage.setItem('__username', responseJson.data[0].login);
-        localStorage.setItem('__user_id', responseJson.data[0].id);
-        localStorage.setItem('__profile_image_url', responseJson.data[0].profile_image_url);
-      }
+
       return responseJson;
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - requestUsers: error', error);}
@@ -270,6 +409,68 @@ export default class TwitchApi {
     }
   };
 
+
+  // https://dev.twitch.tv/docs/api/reference/#send-whisper
+  // note: access token must include user:manage:whispers scope
+  // note: sending user must have a verified phone number
+  /**
+     * Sends a message to the user specified in the player object
+     * @param {object} player Contains the username and id of recipient
+     * @param {string} msg The message to be sent
+     * @returns Promise
+     */
+  sendWhisper = async(player, msg) => {
+    return await this._sendWhisper({player, msg});
+  };
+  _sendWhisper = async({player, msg}) => {
+    let requestParams = new URLSearchParams({
+      from_user_id: this._userInfo.id,
+      to_user_id: player.id
+    });
+    let requestBody = {message: msg};
+    await this.validateToken();
+    return fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        Authorization: `Bearer ${this._accessToken}`,
+        'Client-ID': this._clientId,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async response => {
+        if (response.status !== 204) {
+          let errMsg = `Error ${response.status} sending to @${player.username}`;
+          // console.log(errMsg);
+          let errJson;
+          try {
+            errJson = await response.json();
+            if (errJson.error) {
+              errMsg += `: ${errJson.error}`;
+            }
+            errJson.player = player;
+            window.console.log({errMsg, error: errJson});
+          } catch (e) {
+            window.console.log({errMsg, error: e});
+          }
+          this.sendMessage(`/me ${errMsg}`);
+          return Promise.resolve(errMsg);
+        }
+        let msg = `Code sent to @${player.username}`;
+        this.sendMessage(`/me ${msg}`);
+        return Promise.resolve(msg);
+      }).catch(error => {
+        let errMsg = `Error sending to @${player.username}, please check console for details.`;
+        window.console.log({errMsg, error});
+        this.sendMessage(`/me ${errMsg}`);
+        return Promise.reject(errMsg);
+      });
+  };
+
+  sendMessage = (msg) => {
+    return this._chatClient.say(this._channel, msg);
+  };
+
   resetLocalStorageItems() {
     localStorage.removeItem('__users');
     localStorage.removeItem('__username');
@@ -279,6 +480,9 @@ export default class TwitchApi {
     localStorage.removeItem('__expires_in');
     localStorage.removeItem('__expiry_time');
     localStorage.removeItem('__refresh_token');
+
+    localStorage.removeItem('__login');
+    localStorage.removeItem('__user_id');
   }
 
   resetState() {
@@ -419,5 +623,65 @@ export default class TwitchApi {
       throw response;
     }
     return response;
+  };
+
+  // ChatActivity Status
+
+  updateLastMessageTime = (user) => {
+    this._lastMessageTimes = {
+      ...this._lastMessageTimes,
+      [user]: Date.now()
+    };
+  };
+
+  minsSinceLastChatMessage = (user) => {
+    return Math.floor((Date.now() - this._lastMessageTimes[user]) / 60000);
+  };
+
+  requestChatters = async(first=500, after=null) => {
+    if (this.debug) {window.console.log('requestChatters: this._userInfo', this._userInfo);}
+    const params = {
+      broadcaster_id: this._userInfo.id,
+      moderator_id: this._userInfo.id,
+      first,
+    };
+    if (after !== null) {
+      params.after = after;
+    }
+    const requestParams = new URLSearchParams(params);
+    try {
+      const response = await fetch(`https://api.twitch.tv/helix/chat/chatters?${requestParams}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestChatters: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
+  getChatterStatus = async(user) => {
+    // broadcaster always counts as active
+    if (user === this.channel) {
+      return ActivityStatus.ACTIVE;
+    }
+
+    // sent a chat message in the last X mins?
+    if (this._lastMessageTimes[user] && this.minsSinceLastChatMessage(user) < MAX_IDLE_TIME_MINUTES) {
+      return ActivityStatus.ACTIVE;
+    }
+
+    let chatters = await this.requestChatters();
+    if (!chatters) {
+      return ActivityStatus.DISCONNECTED;
+    }
+    chatters = chatters.data.map(c => c.user_login);
+    if (!chatters.includes(user)) {
+      return ActivityStatus.DISCONNECTED;
+    }
+    return ActivityStatus.IDLE;
   };
 }

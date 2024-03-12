@@ -4,7 +4,7 @@ import {version} from '../../../package.json';
 import logo from '@/assets/new-logo.svg';
 import './login.css';
 
-const scopes = 'chat:read chat:edit moderation:read user:manage:whispers';
+const scopes = 'chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters';
 
 class Login extends Component {
   constructor() {

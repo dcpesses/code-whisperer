@@ -4,7 +4,7 @@
 
 import {Component} from 'react';
 // import {Button, Modal} from 'react-bootstrap';
-import ChatActivity, {/* ActivityStatus */} from '../ChatActivity';
+// import ChatActivity, { ActivityStatus } from '../ChatActivity';
 
 import MessageHandler from '../MessageHandler';
 import OptionsMenu from '../OptionsMenu';
@@ -13,11 +13,23 @@ import * as fakeStates from '../example-states';
 
 import './MainScreen.css';
 
+const GAME_PLACEHOLDER = {
+  'name': '',
+  'longName': '',
+  'partyPack': '',
+  'Min players': 1,
+  'Max players': 16,
+  'Variants': [],
+  'username': '',
+  'time': 0,
+  'locked': false,
+  'chosen': false
+};
 
 export default class ImportedMainScreen extends Component {
   constructor(props) {
     super(props);
-    this.chatActivity = new ChatActivity(this.props.channel);
+    // this.chatActivity = new ChatActivity(this.props.channel);
     let settings = {enableRoomCode: true};
     let isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
     try {
@@ -37,11 +49,11 @@ export default class ImportedMainScreen extends Component {
     }
     this.state = {
       allowGameRequests: true,
-      gameSelected: null,
+      gameSelected: GAME_PLACEHOLDER,
       messages: {},
       colors: ['#b0a4f9', '#bff0ff', '#7290f9', '#81cef4', '#a3faff', '#96eaff', '#8cf1ff', '#7fc0e8', '#70b3ea', '#92c3fc', '#b2dcf4', '#7b92ed', '#a7d0f2', '#c4f5fc', '#aaefff', '#aabdef', '#9bc0ef', '#99edff', '#70b0f9', '#c4e1ff', '#9a86e8', '#beb9f7',],
       counter: 0,
-      history: [], // requested / played games
+      history: [GAME_PLACEHOLDER], // requested / played games
       logUserMessages: false,
       nextGameIdx: 0,
       settings,
@@ -68,9 +80,14 @@ export default class ImportedMainScreen extends Component {
     this.setPlayerSelectRef = this.setPlayerSelectRef.bind(this);
 
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
+
+    this.twitchApi = this.props.twitchApi;
   }
 
   componentDidMount() {
+    if (!this.twitchApi) {
+      this.twitchApi = this.props.twitchApi;
+    }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(
         Object.assign({}, fakeStates.ImportedMainScreen, {
@@ -149,7 +166,7 @@ export default class ImportedMainScreen extends Component {
   };
 
   onMessage = (message, user, metadata) => {
-    this.chatActivity.updateLastMessageTime(user);
+    this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
         userLookup: Object.assign({}, prevState.userLookup, {[user]: metadata})
@@ -163,9 +180,9 @@ export default class ImportedMainScreen extends Component {
       Object.assign({}, settings, nextSettings)
     ));
     console.log('Settings saved:', settings);
-    return this.setState(prevState => ({
+    return this.setState({
       settings: Object.assign({}, settings, nextSettings)
-    }));
+    });
   };
 
   toggleOptionsMenu = () => {
@@ -198,7 +215,7 @@ export default class ImportedMainScreen extends Component {
       : 'sign-ups are currently closed; try again after this game wraps up!';
 
     if (sendConfirmationMsg) {
-      this.messageHandler?.sendMessage(`/me @${user}, ${msg}`);
+      this.twitchApi?.sendMessage(`/me @${user}, ${msg}`);
     }
   };
 
@@ -225,8 +242,7 @@ export default class ImportedMainScreen extends Component {
   };
 
   sendMessage = (msg) => {
-    // this feels so janky...but it works
-    return this.messageHandler?.sendMessage(msg);
+    return this.twitchApi?.sendMessage(msg);
   };
 
   // https://dev.twitch.tv/docs/api/reference/#send-whisper
@@ -239,6 +255,9 @@ export default class ImportedMainScreen extends Component {
      * @returns Promise
      */
   sendWhisper = async(player, msg) => {
+    if (this.twitchApi) {
+      return this.twitchApi?.sendWhisper(player, msg);
+    }
     let requestParams = new URLSearchParams({
       from_user_id: this.props.id,
       to_user_id: player.id
@@ -269,16 +288,16 @@ export default class ImportedMainScreen extends Component {
           } catch (e) {
             console.log({errMsg, error: e});
           }
-          this.messageHandler?.sendMessage(`/me ${errMsg}`);
+          this.twitchApi?.sendMessage(`/me ${errMsg}`);
           return Promise.resolve(errMsg);
         }
         let msg = `Code sent to @${player.username}`;
-        this.messageHandler?.sendMessage(`/me ${msg}`);
+        this.twitchApi?.sendMessage(`/me ${msg}`);
         return Promise.resolve(msg);
       }).catch(error => {
         let errMsg = `Error sending to @${player.username}, please check console for details.`;
         console.log({errMsg, error});
-        this.messageHandler?.sendMessage(`/me ${errMsg}`);
+        this.twitchApi?.sendMessage(`/me ${errMsg}`);
         return Promise.reject(errMsg);
       });
   };
@@ -315,9 +334,10 @@ export default class ImportedMainScreen extends Component {
     if (this.state.showPlayerSelect) {
       innerContent = (
         <PlayerSelect
-          game={this.state.history?.[this.state.nextGameIdx]}
-          sendMessage={this.sendMessage}
-          sendWhisper={this.sendWhisper}
+          _game={this.state.history?.[this.state.nextGameIdx]}
+          game={GAME_PLACEHOLDER}
+          sendMessage={this.twitchApi?.sendMessage}
+          sendWhisper={this.twitchApi?.sendWhisper}
           settings={this.state.settings}
           startGame={this.startGame}
           ref={this.setPlayerSelectRef}

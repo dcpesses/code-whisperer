@@ -5,10 +5,15 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
   id="authenticated-app container text-center"
 >
   <MainScreen
-    accessToken={null}
+    accessToken=""
     onLogOut={[Function]}
     profile_image_url=""
     toggleDebugView={[Function]}
+    twitchApi={
+      {
+        "mock": "TwitchApi",
+      }
+    }
     updateUsername={[Function]}
     user_id={0}
     username="sirgoosewell"
