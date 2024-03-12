@@ -5,7 +5,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
   id="authenticated-app container text-center"
 >
   <MainScreen
-    accessToken=""
+    accessToken={null}
     onLogOut={[Function]}
     profile_image_url=""
     toggleDebugView={[Function]}

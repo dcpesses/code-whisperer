@@ -197,7 +197,8 @@ class AuthenticatedApp extends Component {
       if (this.state.debugView) {
         mainContent = (
           <ImportedMainScreen
-            access_token={this.TwitchApi?.accessToken}
+            access_token={this.twitchApi?.accessToken}
+            channel={this.state.username}
             modList={this.state.modList}
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}
@@ -211,7 +212,7 @@ class AuthenticatedApp extends Component {
       } else {
         mainContent = (
           <MainScreen
-            accessToken={this.TwitchApi?.accessToken}
+            accessToken={this.twitchApi?.accessToken}
             onLogOut={this.logOut}
             toggleDebugView={this.toggleDebugView}
             profile_image_url={this.state.profile_image_url}
