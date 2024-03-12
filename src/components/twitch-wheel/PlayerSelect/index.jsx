@@ -172,7 +172,7 @@ export default class PlayerSelect extends Component {
         roomCode: null
       };
     });
-    this.props.startGame();
+    // this.props.startGame();
   };
 
   initRandomizePlayersAnimation = () => {
@@ -367,14 +367,15 @@ export default class PlayerSelect extends Component {
     if (this.state.playing.length > 0 && this.props.settings?.enableRoomCode) {
       inputRoomCode = (
         <div className="input-group input-group-sm">
-          <input type="password" name="room-code" value={this.state.roomCode || ''} size="5"
-            autoComplete="new-password"
+          <input type="text" name="room-code" value={this.state.roomCode || ''} size="5"
+            autoComplete="false"
             aria-autocomplete="none"
             aria-describedby="room-code-label"
             className="form-control room-code py-0"
             onChange={this.handleRoomCodeChange}
             onFocus={this.handleRoomCodeFocus}
             placeholder="Code"
+            role="presentation"
             title="Paste Room Code Here" />
           <button className="btn btn-sm btn-outline-secondary" onClick={this.sendCodeToAll} title="Send Code to All Players">&#10132;</button>
         </div>
@@ -393,7 +394,7 @@ export default class PlayerSelect extends Component {
           <div className="card-header-item d-flex align-items-center align-self-center flex-column">
             {inputRoomCode}
             <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
-              Start Game
+              Clear Seats
             </button>
           </div>
         </div>

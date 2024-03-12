@@ -215,6 +215,7 @@ class AuthenticatedApp extends Component {
             onLogOut={this.logOut}
             toggleDebugView={this.toggleDebugView}
             profile_image_url={this.state.profile_image_url}
+            twitchApi={this.twitchApi}
             user_id={this.state.user_id}
             username={this.state.username}
             updateUsername={this.updateUsername}

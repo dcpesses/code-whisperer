@@ -20,6 +20,7 @@ export default class TwitchApi {
     accessToken,
     refreshToken,
     onInit,
+    onMessage,
     onTokenUpdate,
     authError,
     debug,
@@ -39,6 +40,8 @@ export default class TwitchApi {
     this._userInfo = {};
 
     this._channel = null;
+    this._onMessageCallback = onMessage ?? noop;
+    this._chatClient = null;
 
     this._lastMessageTimes = {};
 
@@ -80,6 +83,13 @@ export default class TwitchApi {
   set onInit(callback) {
     if (typeof callback === 'function') {
       this._onInit = callback;
+    }
+  }
+
+  get onMessage() {return this._onMessageCallback;}
+  set onMessage(callback) {
+    if (typeof callback === 'function') {
+      this._onMessageCallback = callback;
     }
   }
 
@@ -139,6 +149,7 @@ export default class TwitchApi {
       window.console.log('TwitchApi - init: isInit');
       this._isInit = true;
       this._authError = false;
+      this.initChatClient();
       this._onInitCallback();
       return {oauth, users, valid};
     } catch (e) {
@@ -212,6 +223,9 @@ export default class TwitchApi {
       this._isInit = true;
       this._authError = false;
       this._onInitCallback();
+      if (!this._chatClient) {
+        this.initChatClient();
+      }
       return {oauth, users, valid};
     } catch (e) {
       if (this.debug) {window.console.log('TwitchApi - resume: error', e);}
@@ -221,21 +235,26 @@ export default class TwitchApi {
     }
   };
 
-  initChatClient = (username=null, access_token=null, options=null) => {
-    const client = this._initChatClient(username, access_token, options);
-    this.client = client;
+  initChatClient = (callback, username=null, access_token=null, options=null) => {
+    const client = this._initChatClient(username, access_token, options, callback);
     return client;
   };
 
-  _initChatClient = (channel, access_token, opts) => {
+  _initChatClient = (channel, access_token, opts, callback) => {
     if (!channel) {
       channel = this._channel;
     }
     if (!access_token) {
       access_token = this._accessToken;
     }
+    if (!callback) {
+      callback = this._onMessageCallback;
+      if (!callback && this.debug) {
+        callback = window.console.log;
+      }
+    }
     window.console.log('_initChatClient');
-    return new tmi.client({
+    this._chatClient = new tmi.client({
       identity: {
         username: channel,
         password: access_token
@@ -246,12 +265,17 @@ export default class TwitchApi {
         updateEmotesetsTimer: 0
       }, opts),
     });
+    this._chatClient.on('message', callback);
+    this._chatClient.connect();
+    return this._chatClient;
   };
 
   closeChatClient = () => {
     try {
-      if (this.client && typeof this.client.disconnect === 'function') {
-        return this.client.disconnect();
+      if (this._chatClient && typeof this._chatClient.disconnect === 'function') {
+        const resp = this._chatClient.disconnect();
+        this._chatClient = null;
+        return resp;
       }
     } catch (e) {
       window.console.log('Error', e);
@@ -444,8 +468,7 @@ export default class TwitchApi {
   };
 
   sendMessage = (msg) => {
-    window.console.warn('Note: sendMessage (send to chat) has not yet been implemented.');
-    window.console.log(`sendMessage: ${msg}`);
+    return this._chatClient.say(this._channel, msg);
   };
 
   resetLocalStorageItems() {
@@ -605,14 +628,14 @@ export default class TwitchApi {
   // ChatActivity Status
 
   updateLastMessageTime = (user) => {
-    this.lastMessageTimes = {
-      ...this.lastMessageTimes,
+    this._lastMessageTimes = {
+      ...this._lastMessageTimes,
       [user]: Date.now()
     };
   };
 
   minsSinceLastChatMessage = (user) => {
-    return Math.floor((Date.now() - this.lastMessageTimes[user]) / 60000);
+    return Math.floor((Date.now() - this._lastMessageTimes[user]) / 60000);
   };
 
   requestChatters = async(first=500, after=null) => {
@@ -647,7 +670,7 @@ export default class TwitchApi {
     }
 
     // sent a chat message in the last X mins?
-    if (this.lastMessageTimes[user] && this.minsSinceLastChatMessage(user) < MAX_IDLE_TIME_MINUTES) {
+    if (this._lastMessageTimes[user] && this.minsSinceLastChatMessage(user) < MAX_IDLE_TIME_MINUTES) {
       return ActivityStatus.ACTIVE;
     }
 
