@@ -1,0 +1,98 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TwitchApi > refetch > should proxy a valid fetch call and return its response 1`] = `
+[
+  [
+    "https://api.twitch.tv/helix/users?twitchdev",
+    {
+      "headers": {
+        "Authorization": "Bearer MOCK_ACCESS_TOKEN",
+        "Client-ID": "MOCK_CLIENT_ID",
+      },
+    },
+  ],
+]
+`;
+
+exports[`TwitchApi > refetch > should retry fetch call when the first attempt fails and return its response 1`] = `
+[
+  [
+    "https://api.twitch.tv/helix/users?twitchdev",
+    {
+      "headers": {
+        "Authorization": "Bearer MOCK_ACCESS_TOKEN",
+        "Client-ID": "MOCK_CLIENT_ID",
+      },
+    },
+  ],
+  [
+    "https://api.twitch.tv/helix/users?twitchdev",
+    {
+      "headers": {
+        "Authorization": "Bearer MOCK_ACCESS_TOKEN",
+        "Client-ID": "MOCK_CLIENT_ID",
+      },
+    },
+  ],
+]
+`;
+
+exports[`TwitchApi > requestChatters > should return users in chat for the broadcaster 1`] = `
+[
+  [
+    "https://api.twitch.tv/helix/chat/chatters?broadcaster_id=123456789&moderator_id=123456789&first=500",
+    {
+      "headers": {
+        "Authorization": "Bearer mockAccessToken",
+        "Client-ID": "mockClientId",
+      },
+    },
+  ],
+]
+`;
+
+exports[`TwitchApi > setAuthentication > should save oauth tokens and expiry time to localStorage 1`] = `
+[
+  [
+    "__access_token",
+    "mock_access_token",
+  ],
+  [
+    "__expires_in",
+    14000,
+  ],
+  [
+    "__expiry_time",
+    1445470154000,
+  ],
+  [
+    "__refresh_token",
+    "mock_refresh_token",
+  ],
+]
+`;
+
+exports[`TwitchApi > setStreamerInfo > should save streamer info to localStorage 1`] = `
+[
+  [
+    "__channel",
+    "login",
+  ],
+  [
+    "__users",
+    "{\\"login\\":\\"login\\",\\"id\\":\\"id\\",\\"profile_image_url\\":\\"url\\"}",
+  ],
+  [
+    "__username",
+    "login",
+  ],
+  [
+    "__user_id",
+    "id",
+  ],
+  [
+    "__profile_image_url",
+    "url",
+  ],
+]
+`;
