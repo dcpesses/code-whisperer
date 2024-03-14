@@ -24,7 +24,7 @@ export default defineConfig({
       '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*'
     ],
     environment: 'happy-dom',
-    setupFiles: './src/setupTests.ts',
+    setupFiles: './tests/setupTests.ts',
     coverage: {
       enabled: true,
       provider: 'v8',
