@@ -25,9 +25,23 @@ exports[`Login > render > Should render as expected 1`] = `
       </strong>
     </a>
     <div>
-      <small>
-        v0.0.0
-      </small>
+      <div
+        class="text-center"
+      >
+        <small>
+          v0.0.0
+        </small>
+      </div>
+      <button
+        class="btn btn-sm btn-link link-secondary text-decoration-none"
+      >
+        Having issues? 
+        <span
+          class="with-checkmark"
+        >
+          Reset application data
+        </span>
+      </button>
     </div>
     <p
       class="last-updated"
@@ -71,9 +85,23 @@ exports[`Login > render > Should render with error during development 1`] = `
       </strong>
     </a>
     <div>
-      <small>
-        v0.0.0
-      </small>
+      <div
+        class="text-center"
+      >
+        <small>
+          v0.0.0
+        </small>
+      </div>
+      <button
+        class="btn btn-sm btn-link link-secondary text-decoration-none"
+      >
+        Having issues? 
+        <span
+          class="with-checkmark"
+        >
+          Reset application data
+        </span>
+      </button>
     </div>
     <p
       class="last-updated"
@@ -117,9 +145,23 @@ exports[`Login > render > Should render without error in production 1`] = `
       </strong>
     </a>
     <div>
-      <small>
-        v0.0.0
-      </small>
+      <div
+        class="text-center"
+      >
+        <small>
+          v0.0.0
+        </small>
+      </div>
+      <button
+        class="btn btn-sm btn-link link-secondary text-decoration-none"
+      >
+        Having issues? 
+        <span
+          class="with-checkmark"
+        >
+          Reset application data
+        </span>
+      </button>
     </div>
     <p
       class="last-updated"
