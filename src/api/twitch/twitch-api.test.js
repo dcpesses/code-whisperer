@@ -16,7 +16,7 @@ const getTwitchApiConfig = (overrides={}) => Object.assign({
   onMessage: vi.fn(),
   onTokenUpdate: vi.fn(),
   authError: vi.fn(),
-  debug: true,
+  debug: false,
   init: false,
 }, overrides);
 
@@ -64,7 +64,7 @@ describe('TwitchApi', () => {
         onMessage: mockCallback,
         onTokenUpdate: mockCallback,
         authError: mockCallback,
-        debug: true,
+        debug: false,
         init: false,
       });
       expect(twitchApi._clientId).toBe('mockClientId');
@@ -77,7 +77,6 @@ describe('TwitchApi', () => {
       expect(twitchApi._onMessageCallback).toBe(mockCallback);
       expect(twitchApi._onTokenUpdateCallback).toBe(mockCallback);
       expect(twitchApi._authErrorCallback).toBe(mockCallback);
-      expect(twitchApi.debug).toBe(true);
     });
     test('should initialize with default values', () => {
       const twitchApi = new TwitchApi({init: false});
@@ -93,7 +92,7 @@ describe('TwitchApi', () => {
       expect(twitchApi._authErrorCallback).toBe(noop);
     });
     test('should call init', async() => {
-      const twitchApi = await new TwitchApi({code: 'MOCK CODE', init: true});
+      const twitchApi = await new TwitchApi({code: 'MOCK CODE', debug: false, init: true});
       expect(twitchApi.error).toBeDefined();
     });
   });

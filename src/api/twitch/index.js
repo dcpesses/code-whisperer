@@ -146,7 +146,7 @@ export default class TwitchApi {
       if (userInfo.length === 1) {
         this.setStreamerInfo(userInfo[0]);
       }
-      window.console.log('TwitchApi - init: isInit');
+      if (this.debug) {window.console.log('TwitchApi - init: isInit');}
       this._isInit = true;
       this._authError = false;
       this.initChatClient();
@@ -219,7 +219,7 @@ export default class TwitchApi {
       if (userInfo.length === 1) {
         this.setStreamerInfo(userInfo[0]);
       }
-      window.console.log('TwitchApi - resume: isInit');
+      if (this.debug) {window.console.log('TwitchApi - resume: isInit');}
       this._isInit = true;
       this._authError = false;
       this._onInitCallback();
@@ -253,7 +253,6 @@ export default class TwitchApi {
         callback = window.console.log;
       }
     }
-    window.console.log('_initChatClient');
     this._chatClient = new tmi.client({
       identity: {
         username: channel,
@@ -449,9 +448,9 @@ export default class TwitchApi {
             errMsg += `: ${errJson.error}`;
           }
           errJson.player = player;
-          window.console.log({errMsg, error: errJson});
+          if (this.debug) {window.console.log({errMsg, error: errJson});}
         } catch (e) {
-          window.console.log({errMsg, error: e});
+          if (this.debug) {window.console.log({errMsg, error: e});}
         }
         await this.sendMessage(`/me ${errMsg}`);
         return errMsg;
@@ -567,7 +566,7 @@ export default class TwitchApi {
       });
       const responseJson = await response.json();
       if (responseJson.status === 401) {
-        window.console.log('TwitchApi - validateToken: calling requestRefreshToken();...');
+        if (this.debug) {window.console.log('TwitchApi - validateToken: calling requestRefreshToken();...');}
         return await this.requestRefreshToken();
       }
       this._authError = false;
@@ -575,7 +574,7 @@ export default class TwitchApi {
     } catch (e) {
       console.error(e);
       if (e.status === 401) {
-        window.console.log('TwitchApi - validateToken error: calling requestRefreshToken();...');
+        if (this.debug) {window.console.log('TwitchApi - validateToken error: calling requestRefreshToken();...');}
         return this.requestRefreshToken();
       }
       return;
@@ -587,15 +586,14 @@ export default class TwitchApi {
 
     try {
       let response = await fetch(endpoint, config);
-      // response = await this.handleApiInvalid(response);
       return response;
     } catch (error) {
-      window.console.log('TwitchApi.fetch', 'response NOT valid!');
-      window.console.warn(error);
+      if (this.debug) {window.console.log('TwitchApi.fetch', 'response NOT valid!');}
+      if (this.debug) {window.console.warn(error);}
       try {
         const prevToken = this._accessToken || localStorage.getItem('__accessToken');
         const validateTokenResponse = await this.validateToken();
-        window.console.log('TwitchApi.fetch', 'validate token: ok', validateTokenResponse);
+        if (this.debug) {window.console.log('TwitchApi.fetch', 'validate token: ok', validateTokenResponse);}
         // replace token if it exist in Authorization header
         let nextConfig = config;
         if (config?.headers?.Authorization) {
@@ -604,31 +602,18 @@ export default class TwitchApi {
           nextConfig.headers.Authorization = headerAuth;
         }
         let response = await fetch(endpoint, nextConfig);
-        // response = await this.handleApiInvalid(response);
-        window.console.log('TwitchApi.fetch', 'on retry: response valid!');
+        if (this.debug) {window.console.log('TwitchApi.fetch', 'on retry: response valid!');}
         return response;
       } catch (err) {
-        window.console.log('TwitchApi.fetch', 'validate session: error');
-        window.console.warn(error);
-        window.console.warn('*** NEEDS REAUTH ***');
+        if (this.debug) {
+          window.console.log('TwitchApi.fetch', 'validate session: error');
+          window.console.warn(error);
+          window.console.warn('*** NEEDS REAUTH ***');
+        }
         throw error;
       }
     }
   };
-
-  // throw an error for invalid response
-  // not yet tested
-  handleApiInvalid = (response) => {
-    if (response.status >= 300) {
-      if (response.status >= 500) {
-        return window.console.error('TwitchApi:', 'Please check Twitch status page: https://status.twitch.com/');
-      }
-      throw response;
-    }
-    return response;
-  };
-
-  // ChatActivity Status
 
   updateLastMessageTime = (user) => {
     this._lastMessageTimes = {
