@@ -457,18 +457,18 @@ export default class TwitchApi {
         return errMsg;
       }
       const msg = `Code sent to @${player.username}`;
-      this.sendMessage(`/me ${msg}`);
+      await this.sendMessage(`/me ${msg}`);
       return msg;
     } catch (error) {
       const errMsg = `Error sending to @${player.username}, please check console for details.`;
       window.console.warn(`Error sending to @${player.username}:`, error);
-      this.sendMessage(`/me ${errMsg}`);
+      await this.sendMessage(`/me ${errMsg}`);
       return errMsg;
     }
   };
 
-  sendMessage = (msg) => {
-    return this._chatClient.say(this._channel, msg);
+  sendMessage = async(msg) => {
+    return await this._chatClient.say(this._channel, msg);
   };
 
   resetLocalStorageItems() {
