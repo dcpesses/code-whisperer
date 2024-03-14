@@ -49,8 +49,25 @@ describe('AuthenticatedApp', () => {
   });
 
   describe('onMount', () => {
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      // "Calm down, Marty, Einstein and the car are completely intact."
+      vi.spyOn(Date, 'now').mockReturnValue(499162860000); // October 26, 1985 1:21:00 AM PST
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     test('should reuse existing access token from localStorage if available', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('MOCK TOKEN');
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499163700000'; // October 26, 1985 1:35:00 AM PST
+        }
+        return null;
+      });
       let component = new AuthenticatedApp();
       vi.spyOn(component, 'onTwitchAuthInit');
       component.twitchApi = {

@@ -49,7 +49,7 @@ export default class TwitchApi {
     this._isInit = false; // indicates if init() has both executed and completed
     this._authError = false; // indicates if error occurred during auth process
 
-    this.debug = debug ?? (import.meta.env.MODE !== 'test' && !import.meta.env.PROD);
+    this.debug = debug ?? (!import.meta.env.PROD & import.meta.env.MODE !== 'test');
 
     if (this.debug) {
       window.console.log('TwitchApi constructed');
@@ -125,20 +125,20 @@ export default class TwitchApi {
       const oauth = await this.requestAuthentication();
       if (oauth.status >= 300 && oauth.message) {
         if (this.debug) {window.console.log('TwitchApi - init: oauth issue', oauth);}
-        await this._authErrorCallback({oauth: null, users: null, valid: null, error: oauth});
-        return {oauth: null, users: null, valid: null, error: oauth};
+        await this._authErrorCallback({oauth, users: null, valid: null, error: true});
+        return {oauth, users: null, valid: null, error: true, instance: this};
       }
       const valid = await this.validateToken();
       if (valid.status >= 300 && valid.message) {
         if (this.debug) {window.console.log('TwitchApi - init: valid issue', valid);}
-        await this._authErrorCallback({oauth, users: null, valid: null, error: valid});
-        return {oauth, users: null, valid: null, error: valid};
+        await this._authErrorCallback({oauth, users: null, valid, error: true});
+        return {oauth, users: null, valid, error: true, instance: this};
       }
       const users = await this.requestUsers();
       if (users.status >= 300 && users.message) {
         if (this.debug) {window.console.log('TwitchApi - init: users issue', users);}
-        await this._authErrorCallback({oauth, users: null, valid, error: users});
-        return {oauth, users: null, valid, error: users};
+        await this._authErrorCallback({oauth, users, valid, error: true});
+        return {oauth, users, valid, error: true, instance: this};
       }
       this._channel = valid.login;
       localStorage.setItem('__channel', valid.login);
@@ -151,12 +151,12 @@ export default class TwitchApi {
       this._authError = false;
       this.initChatClient();
       this._onInitCallback();
-      return {oauth, users, valid};
+      return {oauth, users, valid, instance: this};
     } catch (e) {
       if (this.debug) {window.console.log('TwitchApi - init: error', e);}
       this._authError = true;
       this._authErrorCallback({oauth: null, users: null, valid: null, error: e});
-      return {oauth: null, users: null, valid: null, error: e};
+      return {oauth: null, users: null, valid: null, error: e, instance: this};
     }
   };
 
@@ -204,14 +204,14 @@ export default class TwitchApi {
       const valid = await this.validateToken(accessToken);
       if (valid.status >= 300 && valid.message) {
         if (this.debug) {window.console.log('TwitchApi - resume: valid issue', valid);}
-        await this._authErrorCallback({oauth, users: null, valid: null, error: valid});
-        return {oauth, users: null, valid: null, error: valid};
+        await this._authErrorCallback({oauth, users: null, valid, error: true});
+        return {oauth, users: null, valid, error: true, instance: this};
       }
       const users = await this.requestUsers();
       if (users.status >= 300 && users.message) {
         if (this.debug) {window.console.log('TwitchApi - resume: users issue', users);}
-        await this._authErrorCallback({oauth, users: null, valid, error: users});
-        return {oauth, users: null, valid, error: users};
+        await this._authErrorCallback({oauth, users, valid, error: true});
+        return {oauth, users, valid, error: true, instance: this};
       }
       this._channel = valid.login;
       localStorage.setItem('__channel', valid.login);
@@ -226,12 +226,12 @@ export default class TwitchApi {
       if (!this._chatClient) {
         this.initChatClient();
       }
-      return {oauth, users, valid};
+      return {oauth, users, valid, instance: this};
     } catch (e) {
       if (this.debug) {window.console.log('TwitchApi - resume: error', e);}
       this._authError = true;
       this._authErrorCallback({oauth: null, users: null, valid: null, error: e});
-      return {oauth: null, users: null, valid: null, error: e};
+      return {oauth: null, users: null, valid: null, error: e, instance: this};
     }
   };
 
@@ -501,7 +501,7 @@ export default class TwitchApi {
     this.resetLocalStorageItems();
   };
 
-  async logOut() {
+  logOut = async() => {
     const requestParams = new URLSearchParams({
       client_id: this._clientId,
       token: this._accessToken,
@@ -509,18 +509,22 @@ export default class TwitchApi {
     });
 
     try {
-      await fetch(`https://id.twitch.tv/oauth2/revoke?${requestParams}`, {
+      const response = await fetch(`https://id.twitch.tv/oauth2/revoke?${requestParams}`, {
         method: 'POST',
         headers: {
           Accept: 'application/vnd.twitchtv.v5+json'
         }
       });
-      return this.reset();
+      const responseJson = await response.json();
+      if (responseJson.status === 204) {
+        this.reset();
+      }
+      return responseJson;
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - logout: error', error);}
       return new Error();
     }
-  }
+  };
 
   requestRefreshToken = async(refresh_token) => {
     if (refresh_token) {
@@ -546,7 +550,6 @@ export default class TwitchApi {
     } catch (e) {
       this._authError = true;
     }
-
   };
 
 
@@ -675,7 +678,7 @@ export default class TwitchApi {
     }
 
     let chatters = await this.requestChatters();
-    if (!chatters) {
+    if (!chatters?.data || chatters.data.length === 0) {
       return ActivityStatus.DISCONNECTED;
     }
     chatters = chatters.data.map(c => c.user_login);

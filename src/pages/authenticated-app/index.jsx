@@ -63,7 +63,9 @@ class AuthenticatedApp extends Component {
       console.log('authenticated-app - onDelayedMount: not mounted');
     }
     let accessToken = localStorage.getItem('__access_token');
-    if (accessToken && accessToken !== 'undefined') {
+    let expiryTime = parseInt(localStorage.getItem('__expiry_time'), 10);
+    let currTime = Date.now();
+    if (accessToken && accessToken !== 'undefined' && !isNaN(expiryTime) && expiryTime > currTime) {
       // try using existing access token
       console.log('onDelayedMount - trying previous token', {
         localStorage: accessToken
