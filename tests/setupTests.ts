@@ -6,7 +6,7 @@ import {
   mockWindowLocation,
   restoreWindowHistory,
   restoreWindowLocation
-} from '../tests/mockWindowLocation';
+} from './mockWindowLocation';
 
 beforeEach(() => {
   mockWindowLocation('http://localhost:5173');
