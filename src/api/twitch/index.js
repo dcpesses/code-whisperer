@@ -428,43 +428,43 @@ export default class TwitchApi {
       to_user_id: player.id
     });
     let requestBody = {message: msg};
-    await this.validateToken();
-    return fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        Authorization: `Bearer ${this._accessToken}`,
-        'Client-ID': this._clientId,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(async response => {
-        if (response.status !== 204) {
-          let errMsg = `Error ${response.status} sending to @${player.username}`;
-          // console.log(errMsg);
-          let errJson;
-          try {
-            errJson = await response.json();
-            if (errJson.error) {
-              errMsg += `: ${errJson.error}`;
-            }
-            errJson.player = player;
-            window.console.log({errMsg, error: errJson});
-          } catch (e) {
-            window.console.log({errMsg, error: e});
-          }
-          this.sendMessage(`/me ${errMsg}`);
-          return Promise.resolve(errMsg);
+    try {
+      await this.validateToken();
+      const response = await fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          Authorization: `Bearer ${this._accessToken}`,
+          'Client-ID': this._clientId,
+          'Content-Type': 'application/json'
         }
-        let msg = `Code sent to @${player.username}`;
-        this.sendMessage(`/me ${msg}`);
-        return Promise.resolve(msg);
-      }).catch(error => {
-        let errMsg = `Error sending to @${player.username}, please check console for details.`;
-        window.console.log({errMsg, error});
-        this.sendMessage(`/me ${errMsg}`);
-        return Promise.reject(errMsg);
       });
+      if (response.status !== 204) {
+        let errMsg = `Error ${response.status} sending to @${player.username}`;
+        // let's make sure we don't throw anything while constructing our error msg!
+        let errJson;
+        try {
+          errJson = await response.json();
+          if (errJson.error) {
+            errMsg += `: ${errJson.error}`;
+          }
+          errJson.player = player;
+          window.console.log({errMsg, error: errJson});
+        } catch (e) {
+          window.console.log({errMsg, error: e});
+        }
+        await this.sendMessage(`/me ${errMsg}`);
+        return errMsg;
+      }
+      const msg = `Code sent to @${player.username}`;
+      this.sendMessage(`/me ${msg}`);
+      return msg;
+    } catch (error) {
+      const errMsg = `Error sending to @${player.username}, please check console for details.`;
+      window.console.warn(`Error sending to @${player.username}:`, error);
+      this.sendMessage(`/me ${errMsg}`);
+      return errMsg;
+    }
   };
 
   sendMessage = (msg) => {
