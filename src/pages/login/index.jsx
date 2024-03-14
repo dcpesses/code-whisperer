@@ -10,17 +10,36 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      login_status: localStorage.getItem('__error_msg') || ''
+      login_status: localStorage.getItem('__error_msg') || '',
+      showClearStatus: false,
     };
+    this.checkmarkInt = 0;
   }
 
-  getLoginUrl() {
+  componentWillUnmount() {
+    clearTimeout(this.checkmarkInt);
+  }
+
+  getLoginUrl = () => {
     localStorage.removeItem('__error_msg');
     return 'https://id.twitch.tv/oauth2/authorize'
     + `?client_id=${import.meta.env.VITE_APP_TWITCH_CLIENT_ID}`
     + `&response_type=code&scope=${scopes}`
     + `&redirect_uri=${import.meta.env.VITE_APP_REDIRECT_URI}`;
-  }
+  };
+
+  clearLocalStorageData = () => {
+    window.localStorage.clear();
+    this.setState({
+      showClearStatus: true,
+    });
+    const fadeOut = () => {
+      this.setState({
+        showClearStatus: false,
+      });
+    };
+    this.checkmarkInt = setTimeout(fadeOut, 5000);
+  };
 
   render() {
     let loginUrl = this.getLoginUrl();
@@ -31,6 +50,11 @@ class Login extends Component {
         </code>
       </div>
     ) : null;
+
+    let checkmarkClassName = 'with-checkmark';
+    if (this.state.showClearStatus) {
+      checkmarkClassName = 'with-checkmark checkmark-display';
+    }
 
     return (
       <div id="login-screen" className="container full-pg fade-in">
@@ -45,10 +69,19 @@ class Login extends Component {
         </a>
 
         <div>
-          <small>
-            {`v${version}`}
-          </small>
+          <div className="text-center">
+            <small>
+              {`v${version}`}
+            </small>
+          </div>
+
+          <button className="btn btn-sm btn-link link-secondary text-decoration-none" onClick={this.clearLocalStorageData}>
+            Having issues? <span className={checkmarkClassName}>
+              Reset application data
+            </span>
+          </button>
         </div>
+
         <p className="last-updated">
           <small>
             { window.lastUpdated }

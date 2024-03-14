@@ -1,12 +1,50 @@
+#login-screen .btn:not(.btn-link) {
+  background-color: #663399;
+  color: white;
+}
 #login-screen a {
-    background-color: #663399;
-    color: white;
+    color: #aaa;
 }
 #login-screen a:not(:hover) {
-    text-decoration: none;
+  text-decoration: none;
 }
-
+#login-screen a {
+  color: #aaa;
+}
 #login-screen small {
     font-size: calc(6px + 0.75vmin);
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.checkmark-display::after {
+  content: '\2713';
+  display: inline-block;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  padding-left: 0.25rem;
+  color: white;
+  font-weight: bold;
+  animation: 4.5s ease-in 0.015s scale;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes scale {
+  0% {
+      transform: translate(0px, 50%);
+      opacity: 0;
+  }
+  10% {
+      transform: translate(0px, 0%);
+      opacity: 1;
+  }
+  88% {
+      transform: translate(0px, 0%);
+      opacity: 1;
+  }
+  100% {
+      transform: none;
+      opacity: 0;
+  }
 }
