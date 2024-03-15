@@ -9,15 +9,22 @@ exports[`GameCodeForm > Should render as expected 1`] = `
       class="input-group"
     >
       <input
+        aria-autocomplete="none"
         aria-describedby="btn-send-to-queue"
-        aria-label="Enter Code"
+        aria-label="Enter Room Code"
+        autocomplete="false"
         class="form-control libre-franklin-font"
-        placeholder="ENTER CODE"
+        name="room-code"
+        placeholder="ENTER ROOM CODE"
+        role="presentation"
+        title="Paste Room Code Here"
         type="text"
+        value=""
       />
       <button
         class="btn btn-primary libre-franklin-font text-uppercase"
         id="btn-send-to-queue"
+        title="Send Code to All Players"
         type="button"
       >
         Send to Queue

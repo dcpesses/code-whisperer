@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import LoadingRipple from '@/components/loading-ripple';
 import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
+import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import ImportedMainScreen from '@/components/twitch-wheel/ImportedMainScreen';
@@ -27,7 +28,7 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
-      debugView: false,
+      deprecatedView: true,
     };
 
     this.twitchApi = TWITCH_API;
@@ -42,6 +43,8 @@ class AuthenticatedApp extends Component {
     this.componentDidMountDelayInt = 0;
 
     this.onDelayedMount = Debounce(this.onMount.bind(this), 50);
+
+    this.showLoginButton = true;
   }
 
   componentDidMount() {
@@ -191,14 +194,17 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
-  toggleDebugView = () => {
+  toggleDeprecatedView = () => {
     this.setState((prevState) => ({
-      debugView: !prevState.debugView
+      deprecatedView: !prevState.deprecatedView
     }));
   };
 
   render() {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
+      if (this.showLoginButton) {
+        return (<Login />);
+      }
       console.log('render: navigate to login');
       return (<Navigate to="/login" />);
     }
@@ -218,7 +224,7 @@ class AuthenticatedApp extends Component {
     let classNames = ['authenticated-app', 'container', 'text-center'];
 
     if (this.state.username) {
-      if (this.state.debugView) {
+      if (this.state.deprecatedView) {
         mainContent = (
           <ImportedMainScreen
             access_token={this.twitchApi?.accessToken}
@@ -226,7 +232,7 @@ class AuthenticatedApp extends Component {
             modList={this.state.modList}
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}
-            toggleDebugView={this.toggleDebugView}
+            toggleDeprecatedView={this.toggleDeprecatedView}
             twitchApi={this.twitchApi}
             user_id={this.state.user_id}
             username={this.state.username}
@@ -238,7 +244,7 @@ class AuthenticatedApp extends Component {
           <MainScreen
             accessToken={this.twitchApi?.accessToken}
             onLogOut={this.logOut}
-            toggleDebugView={this.toggleDebugView}
+            toggleDeprecatedView={this.toggleDeprecatedView}
             profile_image_url={this.state.profile_image_url}
             twitchApi={this.twitchApi}
             user_id={this.state.user_id}

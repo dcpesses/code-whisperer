@@ -1,24 +1,40 @@
-/* eslint-disable react/prop-types */
-
 import React, { Component } from 'react';
-import * as fakeStates from '../example-states';
+import PropTypes from 'prop-types';
+import {getRelativeTimeString} from '@/utils';
+import * as fakeStates from '@/components/twitch-wheel/example-states';
 
-import dice from '../dice.svg';
-import star from '../star.svg';
+import './PlayerQueue.css';
 
-import './PlayerSelect.css';
-
-// const dice = null;
-// const star = null;
-
+const GAME_PLACEHOLDER = {
+  name: '',
+  'Min players': 1,
+  'Max players': 16,
+  username: '',
+};
 export default class PlayerSelect extends Component {
+  static get propTypes() {
+    return {
+      userLookup: PropTypes.any,
+      settings: PropTypes.object,
+      twitchApi: PropTypes.any.isRequired,
+      sendWhisper: PropTypes.any,
+      sendMessage: PropTypes.any,
+    };
+  }
+  static get defaultProps() {
+    return {
+      userLookup: {},
+      settings: {},
+      sendWhisper: {},
+      sendMessage: {},
+    };
+  }
   constructor(props) {
     super(props);
     this.firstColumn = React.createRef();
     this.state = {
       interested: [],
       playing: [],
-      joined: [],
       roomCode: null,
       sentCodeStatus: {},
       streamerSeat: false,
@@ -26,31 +42,22 @@ export default class PlayerSelect extends Component {
       randCount: 0
     };
     this.randInt = 0;
+
+    this.game = GAME_PLACEHOLDER;
   }
 
   componentDidMount() {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(fakeStates.PlayerSelect);
     }
-    // this.updateColumnSizes();
-    // window.addEventListener('resize', this.updateColumnSizes);
     return;
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.updateColumnSizes);
     clearInterval(this.randInt);
     return;
   }
 
-  // updateColumnSizes = () => {
-  //   this.setState((state) => {
-  //     return {
-  //       ...state,
-  //       columnWidth: this.firstColumn.current.offsetWidth
-  //     };
-  //   });
-  // };
 
   handleNewPlayerRequest = (username, {isPrioritySeat=false}) => {
     if (isPrioritySeat) {
@@ -63,8 +70,7 @@ export default class PlayerSelect extends Component {
     }
 
     if (this.state?.interested?.map((uObj) => uObj.username)?.includes(username)
-        || this.state?.playing?.map((uObj) => uObj.username)?.includes(username)
-        || this.state?.joined?.map((uObj) => uObj.username)?.includes(username)) {
+        || this.state?.playing?.map((uObj) => uObj.username)?.includes(username)) {
       return 'you are already in the lobby.';
     }
 
@@ -102,14 +108,11 @@ export default class PlayerSelect extends Component {
   };
 
   removeUser = (username) => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        interested: state.interested.filter((iObj) => iObj.username !== username),
-        playing: state.playing.filter((pObj) => pObj.username !== username),
-        joined:  state.joined.filter((jObj) => jObj.username !== username)
-      };
-    });
+    return this.setState((state) => ({
+      ...state,
+      interested: state.interested.filter((iObj) => iObj.username !== username),
+      playing: state.playing.filter((pObj) => pObj.username !== username)
+    }));
   };
 
   clearQueue = () => {
@@ -117,8 +120,7 @@ export default class PlayerSelect extends Component {
       return {
         ...state,
         interested: [],
-        playing: [],
-        joined: []
+        playing: []
       };
     });
   };
@@ -143,7 +145,6 @@ export default class PlayerSelect extends Component {
 
   playerCount = () => {
     return this.state.playing.length
-      + this.state.joined.length
       + (this.state.streamerSeat ? 1 : 0);
   };
 
@@ -157,8 +158,8 @@ export default class PlayerSelect extends Component {
   };
 
   canStartGame = () => {
-    return this.props.game?.['Max players'] >= this.playerCount() &&
-      this.props.game?.['Min players'] <= this.playerCount();
+    return this.game?.['Max players'] >= this.playerCount() &&
+      this.game?.['Min players'] <= this.playerCount();
   };
 
   startGame = () => {
@@ -168,7 +169,6 @@ export default class PlayerSelect extends Component {
         ...state,
         interested: [],
         playing: [],
-        joined: [],
         roomCode: null
       };
     });
@@ -177,7 +177,7 @@ export default class PlayerSelect extends Component {
 
   initRandomizePlayersAnimation = () => {
     const numPlayersToAdd = Math.min(
-      this.props.game['Max players'] - this.playerCount(),
+      this.game['Max players'] - this.playerCount(),
       this.state.interested.length
     );
     if (numPlayersToAdd > 0) {
@@ -209,7 +209,7 @@ export default class PlayerSelect extends Component {
 
   randomizePlayers = () => {
     const numPlayersToAdd = Math.min(
-      this.props.game['Max players'] - this.playerCount(),
+      this.game['Max players'] - this.playerCount(),
       this.state.interested.length
     );
 
@@ -230,12 +230,10 @@ export default class PlayerSelect extends Component {
         ];
       }
     }
-    this.setState((state) => {
-      return {
-        interested: state.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
-        playing
-      };
-    });
+    this.setState((state) => ({
+      interested: state.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
+      playing
+    }));
   };
 
   renderPlayerCard = (userObj, id, curColumn) => {
@@ -246,51 +244,70 @@ export default class PlayerSelect extends Component {
 
     let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode !== null);
 
-    // let btnJoined;
-    let btnPlaying;
-    let btnInterested;
+    // let btnPlaying;
+    // let btnInterested;
     let btnSendCode;
 
-    // if (curColumn !== 'joined') {
-    //     btnJoined = (
-    //         <button className='change-col' onClick={this.updateColumnForUser.bind(this, userObj, 'joined')}>Joined</button>
-    //     );
-    // }
-    if (curColumn !== 'playing') {
-      btnPlaying = (
-        <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'playing')}>Playing</button>
-      );
+    let btnProps;
+
+    if (curColumn === 'interested') {
+      // btnPlaying = (
+      //   <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'playing')}>Playing</button>
+      // );
+      btnProps = {
+        onClick: this.updateColumnForUser.bind(this, userObj, 'playing'),
+        label: 'Add to Playing'
+      };
     }
-    if (curColumn !== 'interested') {
-      btnInterested = (
-        <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'interested')}>Interested</button>
-      );
-    }
-    if (curColumn === 'playing' && displaySendCodeBtn) {
-      btnSendCode = (
-        <button className="change-col send-code" onClick={ this.sendCode.bind(this, userObj) }>Send Code</button>
-      );
+    if (curColumn === 'playing') {
+      // btnInterested = (
+      //   <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'interested')}>Interested</button>
+      // );
+      btnProps = {
+        onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
+        label: 'Back to Interested'
+      };
+      if (displaySendCodeBtn) {
+        btnSendCode = (
+          <button className="btn btn-sm btn-info send-code" onClick={ this.sendCode.bind(this, userObj) } disabled={!this.state.roomCode}>Send</button>
+        );
+      }
     }
 
+    let usernameColorClassName = 'text-body-emphasis';
     let redemptionIndicator;
     if (userObj.isPrioritySeat === true) {
+      usernameColorClassName = 'text-warning-emphasis';
       redemptionIndicator = (
-        <img src={star} alt="Priority seat redemption"/>
+        <span title="Priority seat redemption" className="align-self-center">&#9733;</span>
       );
     }
 
+    const relativeTime = (userObj.time) ? getRelativeTimeString(userObj.time) : 'xx mins ago';
+
     return (
-      <div key={id} className="player-card lh-sm fs-5">
-        <div className="player-card-username">
-          {redemptionIndicator}
-          <p className="player-name">{userObj.username}</p>
-        </div>
-        <div className="change-col-buttons-container">
-          {btnSendCode}
-          {btnInterested}
-          {btnPlaying}
-          {/*btnJoined*/}
-          <button className="change-col" onClick={this.removeUser.bind(this, userObj.username)}>X</button>
+      <div key={id} className="p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
+        <div className="d-flex justify-content-between">
+          <div className="d-flex flex-row">
+            <button className="btn btn-sm btn-link text-decoration-none p-1 lh-1" onClick={this.removeUser.bind(this, userObj.username)} title="Remove">&#128683;</button>
+            {' '}
+            <div className="flex-column ms-1">
+              <strong className={`${usernameColorClassName} fs-4 saira-condensed fw-bold`}>
+                {userObj.username} {redemptionIndicator}
+              </strong>
+              <span className="text-info-emphasis d-block smaller fw-semibold">
+                {relativeTime}
+                {/* 9 mins ago */}
+              </span>
+            </div>
+          </div>
+          <div className="d-flex flex-row">
+            <button className="btn btn-secondary btn-sm fw-semibold" onClick={btnProps.onClick}>
+              {btnProps.label}
+            </button>
+            {btnSendCode}
+          </div>
+
         </div>
       </div>
     );
@@ -311,12 +328,12 @@ export default class PlayerSelect extends Component {
 
   renderPlayerCount = () => {
     let className = 'player-count';
-    if (this.props.game?.['Max players'] < this.playerCount()) {
+    if (this.game?.['Max players'] < this.playerCount()) {
       className += ' overlimit';
     }
     return (
       <div className={className}>
-        {this.playerCount()} of {this.props.game?.['Max players']} seats claimed
+        {this.playerCount()} of {this.game?.['Max players']} seats claimed
       </div>
     );
   };
@@ -326,7 +343,7 @@ export default class PlayerSelect extends Component {
       id: userObj['user-id'],
       username: userObj.username
     };
-    return this.props.sendWhisper(player, this.state.roomCode);
+    return this.props.twitchApi.sendWhisper(player, this.state.roomCode);
   };
 
   sendCodeToAll = () => {
@@ -334,21 +351,21 @@ export default class PlayerSelect extends Component {
       return;
     }
     if (this.state.playing.length === 0) {
-      this.props.sendMessage('Sorry, can\'t send the code to 0 players. :p');
+      this.props.twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
     let sendingToMsg = 'Sending room code to';
     if (this.state.playing.length === 1) {
-      this.props.sendMessage(`${sendingToMsg} 1 person`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person`);
     } else {
-      this.props.sendMessage(`${sendingToMsg} ${this.state.playing.length} people`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people`);
     }
 
     return this.state.playing.forEach((userObj, i) => {
       (function(i, userObj, roomCode, props) {
         setTimeout(function() {
           let metadata = props.userLookup[userObj?.username] || {};
-          return props.sendWhisper({
+          return props.twitchApi.sendWhisper({
             id: metadata['user-id'],
             username: userObj.username
           }, roomCode);
@@ -358,69 +375,99 @@ export default class PlayerSelect extends Component {
   };
 
   render() {
-    let startGameClass = 'btn btn-sm start-game';
-    if (this.playerCount() < this.props.game?.['Min players']) {
+    let startGameClass = 'btn btn-sm strt-game';
+    if (this.playerCount() < this.game?.['Min players']) {
       startGameClass += ' disabled';
     }
 
-    let inputRoomCode;
-    if (this.state.playing.length > 0 && this.props.settings?.enableRoomCode) {
-      inputRoomCode = (
-        <div className="input-group input-group-sm">
-          <input type="text" name="room-code" value={this.state.roomCode || ''} size="5"
+    let inputRoomCode = (
+      <div className="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6">
+        <div className="input-group">
+          <input type="text" name="room-code" value={this.state.roomCode || ''}
             autoComplete="false"
             aria-autocomplete="none"
-            aria-describedby="room-code-label"
-            className="form-control room-code py-0"
+            aria-describedby="btn-send-to-queue"
+            aria-label="Enter Room Code"
+            className="form-control libre-franklin-font"
             onChange={this.handleRoomCodeChange}
             onFocus={this.handleRoomCodeFocus}
-            placeholder="Code"
+            placeholder="ENTER ROOM CODE"
             role="presentation"
-            title="Paste Room Code Here" />
-          <button className="btn btn-sm btn-outline-secondary" onClick={this.sendCodeToAll} title="Send Code to All Players">&#10132;</button>
+            title="Paste Room Code Here"
+          />
+          <button type="button"
+            className="btn btn-primary libre-franklin-font text-uppercase"
+            id="btn-send-to-queue"
+            onClick={this.sendCodeToAll}
+            title="Send Code to All Players"
+            disabled={this.state.playing.length===0 || !this.state.roomCode}
+          >
+            Send to Queue
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
 
     return (
-      <div className={`card player-select-container rand-${this.state.randCount}`}>
-        <div className="card-header d-flex justify-content-between">
-          {this.renderStreamerSeatToggle()}
-          <div className="fs-2 lh-sm game-name">
-            <b>{this.props.game?.name ?? 'TBD'}</b>
-            {this.renderPlayerCount()}
-          </div>
+      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
+        <div className="queue my-1 px-md-1 col-12">
+          {inputRoomCode}
+        </div>
 
-          <div className="card-header-item d-flex align-items-center align-self-center flex-column">
-            {inputRoomCode}
-            <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
-              Clear Seats
-            </button>
+        <div className="queue my-1 px-md-1 col-12">
+          <div className="bg-body rounded shadow-sm p-2 d-flex justify-content-between">
+
+            {this.renderStreamerSeatToggle()}
+
+            <div className="fs-6 lh-sm align-self-center">
+              {this.renderPlayerCount()}
+            </div>
+
           </div>
         </div>
-        <div className="card-body player-card-container">
-          <div ref={this.firstColumn} className="player-card-column interested">
-            <p className="player-card-column-header">Interested</p>
-            {this.state.interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-            {this.state.interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-          </div>
 
-          <div className="player-card-column playing">
-            <p className="player-card-column-header">Playing
-              <button className="dice" onClick={this.initRandomizePlayersAnimation}>
-                <img src={dice} alt="dice icon"/>
+        <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
+          <div className="bg-body rounded shadow-sm p-2">
+            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+              <span className="me-auto align-self-center">
+                Interested
+              </span>
+
+              <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
+                Randomize
               </button>
-            </p>
-            {this.state.playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-            {this.state.playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-          </div>
+            </h6>
+            <div className="d-flex flex-column text-body">
 
-          {/*<div className='player-card-column joined'>
-                        <p className="player-card-column-header">Joined</p>
-                        {this.state.joined.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'joined') )}
-                        {this.state.joined.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'joined') )}
-                    </div>*/}
+              {this.state.interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+              {this.state.interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+
+            </div>
+          </div>
         </div>
+
+
+        <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
+          <div className="bg-body rounded shadow-sm p-2">
+            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+              <span className="me-auto align-self-center">
+                Playing
+              </span>
+
+              <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
+                Clear Seats
+              </button>
+            </h6>
+            <div className="d-flex flex-column text-body">
+
+              {this.state.playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {this.state.playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+
+            </div>
+
+          </div>
+        </div>
+
       </div>
     );
   }
