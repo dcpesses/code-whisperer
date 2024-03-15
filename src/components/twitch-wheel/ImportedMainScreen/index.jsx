@@ -53,7 +53,7 @@ export default class ImportedMainScreen extends Component {
       colors: ['#b0a4f9', '#bff0ff', '#7290f9', '#81cef4', '#a3faff', '#96eaff', '#8cf1ff', '#7fc0e8', '#70b3ea', '#92c3fc', '#b2dcf4', '#7b92ed', '#a7d0f2', '#c4f5fc', '#aaefff', '#aabdef', '#9bc0ef', '#99edff', '#70b0f9', '#c4e1ff', '#9a86e8', '#beb9f7',],
       counter: 0,
       history: [GAME_PLACEHOLDER], // requested / played games
-      logUserMessages: false,
+      logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
       settings,
       showOptionsMenu: false,
@@ -132,7 +132,7 @@ export default class ImportedMainScreen extends Component {
       label: 'Log Debug Environment',
       onClick: () => {
         console.log('NODE_ENV:', import.meta.env.NODE_ENV);
-        console.log('REACT_APP_REDIRECT_URI:', import.meta.env.VITE_APP_REDIRECT_URI);
+        console.log('VITE_APP_REDIRECT_URI:', import.meta.env.VITE_APP_REDIRECT_URI);
       }
     }, {
       label: 'Toggle User Message Logging',
@@ -150,7 +150,7 @@ export default class ImportedMainScreen extends Component {
 
   getOptionsMenu = () => {
     return [{
-      label: 'Load Mock Game & Player Requests',
+      label: 'Load Mock Player Requests',
       onClick: () => {
         return this.setState(
           Object.assign({}, fakeStates.ImportedMainScreen, {
@@ -254,51 +254,10 @@ export default class ImportedMainScreen extends Component {
      * @returns Promise
      */
   sendWhisper = async(player, msg) => {
-    if (this.twitchApi) {
-      return this.twitchApi?.sendWhisper(player, msg);
+    if (this.twitchApi?.sendWhisper) {
+      return await this.twitchApi?.sendWhisper(player, msg);
     }
-    let requestParams = new URLSearchParams({
-      from_user_id: this.props.id,
-      to_user_id: player.id
-    });
-    let requestBody = {message: msg};
-    await this.props.validateToken();
-    return fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        Authorization: `Bearer ${this.props.access_token}`,
-        'Client-ID': import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(async response => {
-        if (response.status !== 204) {
-          let errMsg = `Error ${response.status} sending to @${player.username}`;
-          // console.log(errMsg);
-          let errJson;
-          try {
-            errJson = await response.json();
-            if (errJson.error) {
-              errMsg += `: ${errJson.error}`;
-            }
-            errJson.player = player;
-            console.log({errMsg, error: errJson});
-          } catch (e) {
-            console.log({errMsg, error: e});
-          }
-          this.twitchApi?.sendMessage(`/me ${errMsg}`);
-          return Promise.resolve(errMsg);
-        }
-        let msg = `Code sent to @${player.username}`;
-        this.twitchApi?.sendMessage(`/me ${msg}`);
-        return Promise.resolve(msg);
-      }).catch(error => {
-        let errMsg = `Error sending to @${player.username}, please check console for details.`;
-        console.log({errMsg, error});
-        this.twitchApi?.sendMessage(`/me ${errMsg}`);
-        return Promise.reject(errMsg);
-      });
+    return window.console.log('ImportedMainScreen - sendWhisper: no whisper sent', player, msg);
   };
 
   startGame = () => {
@@ -325,7 +284,6 @@ export default class ImportedMainScreen extends Component {
       <div className="main-screen">
         <MessageHandler
           access_token={this.props.access_token}
-          addGameRequest={this.addGameRequest}
           allowGameRequests={this.state.allowGameRequests}
           caniplayHandler={this.routePlayRequest}
           changeNextGameIdx={this.changeNextGameIdx}
@@ -337,6 +295,7 @@ export default class ImportedMainScreen extends Component {
           modList={this.props.modList}
           onDelete={this.removeGame}
           onMessage={this.onMessage}
+          onSettingsUpdate={this.onSettingsUpdate}
           openQueueHandler={this.routeOpenQueueRequest}
           playerExitHandler={this.routeLeaveRequest}
           previousGames={this.state.history.slice(0, this.state.nextGameIdx)}
@@ -344,9 +303,9 @@ export default class ImportedMainScreen extends Component {
           removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
           setNextGame={this.setNextGame}
           settings={this.state.settings}
-          onSettingsUpdate={this.onSettingsUpdate}
           startGame={this.startGame}
           toggleAllowGameRequests={this.toggleAllowGameRequests}
+          twitchApi={this.props.twitchApi}
           upcomingGames={this.state.history.slice(this.state.nextGameIdx)}
         />
         <HeaderMenu
@@ -356,7 +315,7 @@ export default class ImportedMainScreen extends Component {
           items={this.getOptionsMenu()}
           reloadGameList={this.messageHandler?.reloadGameList}
           onHide={this.toggleOptionsMenu}
-          onLogout={this.props.onLogout}
+          onLogout={this.props.onLogOut}
           onSettingsUpdate={this.onSettingsUpdate}
           settings={this.state.settings}
           showOptionsMenu={this.state.showOptionsMenu}
