@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import Header from '../../components/header';
-import GameCodeForm from '../../components/game-code-form';
-import GameQueue from '../../components/game-queue';
-import TestUserForm from '../../components/test-user-form';
+import Header from '@/components/header';
+import GameCodeForm from '@/components/game-code-form';
+import GameQueue from '@/components/game-queue';
+import TestUserForm from '@/components/test-user-form';
 
 import './main-screen.css';
 
