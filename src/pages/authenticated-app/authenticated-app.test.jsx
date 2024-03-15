@@ -3,8 +3,8 @@
 import {AuthenticatedApp} from '@/pages/authenticated-app';
 import {createRenderer} from 'react-test-renderer/shallow';
 // import MainScreen from '../landing/MainScreen';
+import Login from '@/pages/login';
 import React from 'react';
-import {Navigate} from 'react-router-dom';
 import {vi} from 'vitest';
 
 // vi.mock('../landing/MainScreen');
@@ -202,7 +202,7 @@ describe('AuthenticatedApp', () => {
       expect(component).toMatchSnapshot();
       shallowRenderer.unmount();
     });
-    test('should render with Navigate on failed login', () => {
+    test('should render with Login on failed login', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
@@ -213,11 +213,11 @@ describe('AuthenticatedApp', () => {
         username: null
       });
       let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Navigate);
+      expect(component.type).toBe(Login);
       expect(component).toMatchSnapshot();
       shallowRenderer.unmount();
     });
-    test('should render with Navigate on has_logged_out state', () => {
+    test('should render with Login on has_logged_out state', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
@@ -229,7 +229,7 @@ describe('AuthenticatedApp', () => {
         username: null
       });
       let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Navigate);
+      expect(component.type).toBe(Login);
       expect(component).toMatchSnapshot();
       shallowRenderer.unmount();
     });

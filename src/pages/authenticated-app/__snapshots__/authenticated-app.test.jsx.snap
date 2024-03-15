@@ -1,11 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`AuthenticatedApp > render > should render with Login on failed login 1`] = `<Login />`;
+
+exports[`AuthenticatedApp > render > should render with Login on has_logged_out state 1`] = `<Login />`;
+
 exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 <div
   id="authenticated-app container text-center"
 >
-  <MainScreen
-    accessToken=""
+  <ImportedMainScreen
+    channel="sirgoosewell"
+    modList={[]}
     onLogOut={[Function]}
     profile_image_url=""
     toggleDebugView={[Function]}
@@ -19,18 +24,6 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
     username="sirgoosewell"
   />
 </div>
-`;
-
-exports[`AuthenticatedApp > render > should render with Navigate on failed login 1`] = `
-<Navigate
-  to="/login"
-/>
-`;
-
-exports[`AuthenticatedApp > render > should render with Navigate on has_logged_out state 1`] = `
-<Navigate
-  to="/login"
-/>
 `;
 
 exports[`AuthenticatedApp > render > should render with null 1`] = `

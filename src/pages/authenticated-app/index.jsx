@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import LoadingRipple from '@/components/loading-ripple';
 import MainScreen from '@/pages/main-screen';
 import {Navigate} from 'react-router-dom';
+import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import ImportedMainScreen from '@/components/twitch-wheel/ImportedMainScreen';
@@ -42,6 +43,8 @@ class AuthenticatedApp extends Component {
     this.componentDidMountDelayInt = 0;
 
     this.onDelayedMount = Debounce(this.onMount.bind(this), 50);
+
+    this.showLoginButton = true;
   }
 
   componentDidMount() {
@@ -199,6 +202,9 @@ class AuthenticatedApp extends Component {
 
   render() {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
+      if (this.showLoginButton) {
+        return (<Login />);
+      }
       console.log('render: navigate to login');
       return (<Navigate to="/login" />);
     }
