@@ -8,7 +8,7 @@ import './header.css';
 
 export const noop = ()=>{};
 
-function Header({accessToken, onLogOut, profile_image_url, toggleDebugView, user_id, username}) {
+function Header({accessToken, onLogOut, profile_image_url, toggleDeprecatedView, user_id, username}) {
   let img;
   if (profile_image_url) {
     img = (
@@ -46,7 +46,7 @@ function Header({accessToken, onLogOut, profile_image_url, toggleDebugView, user
                 access_token: {accessToken}
               </Navbar.Text>
               <hr className="border-bottom my-2" />
-              <Nav.Link onClick={toggleDebugView}>Switch Debug View</Nav.Link>
+              <Nav.Link onClick={toggleDeprecatedView}>Switch View</Nav.Link>
               <hr className="border-bottom my-2" />
               <Nav.Link onClick={onLogOut}>Logout</Nav.Link>
             </Nav>
@@ -61,14 +61,14 @@ Header.propTypes = {
   accessToken: PropTypes.any,
   onLogOut: PropTypes.func,
   profile_image_url: PropTypes.any,
-  toggleDebugView: PropTypes.func,
+  toggleDeprecatedView: PropTypes.func,
   user_id: PropTypes.any,
   username: PropTypes.any,
 };
 
 Header.defaultProps = {
   accessToken: '',
-  toggleDebugView: noop,
+  toggleDeprecatedView: noop,
   onLogOut: noop,
   profile_image_url: '',
   user_id: '',

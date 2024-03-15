@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import Header from '../../components/header';
 import GameCodeForm from '../../components/game-code-form';
@@ -15,7 +14,7 @@ function MainScreen({accessToken, onLogOut, profile_image_url, toggleDebugView, 
     <div className="main-screen">
       <Header
         accessToken={accessToken}
-        toggleDebugView={toggleDebugView}
+        toggleDeprecatedView={toggleDeprecatedView}
         onLogOut={onLogOut}
         profile_image_url={profile_image_url}
         user_id={user_id}
@@ -47,7 +46,7 @@ MainScreen.propTypes = {
   accessToken: PropTypes.any,
   onLogOut: PropTypes.func,
   profile_image_url: PropTypes.any,
-  toggleDebugView: PropTypes.func,
+  toggleDeprecatedView: PropTypes.func,
   updateUsername: PropTypes.func,
   user_id: PropTypes.any,
   username: PropTypes.any,
@@ -57,7 +56,7 @@ MainScreen.defaultProps = {
   accessToken: '',
   onLogOut: noop,
   profile_image_url: '',
-  toggleDebugView: noop,
+  toggleDeprecatedView: noop,
   updateUsername: noop,
   user_id: '',
   username: '',

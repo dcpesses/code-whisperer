@@ -13,7 +13,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
     modList={[]}
     onLogOut={[Function]}
     profile_image_url=""
-    toggleDebugView={[Function]}
+    toggleDeprecatedView={[Function]}
     twitchApi={
       {
         "mock": "TwitchApi",

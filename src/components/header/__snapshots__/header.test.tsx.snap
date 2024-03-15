@@ -74,7 +74,7 @@ exports[`Header > Should render as expected 1`] = `
               role="button"
               tabindex="0"
             >
-              Switch Debug View
+              Switch View
             </a>
             <hr
               class="border-bottom my-2"

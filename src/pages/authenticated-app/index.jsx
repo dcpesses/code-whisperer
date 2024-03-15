@@ -28,7 +28,7 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
-      debugView: false,
+      deprecatedView: true,
     };
 
     this.twitchApi = TWITCH_API;
@@ -194,9 +194,9 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
-  toggleDebugView = () => {
+  toggleDeprecatedView = () => {
     this.setState((prevState) => ({
-      debugView: !prevState.debugView
+      deprecatedView: !prevState.deprecatedView
     }));
   };
 
@@ -224,7 +224,7 @@ class AuthenticatedApp extends Component {
     let classNames = ['authenticated-app', 'container', 'text-center'];
 
     if (this.state.username) {
-      if (this.state.debugView) {
+      if (this.state.deprecatedView) {
         mainContent = (
           <ImportedMainScreen
             access_token={this.twitchApi?.accessToken}
@@ -232,7 +232,7 @@ class AuthenticatedApp extends Component {
             modList={this.state.modList}
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}
-            toggleDebugView={this.toggleDebugView}
+            toggleDeprecatedView={this.toggleDeprecatedView}
             twitchApi={this.twitchApi}
             user_id={this.state.user_id}
             username={this.state.username}
@@ -244,7 +244,7 @@ class AuthenticatedApp extends Component {
           <MainScreen
             accessToken={this.twitchApi?.accessToken}
             onLogOut={this.logOut}
-            toggleDebugView={this.toggleDebugView}
+            toggleDeprecatedView={this.toggleDeprecatedView}
             profile_image_url={this.state.profile_image_url}
             twitchApi={this.twitchApi}
             user_id={this.state.user_id}
