@@ -63,23 +63,46 @@ class AuthenticatedApp extends Component {
       console.log('authenticated-app - onDelayedMount: not mounted');
     }
     let accessToken = localStorage.getItem('__access_token');
+    let refreshToken = localStorage.getItem('__refresh_token');
     let expiryTime = parseInt(localStorage.getItem('__expiry_time'), 10);
     let currTime = Date.now();
-    if (accessToken && accessToken !== 'undefined' && !isNaN(expiryTime) && expiryTime > currTime) {
-      // try using existing access token
-      console.log('onDelayedMount - trying previous token', {
-        localStorage: accessToken
-      });
-      try {
-        this.twitchApi.accessToken = accessToken;
-        const resumeResponse = await this.twitchApi.resume();
-        if (resumeResponse && !resumeResponse.error) {
-          console.log('onDelayedMount - successful resume response!', resumeResponse);
-          return this.onTwitchAuthInit();
+    if (accessToken && accessToken !== 'undefined' && !isNaN(expiryTime)) {
+      if (expiryTime > currTime) {
+        // try using existing access token
+        console.log('onDelayedMount - trying previous token', {
+          localStorage: accessToken
+        });
+        try {
+          this.twitchApi.accessToken = accessToken;
+          const resumeResponse = await this.twitchApi.resume();
+          if (resumeResponse && !resumeResponse.error) {
+            console.log('onDelayedMount - successful resume response!', resumeResponse);
+            return this.onTwitchAuthInit();
+          }
+          console.log('onDelayedMount - unexpected resume response', resumeResponse);
+        } catch (e) {
+          console.log('onDelayedMount - previous init not valid', e);
         }
-        console.log('onDelayedMount - unexpected resume response', resumeResponse);
-      } catch (e) {
-        console.log('onDelayedMount - previous init not valid', e);
+      } else if (refreshToken) {
+        // try using existing refresh token
+        console.log('onDelayedMount - trying refresh token', {
+          localStorage: refreshToken
+        });
+        try {
+          this.twitchApi.refreshToken = refreshToken;
+          const refreshResponse = await this.twitchApi.requestRefreshToken();
+          if (refreshResponse && !refreshResponse.error) {
+            console.log('onDelayedMount - successful requestRefreshToken response!', refreshResponse);
+          }
+          const resumeResponse = await this.twitchApi.resume(refreshResponse.access_token, refreshResponse);
+          if (resumeResponse && !resumeResponse.error) {
+            console.log('onDelayedMount - successful requestRefreshToken response!', resumeResponse);
+            return this.onTwitchAuthInit();
+          }
+          console.log('onDelayedMount - unexpected requestRefreshToken response', resumeResponse);
+        } catch (e) {
+          console.log('onDelayedMount - previous init not valid', e);
+        }
       }
     }
     console.log('onDelayedMount - calling init');

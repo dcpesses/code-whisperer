@@ -498,6 +498,7 @@ export default class TwitchApi {
     if (this.debug) {window.console.log('TwitchApi - reset()');}
     this.resetState();
     this.resetLocalStorageItems();
+    window.location.hash = '';
   };
 
   logOut = async() => {
@@ -514,11 +515,12 @@ export default class TwitchApi {
           Accept: 'application/vnd.twitchtv.v5+json'
         }
       });
-      const responseJson = await response.json();
-      if (responseJson.status === 204) {
+      window.console.log('TwitchApi - logout:', response);
+      if (response.status === 200) {
+        this.closeChatClient();
         this.reset();
       }
-      return responseJson;
+      return response;
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - logout: error', error);}
       return new Error();

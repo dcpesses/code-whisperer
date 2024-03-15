@@ -589,22 +589,23 @@ describe('TwitchApi', () => {
   });
 
   describe('reset', () => {
+
     test('should call reset related functions', () => {
       vi.spyOn(twitchApi, 'resetLocalStorageItems');
       vi.spyOn(twitchApi, 'resetState');
       twitchApi.reset();
       expect(twitchApi.resetLocalStorageItems).toHaveBeenCalled();
       expect(twitchApi.resetState).toHaveBeenCalled();
+      expect(window.location.hash).toBe('');
     });
   });
 
   describe('logOut', () => {
     test('should invalidate the active access token and reset the instance', async() => {
       vi.spyOn(twitchApi, 'reset');
+      vi.spyOn(twitchApi, 'closeChatClient');
       vi.spyOn(global, 'fetch').mockResolvedValue({
-        json: () => Promise.resolve({
-          status: 204,
-        })
+        status: 200
       });
       await twitchApi.logOut();
       expect(global.fetch).toHaveBeenCalledWith('https://id.twitch.tv/oauth2/revoke?client_id=mockClientId&token=mockAccessToken&redirect_uri=mockRedirectUri', {
