@@ -5,10 +5,9 @@
 import {Component} from 'react';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
-
 import MessageHandler from '../MessageHandler';
-import OptionsMenu from '../OptionsMenu';
-import PlayerSelect from '../PlayerSelect';
+import HeaderMenu from '../OptionsMenu';
+import PlayerQueue from '../PlayerSelect';
 import * as fakeStates from '../example-states';
 
 import './MainScreen.css';
@@ -320,93 +319,62 @@ export default class ImportedMainScreen extends Component {
 
   render() {
 
-    let mainClassName = this.state.showPlayerSelect ? 'player-select' : 'game-select';
-
-    let subheading = (
-      <span className="subheading-player fade-in-delay">
-        Type <b>!new</b> in {this.props.channel}&apos;s chat if you want to join the next game
-      </span>
-    );
-
-    let innerContent;
-    let rightColumn;
-
-    if (this.state.showPlayerSelect) {
-      innerContent = (
-        <PlayerSelect
-          _game={this.state.history?.[this.state.nextGameIdx]}
-          game={GAME_PLACEHOLDER}
-          sendMessage={this.twitchApi?.sendMessage}
-          sendWhisper={this.twitchApi?.sendWhisper}
-          settings={this.state.settings}
-          startGame={this.startGame}
-          ref={this.setPlayerSelectRef}
-          userLookup={this.state.userLookup}
-        />
-      );
-    }
-
     let gamesList = this.getGamesList();
 
     return (
-      <div className="main-screen-wrapper">
-        <nav className="main-screen-nav navbar-dark">
-          <button className="btn btn-toggle-options float-end navbar-toggler" type="button" onClick={this.toggleOptionsMenu}>
-            <span className="navbar-toggler-icon"></span>
-          </button>
-        </nav>
-        <div id="main-screen" className={mainClassName}>
-          <MessageHandler
-            access_token={this.props.access_token}
-            addGameRequest={this.addGameRequest}
-            allowGameRequests={this.state.allowGameRequests}
-            caniplayHandler={this.routePlayRequest}
-            changeNextGameIdx={this.changeNextGameIdx}
-            channel={this.props.channel}
-            clearQueueHandler={this.routeClearQueueRequest}
-            closeQueueHandler={this.routeCloseQueueRequest}
-            logUserMessages={this.state.logUserMessages}
-            messages={this.state.messages}
-            modList={this.props.modList}
-            onDelete={this.removeGame}
-            onMessage={this.onMessage}
-            openQueueHandler={this.routeOpenQueueRequest}
-            playerExitHandler={this.routeLeaveRequest}
-            previousGames={this.state.history.slice(0, this.state.nextGameIdx)}
-            ref={this.setMessageHandlerRef}
-            removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
-            setNextGame={this.setNextGame}
+      <div className="main-screen">
+        <MessageHandler
+          access_token={this.props.access_token}
+          addGameRequest={this.addGameRequest}
+          allowGameRequests={this.state.allowGameRequests}
+          caniplayHandler={this.routePlayRequest}
+          changeNextGameIdx={this.changeNextGameIdx}
+          channel={this.props.channel}
+          clearQueueHandler={this.routeClearQueueRequest}
+          closeQueueHandler={this.routeCloseQueueRequest}
+          logUserMessages={this.state.logUserMessages}
+          messages={this.state.messages}
+          modList={this.props.modList}
+          onDelete={this.removeGame}
+          onMessage={this.onMessage}
+          openQueueHandler={this.routeOpenQueueRequest}
+          playerExitHandler={this.routeLeaveRequest}
+          previousGames={this.state.history.slice(0, this.state.nextGameIdx)}
+          ref={this.setMessageHandlerRef}
+          removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
+          setNextGame={this.setNextGame}
+          settings={this.state.settings}
+          onSettingsUpdate={this.onSettingsUpdate}
+          startGame={this.startGame}
+          toggleAllowGameRequests={this.toggleAllowGameRequests}
+          upcomingGames={this.state.history.slice(this.state.nextGameIdx)}
+        />
+        <HeaderMenu
+          gamesList={gamesList}
+          parentState={this.state}
+          debugItems={this.getOptionsDebugMenu()}
+          items={this.getOptionsMenu()}
+          reloadGameList={this.messageHandler?.reloadGameList}
+          onHide={this.toggleOptionsMenu}
+          onLogout={this.props.onLogout}
+          onSettingsUpdate={this.onSettingsUpdate}
+          settings={this.state.settings}
+          showOptionsMenu={this.state.showOptionsMenu}
+          twitchApi={this.props.twitchApi}
+          toggleDeprecatedView={this.props.toggleDeprecatedView}
+        />
+        <div id="content" className="container mx-auto">
+          <PlayerQueue
+            _game={this.state.history?.[this.state.nextGameIdx]}
+            game={GAME_PLACEHOLDER}
+            sendMessage={this.twitchApi?.sendMessage}
+            sendWhisper={this.twitchApi?.sendWhisper}
             settings={this.state.settings}
-            onSettingsUpdate={this.onSettingsUpdate}
+            twitchApi={this.props.twitchApi}
             startGame={this.startGame}
-            toggleAllowGameRequests={this.toggleAllowGameRequests}
-            upcomingGames={this.state.history.slice(this.state.nextGameIdx)}
+            ref={this.setPlayerSelectRef}
+            userLookup={this.state.userLookup}
           />
-          <div className="left-column fade-in">
-
-            <h1>Seat Requests</h1>
-            <h4>{subheading}</h4>
-
-            <div className="left-column-body">
-              <div className="left-column-inner-body">
-                {innerContent}
-              </div>
-            </div>
-          </div>
-          {rightColumn}
-          {/* {gameSelectedModal} */}
-          <OptionsMenu
-            gamesList={gamesList}
-            parentState={this.state}
-            debugItems={this.getOptionsDebugMenu()}
-            items={this.getOptionsMenu()}
-            reloadGameList={this.messageHandler?.reloadGameList}
-            onHide={this.toggleOptionsMenu}
-            onLogout={this.props.onLogout}
-            onSettingsUpdate={this.onSettingsUpdate}
-            settings={this.state.settings}
-            showOptionsMenu={this.state.showOptionsMenu}
-            toggleDebugView={this.props.toggleDebugView} />
         </div>
       </div>
     );

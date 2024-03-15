@@ -69,12 +69,6 @@ body {
   color: var(--text-primary);
 }
 
-.App-header p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -97,11 +91,23 @@ body {
 }
 
 
+
+
+.navbar-toggler.no-dropdown-split::after {
+  display: none;
+}
+.smaller {
+  font-size: 11px;
+}
+
+
 .last-updated {
   position: absolute;
   bottom: 0;
   text-align: center;
   font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .bg-purple {

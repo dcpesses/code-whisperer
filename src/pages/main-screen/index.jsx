@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import Header from '@/components/header';
 import GameCodeForm from '@/components/game-code-form';
@@ -8,7 +9,11 @@ import './main-screen.css';
 
 export const noop = ()=>{};
 
-function MainScreen({accessToken, onLogOut, profile_image_url, toggleDebugView, user_id, username, updateUsername}) {
+function MainScreen({
+  accessToken, onLogOut, profile_image_url, toggleDeprecatedView, user_id, username, updateUsername
+}) {
+
+  let [roomCode, setRoomCode] = useState('');
 
   return (
     <div className="main-screen">
@@ -23,7 +28,11 @@ function MainScreen({accessToken, onLogOut, profile_image_url, toggleDebugView, 
 
       <div id="content" className="container mx-auto">
 
-        <GameCodeForm />
+        <GameCodeForm
+          roomCode={roomCode}
+          sendCodeToAll={window.console.log}
+          setRoomCode={setRoomCode}
+        />
 
         <div className="queues d-flex flex-column flex-md-row my-2">
           <GameQueue label="play queue" />
