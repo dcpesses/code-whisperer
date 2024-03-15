@@ -20,6 +20,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
       }
     }
     updateUsername={[Function]}
+    userInfo={{}}
     user_id={0}
     username="sirgoosewell"
   />

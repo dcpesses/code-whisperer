@@ -21,6 +21,7 @@ class AuthenticatedApp extends Component {
   constructor() {
     super();
     this.state = {
+      userInfo: {},
       username: localStorage.getItem('__username') || '',
       user_id: localStorage.getItem('__user_id') || 0,
       profile_image_url: localStorage.getItem('__profile_image_url') || '',
@@ -234,6 +235,7 @@ class AuthenticatedApp extends Component {
             profile_image_url={this.state.profile_image_url}
             toggleDeprecatedView={this.toggleDeprecatedView}
             twitchApi={this.twitchApi}
+            userInfo={this.state.userInfo}
             user_id={this.state.user_id}
             username={this.state.username}
             updateUsername={this.updateUsername}
