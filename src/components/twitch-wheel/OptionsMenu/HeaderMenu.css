@@ -1,3 +1,8 @@
+.navbar-pfp-img {
+  height: 28px;
+  width: 28px;
+}
+
 #navbar-options-menu .offcanvas-body {
   padding-left: calc(var(--bs-offcanvas-padding-x) * 1.75);
 }
@@ -38,15 +43,6 @@
   font-weight: 400;
   font-size: 0.75em
 }
-/* #navbar-options-menu .btn-check:checked + .btn,
-#navbar-options-menu :not(.btn-check) + .btn:active,
-#navbar-options-menu .btn:first-child:active,
-#navbar-options-menu .btn.active, .btn.show {
-  color: #000;
-  background-color: #ffffffaa;
-  border-radius: 0;
-} */
 #dropdown-debug-menu-items.dropup .dropdown-toggle::after {
-  /* hides the dropdown caret */
   content: unset;
 }

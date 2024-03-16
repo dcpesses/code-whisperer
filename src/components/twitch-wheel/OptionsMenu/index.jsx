@@ -18,12 +18,9 @@ export default class HeaderMenu extends Component {
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
       items: PropTypes.array,
-      // onHide: PropTypes.func,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
-      // showHeaderMenu: PropTypes.bool,
-      // showSettingsMenu: PropTypes.bool,
       toggleDeprecatedView: PropTypes.func,
       twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
@@ -37,12 +34,9 @@ export default class HeaderMenu extends Component {
         validGames: null
       },
       items: [],
-      // onHide: () => void 0,
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
       settings: {},
-      // showHeaderMenu: false,
-      showSettingsMenu: false,
       toggleDeprecatedView: () => void 0,
       twitchApi: null,
       userInfo: {
@@ -56,7 +50,8 @@ export default class HeaderMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showGameList: false
+      showGameList: false,
+      showSettingsMenu: !false,
     };
     this.toggleGameList = this.toggleGameList.bind(this);
     this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
@@ -149,6 +144,7 @@ export default class HeaderMenu extends Component {
     let optionMenuItems = this.createMenuItems(items);
     let debugMenuItems = this.createDebugMenuItems(debugItems);
 
+    /*
     let toggleSubRequests = () => {
       let value = typeof settings?.enableSubRequests === 'boolean'
         ? !settings?.enableSubRequests
@@ -167,6 +163,7 @@ export default class HeaderMenu extends Component {
         : true;
       onSettingsUpdate({clearSeatsAfterRedeem: value});
     };
+    */
     let updateCustomDelimiter = (e) => {
       let {value} = e.target;
       if (!value) {
@@ -187,7 +184,7 @@ export default class HeaderMenu extends Component {
     let img, username;
     if (userInfo?.profile_image_url) {
       img = (
-        <img src={userInfo.profile_image_url} className="rounded-circle" alt={userInfo.display_name} style={{maxHeight: '28px'}} />
+        <img src={userInfo.profile_image_url} className="rounded-circle navbar-pfp-img" alt={userInfo.display_name} />
       );
       username = userInfo.display_name;
     }
@@ -218,6 +215,14 @@ export default class HeaderMenu extends Component {
                 <Collapse in={this.state.showSettingsMenu}>
                   <div id="settings-menu" className="accordion-dark accordion accordion-flush">
                     <div className="accordion-body">
+                      <Button variant="link" className="btn settings-menu"
+                        onClick={toggleEnableRoomCode}
+                        title="Allows host to set a room code that can be whispered to players."
+                      >
+                        <input type="checkbox" role="switch" checked={(settings?.enableRoomCode)} readOnly /> <span>Enable Room Code</span>
+                      </Button>
+
+                      {/*
                       <Button variant="link" className="btn settings-menu link-body-emphasis"
                         onClick={toggleSubRequests}
                         title="Allows subscribers to make additional game requests when enabled."
@@ -237,6 +242,7 @@ export default class HeaderMenu extends Component {
                       >
                         <input type="checkbox" role="switch" checked={(settings?.clearSeatsAfterRedeem)} readOnly /> <span>Clear Seats After Redeem</span>
                       </Button>
+                       */}
 
                       <Button variant="link" className="btn settings-menu"
                         title="Uses a custom character or emote to separate requests listed in the chat."
@@ -244,13 +250,6 @@ export default class HeaderMenu extends Component {
                         <span>Use Custom Delimiter: </span>
                         <input type="text" name="custom-delimiter" defaultValue={settings?.customDelimiter}
                           onChange={updateCustomDelimiter} className="form-control" />
-                      </Button>
-
-                      <Button variant="link" className="btn settings-menu"
-                        onClick={toggleEnableRoomCode}
-                        title="Allows host to set a room code that can be whispered to players."
-                      >
-                        <input type="checkbox" role="switch" checked={(settings?.enableRoomCode)} readOnly /> <span>Enable Room Code</span>
                       </Button>
                     </div>
                   </div>
