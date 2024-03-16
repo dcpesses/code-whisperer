@@ -211,21 +211,21 @@ input#reserve-seat-for-streamer:checked:after {
     margin-left: 0;
 }
 
-.card.rand-1 .interested .player-card:nth-last-child(12n+2),
-.card.rand-2 .interested .player-card:nth-child(9n-3),
-.card.rand-3 .interested .player-card:nth-child(4n-3),
-.card.rand-4 .interested .player-card:nth-child(3n+2),
-.card.rand-5 .interested .player-card:nth-child(5n+4),
-.card.rand-6 .interested .player-card:nth-child(6n-4),
-.card.rand-7 .interested .player-card:nth-child(3n+3),
-.card.rand-8 .interested .player-card:nth-child(4n+1),
-.card.rand-9 .interested .player-card:nth-child(4n-2),
-.card.rand-10 .interested .player-card:nth-child(8n-3),
-.card.rand-11 .interested .player-card:nth-child(6n-2),
-.card.rand-12 .interested .player-card:nth-child(4n+1),
-.card.rand-13 .interested .player-card:nth-child(5n-3),
-.card.rand-14 .interested .player-card:nth-last-child(11n+3) {
-    background-color: hsl(0deg 0% 80% / 75%);
+.interested-queue.rand-1  .game-queue-player:nth-last-child(12n+2),
+.interested-queue.rand-2  .game-queue-player:nth-child(9n-3),
+.interested-queue.rand-3  .game-queue-player:nth-child(4n-3),
+.interested-queue.rand-4  .game-queue-player:nth-child(3n+2),
+.interested-queue.rand-5  .game-queue-player:nth-child(5n+4),
+.interested-queue.rand-6  .game-queue-player:nth-child(6n-4),
+.interested-queue.rand-7  .game-queue-player:nth-child(3n+3),
+.interested-queue.rand-8  .game-queue-player:nth-child(4n+1),
+.interested-queue.rand-9  .game-queue-player:nth-child(4n-2),
+.interested-queue.rand-10 .game-queue-player:nth-child(8n-3),
+.interested-queue.rand-11 .game-queue-player:nth-child(6n-2),
+.interested-queue.rand-12 .game-queue-player:nth-child(4n+1),
+.interested-queue.rand-13 .game-queue-player:nth-child(5n-3),
+.interested-queue.rand-14 .game-queue-player:nth-last-child(11n+3) {
+    background-color: hsla(0, 0%, 50%, 0.5) !important;
 }
 .card:not(.rand-0) button.dice {
     transition: all 0.15s;

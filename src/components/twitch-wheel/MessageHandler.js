@@ -95,7 +95,24 @@ export default class MessageHandler extends Component {
   }
   constructor(props) {
     super(props);
+
+    // list of unique values for the max # of players of each game
+    const maxPlayersList = Array.from(
+      new Set(
+        // flatten the values of an object's objects
+        Object.values(jsonJackboxGameList).map(
+          pack => Object.values(pack).map(
+            game => game['Max players']
+          )
+        ).flat()
+      )
+    )
+      .filter(i => i && i<50) // only numeric values under 50
+      .sort( (a, b) => a-b );
+
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
+      maxPlayersList,
       // validCommands: jsonCommandList,
       validGames: jsonJackboxGameList
     };
