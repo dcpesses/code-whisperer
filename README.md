@@ -16,16 +16,28 @@ https://dcpesses.github.io/code-whisperer/
 
 *****
 
-Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to users they approve.
-
-<div align="center" width="50%">
-
-![Early interface screenshot](/assets/screenshot.png)
-
-</div>
+Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to approved users.
 
 > [!NOTE]
-> Hey! This project is still actively in development and may change from these initial specs.
+> Hey! This project is still actively in development and may be subject to change without notice. YMMV.
+ 
+## Overview
+<img src="/assets/screenshot.png" alt="app interface screenshot" align="right" width="25%" />
+The app uses two queues, Interested and Playing, which allows a streamer to manage who will
+be whispered. Users indicate if they want to join a game by entering commands in chat, which automatically adds them to the Interested queue. From there, the streamer can move users to and from the Playing queue; when a code is entered in the text form, all users in the Playing queue will be sent the code via a Twitch whisper.
+
+### Features
+- Sends game or lobby code to specific users by Twitch whisper (direct message)
+- Can send to all users at once as well as individually
+- Easy for users to join using commands in Twitch chat
+- No additional login necessary from users willing to play
+- Option to randomize user selection
+- More features coming soon...
+
+### Caveats
+- Users must be able to receive whispers
+- App must remain open in an active browser window to receive commands
+- Number of whispers sent is subject to [rate limits](https://dev.twitch.tv/docs/irc/#rate-limits)
 
 ### Chat Commands
 
