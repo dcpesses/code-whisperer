@@ -89,7 +89,7 @@ export default class ImportedMainScreen extends Component {
     }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(
-        Object.assign({}, fakeStates.ImportedMainScreen, {
+        Object.assign({}, fakeStates.MainScreen, {
           showPlayerSelect: true
         })
       );
@@ -113,14 +113,14 @@ export default class ImportedMainScreen extends Component {
       label: 'Load Mock Game Requests',
       onClick: () => {
         return this.setState(
-          Object.assign({}, fakeStates.ImportedMainScreen)
+          Object.assign({}, fakeStates.MainScreen)
         );
       }
     }, {
       label: 'Load Mock Game & Player Requests',
       onClick: () => {
         return this.setState(
-          Object.assign({}, fakeStates.ImportedMainScreen, {
+          Object.assign({}, fakeStates.MainScreen, {
             showPlayerSelect: true
           }),
           () => {
@@ -153,7 +153,7 @@ export default class ImportedMainScreen extends Component {
       label: 'Load Mock Player Requests',
       onClick: () => {
         return this.setState(
-          Object.assign({}, fakeStates.ImportedMainScreen, {
+          Object.assign({}, fakeStates.MainScreen, {
             showPlayerSelect: true
           }),
           () => {

@@ -11,7 +11,7 @@ const GAME_PLACEHOLDER = {
   'Max players': 16,
   username: '',
 };
-export default class PlayerSelect extends Component {
+export default class PlayerQueue extends Component {
   static get propTypes() {
     return {
       userLookup: PropTypes.any,
@@ -244,25 +244,17 @@ export default class PlayerSelect extends Component {
 
     let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode !== null);
 
-    // let btnPlaying;
-    // let btnInterested;
     let btnSendCode;
 
     let btnProps;
 
     if (curColumn === 'interested') {
-      // btnPlaying = (
-      //   <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'playing')}>Playing</button>
-      // );
       btnProps = {
         onClick: this.updateColumnForUser.bind(this, userObj, 'playing'),
         label: 'Add to Playing'
       };
     }
     if (curColumn === 'playing') {
-      // btnInterested = (
-      //   <button className="change-col" onClick={this.updateColumnForUser.bind(this, userObj, 'interested')}>Interested</button>
-      // );
       btnProps = {
         onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
         label: 'Back to Interested'
@@ -283,7 +275,10 @@ export default class PlayerSelect extends Component {
       );
     }
 
-    const relativeTime = (userObj.time) ? getRelativeTimeString(userObj.time) : 'xx mins ago';
+    let relativeTime = '';
+    if (userObj['tmi-sent-ts']) {
+      relativeTime = getRelativeTimeString(parseInt(userObj['tmi-sent-ts'], 10)); // 'xx mins ago'
+    }
 
     return (
       <div key={id} className="p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
