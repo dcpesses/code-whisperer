@@ -20,7 +20,7 @@ Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twit
 
 > [!NOTE]
 > Hey! This project is still actively in development and may be subject to change without notice. YMMV.
- 
+
 ## Overview
 <img src="/assets/screenshot.png" alt="app interface screenshot" align="right" width="25%" />
 The app uses two queues, Interested and Playing, which allows a streamer to manage who will
@@ -32,6 +32,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - Easy for users to join using commands in Twitch chat
 - No additional login necessary from users willing to play
 - Option to randomize user selection
+- Set the Max # of Players via Dropdown
 - More features coming soon...
 
 ### Caveats
@@ -56,10 +57,9 @@ be whispered. Users indicate if they want to join a game by entering commands in
 *NOTE: These commands will likely be renamed.
 
 ### Currently Planned Features:
-- Setting the Max # of Players via Dropdown
 - Displaying creation date of player's account
 - In-app Documentation
-- Usage instructions via command 
+- Usage instructions via command
 - Custom join/leave commands
 - Using icons in place of text
 - Player blacklisting
