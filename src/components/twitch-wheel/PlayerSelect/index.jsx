@@ -14,11 +14,11 @@ const GAME_PLACEHOLDER = {
 export default class PlayerQueue extends Component {
   static get propTypes() {
     return {
-      userLookup: PropTypes.any,
+      sendMessage: PropTypes.any,
+      sendWhisper: PropTypes.any,
       settings: PropTypes.object,
       twitchApi: PropTypes.any.isRequired,
-      sendWhisper: PropTypes.any,
-      sendMessage: PropTypes.any,
+      userLookup: PropTypes.any,
     };
   }
   static get defaultProps() {
@@ -281,7 +281,7 @@ export default class PlayerQueue extends Component {
     }
 
     return (
-      <div key={id} className="p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
+      <div key={`game-queue-player-${id}`} className="game-queue-player p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-row">
             <button className="btn btn-sm btn-link text-decoration-none p-1 lh-1" onClick={this.removeUser.bind(this, userObj.username)} title="Remove">&#128683;</button>
@@ -432,7 +432,7 @@ export default class PlayerQueue extends Component {
                 Randomize
               </button>
             </h6>
-            <div className="d-flex flex-column text-body">
+            <div className={`d-flex flex-column text-body interested-queue rand-${this.state.randCount}`}>
 
               {this.state.interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
               {this.state.interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
@@ -453,7 +453,7 @@ export default class PlayerQueue extends Component {
                 Clear Seats
               </button>
             </h6>
-            <div className="d-flex flex-column text-body">
+            <div className="d-flex flex-column text-body playing-queue">
 
               {this.state.playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
               {this.state.playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
