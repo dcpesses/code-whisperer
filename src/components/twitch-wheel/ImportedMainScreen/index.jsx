@@ -105,6 +105,7 @@ export default class ImportedMainScreen extends Component {
   getGamesList = () => {
     return {
       allowedGames: this.messageHandler?.state.allowedGames,
+      maxPlayersList: this.messageHandler?.state.maxPlayersList,
       validGames: this.messageHandler?.state.validGames
     };
   };
@@ -326,6 +327,7 @@ export default class ImportedMainScreen extends Component {
           <PlayerQueue
             _game={this.state.history?.[this.state.nextGameIdx]}
             game={GAME_PLACEHOLDER}
+            gamesList={gamesList}
             sendMessage={this.twitchApi?.sendMessage}
             sendWhisper={this.twitchApi?.sendWhisper}
             settings={this.state.settings}

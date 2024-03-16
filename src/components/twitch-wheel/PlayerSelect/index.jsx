@@ -15,6 +15,7 @@ const GAME_PLACEHOLDER = {
 export default class PlayerQueue extends Component {
   static get propTypes() {
     return {
+      gamesList: PropTypes.object,
       sendMessage: PropTypes.any,
       sendWhisper: PropTypes.any,
       settings: PropTypes.object,
@@ -24,6 +25,7 @@ export default class PlayerQueue extends Component {
   }
   static get defaultProps() {
     return {
+      gamesList: {},
       userLookup: {},
       settings: {},
       sendWhisper: {},
@@ -331,9 +333,40 @@ export default class PlayerQueue extends Component {
     if (this.state.maxPlayers < this.playerCount()) {
       className += ' overlimit';
     }
+    let maxPlayers = 8;
+    if (this.props?.gamesList?.maxPlayersList) {
+      const maxPlayerArray = this.props.gamesList.maxPlayersList; //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+      const items = maxPlayerArray.map((n) => (
+        <Dropdown.Item
+          active={n === this.state.maxPlayers}
+          eventKey={`max-players-option-${n}`}
+          href={null}
+          key={`max-players-option-${n}`}
+          onClick={this.setMaxPlayers.bind(this, n)}
+        >
+          {n}
+        </Dropdown.Item>
+      ));
+
+      maxPlayers = (
+        <Dropdown id="dropdown-max-player-seats" drop="down-centered" variant="link" className="d-inline">
+          <Dropdown.Toggle id="dropdown-max-player-seats-toggle" variant="link"
+            className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top">
+            {this.state?.maxPlayers}
+          </Dropdown.Toggle>
+          <Dropdown.Menu variant="dark">
+            <Dropdown.Header>
+              Max # of Players
+            </Dropdown.Header>
+            {items}
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+    }
     return (
       <div className={className}>
-        {this.playerCount()} of {this.state.maxPlayers} seats claimed
+        {this.playerCount()} of {maxPlayers} seats claimed
       </div>
     );
   };
