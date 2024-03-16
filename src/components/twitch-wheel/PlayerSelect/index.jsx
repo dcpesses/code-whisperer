@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Dropdown from 'react-bootstrap/Dropdown';
 import {getRelativeTimeString} from '@/utils';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -35,6 +36,7 @@ export default class PlayerQueue extends Component {
     this.state = {
       interested: [],
       playing: [],
+      maxPlayers: 8,
       roomCode: null,
       sentCodeStatus: {},
       streamerSeat: false,
@@ -157,10 +159,7 @@ export default class PlayerQueue extends Component {
     });
   };
 
-  canStartGame = () => {
-    return this.game?.['Max players'] >= this.playerCount() &&
-      this.game?.['Min players'] <= this.playerCount();
-  };
+  canStartGame = () => this.state.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
@@ -177,7 +176,7 @@ export default class PlayerQueue extends Component {
 
   initRandomizePlayersAnimation = () => {
     const numPlayersToAdd = Math.min(
-      this.game['Max players'] - this.playerCount(),
+      this.state.maxPlayers - this.playerCount(),
       this.state.interested.length
     );
     if (numPlayersToAdd > 0) {
@@ -209,7 +208,7 @@ export default class PlayerQueue extends Component {
 
   randomizePlayers = () => {
     const numPlayersToAdd = Math.min(
-      this.game['Max players'] - this.playerCount(),
+      this.state.maxPlayers - this.playerCount(),
       this.state.interested.length
     );
 
@@ -321,14 +320,20 @@ export default class PlayerQueue extends Component {
     );
   };
 
+  setMaxPlayers = (val) => {
+    this.setState({
+      maxPlayers: val
+    });
+  };
+
   renderPlayerCount = () => {
     let className = 'player-count';
-    if (this.game?.['Max players'] < this.playerCount()) {
+    if (this.state.maxPlayers < this.playerCount()) {
       className += ' overlimit';
     }
     return (
       <div className={className}>
-        {this.playerCount()} of {this.game?.['Max players']} seats claimed
+        {this.playerCount()} of {this.state.maxPlayers} seats claimed
       </div>
     );
   };
