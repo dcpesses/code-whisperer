@@ -42,6 +42,7 @@ export default class TwitchApi {
     this._channel = null;
     this._onMessageCallback = onMessage ?? noop;
     this._chatClient = null;
+    this._joinAccounced = [];
 
     this._lastMessageTimes = {};
 
@@ -200,6 +201,7 @@ export default class TwitchApi {
       }
       accessToken = this._accessToken;
     }
+    if (this.debug) {window.console.log('TwitchApi - resume');}
     try {
       const valid = await this.validateToken(accessToken);
       if (valid.status >= 300 && valid.message) {
@@ -224,6 +226,7 @@ export default class TwitchApi {
       this._authError = false;
       this._onInitCallback();
       if (!this._chatClient) {
+        if (this.debug) {window.console.log('TwitchApi - resume: calling initChatClient');}
         this.initChatClient();
       }
       return {oauth, users, valid, instance: this};
@@ -240,7 +243,8 @@ export default class TwitchApi {
     return client;
   };
 
-  _initChatClient = (channel, access_token, opts, callback) => {
+  _initChatClient = async(channel, access_token, opts, callback) => {
+    if (this.debug) {window.console.log('_initChatClient');}
     if (!channel) {
       channel = this._channel;
     }
@@ -248,10 +252,14 @@ export default class TwitchApi {
       access_token = this._accessToken;
     }
     if (!callback) {
-      callback = this._onMessageCallback;
-      if (!callback && this.debug) {
-        callback = window.console.log;
+      callback = this.onMessageCallback; // can change during lifecycle
+    }
+    try {
+      if (typeof this._chatClient?.disconnect === 'function') {
+        await this._chatClient?.disconnect();
       }
+    } catch (e) {
+      window.console.warn('TwitchApi: Unable to disconnect existing chat client', e);
     }
     this._chatClient = new tmi.client({
       identity: {
@@ -265,15 +273,80 @@ export default class TwitchApi {
       }, opts),
     });
     this._chatClient.on('message', callback);
-    this._chatClient.connect();
+
+    /*
+    if (this.debug) {
+      this._chatClient.on('chat', (channel, userstate, message, self) => {
+        window.console.log('chatClient: chat', {channel, userstate, message, self});
+      });
+      this._chatClient.on('crash', (e) => {
+        window.console.warn('chatClient: crashed', e);
+      });
+      this._chatClient.on('connected', () => {
+        const date = new Date().toLocaleTimeString();
+        this._chatClient.say(channel, `Connected to chat at ${date}`);
+      });
+      this._chatClient.on('connecting', (address, port) => {
+        if (this.debug) {window.console.log('chatClient: Connecting', {address, port});}
+      });
+      this._chatClient.on('logon', () => {
+        if (this.debug) {window.console.log('chatClient: Authenticating');}
+      });
+      this._chatClient.on('connectfail', () => {
+        if (this.debug) {window.console.log('chatClient: Connection failed');}
+      });
+      this._chatClient.on('connected', (address, port) => {
+        if (this.debug) {window.console.log('chatClient: Connected', {address, port});}
+        this._joinAccounced = [];
+      });
+      this._chatClient.on('disconnected', (reason) => {
+        if (this.debug) {window.console.log('chatClient: Disconnected: ' + (reason || ''));}
+      });
+      this._chatClient.on('reconnect', () => {
+        if (this.debug) {window.console.log('chatClient: Reconnecting');}
+      });
+      this._chatClient.on('join', (channel, username) => {
+        if (username === this._chatClient.getUsername()) {
+          if (this.debug) {window.console.log('chatClient: Joined ' + channel);}
+          this._joinAccounced.push(channel);
+        }
+      });
+      this._chatClient.on('part', (channel, username) => {
+        var index = this._joinAccounced.indexOf(channel);
+        if (index > -1) {
+          if (this.debug) {window.console.log('chatClient: Parted ' + channel + ' as ' + username);}
+          this._joinAccounced.splice(this._joinAccounced.indexOf(channel), 1);
+        }
+      });
+      this._chatClient.on('notice', (channel, msgid, message) => {
+        if (this.debug) {window.console.log('chatClient: notice:', {channel, msgid, message});}
+      });
+      this._chatClient.on('ping', () => {
+        if (this.debug) {window.console.log('chatClient: Ping!');}
+      });
+    }
+    */
+
+    await this._chatClient.connect();
     return this._chatClient;
   };
 
-  closeChatClient = () => {
+  onMessageCallback = (channel, tags, msg, self) => {
+    if (this.debug) {
+      window.console.log('onMessageCallback', {channel, tags, msg, self});
+    }
+    try {
+      this._onMessageCallback(channel, tags, msg, self);
+    } catch (e) {
+      window.console.warn('onMessageCallback: no callback set');
+    }
+  };
+
+  closeChatClient = async() => {
     try {
       if (this._chatClient && typeof this._chatClient.disconnect === 'function') {
-        const resp = this._chatClient.disconnect();
-        this._chatClient = null;
+        const resp = await this._chatClient.disconnect();
+        if (this.debug) {window.console.log('closeChatClient: disconnected');}
         return resp;
       }
     } catch (e) {
@@ -422,6 +495,7 @@ export default class TwitchApi {
     return await this._sendWhisper({player, msg});
   };
   _sendWhisper = async({player, msg}) => {
+    if (this.debug) {window.console.log('_sendWhisper:', {player, msg});}
     let requestParams = new URLSearchParams({
       from_user_id: this._userInfo.id,
       to_user_id: player.id
@@ -452,7 +526,10 @@ export default class TwitchApi {
         } catch (e) {
           if (this.debug) {window.console.log({errMsg, error: e});}
         }
-        await this.sendMessage(`/me ${errMsg}`);
+        const resp = await this.sendMessage(`/me ${errMsg}`);
+        if (this.debug) {window.console.log('_sendWhisper: sendMessage', {resp});}
+        // TODO: handle response and filter text using regexp pattern
+        // responseTxt.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, '')
         return errMsg;
       }
       const msg = `Code sent to @${player.username}`;
@@ -467,6 +544,7 @@ export default class TwitchApi {
   };
 
   sendMessage = async(msg) => {
+    if (this.debug) {window.console.log('sendMessage:', msg);}
     return await this._chatClient.say(this._channel, msg);
   };
 

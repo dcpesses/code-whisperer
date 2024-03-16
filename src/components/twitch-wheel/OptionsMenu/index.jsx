@@ -10,19 +10,19 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import PropTypes from 'prop-types';
 import {version} from '../../../../package.json';
 
+import './HeaderMenu.css';
+
 export default class HeaderMenu extends Component {
   static get propTypes() {
     return {
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
       items: PropTypes.array,
-      // onHide: PropTypes.func,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
-      // showHeaderMenu: PropTypes.bool,
-      // showSettingsMenu: PropTypes.bool,
       toggleDeprecatedView: PropTypes.func,
+      twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
     };
   }
@@ -34,13 +34,11 @@ export default class HeaderMenu extends Component {
         validGames: null
       },
       items: [],
-      // onHide: () => void 0,
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
       settings: {},
-      // showHeaderMenu: false,
-      showSettingsMenu: false,
       toggleDeprecatedView: () => void 0,
+      twitchApi: null,
       userInfo: {
         username: '',
         user_id: 0,
@@ -52,7 +50,8 @@ export default class HeaderMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showGameList: false
+      showGameList: false,
+      showSettingsMenu: !false,
     };
     this.toggleGameList = this.toggleGameList.bind(this);
     this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
@@ -145,6 +144,7 @@ export default class HeaderMenu extends Component {
     let optionMenuItems = this.createMenuItems(items);
     let debugMenuItems = this.createDebugMenuItems(debugItems);
 
+    /*
     let toggleSubRequests = () => {
       let value = typeof settings?.enableSubRequests === 'boolean'
         ? !settings?.enableSubRequests
@@ -163,6 +163,7 @@ export default class HeaderMenu extends Component {
         : true;
       onSettingsUpdate({clearSeatsAfterRedeem: value});
     };
+    */
     let updateCustomDelimiter = (e) => {
       let {value} = e.target;
       if (!value) {
@@ -179,12 +180,13 @@ export default class HeaderMenu extends Component {
       onSettingsUpdate({enableRoomCode: value});
     };
 
-    let {userInfo, toggleDeprecatedView} = this.props;
+    const userInfo = this.props?.twitchApi?.userInfo;
     let img, username;
     if (userInfo?.profile_image_url) {
       img = (
-        <img src={userInfo.profile_image_url} className="rounded-circle" alt={userInfo.username} style={{maxHeight: '28px'}} />
+        <img src={userInfo.profile_image_url} className="rounded-circle navbar-pfp-img" alt={userInfo.display_name} />
       );
+      username = userInfo.display_name;
     }
 
     return (
@@ -207,16 +209,21 @@ export default class HeaderMenu extends Component {
               <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
                 <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
                 <hr className="border-bottom my-2" />
-                <Nav.Link onClick={toggleDeprecatedView}>Switch View</Nav.Link>
-                <hr className="border-bottom my-2" />
                 <Nav.Link className="settings-menu" onClick={this.toggleSettingsMenu}>
                   Settings
                 </Nav.Link>
-                <hr className="border-bottom my-2" />
                 <Collapse in={this.state.showSettingsMenu}>
                   <div id="settings-menu" className="accordion-dark accordion accordion-flush">
                     <div className="accordion-body">
                       <Button variant="link" className="btn settings-menu"
+                        onClick={toggleEnableRoomCode}
+                        title="Allows host to set a room code that can be whispered to players."
+                      >
+                        <input type="checkbox" role="switch" checked={(settings?.enableRoomCode)} readOnly /> <span>Enable Room Code</span>
+                      </Button>
+
+                      {/*
+                      <Button variant="link" className="btn settings-menu link-body-emphasis"
                         onClick={toggleSubRequests}
                         title="Allows subscribers to make additional game requests when enabled."
                       >
@@ -235,6 +242,7 @@ export default class HeaderMenu extends Component {
                       >
                         <input type="checkbox" role="switch" checked={(settings?.clearSeatsAfterRedeem)} readOnly /> <span>Clear Seats After Redeem</span>
                       </Button>
+                       */}
 
                       <Button variant="link" className="btn settings-menu"
                         title="Uses a custom character or emote to separate requests listed in the chat."
@@ -243,21 +251,11 @@ export default class HeaderMenu extends Component {
                         <input type="text" name="custom-delimiter" defaultValue={settings?.customDelimiter}
                           onChange={updateCustomDelimiter} className="form-control" />
                       </Button>
-
-                      <Button variant="link" className="btn settings-menu"
-                        onClick={toggleEnableRoomCode}
-                        title="Allows host to set a room code that can be whispered to players."
-                      >
-                        <input type="checkbox" role="switch" checked={(settings?.enableRoomCode)} readOnly /> <span>Enable Room Code <small>(beta)</small></span>
-                      </Button>
                     </div>
                   </div>
                 </Collapse>
                 {optionMenuItems}
-                <hr className="border-bottom my-2" />
-                <Nav.Link onClick={toggleDeprecatedView}>Switch View</Nav.Link>
-                <hr className="border-bottom my-2" />
-                <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
+                <Nav.Link onClick={this.props.toggleDeprecatedView}>Switch View <small>(Debug)</small></Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">

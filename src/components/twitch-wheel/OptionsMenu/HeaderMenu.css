@@ -1,0 +1,48 @@
+.navbar-pfp-img {
+  height: 28px;
+  width: 28px;
+}
+
+#navbar-options-menu .offcanvas-body {
+  padding-left: calc(var(--bs-offcanvas-padding-x) * 1.75);
+}
+#navbar-options-menu .accordion-body {
+  padding: calc(var(--bs-accordion-body-padding-y) / 3) calc(var(--bs-accordion-body-padding-x) / 2);
+}
+#navbar-options-menu .accordion .btn {
+  display: block;
+  text-align: left !important;
+  /* font-size: calc(1.275rem + 0.3vw) !important; */
+  font-weight: 500 !important;
+  opacity:0.8;
+  transition: opacity 0.125s linear;
+  padding-left: 0;
+  padding-right: 0;
+}
+#navbar-options-menu .accordion .btn:hover {
+  opacity:1;
+}
+#navbar-options-menu .accordion .btn:disabled {
+  opacity: 0.2;
+}
+#navbar-options-menu .accordion .btn.subsetting::before {
+  content: '\2514';
+  margin-left: -5px;
+  margin-right: 1px;
+  /* content: '\231E'; */
+  display: inline-block;
+  color: #555;
+}
+
+#navbar-options-menu .btn-link,
+#navbar-options-menu .btn-link:hover {
+  color:#ffffff!important;
+  text-decoration: none;
+}
+#navbar-options-menu small {
+  font-weight: 400;
+  font-size: 0.75em
+}
+#dropdown-debug-menu-items.dropup .dropdown-toggle::after {
+  content: unset;
+}

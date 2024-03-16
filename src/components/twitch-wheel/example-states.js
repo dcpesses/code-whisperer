@@ -1,3 +1,4 @@
+
 const stateMainScreen = {
   'gameSelected': null,
   'messages': {
@@ -513,7 +514,8 @@ const stateMainScreen = {
     'dcpesses': {
       'color': '#1E90FF',
       'user-id': '473294395',
-      'username': 'dcpesses'
+      'username': 'dcpesses',
+      'tmi-sent-ts': Date.now().toString()
     }
   }
 };
@@ -557,7 +559,7 @@ const statePlayerSelect = {
     }
   ],
   'joined': [],
-  'streamerSeat': true,
+  'streamerSeat': false,
   'isQueueOpen': true,
   'columnWidth': 634
 };
