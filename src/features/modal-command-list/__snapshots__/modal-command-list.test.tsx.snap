@@ -1,0 +1,594 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ModalCommandList > Should render with modal 1`] = `
+<div
+  aria-modal="true"
+  class="fade modal show"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !caniplay
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !new
+              </td>
+              <td>
+                Adds the user to the Interested queue (with no acknowledgement in chat)
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !leave
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !version
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !whichpack GAME
+              </td>
+              <td>
+                replies with the Jackbox Party Pack of a given game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !open
+              </td>
+              <td>
+                Opens the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !close
+              </td>
+              <td>
+                Closes the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !clear
+              </td>
+              <td>
+                Removes all users from the board
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !redeemseat @USER
+              </td>
+              <td>
+                Adds user directly to Playing queue*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !removeuser @USER
+              </td>
+              <td>
+                Removes user from all queues*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        * Note: These will likely change in the next version
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render with modal and close on top-right button press 1`] = `
+<div
+  aria-modal="true"
+  class="fade modal"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !caniplay
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !new
+              </td>
+              <td>
+                Adds the user to the Interested queue (with no acknowledgement in chat)
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !leave
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !version
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !whichpack GAME
+              </td>
+              <td>
+                replies with the Jackbox Party Pack of a given game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !open
+              </td>
+              <td>
+                Opens the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !close
+              </td>
+              <td>
+                Closes the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !clear
+              </td>
+              <td>
+                Removes all users from the board
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !redeemseat @USER
+              </td>
+              <td>
+                Adds user directly to Playing queue*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !removeuser @USER
+              </td>
+              <td>
+                Removes user from all queues*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        * Note: These will likely change in the next version
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render with modal and close on top-right button press 2`] = `
+<div
+  aria-modal="true"
+  class="fade modal"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !caniplay
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !new
+              </td>
+              <td>
+                Adds the user to the Interested queue (with no acknowledgement in chat)
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !leave
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !version
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !whichpack GAME
+              </td>
+              <td>
+                replies with the Jackbox Party Pack of a given game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !open
+              </td>
+              <td>
+                Opens the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !close
+              </td>
+              <td>
+                Closes the interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !clear
+              </td>
+              <td>
+                Removes all users from the board
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !redeemseat @USER
+              </td>
+              <td>
+                Adds user directly to Playing queue*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="font-monospace"
+              >
+                !removeuser @USER
+              </td>
+              <td>
+                Removes user from all queues*
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        * Note: These will likely change in the next version
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render without modal 1`] = `<div />`;
