@@ -8,7 +8,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 <div
   id="authenticated-app container text-center"
 >
-  <ImportedMainScreen
+  <Memo(Connect(ImportedMainScreen))
     channel="sirgoosewell"
     modList={[]}
     onLogOut={[Function]}

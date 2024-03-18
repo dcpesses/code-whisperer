@@ -3,11 +3,15 @@
 /* eslint-disable react/prop-types */
 
 import {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
 import MessageHandler from '../MessageHandler';
 import HeaderMenu from '../OptionsMenu';
 import PlayerQueue from '../PlayerSelect';
+import ModalCommandList from '@/features/modal-command-list';
+import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import * as fakeStates from '../example-states';
 
 import './MainScreen.css';
@@ -25,7 +29,7 @@ const GAME_PLACEHOLDER = {
   'chosen': false
 };
 
-export default class ImportedMainScreen extends Component {
+class ImportedMainScreen extends Component {
   constructor(props) {
     super(props);
     // this.chatActivity = new ChatActivity(this.props.channel);
@@ -96,12 +100,6 @@ export default class ImportedMainScreen extends Component {
     }
   }
 
-  clearModal = () => {
-    this.setState({
-      gameSelected: null
-    });
-  };
-
   getGamesList = () => {
     return {
       allowedGames: this.messageHandler?.state.allowedGames,
@@ -151,18 +149,15 @@ export default class ImportedMainScreen extends Component {
 
   getOptionsMenu = () => {
     return [{
-      label: 'Load Mock Player Requests',
-      onClick: () => {
-        return this.setState(
-          Object.assign({}, fakeStates.MainScreen, {
-            showPlayerSelect: true
-          }),
-          () => {
-            this.playerSelector?.setState(fakeStates.PlayerSelect);
-          }
-        );
-      }
+      label: 'View Chat Commands',
+      onClick: this.handleOpenModalCommandList
     }];
+  };
+
+  handleOpenModalCommandList = () => {
+    if (this.props.showModalCommandList) {
+      return this.props.showModalCommandList();
+    }
   };
 
   onMessage = (message, user, metadata) => {
@@ -337,7 +332,44 @@ export default class ImportedMainScreen extends Component {
             userLookup={this.state.userLookup}
           />
         </div>
+        <ModalCommandList />
       </div>
     );
   }
 }
+ImportedMainScreen.propTypes = {
+  access_token: PropTypes.string,
+  channel: PropTypes.string,
+  modList: PropTypes.object,
+  onLogOut: PropTypes.func,
+  // profile_image_url: PropTypes.string,
+  toggleDeprecatedView: PropTypes.func,
+  twitchApi: PropTypes.object,
+  // updateUsername: PropTypes.func,
+  // userInfo: PropTypes.object,
+  // user_id: PropTypes.any,
+  // username: PropTypes.string,
+};
+ImportedMainScreen.defaultProps = {
+  access_token: null,
+  channel: null,
+  modList: null,
+  onLogOut: null,
+  profile_image_url: null,
+  toggleDeprecatedView: null,
+  twitchApi: null,
+  updateUsername: null,
+  userInfo: null,
+  user_id: null,
+  username: null,
+};
+const mapStateToProps = state => ({
+  modal: state.modal
+});
+const mapDispatchToProps = () => ({
+  showModalCommandList
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps()
+)(ImportedMainScreen);

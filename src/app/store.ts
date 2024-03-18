@@ -1,10 +1,15 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import counterReducer from '../features/redux-counter/counterSlice';
-import todosReducer from '../features/todos/todosSlice';
+import counterReducer from '@/features/redux-counter/counterSlice';
+import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
+// import twitchReducer from '../features/twitch/twitchSlice';
+// import { profileReducer } from '@/features/twitch/profileSlice';
+import todosReducer from '@/features/todos/todosSlice';
 
 const reducer = {
   counter: counterReducer,
-  todos: todosReducer
+  modal: modalCommandListReducer,
+  // profile: profileReducer,
+  todos: todosReducer,
 };
 export const store = configureStore({ reducer });
 
