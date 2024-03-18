@@ -66,11 +66,24 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - Player blacklisting
 - Possible usage in other channels (Moderation privileges required)
 
+## Support
+
+- [GitHub Discussions](https://github.com/dcpesses/code-whisperer/discussions) - 💡 Questions, Feedback & Feature Requests
+- [GitHub Issues](https://github.com/dcpesses/code-whisperer/issues) - 🕷️ Bugs and Issues
+
 ## License and Contributor Code of Conduct
 
-> This project is open source under the MIT license. TL;DR: you may access the source code and modify it to fit your own needs, but you do not have access to deploy it.
->
-> Contributors must subscribe and adhere to the [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) based on the [Contributor Covenant](http://contributor-covenant.org) version 2.1.
+This project is open source under the MIT license. (TL;DR: you may access the source code and modify it to fit your own needs, but you do not have access to deploy it.)
+
+Contributors must subscribe and adhere to the [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) based on the [Contributor Covenant](http://contributor-covenant.org) version 2.1.
+
+
+## Shut up and take my money!
+
+If you would like to support the development of Code Whisperer, feel free to donate at [☕️ ko-fi](https://ko-fi.com/V7V6VSUT1). Donations are never expected but are always appreciated. All donations are non-refundable and go towards improving the app and its infrastructure.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V6VSUT1)
+
 
 ### Related Repos
 - https://asukii314.github.io/twitch-request-wheel/
