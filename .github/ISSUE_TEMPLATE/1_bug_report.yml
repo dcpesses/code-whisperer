@@ -1,0 +1,75 @@
+name: Ì†ΩÌµ∑ Bug Report
+description: Create a report to help improve
+labels: [ "Bug", "New" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+         ### ‚ùóÔ∏è Before submitting your bug report:
+         - **Please provide as much detail as possible** - time & date, screenshots, web browser, operating system, etc. (If the issue can't be reproduced, it can't be fixed.)
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the bug
+      description: What went wrong? Leave a clear and concise description of what the bug is. Please attach any screenshots if applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Explain what you expected to happen instead.
+    validations:
+      required: false
+  - type: textarea
+    id: steps-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: input
+    id: date-time
+    attributes:
+      label: Date / Time Occurred
+      description: When did it happen?
+      placeholder: "e.g. 3/14/2024 10:10am EST"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Which web browser were you using? What version was it?
+      placeholder: "e.g. Mozilla Firefox 123.0.1, Google Chrome 122.0.6261.128"
+    validations:
+      required: true
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: Which operating system did you use and what version was it?
+      placeholder: "e.g. Windows 11, macOS 14, Android 13"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      description: What kind of device were you using?
+      placeholder: "e.g. iPad 2022, Samsung Galaxy s24"
+    validations:
+      required: true
+  - type: input
+    id: username
+    attributes:
+      label: Twitch Username
+      description: Who encountered the bug?
+      placeholder: "e.g. @PineappleHoops"
+    validations:
+      required: false
