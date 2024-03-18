@@ -43,7 +43,8 @@ be whispered. Users indicate if they want to join a game by entering commands in
 ### Chat Commands
 
 #### User Commands:
-* `!join` - Adds the user to the Interested queue
+* `!caniplay` - Adds the user to the Interested queue
+* `!new` - Adds the user to the Interested queue without notifying chat
 * `!leave` - Removes the user from the Interested queue
 * `!version` - Posts the version of the app and its url
 * `!whichpack GAME` - replies with the Jackbox Party Pack of a given game
@@ -64,6 +65,12 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - Using icons in place of text
 - Player blacklisting
 - Possible usage in other channels (Moderation privileges required)
+
+## License and Contributor Code of Conduct
+
+> This project is open source under the MIT license. TL;DR: you may access the source code and modify it to fit your own needs, but you do not have access to deploy it.
+>
+> Contributors must subscribe and adhere to the [Contributor Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) based on the [Contributor Covenant](http://contributor-covenant.org) version 2.1.
 
 ### Related Repos
 - https://asukii314.github.io/twitch-request-wheel/
