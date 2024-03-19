@@ -4,7 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {getRelativeTimeString} from '@/utils';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
-import './PlayerQueue.css';
+import './player-queue.css';
 
 const GAME_PLACEHOLDER = {
   name: '',

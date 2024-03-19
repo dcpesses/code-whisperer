@@ -10,7 +10,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import PropTypes from 'prop-types';
 import {version} from '../../../../package.json';
 
-import './HeaderMenu.css';
+import './header-menu.css';
 
 export default class HeaderMenu extends Component {
   static get propTypes() {

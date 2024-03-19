@@ -8,13 +8,13 @@ import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
 import MessageHandler from '../MessageHandler';
-import HeaderMenu from '../OptionsMenu';
-import PlayerQueue from '../PlayerSelect';
+import HeaderMenu from '../header-menu';
+import PlayerQueue from '../player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import * as fakeStates from '../example-states';
 
-import './MainScreen.css';
+import './main-screen.css';
 
 const GAME_PLACEHOLDER = {
   'name': '',
