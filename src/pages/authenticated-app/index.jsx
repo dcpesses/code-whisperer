@@ -7,7 +7,7 @@ import {Navigate} from 'react-router-dom';
 import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
-import ImportedMainScreen from '@/components/twitch-wheel/ImportedMainScreen';
+import ImportedMainScreen from '@/components/twitch-wheel/main-screen';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
