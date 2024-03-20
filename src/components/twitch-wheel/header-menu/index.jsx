@@ -51,7 +51,7 @@ export default class HeaderMenu extends Component {
     super(props);
     this.state = {
       showGameList: false,
-      showSettingsMenu: !false,
+      showSettingsMenu: false,
     };
     this.toggleGameList = this.toggleGameList.bind(this);
     this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
