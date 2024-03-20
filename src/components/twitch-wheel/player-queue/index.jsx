@@ -48,7 +48,7 @@ export default class PlayerQueue extends Component {
       randCount: 0
     };
     this.randInt = 0;
-
+    this.timestampInt = 0;
     this.game = GAME_PLACEHOLDER;
   }
 
@@ -56,11 +56,14 @@ export default class PlayerQueue extends Component {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(fakeStates.PlayerSelect);
     }
+    // used for updating relative times about every 30 secs
+    this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
     return;
   }
 
   componentWillUnmount() {
     clearInterval(this.randInt);
+    clearInterval(this.timestampInt);
     return;
   }
 
