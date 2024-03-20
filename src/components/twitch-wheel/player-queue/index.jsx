@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
+import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -94,7 +95,6 @@ export default class PlayerQueue extends Component {
     }
     this.setState({roomCode});
   };
-  handleRoomCodeFocus = (evt) => evt.target.select();
 
   updateColumnForUser = (userObj, newColumn) => {
     if (!this.state || !this.state[newColumn]) {return false;}
@@ -383,38 +383,15 @@ export default class PlayerQueue extends Component {
       startGameClass += ' disabled';
     }
 
-    let inputRoomCode = (
-      <div className="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6">
-        <div className="input-group">
-          <input type="text" name="room-code" value={this.state.roomCode || ''}
-            autoComplete="false"
-            aria-autocomplete="none"
-            aria-describedby="btn-send-to-queue"
-            aria-label="Enter Room Code"
-            className="form-control libre-franklin-font"
-            onChange={this.handleRoomCodeChange}
-            onFocus={this.handleRoomCodeFocus}
-            placeholder="ENTER ROOM CODE"
-            role="presentation"
-            title="Paste Room Code Here"
-          />
-          <button type="button"
-            className="btn btn-primary libre-franklin-font text-uppercase"
-            id="btn-send-to-queue"
-            onClick={this.sendCodeToAll}
-            title="Send Code to All Players"
-            disabled={this.state.playing.length===0 || !this.state.roomCode}
-          >
-            Send to Queue
-          </button>
-        </div>
-      </div>
-    );
-
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
         <div className="queue my-1 px-md-1 col-12">
-          {inputRoomCode}
+          <GameCodeForm
+            value={this.state.roomCode || ''}
+            onInputChange={this.handleRoomCodeChange}
+            onSendToAll={this.sendCodeToAll}
+            disabled={this.state.playing.length===0 || !this.state.roomCode}
+          />
         </div>
 
         <div className="queue my-1 px-md-1 col-12">
