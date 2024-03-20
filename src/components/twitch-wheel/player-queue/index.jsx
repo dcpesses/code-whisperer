@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
+import PlayerQueueCard from './player-queue-card';
 import {getRelativeTimeString} from '@/utils';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -243,9 +244,7 @@ export default class PlayerQueue extends Component {
       userObj = Object.assign({}, userObj, metadata);
     }
 
-    let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode !== null);
-
-    let btnSendCode;
+    let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode);
 
     let btnProps;
 
@@ -260,20 +259,6 @@ export default class PlayerQueue extends Component {
         onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
         label: 'Back to Interested'
       };
-      if (displaySendCodeBtn) {
-        btnSendCode = (
-          <button className="btn btn-sm btn-info send-code" onClick={ this.sendCode.bind(this, userObj) } disabled={!this.state.roomCode}>Send</button>
-        );
-      }
-    }
-
-    let usernameColorClassName = 'text-body-emphasis';
-    let redemptionIndicator;
-    if (userObj.isPrioritySeat === true) {
-      usernameColorClassName = 'text-warning-emphasis';
-      redemptionIndicator = (
-        <span title="Priority seat redemption" className="align-self-center">&#9733;</span>
-      );
     }
 
     let relativeTime = '';
@@ -282,36 +267,21 @@ export default class PlayerQueue extends Component {
     }
 
     return (
-      <div key={`game-queue-player-${id}`} className="game-queue-player p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
-        <div className="d-flex justify-content-between">
-          <div className="d-flex flex-row">
-            <button className="btn btn-sm btn-link text-decoration-none p-1 lh-1" onClick={this.removeUser.bind(this, userObj.username)} title="Remove">&#128683;</button>
-            {' '}
-            <div className="flex-column ms-1">
-              <strong className={`${usernameColorClassName} fs-4 saira-condensed fw-bold`}>
-                {userObj.username} {redemptionIndicator}
-              </strong>
-              <span className="text-info-emphasis d-block smaller fw-semibold">
-                {relativeTime}
-                {/* 9 mins ago */}
-              </span>
-            </div>
-          </div>
-          <div className="d-flex flex-row">
-            <button className="btn btn-secondary btn-sm fw-semibold" onClick={btnProps.onClick}>
-              {btnProps.label}
-            </button>
-            {btnSendCode}
-          </div>
-
-        </div>
-      </div>
+      <PlayerQueueCard
+        key={`game-queue-player-${id}`}
+        btnProps={btnProps}
+        onRemoveUser={this.removeUser.bind(this, userObj.username)}
+        onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
+        relativeTime={relativeTime}
+        showSendButton={displaySendCodeBtn}
+        username={userObj.username}
+      />
     );
   };
 
   renderStreamerSeatToggle = () => {
     return (
-      <div className="toggle-streamer-seat card-header-item">
+      <div className="toggle-streamer-seat">
         <label className="toggle-label form-check-label" htmlFor="reserve-seat-for-streamer">
           Reserve seat for streamer?
         </label>
