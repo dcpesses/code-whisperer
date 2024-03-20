@@ -100,52 +100,44 @@ export default class PlayerQueue extends Component {
     if (!this.state || !this.state[newColumn]) {return false;}
 
     this.removeUser(userObj.username);
-    this.setState((state) => {
-      return {
-        ...state,
-        [newColumn]: [
-          ...state[newColumn],
-          userObj
-        ]
-      };
-    });
+    this.setState((prevState) => ({
+      ...prevState,
+      [newColumn]: [
+        ...prevState[newColumn],
+        userObj
+      ]
+    }));
     return true;
   };
 
   removeUser = (username) => {
-    return this.setState((state) => ({
-      ...state,
-      interested: state.interested.filter((iObj) => iObj.username !== username),
-      playing: state.playing.filter((pObj) => pObj.username !== username)
+    return this.setState((prevState) => ({
+      ...prevState,
+      interested: prevState.interested.filter((iObj) => iObj.username !== username),
+      playing: prevState.playing.filter((pObj) => pObj.username !== username)
     }));
   };
 
   clearQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        interested: [],
-        playing: []
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      interested: [],
+      playing: []
+    }));
   };
 
   openQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        isQueueOpen: true
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      isQueueOpen: true
+    }));
   };
 
   closeQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        isQueueOpen: false
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      isQueueOpen: false
+    }));
   };
 
   playerCount = () => {
@@ -154,26 +146,22 @@ export default class PlayerQueue extends Component {
   };
 
   toggleStreamerSeat = () => {
-    this.setState((state) => {
-      return {
-        ...state,
-        streamerSeat: !state.streamerSeat
-      };
-    });
+    this.setState((prevState) => ({
+      ...prevState,
+      streamerSeat: !prevState.streamerSeat
+    }));
   };
 
   canStartGame = () => this.state.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
-    this.setState ((state) => {
-      return {
-        ...state,
-        interested: [],
-        playing: [],
-        roomCode: null
-      };
-    });
+    this.setState ((prevState) => ({
+      ...prevState,
+      interested: [],
+      playing: [],
+      roomCode: null
+    }));
     // this.props.startGame();
   };
 
@@ -232,8 +220,8 @@ export default class PlayerQueue extends Component {
         ];
       }
     }
-    this.setState((state) => ({
-      interested: state.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
+    this.setState((prevState) => ({
+      interested: prevState.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
       playing
     }));
   };
@@ -274,7 +262,7 @@ export default class PlayerQueue extends Component {
         onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
         relativeTime={relativeTime}
         showSendButton={displaySendCodeBtn}
-        username={userObj.username}
+        username={userObj['display-name']}
       />
     );
   };
