@@ -1,13 +1,36 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Cake2Fill, Trash3Fill, PlusCircleFill, XCircleFill, ArrowRightSquareFill } from 'react-bootstrap-icons';
+import Collapse from 'react-bootstrap/Collapse';
 import {getRelativeTimeString} from '@/utils';
 
+import './player-queue-card.css';
+
 function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, prioritySeat, relativeTime, showSendButton, username}) {
+  // Extended Info Pane
   const [isExtended, setExtended] = useState(false);
   const toggleExtended = () => setExtended(!isExtended);
+  const extendedToggleBtnProps = (isExtended) ? {
+    icon: 'caret-up',
+    label: 'View Less',
+  } : {
+    icon: 'caret-down',
+    label: 'View More',
+  };
 
+  // Highlight user redeems / priority seat
+  let usernameColorClassName = 'text-body-emphasis';
+  let redemptionIndicator;
+
+  if (prioritySeat === true) {
+    usernameColorClassName = 'text-warning-emphasis';
+    redemptionIndicator = (
+      <span title="Priority seat redemption" className="align-self-center fs-6">
+        <i className="bi-stars" />
+      </span>
+    );
+  }
+  // Merge user info with props data
   const { info } = useSelector((state) => state.users);
   let userInfo = {};
   if (info[username]) {
@@ -32,68 +55,42 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
       });
     }
   }
+
+  // Only show Send button in Playing column
   let btnSendCode;
-
-  let usernameColorClassName = 'text-body-emphasis';
-  let redemptionIndicator;
-
-  if (prioritySeat === true) {
-    usernameColorClassName = 'text-warning-emphasis';
-    redemptionIndicator = (
-      <span title="Priority seat redemption" className="align-self-center">&#9733;</span>
-    );
-  }
-  if (showSendButton) {
+  if (showSendButton && queueName === 'playing') {
     btnSendCode = (
       <button
         className="btn btn-icon send-code"
         onClick={ onSendCode }
         disabled={ !onSendCode }
       >
-        <ArrowRightSquareFill />
+        <i className="bi-arrow-right-square-fill" />
       </button>
     );
   }
 
   const btnRemove = (
-    <button className="btn btn-icon" onClick={onRemoveUser} title="Remove">
-      <Trash3Fill color="#f87171" />
+    <button className="btn btn-icon remove-user" onClick={onRemoveUser} title="Remove">
+      <i className="bi-trash3-fill" />
     </button>
   );
 
   let btnIcon;
   if (queueName === 'playing') {
-    btnIcon = (<XCircleFill className="text-purple-3" />);
+    btnIcon = (<i className="bi-x-circle-fill text-purple-3" />);
   }
   if (queueName === 'interested') {
-    btnIcon = (<PlusCircleFill className="text-purple-4" />);
+    btnIcon = (<i className="bi-plus-circle-fill text-purple-4" />);
   }
-  let btnAction = (
+  const btnAction = (
     <button className="btn btn-icon" onClick={btnProps.onClick} title={btnProps.label}>
       {btnIcon}
     </button>
   );
 
-  /*const popover = (
-    <Popover id="popover-user-info">
-      <Popover.Header as="h3">{img} {display_name}</Popover.Header>
-      <Popover.Body className="pt-2">
-        <div className="pb-2">
-          <small><Cake2Fill /> {created_at} ({relativeCreatedAt})</small>
-        </div>
-        <div>
-          <button className="btn btn-sm btn-danger" onClick={onRemoveUser} title="Remove">
-            Remove from Queues
-          </button>
-        </div>
-      </Popover.Body>
-    </Popover>
-  );*/
-
-  const extendedClassName = (isExtended) ? 'd-block' : 'd-none';
-
   return (
-    <div className="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
+    <div className="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative">
       <div className="d-flex justify-content-between">
         <button className="btn btn-base border-0 d-flex flex-row" onClick={toggleExtended} title="View Additional User Information">
           {img}
@@ -113,14 +110,27 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
           {btnSendCode}
         </div>
       </div>
-      <div className={`player-queue-card-info border-top mt-2 pt-2 px-1 lh-base ${extendedClassName}`}>
-        <span className="d-block">
-          <Cake2Fill color="pink" aria-label="cake icon" /> {created_at} <span className="text-purple-2">({relativeCreatedAt})</span>
-        </span>
-        <div className="pt-2 fw-semibold lh-sm">{description}</div>
-        <div className="d-block mx-auto pt-2 text-center">
-          <a href={`https://www.twitch.com/${username}`} className="d-inline-block ttv-link fw-bold" target="_blank" rel="noreferrer">View Profile</a>
+      <Collapse in={isExtended} className="extended-info-pane">
+        <div id={`player-queue-card-info-${username}`} className="p-0 m-0">
+          <div className={'player-queue-card-info border-top mt-2 pt-2 px-1 lh-base'}>
+            <span className="d-block">
+              <i className="bi-cake2-fill text-purple-2" aria-label="cake icon" /> {created_at} <span className="text-purple-2">({relativeCreatedAt})</span>
+            </span>
+            <div className="pt-2 fw-semibold lh-sm">{description}</div>
+            <div className="d-block mx-auto pt-2">
+              <a href={`https://www.twitch.com/${username}`} className="d-inline-block ttv-link fw-bold" target="_blank" rel="noreferrer">View Profile</a>
+            </div>
+          </div>
         </div>
+      </Collapse>
+      <div className="d-block text-center position-absolute bottom-0 start-50 translate-middle-x">
+        <button className="btn badge rounded-pill user-info-toggle"
+          aria-controls={`player-queue-card-info-${username}`}
+          aria-expanded={isExtended}
+          onClick={toggleExtended}
+        >
+          {extendedToggleBtnProps.label} <i className={`bi-${extendedToggleBtnProps.icon}-fill `} />
+        </button>
       </div>
     </div>
   );
