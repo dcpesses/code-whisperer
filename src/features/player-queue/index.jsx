@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { People, PeopleFill/*, PersonFillAdd, PersonFillRemove*/ } from 'react-bootstrap-icons';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
@@ -235,7 +236,7 @@ export default class PlayerQueue extends Component {
       userObj = Object.assign({}, userObj, metadata);
     }
 
-    let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode);
+    let displaySendCodeBtn = !!(this.props.settings?.enableRoomCode && this.state.roomCode);
 
     let btnProps;
 
@@ -259,10 +260,11 @@ export default class PlayerQueue extends Component {
 
     return (
       <PlayerQueueCard
-        key={`game-queue-player-${id}`}
+        key={`player-queue-card-${id}`}
         btnProps={btnProps}
         onRemoveUser={this.removeUser.bind(this, userObj.username)}
         onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
+        queueName={curColumn}
         relativeTime={relativeTime}
         showSendButton={displaySendCodeBtn}
         username={userObj['display-name']}
@@ -401,7 +403,7 @@ export default class PlayerQueue extends Component {
           <div className="bg-body rounded shadow-sm p-2">
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="me-auto align-self-center">
-                Interested
+                <People /> Interested
               </span>
 
               <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
@@ -422,7 +424,7 @@ export default class PlayerQueue extends Component {
           <div className="bg-body rounded shadow-sm p-2">
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="me-auto align-self-center">
-                Playing
+                <PeopleFill /> Playing
               </span>
 
               <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>

@@ -9,9 +9,10 @@ import {connect} from 'react-redux';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
 import MessageHandler from '../MessageHandler';
 import HeaderMenu from '../header-menu';
-import PlayerQueue from '../player-queue';
+import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
+import { setUserInfo } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../example-states';
 
 import './main-screen.css';
@@ -160,12 +161,16 @@ class ImportedMainScreen extends Component {
     }
   };
 
-  onMessage = (message, user, metadata) => {
+  onMessage = async(message, user, metadata) => {
     this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
         userLookup: Object.assign({}, prevState.userLookup, {[user]: metadata})
       }));
+      const userInfo = await this.twitchApi.requestUserInfo({login: user});
+      if (userInfo?.data && userInfo?.data[0]) {
+        this.props.setUserInfo(userInfo.data[0]);
+      }
     }
   };
 
@@ -367,7 +372,8 @@ const mapStateToProps = state => ({
   modal: state.modal
 });
 const mapDispatchToProps = () => ({
-  showModalCommandList
+  showModalCommandList,
+  setUserInfo
 });
 export default connect(
   mapStateToProps,

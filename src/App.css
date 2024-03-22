@@ -11,6 +11,20 @@
   --todo-bg-alpha: 0.35!important;
 }
 
+.text-purple-0 {color: #f6f2ff;}
+.text-purple-1 {color: #e2d4ff;}
+.text-purple-2 {color: #ccb0ff;}
+.text-purple-3 {color: #b68cff;}
+.text-purple-4 {color: #a269ff;}
+.text-purple-5 {color: #9146ff;}
+.text-purple-6 {color: #8331f5;}
+.text-purple-7 {color: #721de0;}
+.text-purple-8 {color: #5e0cc2;}
+.text-purple-9 {color: #470099;}
+
+
+
+
 /* reset */
 * {
   box-sizing: border-box;
@@ -110,7 +124,28 @@ body {
   margin-bottom: 1rem;
 }
 
+.ttv-link,
+.ttv-link:visited {
+  color: #b68cff;
+  text-decoration:none;
+}
+.ttv-link:hover {
+  text-decoration: underline;
+}
+
 .bg-purple {
   background-color: #6f42c1;
 }
 
+.btn-icon {
+  --bs-btn-padding-y: 0;
+  --bs-btn-padding-x: 0.42rem;
+  --bs-btn-font-size: 1.25rem;
+  --bs-btn-line-height: 1;
+}
+.btn-base {
+  --bs-btn-padding-y: 0;
+  --bs-btn-padding-x: 0;
+  --bs-btn-font-size: inherit;
+  --bs-btn-line-height: inherit;
+}
