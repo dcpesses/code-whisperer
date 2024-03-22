@@ -12,7 +12,7 @@ import HeaderMenu from '../header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
-import { setUserInfo } from '@/features/player-queue/user-slice.js';
+import { setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../example-states';
 
 import './main-screen.css';
@@ -256,7 +256,9 @@ class ImportedMainScreen extends Component {
      */
   sendWhisper = async(player, msg) => {
     if (this.twitchApi?.sendWhisper) {
-      return await this.twitchApi?.sendWhisper(player, msg);
+      const response = await this.twitchApi?.sendWhisper(player, msg);
+      this.props.setWhisperStatus({login: player.username, response});
+      return;
     }
     return window.console.log('ImportedMainScreen - sendWhisper: no whisper sent', player, msg);
   };
@@ -373,7 +375,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
-  setUserInfo
+  setUserInfo,
+  setWhisperStatus,
 });
 export default connect(
   mapStateToProps,
