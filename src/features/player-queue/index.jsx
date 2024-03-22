@@ -333,12 +333,12 @@ export default class PlayerQueue extends Component {
     );
   };
 
-  sendCode = (userObj) => {
+  sendCode = async(userObj) => {
     let player = {
       id: userObj['user-id'],
       username: userObj.username
     };
-    return this.props.twitchApi.sendWhisper(player, this.state.roomCode);
+    return await this.props.sendWhisper(player, this.state.roomCode);
   };
 
   sendCodeToAll = () => {
@@ -349,23 +349,24 @@ export default class PlayerQueue extends Component {
       this.props.twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
+    const pipe = (this.props.settings?.customDelimiter)
+      ? ` ${this.props.settings.customDelimiter} `
+      : ' ⋆ ';
+    const recipients = this.state.playing.map(p => '@'+p['display-name']).join(pipe);
     let sendingToMsg = 'Sending room code to';
     if (this.state.playing.length === 1) {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
     } else {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people: ${recipients}`);
     }
 
     return this.state.playing.forEach((userObj, i) => {
-      (function(i, userObj, roomCode, props) {
-        setTimeout(function() {
-          let metadata = props.userLookup[userObj?.username] || {};
-          return props.twitchApi.sendWhisper({
-            id: metadata['user-id'],
-            username: userObj.username
-          }, roomCode);
+      // this.sendCodeToEach(i, userObj, this.state.roomCode, this.props);
+      (function(i, userObj, sendCode) {
+        setTimeout(() => {
+          return sendCode(userObj);
         }, 1000 * (i+1));
-      }(i, userObj, this.state.roomCode, this.props));
+      }(i, userObj, this.sendCode));
     });
   };
 

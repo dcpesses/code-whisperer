@@ -331,7 +331,7 @@ class ImportedMainScreen extends Component {
             game={GAME_PLACEHOLDER}
             gamesList={gamesList}
             sendMessage={this.twitchApi?.sendMessage}
-            sendWhisper={this.twitchApi?.sendWhisper}
+            sendWhisper={this.sendWhisper}
             settings={this.state.settings}
             twitchApi={this.props.twitchApi}
             startGame={this.startGame}

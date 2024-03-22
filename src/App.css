@@ -139,8 +139,8 @@ body {
 
 .btn-icon {
   --bs-btn-padding-y: 0;
-  --bs-btn-padding-x: 0.42rem;
-  --bs-btn-font-size: 1.25rem;
+  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-font-size: 1.5rem;
   --bs-btn-line-height: 1;
 }
 .btn-base {
@@ -148,4 +148,15 @@ body {
   --bs-btn-padding-x: 0;
   --bs-btn-font-size: inherit;
   --bs-btn-line-height: inherit;
+}
+
+.btn-icon [class^="bi-"] .badge {
+  --bs-badge-padding-x: 0.3rem;
+  --bs-badge-padding-y: 0.3rem;
+  --bs-badge-font-size: 0.75em;
+  --bs-badge-font-weight: 700;
+  --bs-badge-color: #fff;
+}
+.btn-icon [class^="bi-"] .badge:has( [class^="bi-"] ) {
+  --bs-badge-font-size: 0.75rem!important;
 }

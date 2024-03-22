@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import Alert from 'react-bootstrap/Alert';
 import Collapse from 'react-bootstrap/Collapse';
 import {getRelativeTimeString} from '@/utils';
 
@@ -31,7 +32,7 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
     );
   }
   // Merge user info with props data
-  const { info } = useSelector((state) => state.users);
+  const { info, whisperStatus } = useSelector((state) => state.users);
   let userInfo = {};
   if (info[username]) {
     userInfo = info[username];
@@ -57,6 +58,33 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
   }
 
   // Only show Send button in Playing column
+  // and display status when available
+  let userWhisperResponse = whisperStatus[username]?.response || {};
+  let sendStatusBadge;
+  let sendStatusMessage;
+  if (userWhisperResponse?.status) {
+    let whisperSuccess = (userWhisperResponse.status === 204);
+    if (whisperSuccess) {
+      sendStatusBadge = (
+        <span className="badge p-0 position-absolute top-0 start-100 translate-middle bg-success rounded-circle">
+          <i className="bi-check" />
+          <span className="visually-hidden">{userWhisperResponse.msg}</span>
+        </span>
+      );
+    } else {
+      sendStatusBadge = (
+        <span className="badge position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle">
+          <span className="visually-hidden">{userWhisperResponse.msg}</span>
+        </span>
+      );
+    }
+
+    sendStatusMessage = (
+      <Alert variant={(whisperSuccess) ? 'success' : 'danger'}>
+        <i className={`bi-${(whisperSuccess) ? 'check-circle-fill' : 'exclamation-triangle-fill'}`} /> {userWhisperResponse.msg}
+      </Alert>
+    );
+  }
   let btnSendCode;
   if (showSendButton && queueName === 'playing') {
     btnSendCode = (
@@ -65,7 +93,9 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
         onClick={ onSendCode }
         disabled={ !onSendCode }
       >
-        <i className="bi-arrow-right-square-fill" />
+        <i className="bi-arrow-right-square-fill position-relative">
+          {sendStatusBadge}
+        </i>
       </button>
     );
   }
@@ -113,6 +143,7 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
       <Collapse in={isExtended} className="extended-info-pane">
         <div id={`player-queue-card-info-${username}`} className="p-0 m-0">
           <div className={'player-queue-card-info border-top mt-2 pt-2 px-1 lh-base'}>
+            {sendStatusMessage}
             <span className="d-block">
               <i className="bi-cake2-fill text-purple-2" aria-label="cake icon" /> {created_at} <span className="text-purple-2">({relativeCreatedAt})</span>
             </span>
