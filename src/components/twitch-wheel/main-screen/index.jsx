@@ -12,7 +12,7 @@ import HeaderMenu from '../header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
-import { setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { setFakeStates, setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../example-states';
 
 import './main-screen.css';
@@ -98,6 +98,7 @@ class ImportedMainScreen extends Component {
           showPlayerSelect: true
         })
       );
+      this.props.setFakeStates(fakeStates.UserStore);
     }
   }
 
@@ -125,6 +126,7 @@ class ImportedMainScreen extends Component {
           }),
           () => {
             this.playerSelector?.setState(fakeStates.PlayerSelect);
+            this.props.setFakeStates(fakeStates.UserStore);
           }
         );
       }
@@ -375,6 +377,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
+  setFakeStates,
   setUserInfo,
   setWhisperStatus,
 });
