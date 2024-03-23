@@ -266,7 +266,7 @@ export default class PlayerQueue extends Component {
         queueName={curColumn}
         relativeTime={relativeTime}
         showSendButton={displaySendCodeBtn}
-        username={userObj['display-name']}
+        username={userObj.username}
       />
     );
   };

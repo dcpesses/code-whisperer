@@ -1,3 +1,8 @@
+.player-queue-card .user-profile-image {
+  height: 28px;
+  width: 28px;
+  font-size: 28px;
+}
 
 .player-queue-card .remove-user i {
   color: #f87171;
