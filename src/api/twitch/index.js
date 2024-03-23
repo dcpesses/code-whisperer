@@ -150,7 +150,7 @@ export default class TwitchApi {
       if (this.debug) {window.console.log('TwitchApi - init: isInit');}
       this._isInit = true;
       this._authError = false;
-      this.initChatClient();
+      await this.initChatClient();
       this._onInitCallback();
       return {oauth, users, valid, instance: this};
     } catch (e) {
