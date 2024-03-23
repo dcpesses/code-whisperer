@@ -38,10 +38,10 @@ describe('PlayerQueueCard', () => {
             type: '',
             broadcaster_type: '',
             description: 'Don\'t mind me, I\'m just here for the Jackbox games and to support my peeps. ',
-            profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/c653b34877c-46f1-9455-ca8b1e044d76-profile_image-300x300.png',
+            profile_image_url: 'profile_image-300x300.png',
             offline_image_url: '',
             view_count: 0,
-            created_at: '2019-11-18T00:47:34Z'
+            created_at: '2019-11-18T10:47:34Z'
           }
         },
         whisperStatus: {}
@@ -87,10 +87,10 @@ describe('PlayerQueueCard', () => {
             type: '',
             broadcaster_type: '',
             description: 'Don\'t mind me, I\'m just here for the Jackbox games and to support my peeps. ',
-            profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/7c653b34-877c-46f1-9455-ca8b1e044d76-profile_image-300x300.png',
+            profile_image_url: 'profile_image-300x300.png',
             offline_image_url: '',
             view_count: 0,
-            created_at: '2019-11-18T00:47:34Z'
+            created_at: '2019-11-18T10:47:34Z'
           }
         },
         whisperStatus: {

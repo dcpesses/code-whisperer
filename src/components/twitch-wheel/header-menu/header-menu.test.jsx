@@ -130,7 +130,7 @@ describe('HeaderMenu', () => {
           profile_image_url: 'profile_image-300x300.png',
           offline_image_url: '',
           view_count: 0,
-          created_at: '2019-11-18T00:47:34Z'
+          created_at: '2019-11-18T10:47:34Z'
         },
         debug: true
       },

@@ -15,7 +15,7 @@ exports[`PlayerQueueCard > Should render as a user in the interested queue 1`] =
         <img
           alt="dcpesses"
           class="rounded-circle navbar-pfp-img"
-          src="https://static-cdn.jtvnw.net/jtv_user_pictures/c653b34877c-46f1-9455-ca8b1e044d76-profile_image-300x300.png"
+          src="profile_image-300x300.png"
         />
          
         <div
@@ -68,7 +68,7 @@ exports[`PlayerQueueCard > Should render as a user in the interested queue 1`] =
             class="bi-cake2-fill text-purple-2"
           />
            
-          November 17, 2019
+          November 18, 2019
            
           <span
             class="text-purple-2"
@@ -131,7 +131,7 @@ exports[`PlayerQueueCard > Should render as a whispered user in the playing queu
         <img
           alt="dcpesses"
           class="rounded-circle navbar-pfp-img"
-          src="https://static-cdn.jtvnw.net/jtv_user_pictures/7c653b34-877c-46f1-9455-ca8b1e044d76-profile_image-300x300.png"
+          src="profile_image-300x300.png"
         />
          
         <div
@@ -194,7 +194,7 @@ exports[`PlayerQueueCard > Should render as a whispered user in the playing queu
             class="bi-cake2-fill text-purple-2"
           />
            
-          November 17, 2019
+          November 18, 2019
            
           <span
             class="text-purple-2"
