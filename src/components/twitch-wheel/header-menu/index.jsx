@@ -215,7 +215,7 @@ export default class HeaderMenu extends Component {
                 <Collapse in={this.state.showSettingsMenu}>
                   <div id="settings-menu" className="accordion-dark accordion accordion-flush">
                     <div className="accordion-body">
-                      <Button variant="link" className="btn settings-menu"
+                      <Button variant="link" id="enable-room-code" className="btn settings-menu"
                         onClick={toggleEnableRoomCode}
                         title="Allows host to set a room code that can be whispered to players."
                       >
@@ -247,8 +247,8 @@ export default class HeaderMenu extends Component {
                       <Button variant="link" className="btn settings-menu"
                         title="Uses a custom character or emote to separate requests listed in the chat."
                       >
-                        <span>Use Custom Delimiter: </span>
-                        <input type="text" name="custom-delimiter" defaultValue={settings?.customDelimiter}
+                        <span htmlFor="custom-delimiter">Use Custom Delimiter: </span>
+                        <input type="text" id="custom-delimiter" name="custom-delimiter" defaultValue={settings?.customDelimiter}
                           onChange={updateCustomDelimiter} className="form-control" />
                       </Button>
                     </div>
