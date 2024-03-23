@@ -6,6 +6,7 @@ import Demo from '@/pages/demo';
 import Login from '@/pages/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@/App.css';
 
 declare global {

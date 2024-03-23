@@ -8,13 +8,14 @@ import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
 import MessageHandler from '../MessageHandler';
-import HeaderMenu from '../OptionsMenu';
-import PlayerQueue from '../PlayerSelect';
+import HeaderMenu from '../header-menu';
+import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
+import { setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../example-states';
 
-import './MainScreen.css';
+import './main-screen.css';
 
 const GAME_PLACEHOLDER = {
   'name': '',
@@ -160,12 +161,16 @@ class ImportedMainScreen extends Component {
     }
   };
 
-  onMessage = (message, user, metadata) => {
+  onMessage = async(message, user, metadata) => {
     this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
         userLookup: Object.assign({}, prevState.userLookup, {[user]: metadata})
       }));
+      const userInfo = await this.twitchApi.requestUserInfo({login: user});
+      if (userInfo?.data && userInfo?.data[0]) {
+        this.props.setUserInfo(userInfo.data[0]);
+      }
     }
   };
 
@@ -251,7 +256,9 @@ class ImportedMainScreen extends Component {
      */
   sendWhisper = async(player, msg) => {
     if (this.twitchApi?.sendWhisper) {
-      return await this.twitchApi?.sendWhisper(player, msg);
+      const response = await this.twitchApi?.sendWhisper(player, msg);
+      this.props.setWhisperStatus({login: player.username, response});
+      return;
     }
     return window.console.log('ImportedMainScreen - sendWhisper: no whisper sent', player, msg);
   };
@@ -324,7 +331,7 @@ class ImportedMainScreen extends Component {
             game={GAME_PLACEHOLDER}
             gamesList={gamesList}
             sendMessage={this.twitchApi?.sendMessage}
-            sendWhisper={this.twitchApi?.sendWhisper}
+            sendWhisper={this.sendWhisper}
             settings={this.state.settings}
             twitchApi={this.props.twitchApi}
             startGame={this.startGame}
@@ -367,7 +374,9 @@ const mapStateToProps = state => ({
   modal: state.modal
 });
 const mapDispatchToProps = () => ({
-  showModalCommandList
+  showModalCommandList,
+  setUserInfo,
+  setWhisperStatus,
 });
 export default connect(
   mapStateToProps,

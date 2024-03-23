@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
+import PlayerQueueCard from './player-queue-card';
+import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
-import './PlayerQueue.css';
+import './player-queue.css';
 
 const GAME_PLACEHOLDER = {
   name: '',
@@ -46,7 +48,7 @@ export default class PlayerQueue extends Component {
       randCount: 0
     };
     this.randInt = 0;
-
+    this.timestampInt = 0;
     this.game = GAME_PLACEHOLDER;
   }
 
@@ -54,11 +56,14 @@ export default class PlayerQueue extends Component {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(fakeStates.PlayerSelect);
     }
+    // used for updating relative times about every 30 secs
+    this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
     return;
   }
 
   componentWillUnmount() {
     clearInterval(this.randInt);
+    clearInterval(this.timestampInt);
     return;
   }
 
@@ -93,58 +98,49 @@ export default class PlayerQueue extends Component {
     }
     this.setState({roomCode});
   };
-  handleRoomCodeFocus = (evt) => evt.target.select();
 
   updateColumnForUser = (userObj, newColumn) => {
     if (!this.state || !this.state[newColumn]) {return false;}
 
     this.removeUser(userObj.username);
-    this.setState((state) => {
-      return {
-        ...state,
-        [newColumn]: [
-          ...state[newColumn],
-          userObj
-        ]
-      };
-    });
+    this.setState((prevState) => ({
+      ...prevState,
+      [newColumn]: [
+        ...prevState[newColumn],
+        userObj
+      ]
+    }));
     return true;
   };
 
   removeUser = (username) => {
-    return this.setState((state) => ({
-      ...state,
-      interested: state.interested.filter((iObj) => iObj.username !== username),
-      playing: state.playing.filter((pObj) => pObj.username !== username)
+    return this.setState((prevState) => ({
+      ...prevState,
+      interested: prevState.interested.filter((iObj) => iObj.username !== username),
+      playing: prevState.playing.filter((pObj) => pObj.username !== username)
     }));
   };
 
   clearQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        interested: [],
-        playing: []
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      interested: [],
+      playing: []
+    }));
   };
 
   openQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        isQueueOpen: true
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      isQueueOpen: true
+    }));
   };
 
   closeQueue = () => {
-    return this.setState((state) => {
-      return {
-        ...state,
-        isQueueOpen: false
-      };
-    });
+    return this.setState((prevState) => ({
+      ...prevState,
+      isQueueOpen: false
+    }));
   };
 
   playerCount = () => {
@@ -153,26 +149,22 @@ export default class PlayerQueue extends Component {
   };
 
   toggleStreamerSeat = () => {
-    this.setState((state) => {
-      return {
-        ...state,
-        streamerSeat: !state.streamerSeat
-      };
-    });
+    this.setState((prevState) => ({
+      ...prevState,
+      streamerSeat: !prevState.streamerSeat
+    }));
   };
 
   canStartGame = () => this.state.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
-    this.setState ((state) => {
-      return {
-        ...state,
-        interested: [],
-        playing: [],
-        roomCode: null
-      };
-    });
+    this.setState ((prevState) => ({
+      ...prevState,
+      interested: [],
+      playing: [],
+      roomCode: null
+    }));
     // this.props.startGame();
   };
 
@@ -231,8 +223,8 @@ export default class PlayerQueue extends Component {
         ];
       }
     }
-    this.setState((state) => ({
-      interested: state.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
+    this.setState((prevState) => ({
+      interested: prevState.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
       playing
     }));
   };
@@ -243,9 +235,7 @@ export default class PlayerQueue extends Component {
       userObj = Object.assign({}, userObj, metadata);
     }
 
-    let displaySendCodeBtn = (this.props.settings?.enableRoomCode && this.state.roomCode !== null);
-
-    let btnSendCode;
+    let displaySendCodeBtn = !!(this.props.settings?.enableRoomCode && this.state.roomCode);
 
     let btnProps;
 
@@ -260,20 +250,6 @@ export default class PlayerQueue extends Component {
         onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
         label: 'Back to Interested'
       };
-      if (displaySendCodeBtn) {
-        btnSendCode = (
-          <button className="btn btn-sm btn-info send-code" onClick={ this.sendCode.bind(this, userObj) } disabled={!this.state.roomCode}>Send</button>
-        );
-      }
-    }
-
-    let usernameColorClassName = 'text-body-emphasis';
-    let redemptionIndicator;
-    if (userObj.isPrioritySeat === true) {
-      usernameColorClassName = 'text-warning-emphasis';
-      redemptionIndicator = (
-        <span title="Priority seat redemption" className="align-self-center">&#9733;</span>
-      );
     }
 
     let relativeTime = '';
@@ -282,36 +258,22 @@ export default class PlayerQueue extends Component {
     }
 
     return (
-      <div key={`game-queue-player-${id}`} className="game-queue-player p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle">
-        <div className="d-flex justify-content-between">
-          <div className="d-flex flex-row">
-            <button className="btn btn-sm btn-link text-decoration-none p-1 lh-1" onClick={this.removeUser.bind(this, userObj.username)} title="Remove">&#128683;</button>
-            {' '}
-            <div className="flex-column ms-1">
-              <strong className={`${usernameColorClassName} fs-4 saira-condensed fw-bold`}>
-                {userObj.username} {redemptionIndicator}
-              </strong>
-              <span className="text-info-emphasis d-block smaller fw-semibold">
-                {relativeTime}
-                {/* 9 mins ago */}
-              </span>
-            </div>
-          </div>
-          <div className="d-flex flex-row">
-            <button className="btn btn-secondary btn-sm fw-semibold" onClick={btnProps.onClick}>
-              {btnProps.label}
-            </button>
-            {btnSendCode}
-          </div>
-
-        </div>
-      </div>
+      <PlayerQueueCard
+        key={`player-queue-card-${id}`}
+        btnProps={btnProps}
+        onRemoveUser={this.removeUser.bind(this, userObj.username)}
+        onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
+        queueName={curColumn}
+        relativeTime={relativeTime}
+        showSendButton={displaySendCodeBtn}
+        username={userObj['display-name']}
+      />
     );
   };
 
   renderStreamerSeatToggle = () => {
     return (
-      <div className="toggle-streamer-seat card-header-item">
+      <div className="toggle-streamer-seat">
         <label className="toggle-label form-check-label" htmlFor="reserve-seat-for-streamer">
           Reserve seat for streamer?
         </label>
@@ -371,12 +333,12 @@ export default class PlayerQueue extends Component {
     );
   };
 
-  sendCode = (userObj) => {
+  sendCode = async(userObj) => {
     let player = {
       id: userObj['user-id'],
       username: userObj.username
     };
-    return this.props.twitchApi.sendWhisper(player, this.state.roomCode);
+    return await this.props.sendWhisper(player, this.state.roomCode);
   };
 
   sendCodeToAll = () => {
@@ -387,23 +349,24 @@ export default class PlayerQueue extends Component {
       this.props.twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
+    const pipe = (this.props.settings?.customDelimiter)
+      ? ` ${this.props.settings.customDelimiter} `
+      : ' ⋆ ';
+    const recipients = this.state.playing.map(p => '@'+p['display-name']).join(pipe);
     let sendingToMsg = 'Sending room code to';
     if (this.state.playing.length === 1) {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
     } else {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people`);
+      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people: ${recipients}`);
     }
 
     return this.state.playing.forEach((userObj, i) => {
-      (function(i, userObj, roomCode, props) {
-        setTimeout(function() {
-          let metadata = props.userLookup[userObj?.username] || {};
-          return props.twitchApi.sendWhisper({
-            id: metadata['user-id'],
-            username: userObj.username
-          }, roomCode);
+      // this.sendCodeToEach(i, userObj, this.state.roomCode, this.props);
+      (function(i, userObj, sendCode) {
+        setTimeout(() => {
+          return sendCode(userObj);
         }, 1000 * (i+1));
-      }(i, userObj, this.state.roomCode, this.props));
+      }(i, userObj, this.sendCode));
     });
   };
 
@@ -413,38 +376,15 @@ export default class PlayerQueue extends Component {
       startGameClass += ' disabled';
     }
 
-    let inputRoomCode = (
-      <div className="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6">
-        <div className="input-group">
-          <input type="text" name="room-code" value={this.state.roomCode || ''}
-            autoComplete="false"
-            aria-autocomplete="none"
-            aria-describedby="btn-send-to-queue"
-            aria-label="Enter Room Code"
-            className="form-control libre-franklin-font"
-            onChange={this.handleRoomCodeChange}
-            onFocus={this.handleRoomCodeFocus}
-            placeholder="ENTER ROOM CODE"
-            role="presentation"
-            title="Paste Room Code Here"
-          />
-          <button type="button"
-            className="btn btn-primary libre-franklin-font text-uppercase"
-            id="btn-send-to-queue"
-            onClick={this.sendCodeToAll}
-            title="Send Code to All Players"
-            disabled={this.state.playing.length===0 || !this.state.roomCode}
-          >
-            Send to Queue
-          </button>
-        </div>
-      </div>
-    );
-
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
         <div className="queue my-1 px-md-1 col-12">
-          {inputRoomCode}
+          <GameCodeForm
+            value={this.state.roomCode || ''}
+            onInputChange={this.handleRoomCodeChange}
+            onSendToAll={this.sendCodeToAll}
+            disabled={this.state.playing.length===0 || !this.state.roomCode}
+          />
         </div>
 
         <div className="queue my-1 px-md-1 col-12">
@@ -462,8 +402,8 @@ export default class PlayerQueue extends Component {
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
           <div className="bg-body rounded shadow-sm p-2">
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="me-auto align-self-center">
-                Interested
+              <span className="queue-header me-auto align-self-center">
+                <i className="bi-people text-purple-1 fs-5" /> Interested
               </span>
 
               <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
@@ -483,8 +423,8 @@ export default class PlayerQueue extends Component {
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
           <div className="bg-body rounded shadow-sm p-2">
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="me-auto align-self-center">
-                Playing
+              <span className="queue-header me-auto align-self-center">
+                <i className="bi-people-fill text-purple-1 fs-5" /> Playing
               </span>
 
               <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>

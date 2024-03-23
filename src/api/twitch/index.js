@@ -150,7 +150,7 @@ export default class TwitchApi {
       if (this.debug) {window.console.log('TwitchApi - init: isInit');}
       this._isInit = true;
       this._authError = false;
-      this.initChatClient();
+      await this.initChatClient();
       this._onInitCallback();
       return {oauth, users, valid, instance: this};
     } catch (e) {
@@ -501,9 +501,10 @@ export default class TwitchApi {
       to_user_id: player.id
     });
     let requestBody = {message: msg};
+    let response;
     try {
       await this.validateToken();
-      const response = await fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
+      response = await fetch(`https://api.twitch.tv/helix/whispers?${requestParams}`, {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
@@ -518,7 +519,9 @@ export default class TwitchApi {
         let errJson;
         try {
           errJson = await response.json();
-          if (errJson.error) {
+          if (errJson.message) {
+            errMsg += `: ${errJson.message}`;
+          } else if (errJson.error) {
             errMsg += `: ${errJson.error}`;
           }
           errJson.player = player;
@@ -530,16 +533,16 @@ export default class TwitchApi {
         if (this.debug) {window.console.log('_sendWhisper: sendMessage', {resp});}
         // TODO: handle response and filter text using regexp pattern
         // responseTxt.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, '')
-        return errMsg;
+        return {msg: errMsg, status: response.status, error: errJson};
       }
       const msg = `Code sent to @${player.username}`;
       await this.sendMessage(`/me ${msg}`);
-      return msg;
+      return {msg, status: response.status};
     } catch (error) {
       const errMsg = `Error sending to @${player.username}, please check console for details.`;
       window.console.warn(`Error sending to @${player.username}:`, error);
       await this.sendMessage(`/me ${errMsg}`);
-      return errMsg;
+      return {msg: errMsg, status: response?.status, error};
     }
   };
 

@@ -3,7 +3,7 @@ import {vi} from 'vitest';
 import TwitchApi, { ActivityStatus, noop } from './index';
 
 global.fetch = vi.fn();
-vi.mock('tmi');
+vi.mock('tmi.js');
 
 const getTwitchApiConfig = (overrides={}) => Object.assign({
   clientId: 'mockClientId',
@@ -219,15 +219,20 @@ describe('TwitchApi', () => {
 
   describe('init', () => {
     test('should call _init', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(window.location, 'hash', 'get').mockReturnValue('?code=MOCK_CODE&scope=chat%3Aread');
       vi.spyOn(twitchApi, '_init').mockResolvedValue('ok');
       const data = await twitchApi.init();
       expect(data).toEqual('ok');
+      expect(global.console.log).toBeCalledTimes(2);
     });
   });
 
   describe('_init', () => {
     beforeEach(() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(window.localStorage.__proto__, 'setItem');
       vi.spyOn(twitchApi, 'requestAuthentication').mockResolvedValue({status: 204});
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
@@ -246,6 +251,7 @@ describe('TwitchApi', () => {
         valid: { status: 204, login: 'username' },
         instance: expect.any(TwitchApi),
       });
+      expect(global.console.log).toBeCalledTimes(1);
     });
     test('should return error data from requestAuthentication', async() => {
       vi.spyOn(twitchApi, 'requestAuthentication').mockResolvedValue({status: 403, message: 'Forbidden'});
@@ -258,6 +264,7 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       }));
       expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
     });
     test('should return error data from validateToken', async() => {
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 403, message: 'Forbidden'});
@@ -270,6 +277,7 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       }));
       expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
     });
     test('should return error data from requestUsers', async() => {
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 403, message: 'Forbidden'});
@@ -282,11 +290,27 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       }));
       expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
+    });
+    test('should handle unexpected errors', async() => {
+      vi.spyOn(twitchApi, 'requestAuthentication').mockRejectedValue('error');
+      const data = await twitchApi._init();
+      expect(data).toEqual({
+        oauth: null,
+        users: null,
+        valid: null,
+        error: 'error',
+        instance: expect.any(TwitchApi),
+      });
+      expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
     });
   });
 
   describe('resume', () => {
     beforeEach(() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(window.localStorage.__proto__, 'setItem');
       vi.spyOn(twitchApi, 'requestAuthentication').mockResolvedValue({status: 204});
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
@@ -305,6 +329,15 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       });
       expect(twitchApi._onInitCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(3);
+    });
+    test('should return console warning when accessToken is invalid', async() => {
+      vi.spyOn(global.console, 'warn');
+      vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 403, message: 'Forbidden'});
+      twitchApi._accessToken = null;
+      await twitchApi.resume();
+      expect(twitchApi._authErrorCallback).toHaveBeenCalledTimes(0);
+      expect(global.console.warn).toBeCalledTimes(1);
     });
     test('should return error data from validateToken', async() => {
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 403, message: 'Forbidden'});
@@ -317,6 +350,7 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       }));
       expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(2);
     });
     test('should return error data from requestUsers', async() => {
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 403, message: 'Forbidden'});
@@ -329,22 +363,98 @@ describe('TwitchApi', () => {
         instance: expect.any(TwitchApi),
       }));
       expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(2);
+    });
+    test('should handle unexpected errors', async() => {
+      vi.spyOn(twitchApi, 'validateToken').mockRejectedValue('error');
+      const data = await twitchApi.resume();
+      expect(data).toEqual({
+        oauth: null,
+        users: null,
+        valid: null,
+        error: 'error',
+        instance: expect.any(TwitchApi),
+      });
+      expect(twitchApi._authErrorCallback).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(2);
     });
   });
 
   describe('initChatClient', () => {
     test('should successfully connect to chat client', () => {
-      const client = twitchApi.initChatClient();
+      vi.spyOn(twitchApi, '_initChatClient');
+      twitchApi.initChatClient();
+      expect(twitchApi._initChatClient).toBeCalledTimes(1);
+    });
+  });
+
+  describe('_initChatClient', () => {
+    test('should successfully connect to chat client', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      const client = await twitchApi._initChatClient();
       expect(client).toBeDefined();
+      expect(global.console.log).toBeCalledTimes(1);
+    });
+    test('should successfully disconnect chat client if it already exists', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      const disconnect = vi.fn();
+      twitchApi._chatClient = { disconnect };
+      const client = await twitchApi._initChatClient();
+      expect(client).toBeDefined();
+      expect(disconnect).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
+    });
+    test('should handle errors when disconnecting chat client', async() => {
+      vi.spyOn(global.console, 'warn');
+      const disconnect = vi.fn().mockRejectedValue('error');
+      twitchApi._chatClient = { disconnect };
+      try {
+        await twitchApi._initChatClient();
+      } catch (e) {
+        expect(e).toEqual('Login authentication failed');
+      }
+
+      expect(disconnect).toHaveBeenCalled();
+      expect(global.console.warn).toBeCalledTimes(1);
+    });
+  });
+
+  describe('onMessageCallback', () => {
+    test('should successfully call function defined in _onMessageCallback', () => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      twitchApi._onMessageCallback = vi.fn();
+      twitchApi.onMessageCallback(1, 2, 3, 4);
+      expect(twitchApi._onMessageCallback).toBeCalledWith(1, 2, 3, 4);
+      expect(global.console.log).toBeCalledTimes(1);
+    });
+    test('should handle calls when no function defined in _onMessageCallback', () => {
+      vi.spyOn(global.console, 'warn');
+      twitchApi._onMessageCallback = null;
+      twitchApi.onMessageCallback(1, 2, 3, 4);
+      expect(global.console.warn).toHaveBeenCalled();
     });
   });
 
   describe('closeChatClient', () => {
-    test('should successfully disconnect chat client', () => {
+    test('should successfully disconnect chat client', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       const disconnect = vi.fn();
       twitchApi._chatClient = { disconnect };
-      twitchApi.closeChatClient();
+      await twitchApi.closeChatClient();
       expect(disconnect).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
+    });
+    test('should handle errors when disconnecting chat client', async() => {
+      vi.spyOn(global.console, 'log');
+      const disconnect = vi.fn().mockRejectedValue(null);
+      twitchApi._chatClient = { disconnect };
+      await twitchApi.closeChatClient();
+      expect(disconnect).toHaveBeenCalled();
+      expect(global.console.log).toBeCalledTimes(1);
     });
   });
 
@@ -518,22 +628,41 @@ describe('TwitchApi', () => {
         json: () => Promise.resolve()
       });
       const response = await twitchApi.sendWhisper(recipientUser, 'Howdy!');
-      expect(response).toEqual(`Code sent to @${recipientUser.username}`);
-      expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response}`);
+      expect(response.msg).toEqual(`Code sent to @${recipientUser.username}`);
+      expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response.msg}`);
     });
 
-    test('should post an error message to chat', async() => {
+    test('should post an error message to chat using the returned message field', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        status: 400,
+        json: () => Promise.resolve({status: 400, error: 'Bad Request', message: 'A user cannot whisper themself'})
+      });
+
+      const response = await twitchApi.sendWhisper(recipientUser, 'Howdy!');
+      expect(response.msg).toEqual(`Error 400 sending to @${recipientUser.username}: A user cannot whisper themself`);
+      expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response.msg}`);
+      expect(global.console.log).toBeCalledTimes(4);
+    });
+
+    test('should post an error message to chatusing the returned error field', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(global, 'fetch').mockResolvedValue({
         status: 403,
         json: () => Promise.resolve({status: 403, error: 'Forbidden'})
       });
 
       const response = await twitchApi.sendWhisper(recipientUser, 'Howdy!');
-      expect(response).toEqual(`Error 403 sending to @${recipientUser.username}: Forbidden`);
-      expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response}`);
+      expect(response.msg).toEqual(`Error 403 sending to @${recipientUser.username}: Forbidden`);
+      expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response.msg}`);
+      expect(global.console.log).toBeCalledTimes(4);
     });
     test('should catch an error and post an error message to chat', async() => {
       vi.spyOn(global.console, 'warn');
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(global, 'fetch').mockRejectedValue({
         status: 403,
         json: () => Promise.reject({status: 403, error: 'Forbidden'})
@@ -545,16 +674,20 @@ describe('TwitchApi', () => {
         expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response}`);
         expect(global.console.warn).toHaveBeenCalledTimes(1);
       }).rejects.toThrow();
+      expect(global.console.log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('sendMessage', () => {
     test('should send the passed message to the chat', () => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       const say = vi.fn();
       twitchApi._channel = 'user_name';
       twitchApi._chatClient = { say };
       twitchApi.sendMessage('Howdy!');
       expect(say).toHaveBeenCalledWith('user_name', 'Howdy!');
+      expect(global.console.log).toBeCalledTimes(1);
     });
   });
 
@@ -591,12 +724,15 @@ describe('TwitchApi', () => {
   describe('reset', () => {
 
     test('should call reset related functions', () => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(twitchApi, 'resetLocalStorageItems');
       vi.spyOn(twitchApi, 'resetState');
       twitchApi.reset();
       expect(twitchApi.resetLocalStorageItems).toHaveBeenCalled();
       expect(twitchApi.resetState).toHaveBeenCalled();
       expect(window.location.hash).toBe('');
+      expect(global.console.log).toBeCalledTimes(1);
     });
   });
 
@@ -675,6 +811,8 @@ describe('TwitchApi', () => {
       expect(response.data).toBe(responseData);
     });
     test('should refresh the user token and return a requestRefreshToken response', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(twitchApi, 'requestRefreshToken').mockResolvedValue('refreshToken');
       vi.spyOn(global, 'fetch').mockResolvedValueOnce({
         json: () => Promise.resolve({
@@ -696,7 +834,52 @@ describe('TwitchApi', () => {
         }
       });
       expect(response).toBe('refreshToken');
+      expect(global.console.log).toBeCalledTimes(2);
       expect(twitchApi.requestRefreshToken).toHaveBeenCalledTimes(1);
+    });
+    test('should refresh the user token and return a requestRefreshToken response on caught 401 status error', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(twitchApi, 'requestRefreshToken').mockResolvedValue('refreshToken');
+      vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: () => Promise.reject({
+          message: 'invalid access token',
+          status: 401,
+        })
+      });
+      const token = twitchApi._accessToken;
+      const response = await twitchApi.validateToken(token);
+      expect(global.fetch).toHaveBeenCalledWith('https://id.twitch.tv/oauth2/validate', {
+        method: 'GET',
+        headers: {
+          Authorization: `OAuth ${token}`
+        }
+      });
+      expect(response).toBe('refreshToken');
+      expect(global.console.log).toBeCalledTimes(2);
+      expect(twitchApi.requestRefreshToken).toHaveBeenCalledTimes(1);
+    });
+    test('should return without refreshing the user token on a non-401 status error', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(twitchApi, 'requestRefreshToken').mockResolvedValue('refreshToken');
+      vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: () => Promise.reject({
+          message: 'invalid access token',
+          status: 403,
+        })
+      });
+      const token = twitchApi._accessToken;
+      const response = await twitchApi.validateToken(token);
+      expect(global.fetch).toHaveBeenCalledWith('https://id.twitch.tv/oauth2/validate', {
+        method: 'GET',
+        headers: {
+          Authorization: `OAuth ${token}`
+        }
+      });
+      expect(response).toBeUndefined();
+      expect(global.console.log).toBeCalledTimes(1);
+      expect(twitchApi.requestRefreshToken).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -746,6 +929,8 @@ describe('TwitchApi', () => {
     });
 
     test('should retry fetch call when the first attempt fails and return its response', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
       vi.spyOn(global, 'fetch').mockRejectedValueOnce({
         json: () => Promise.resolve({
@@ -763,6 +948,35 @@ describe('TwitchApi', () => {
       expect(global.fetch.mock.calls).toMatchSnapshot();
       const responseJson = await response.json();
       expect(responseJson.data).toBe(responseData);
+      expect(global.console.log).toBeCalledTimes(3);
+    });
+
+    test('should throw the original error if another error is thrown', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(twitchApi, 'validateToken').mockRejectedValue({status: 504, login: 'username'});
+      vi.spyOn(global, 'fetch').mockRejectedValueOnce({
+        json: () => Promise.resolve({
+          status: 500,
+          error: 'first error'
+        })
+      }).mockRejectedValueOnce({
+        json: () => Promise.resolve({
+          status: 504,
+          error: 'second error'
+        })
+      });
+
+      let response;
+      try {
+        response = await twitchApi.refetch(...fetchArgs);
+      } catch (e) {
+        expect(e.json()).resolves.toEqual({status: 500, error: 'first error'});
+        expect(global.fetch).toHaveBeenCalledWith(...fetchArgs);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(response).toBeUndefined();
+      }
+      expect(global.console.log).toBeCalledTimes(2);
     });
   });
 

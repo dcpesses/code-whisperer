@@ -1,0 +1,663 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PlayerQueueCard > Should render as a user in the interested queue 1`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+        <img
+          alt="dcpesses"
+          class="rounded-circle navbar-pfp-img"
+          src="profile_image-300x300.png"
+        />
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+            dcpesses
+             
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          />
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title="Add 2 Playing"
+        >
+          <i
+            class="bi-plus-circle-fill text-purple-4"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapse"
+      id="player-queue-card-info-dcpesses"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+          November 18, 2019
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            5 years ago
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        >
+          Don't mind me, I'm just here for the Jackbox games and to support my peeps. 
+        </div>
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/dcpesses"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-dcpesses"
+        aria-expanded="false"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View More
+         
+        <i
+          class="bi-caret-down-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueueCard > Should render as a whispered user in the playing queue 1`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+        <img
+          alt="dcpesses"
+          class="rounded-circle navbar-pfp-img"
+          src="profile_image-300x300.png"
+        />
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+            dcpesses
+             
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          />
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title="Move 2 Interesting"
+        >
+          <i
+            class="bi-plus-circle-fill text-purple-4"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapse"
+      id="player-queue-card-info-dcpesses"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <div
+          class="fade alert alert-danger show"
+          role="alert"
+        >
+          <i
+            class="bi-exclamation-triangle-fill"
+          />
+           
+          Error 400 sending to @dcpesses: A user cannot whisper themself
+        </div>
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+          November 18, 2019
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            5 years ago
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        >
+          Don't mind me, I'm just here for the Jackbox games and to support my peeps. 
+        </div>
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/dcpesses"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-dcpesses"
+        aria-expanded="false"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View More
+         
+        <i
+          class="bi-caret-down-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueueCard > Should render with priority seat and relative time stamps 1`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-warning-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+             
+            <span
+              class="align-self-center fs-6"
+              title="Priority seat redemption"
+            >
+              <i
+                class="bi-stars"
+              />
+            </span>
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          >
+            Now
+          </span>
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title=""
+        />
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapse"
+      id="player-queue-card-info-null"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        />
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/null"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-null"
+        aria-expanded="false"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View More
+         
+        <i
+          class="bi-caret-down-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueueCard > Should render without error 1`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+             
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          />
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title=""
+        />
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapse"
+      id="player-queue-card-info-null"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        />
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/null"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-null"
+        aria-expanded="false"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View More
+         
+        <i
+          class="bi-caret-down-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueueCard > Should render without error 2`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+             
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          />
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title=""
+        />
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapsing"
+      id="player-queue-card-info-null"
+      style="height: 0px;"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        />
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/null"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-null"
+        aria-expanded="true"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View Less
+         
+        <i
+          class="bi-caret-up-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueueCard > Should render without error 3`] = `
+<div>
+  <div
+    class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="btn btn-base border-0 d-flex flex-row"
+        title="View Additional User Information"
+      >
+         
+        <div
+          class="flex-column ms-1 text-start"
+        >
+          <strong
+            class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+          >
+             
+          </strong>
+          <span
+            class="text-purple-2 d-block smaller fw-semibold"
+          />
+        </div>
+      </button>
+      <div
+        class="d-flex flex-row"
+      >
+        <button
+          class="btn btn-icon remove-user"
+          title="Remove"
+        >
+          <i
+            class="bi-trash3-fill"
+          />
+        </button>
+        <button
+          class="btn btn-icon"
+          title=""
+        />
+      </div>
+    </div>
+    <div
+      class="extended-info-pane p-0 m-0 collapsing"
+      id="player-queue-card-info-null"
+      style="height: 0px;"
+    >
+      <div
+        class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+      >
+        <span
+          class="d-block"
+        >
+          <i
+            aria-label="cake icon"
+            class="bi-cake2-fill text-purple-2"
+          />
+           
+           
+          <span
+            class="text-purple-2"
+          >
+            (
+            )
+          </span>
+        </span>
+        <div
+          class="pt-2 fw-semibold lh-sm"
+        />
+        <div
+          class="d-block mx-auto pt-2"
+        >
+          <a
+            class="d-inline-block ttv-link fw-bold"
+            href="https://www.twitch.com/null"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Profile
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+    >
+      <button
+        aria-controls="player-queue-card-info-null"
+        aria-expanded="false"
+        class="btn badge rounded-pill user-info-toggle"
+      >
+        View More
+         
+        <i
+          class="bi-caret-down-fill "
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
