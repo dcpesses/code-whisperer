@@ -33,6 +33,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - No additional login necessary from users willing to play
 - Option to randomize user selection
 - Set the Max # of Players via Dropdown
+- NEW: Indicates if issues occur sending whispers
 - More features coming soon...
 
 ### Caveats
@@ -58,13 +59,14 @@ be whispered. Users indicate if they want to join a game by entering commands in
 *NOTE: These commands will likely be renamed.
 
 ### Currently Planned Features:
-- Displaying creation date of player's account
-- In-app Documentation
-- Usage instructions via command
-- Custom join/leave commands
-- Using icons in place of text
-- Player blacklisting
-- Possible usage in other channels (Moderation privileges required)
+- [x] Display creation date of player's account
+- [ ] In-app Documentation & Tutorial
+- [ ] Usage instructions via command
+- [ ] Custom join/leave commands
+- [x] Using icons in place of text
+- [ ] Game description lookup via command
+- [ ] Player blacklisting
+- [ ] Possible usage in other channels (Moderation privileges required)
 
 ## Support
 
