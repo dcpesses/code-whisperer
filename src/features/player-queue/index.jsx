@@ -259,7 +259,7 @@ export default class PlayerQueue extends Component {
 
     return (
       <PlayerQueueCard
-        key={`player-queue-card-${id}`}
+        key={`player-queue-card-${userObj.username}`}
         btnProps={btnProps}
         onRemoveUser={this.removeUser.bind(this, userObj.username)}
         onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
