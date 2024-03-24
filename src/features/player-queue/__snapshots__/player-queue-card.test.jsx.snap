@@ -14,7 +14,7 @@ exports[`PlayerQueueCard > Should render as a user in the interested queue 1`] =
       >
         <img
           alt="dcpesses"
-          class="rounded-circle navbar-pfp-img"
+          class="rounded-circle user-profile-image"
           src="profile_image-300x300.png"
         />
          
@@ -130,7 +130,7 @@ exports[`PlayerQueueCard > Should render as a whispered user in the playing queu
       >
         <img
           alt="dcpesses"
-          class="rounded-circle navbar-pfp-img"
+          class="rounded-circle user-profile-image"
           src="profile_image-300x300.png"
         />
          
@@ -254,6 +254,9 @@ exports[`PlayerQueueCard > Should render with priority seat and relative time st
         class="btn btn-base border-0 d-flex flex-row"
         title="View Additional User Information"
       >
+        <i
+          class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+        />
          
         <div
           class="flex-column ms-1 text-start"
@@ -366,6 +369,9 @@ exports[`PlayerQueueCard > Should render without error 1`] = `
         class="btn btn-base border-0 d-flex flex-row"
         title="View Additional User Information"
       >
+        <i
+          class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+        />
          
         <div
           class="flex-column ms-1 text-start"
@@ -468,6 +474,9 @@ exports[`PlayerQueueCard > Should render without error 2`] = `
         class="btn btn-base border-0 d-flex flex-row"
         title="View Additional User Information"
       >
+        <i
+          class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+        />
          
         <div
           class="flex-column ms-1 text-start"
@@ -571,6 +580,9 @@ exports[`PlayerQueueCard > Should render without error 3`] = `
         class="btn btn-base border-0 d-flex flex-row"
         title="View Additional User Information"
       >
+        <i
+          class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+        />
          
         <div
           class="flex-column ms-1 text-start"

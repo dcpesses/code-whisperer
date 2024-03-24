@@ -1,3 +1,59 @@
+const generateMockUserInfo = (max) => {
+  const players = [...Array(max)].map((x, i) => {
+    const n = i+1;
+    let bdate = new Date();
+    bdate.setFullYear(bdate.getFullYear() - n);
+
+    return {
+      info: {
+        [`player${n}`]: {
+          broadcaster_type: '',
+          created_at: bdate.toISOString(),
+          description: '',
+          display_name: `Player${n}`,
+          id: n.toString(),
+          login: `player${n}`,
+          offline_image_url: '',
+          profile_image_url: '',
+          type: '',
+          view_count: 0,
+        }
+      },
+      lookup: {
+        [`player${n}`]: {
+          'badge-info': null,
+          'badge-info-raw': null,
+          'badges': {},
+          'badges-raw': '',
+          // 'client-nonce': '',
+          'color': '#1E90FF',
+          'display-name': `Player${n}`,
+          'emotes': null,
+          'emotes-raw': null,
+          'first-msg': false,
+          'flags': null,
+          'id': `12345789-abde-4013-8567-9abcd0123${(567 + i)}`,
+          'message-type': 'chat',
+          'mod': false,
+          'returning-chatter': false,
+          'room-id': '0',
+          'subscriber': false,
+          'tmi-sent-ts': (Date.now() - (n * 15000)).toString(),
+          'turbo': false,
+          'user-id': n.toString(),
+          'user-type': null,
+          'username': `player${n}`,
+        },
+      }
+    };
+  });
+  return {
+    info: Object.assign({}, ...players.map(p => p.info)),
+    lookup: Object.assign({}, ...players.map(p => p.lookup)),
+  };
+};
+
+const mockPlayers = generateMockUserInfo(8);
 
 const stateMainScreen = {
   'gameSelected': null,
@@ -510,14 +566,33 @@ const stateMainScreen = {
   ],
   'nextGameIdx': 0,
   'showPlayerSelect': false,
-  'userLookup': {
-    'dcpesses': {
-      'color': '#1E90FF',
-      'user-id': '473294395',
-      'username': 'dcpesses',
-      'tmi-sent-ts': Date.now().toString()
-    }
-  }
+  'userLookup': Object.assign(
+    {
+      dcpesses: {
+        'color': '#1E90FF',
+        'user-id': '0',
+        'username': 'dcpesses',
+        'tmi-sent-ts': Date.now().toString(),
+        'badge-info': null,
+        'badge-info-raw': null,
+        'badges': { 'broadcaster': '1', 'twitch-recap-2023': '1' },
+        'badges-raw': 'broadcaster/1,twitch-recap-2023/1',
+        // 'client-nonce': '',
+        'display-name': 'dcpesses',
+        'emotes': null,
+        'emotes-raw': null,
+        'first-msg': false,
+        'flags': null,
+        'id': '12345789-abde-4013-8567-9abcd0123566',
+        'message-type': 'chat',
+        'mod': false,
+        'returning-chatter': false,
+        'room-id': '0',
+        'subscriber': false,
+        'turbo': false,
+        'user-type': null,
+      }
+    }, mockPlayers.lookup),
 };
 
 const statePlayerSelect = {
@@ -531,7 +606,7 @@ const statePlayerSelect = {
       'isPrioritySeat': false
     },
     {
-      'username': 'player9'
+      'username': 'player4'
     },
     {
       'username': 'dcpesses'
@@ -564,7 +639,50 @@ const statePlayerSelect = {
   'columnWidth': 634
 };
 
+const stateUserStore = {
+  info: Object.assign({
+    dcpesses: {
+      'id': '0',
+      'login': 'dcpesses',
+      'display_name': 'dcpesses',
+      'type': '',
+      'broadcaster_type': '',
+      'description': 'Don’t mind me, I’m just here for the Jackbox games and to support my peeps. ',
+      'profile_image_url': 'https://static-cdn.jtvnw.net/jtv_user_pictures/7c653b34-877c-46f1-9455-ca8b1e044d76-profile_image-300x300.png',
+      'offline_image_url': '',
+      'view_count': 0,
+      'created_at': '2019-11-18T00:47:34Z'
+    }
+  }, mockPlayers.info),
+  'whisperStatus': {
+    'player1': {
+      'login': 'player1',
+      'response': {
+        'msg': 'Code sent to @player1',
+        'status': 204
+      }
+    },
+    'player2': {
+      'login': 'player2',
+      'response': {
+        'msg': 'Error 500 sending to @player2: Internal Server Error',
+        'status': 500,
+        'error': {
+          'error': 'Internal Server Error',
+          'status': 500,
+          'message': '',
+          'player': {
+            'id': '2',
+            'username': 'player2'
+          }
+        }
+      }
+    }
+  }
+};
+
 export {
   stateMainScreen as MainScreen,
-  statePlayerSelect as PlayerSelect
+  statePlayerSelect as PlayerSelect,
+  stateUserStore as UserStore,
 };

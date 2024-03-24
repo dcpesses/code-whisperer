@@ -31,18 +31,23 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
       </span>
     );
   }
+
   // Merge user info with props data
   const { info, whisperStatus } = useSelector((state) => state.users);
   let userInfo = {};
+  let display_name = username;
+  let img = (
+    <i className="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50" alt={display_name} />
+  );
+  let created_at, description, relativeCreatedAt;
   if (info[username]) {
     userInfo = info[username];
-  }
-  let img, display_name, created_at, description, relativeCreatedAt;
-  if (userInfo?.profile_image_url) {
-    img = (
-      <img src={userInfo.profile_image_url} className="rounded-circle navbar-pfp-img" alt={userInfo.display_name} />
-    );
     display_name = userInfo.display_name;
+    if (userInfo?.profile_image_url) {
+      img = (
+        <img src={userInfo.profile_image_url} className="rounded-circle user-profile-image" alt={display_name} />
+      );
+    }
     created_at = userInfo.created_at;
     description = userInfo.description;
 
@@ -85,6 +90,7 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
       </Alert>
     );
   }
+
   let btnSendCode;
   if (showSendButton && queueName === 'playing') {
     btnSendCode = (

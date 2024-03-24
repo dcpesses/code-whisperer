@@ -10,7 +10,14 @@ export const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    // Use the PayloadAction type to declare the contents of `action.payload`
+    setFakeStates: (state, action) => {
+      if (action.payload.info) {
+        state.info = action.payload.info;
+      }
+      if (action.payload.whisperStatus) {
+        state.whisperStatus = action.payload.whisperStatus;
+      }
+    },
     setUserInfo: (state, action) => {
       if (action.payload.login) {
         state.info[action.payload.login] = action.payload;
@@ -36,6 +43,6 @@ export const userSlice = createSlice({
 
 export const selectUser = (state) => state.users.info;
 
-export const { setUserInfo, setWhisperStatus, removeUserInfo, removeWhisperStatus } = userSlice.actions;
+export const { setFakeStates, setUserInfo, setWhisperStatus, removeUserInfo, removeWhisperStatus } = userSlice.actions;
 
 export default userSlice.reducer;
