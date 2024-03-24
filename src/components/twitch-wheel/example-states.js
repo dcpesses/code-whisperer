@@ -53,7 +53,7 @@ const generateMockUserInfo = (max) => {
   };
 };
 
-const mockPlayers = generateMockUserInfo(4);
+const mockPlayers = generateMockUserInfo(8);
 
 const stateMainScreen = {
   'gameSelected': null,
