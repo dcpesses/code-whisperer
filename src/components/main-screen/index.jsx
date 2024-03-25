@@ -7,13 +7,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
-import MessageHandler from '../MessageHandler';
-import HeaderMenu from '../header-menu';
+import MessageHandler from '../twitch-wheel/MessageHandler';
+// import MessageCommandHandler from '../message-command-handler';
+import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { setFakeStates, setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
-import * as fakeStates from '../example-states';
+import * as fakeStates from '../twitch-wheel/example-states';
 
 import './main-screen.css';
 
@@ -86,11 +87,15 @@ class ImportedMainScreen extends Component {
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
 
     this.twitchApi = this.props.twitchApi;
+    // if (this.props.twitchApi) {
+    //   this.initMessageCommandHandler();
+    // }
   }
 
   componentDidMount() {
     if (!this.twitchApi) {
       this.twitchApi = this.props.twitchApi;
+      // this.initMessageCommandHandler();
     }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(

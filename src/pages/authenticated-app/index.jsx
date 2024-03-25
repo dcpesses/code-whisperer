@@ -2,12 +2,12 @@
 /* eslint-disable no-console */
 import React, {Component} from 'react';
 import LoadingRipple from '@/components/loading-ripple';
-import MainScreen from '@/pages/main-screen';
+import MainScreen from '@/components/mockups/main-screen';
 import {Navigate} from 'react-router-dom';
 import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
-import ImportedMainScreen from '@/components/twitch-wheel/main-screen';
+import ImportedMainScreen from '@/components/main-screen';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
