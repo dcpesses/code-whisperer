@@ -230,7 +230,6 @@ class AuthenticatedApp extends Component {
           <ImportedMainScreen
             access_token={this.twitchApi?.accessToken}
             channel={this.state.username}
-            connected={this.twitchApi?.isChatConnected}
             modList={this.state.modList}
             onLogOut={this.logOut}
             profile_image_url={this.state.profile_image_url}

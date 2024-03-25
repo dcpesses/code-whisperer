@@ -1,4 +1,3 @@
-// import PropTypes from 'prop-types';
 import {Debounce} from '@/utils';
 // import jsonCommandList from './Commands.json';
 import jsonJackboxGameList from './JackboxGames.json';
@@ -62,38 +61,6 @@ export const easterEggRequests = [
 export const noop = () => {};
 
 export default class MessageCommandHandler {
-  // static get propTypes() {
-  //   return {
-  //     caniplayHandler: PropTypes.func,
-  //     channel: PropTypes.string,
-  //     clearQueueHandler: PropTypes.func,
-  //     closeQueueHandler: PropTypes.func,
-  //     logUserMessages: PropTypes.bool,
-  //     modList: PropTypes.object,
-  //     onMessage: PropTypes.func,
-  //     openQueueHandler: PropTypes.func,
-  //     playerExitHandler: PropTypes.func,
-  //     startGame: PropTypes.func,
-  //     twitchApi: PropTypes.object,
-  //     // toggleAllowGameRequests: PropTypes.func,
-  //   };
-  // }
-  // static get defaultProps() {
-  //   return {
-  //     caniplayHandler: () => void 0,
-  //     channel: null,
-  //     clearQueueHandler: () => void 0,
-  //     closeQueueHandler: () => void 0,
-  //     logUserMessages: false,
-  //     modList: {},
-  //     onMessage: () => void 0,
-  //     openQueueHandler: () => void 0,
-  //     playerExitHandler: () => void 0,
-  //     startGame: () => void 0,
-  //     twitchApi: null,
-  //     // toggleAllowGameRequests: () => void 0,
-  //   };
-  // }
   constructor({
     access_token,
     addGameRequest=noop,
@@ -174,7 +141,6 @@ export default class MessageCommandHandler {
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessageCallbackFnDebounced = Debounce(this.updateMessageCallbackFn.bind(this), 150);
 
-    //this.init();
   }
 
   init = () => {
@@ -187,77 +153,6 @@ export default class MessageCommandHandler {
     this.twitchApi.onMessage = this._onMessage;
     this.client = this.twitchApi._chatClient;
   };
-
-  /*
-  // add to parent component...?
-  componentDidUpdate = (prevProps, prevState) => {
-    // this.messageCommandHandler
-    console.log('main-screen - componentDidUpdate');
-    if (!this.messageCommandHandler) {
-      return;
-    }
-    if (prevProps.access_token !== this.props.access_token) {
-      this.messageCommandHandler.access_token = this.props.access_token;
-    }
-    if (prevState.allowGameRequests !== this.state.allowGameRequests) {
-      this.messageCommandHandler.allowGameRequests = this.state.allowGameRequests;
-    }
-    if (this.changeNextGameIdx !== this.changeNextGameIdx) {
-      this.messageCommandHandler.changeNextGameIdx = this.changeNextGameIdx;
-    }
-    if (prevProps.channel !== this.props.channel) {
-      this.messageCommandHandler.channel = this.props.channel;
-    }
-    if (prevState.logUserMessages !== this.state.logUserMessages) {
-      this.messageCommandHandler.logUserMessages = this.state.logUserMessages;
-    }
-    if (JSON.stringify(prevState.messages) !== JSON.stringify(this.state.messages)) {
-      this.messageCommandHandler.messages = this.state.messages;
-    }
-    if (JSON.stringify(prevProps.modList) !== JSON.stringify(this.props.modList)) {
-      this.messageCommandHandler.modList = this.props.modList;
-    }
-    if (JSON.stringify(prevState.settings) !== JSON.stringify(this.state.settings)) {
-      this.messageCommandHandler.settings = this.state.settings;
-    }
-    if (prevState.nextGameIdx !== this.state.nextGameIdx ||
-      JSON.stringify(prevState.history) !== JSON.stringify(this.state.history)) {
-      this.messageCommandHandler.previousGames = this.state.history.slice(0, this.state.nextGameIdx);
-      this.messageCommandHandler.upcomingGames = this.state.history.slice(this.state.nextGameIdx);
-    }
-    this.messageCommandHandler.twitchApi = this.props.twitchApi;
-  };
-
-  initMessageCommandHandler = () => {
-    console.log('initMessageCommandHandler');
-    this.messageCommandHandler = new MessageCommandHandler({
-      access_token: this.props.access_token,
-      allowGameRequests: this.state.allowGameRequests,
-      caniplayHandler: this.routePlayRequest,
-      changeNextGameIdx: this.changeNextGameIdx,
-      channel: this.props.channel,
-      clearQueueHandler: this.routeClearQueueRequest,
-      closeQueueHandler: this.routeCloseQueueRequest,
-      logUserMessages: this.state.logUserMessages,
-      messages: this.state.messages,
-      modList: this.props.modList,
-      onDelete: this.removeGame,
-      onMessage: this.onMessage,
-      onSettingsUpdate: this.onSettingsUpdate,
-      openQueueHandler: this.routeOpenQueueRequest,
-      playerExitHandler: this.routeLeaveRequest,
-      previousGames: this.state.history.slice(0, this.state.nextGameIdx),
-      ref: this.setMessageHandlerRef,
-      removeSelectedGameFromHistory: this.removeSelectedGameFromHistory,
-      setNextGame: this.setNextGame,
-      settings: this.state.settings,
-      startGame: this.startGame,
-      toggleAllowGameRequests: this.toggleAllowGameRequests,
-      twitchApi: this.props.twitchApi,
-      upcomingGames: this.state.history.slice(this.state.nextGameIdx),
-    });
-  };
-  */
 
   onClose = async() => {
     try {

@@ -1,13 +1,11 @@
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
-import MessageHandler from '../twitch-wheel/MessageHandler';
 import MessageCommandHandler from '../twitch-wheel/message-command-handler';
 import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
@@ -70,7 +68,6 @@ class ImportedMainScreen extends Component {
 
     this.playerSelector = null;
     this.messageHandler = null;
-    this.useMessageHandlerComponent = !true;
 
     this.onMessage = this.onMessage.bind(this);
     this.togglePlayerSelect = this.togglePlayerSelect.bind(this);
@@ -87,27 +84,13 @@ class ImportedMainScreen extends Component {
 
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
 
-
     this.twitchApi = this.props.twitchApi;
-    try {
-      if (!this.useMessageHandlerComponent && this.props.twitchApi?.isChatConnected) {
-        this.messageHandler = this.initMessageCommandHandler();
-        // this.messageHandler.twitchApi = this.props.twitchApi;
-        // this.messageHandler.client = this.props.twitchApi._chatClient;
-        // this.props.twitchApi.onMessage = this.messageHandler._onMessage;
-      }
-    } catch (e) {
-      window.console.warn(e);
-    }
+    this.messageHandler = this.initMessageCommandHandler();
 
-
-    // if (!this.useMessageHandlerComponent && this.props.twitchApi) {
-    //   this.messageHandler = this.initMessageCommandHandler();
-    // }
   }
 
   componentDidMount() {
-    if (!this.useMessageHandlerComponent && !this.messageHandler && !this.twitchApi && this.props.twitchApi) {
+    if (!this.messageHandler && !this.twitchApi && this.props.twitchApi) {
       this.twitchApi = this.props.twitchApi;
       this.messageHandler = this.initMessageCommandHandler();
     }
@@ -120,71 +103,18 @@ class ImportedMainScreen extends Component {
       this.props.setFakeStates(fakeStates.UserStore);
     }
   }
-  componentDidUpdate = (prevProps/*, prevState*/) => {
-    console.log('main-screen - componentDidUpdate', {isChatConnected: this.props.twitchApi?.isChatConnected});
-    if (this.useMessageHandlerComponent) {
-      return;
-    }
+  componentDidUpdate = (prevProps) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
       || !this.messageHandler && this.props.twitchApi?.isChatConnected) {
-      console.log('main-screen - componentDidUpdate: calling initMessageCommandHandler');
       this.messageHandler = this.initMessageCommandHandler();
+    } else if (this.props.twitchApi?.isChatConnected) {
+      this.updateMessageCommandHandler(this.props, this.state);
     }
 
   };
-  /*
-  componentDidUpdate = (prevProps, prevState) => {
-    console.log('main-screen - componentDidUpdate');
-    if (this.useMessageHandlerComponent) {
-      return;
-    }
-    if (!this.messageHandler) {
-      if (!this.twitchApi && this.props.twitchApi) {
-        this.twitchApi = this.props.twitchApi;
-        this.messageHandler = this.initMessageCommandHandler();
-      }
-      return;
-    }
-    if (prevProps.access_token !== this.props.access_token) {
-      this.messageHandler.access_token = this.props.access_token;
-    }
-    if (prevState.allowGameRequests !== this.state.allowGameRequests) {
-      this.messageHandler.allowGameRequests = this.state.allowGameRequests;
-    }
-    if (this.changeNextGameIdx !== this.changeNextGameIdx) {
-      this.messageHandler.changeNextGameIdx = this.changeNextGameIdx;
-    }
-    if (prevProps.channel !== this.props.channel) {
-      this.messageHandler.channel = this.props.channel;
-    }
-    if (prevState.logUserMessages !== this.state.logUserMessages) {
-      this.messageHandler.logUserMessages = this.state.logUserMessages;
-    }
-    if (JSON.stringify(prevState.messages) !== JSON.stringify(this.state.messages)) {
-      this.messageHandler.messages = this.state.messages;
-    }
-    if (JSON.stringify(prevProps.modList) !== JSON.stringify(this.props.modList)) {
-      this.messageHandler.modList = this.props.modList;
-    }
-    if (JSON.stringify(prevState.settings) !== JSON.stringify(this.state.settings)) {
-      this.messageHandler.settings = this.state.settings;
-    }
-    if (prevState.nextGameIdx !== this.state.nextGameIdx ||
-      JSON.stringify(prevState.history) !== JSON.stringify(this.state.history)) {
-      this.messageHandler.previousGames = this.state.history.slice(0, this.state.nextGameIdx);
-      this.messageHandler.upcomingGames = this.state.history.slice(this.state.nextGameIdx);
-    }
-    this.messageHandler.twitchApi = this.props.twitchApi;
-  };
-  */
 
   initMessageCommandHandler = () => {
     console.log('initMessageCommandHandler');
-    console.log('main-screen - initMessageCommandHandler', {isChatConnected: this.props.twitchApi?.isChatConnected});
-    if (this.useMessageHandlerComponent) {
-      console.log('main-screen - initMessageCommandHandler: cannot init; using MessageHandler component');
-      return;
-    }
     if (!this.props.twitchApi?.isChatConnected) {
       console.log('main-screen - initMessageCommandHandler: cannot init; no chat client available');
       return null;
@@ -216,68 +146,54 @@ class ImportedMainScreen extends Component {
       upcomingGames: this.state.history.slice(this.state.nextGameIdx),
     });
 
-    messageHandler.twitchApi = this.props.twitchApi;
     messageHandler.client = this.props.twitchApi._chatClient;
     this.props.twitchApi.onMessage = messageHandler._onMessage;
     return messageHandler;
   };
 
   updateMessageCommandHandler = (props, state) => {
-    console.log('main-screen - updateMessageCommandHandler');
-    try {
-      if (this.useMessageHandlerComponent) {
-        console.log('main-screen - updateMessageCommandHandler: MCH not used, skipping');
-        return;
+    if (!this.messageHandler || !this.twitchApi?.isChatConnected) {
+      if (!this.twitchApi?.isChatConnected && props.twitchApi?.isChatConnected) {
+        this.twitchApi = props.twitchApi;
+        this.messageHandler = this.initMessageCommandHandler();
+      } else {
+        console.log('main-screen - updateMessageCommandHandler: cannot update, chat not yet initialized');
       }
-      if (!this.messageHandler || !this.twitchApi?._isInit) {
-        if (!this.twitchApi?._isInit && props.twitchApi?._isInit) {
-          console.log('main-screen - updateMessageCommandHandler: calling initMessageCommandHandler');
-          this.twitchApi = props.twitchApi;
-          this.messageHandler = this.initMessageCommandHandler();
-          // this.messageHandler.client = props.twitchApi._chatClient;
-        } else {
-          console.log('main-screen - updateMessageCommandHandler: cannot update, not yet initialized');
-        }
-        return;
-      }
-      console.log('main-screen - updateMessageCommandHandler: updating this.messageHandler...');
-      this.messageHandler.twitchApi = props.twitchApi;
-      this.messageHandler.client = props.twitchApi._chatClient;
-      props.twitchApi.onMessage = this.messageHandler._onMessage;
-      if (this.messageHandler.access_token !== props.access_token) {
-        this.messageHandler.access_token = props.access_token;
-      }
-      if (this.messageHandler.allowGameRequests !== state.allowGameRequests) {
-        this.messageHandler.allowGameRequests = state.allowGameRequests;
-      }
-      if (this.messageHandler.changeNextGameIdx !== this.changeNextGameIdx) {
-        this.messageHandler.changeNextGameIdx = this.changeNextGameIdx;
-      }
-      if (this.messageHandler.channel !== props.channel) {
-        this.messageHandler.channel = props.channel;
-      }
-      if (this.messageHandler.logUserMessages !== state.logUserMessages) {
-        this.messageHandler.logUserMessages = state.logUserMessages;
-      }
-      if (JSON.stringify(this.messageHandler.messages) !== JSON.stringify(state.messages)) {
-        this.messageHandler.messages = state.messages;
-      }
-      if (JSON.stringify(this.messageHandler.modList) !== JSON.stringify(props.modList)) {
-        this.messageHandler.modList = props.modList;
-      }
-      if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(state.settings)) {
-        this.messageHandler.settings = state.settings;
-      }
-      if (this.messageHandler.nextGameIdx !== state.nextGameIdx ||
-      JSON.stringify(this.messageHandler.history) !== JSON.stringify(state.history)) {
-        this.messageHandler.previousGames = state.history.slice(0, state.nextGameIdx);
-        this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
-      }
-      return null;
-    } catch (e) {
-      window.console.warn(e);
-      return null;
+      return;
     }
+    this.messageHandler.twitchApi = props.twitchApi;
+    this.messageHandler.client = props.twitchApi._chatClient;
+    props.twitchApi.onMessage = this.messageHandler._onMessage;
+    if (this.messageHandler.access_token !== props.access_token) {
+      this.messageHandler.access_token = props.access_token;
+    }
+    if (this.messageHandler.allowGameRequests !== state.allowGameRequests) {
+      this.messageHandler.allowGameRequests = state.allowGameRequests;
+    }
+    if (this.messageHandler.changeNextGameIdx !== this.changeNextGameIdx) {
+      this.messageHandler.changeNextGameIdx = this.changeNextGameIdx;
+    }
+    if (this.messageHandler.channel !== props.channel) {
+      this.messageHandler.channel = props.channel;
+    }
+    if (this.messageHandler.logUserMessages !== state.logUserMessages) {
+      this.messageHandler.logUserMessages = state.logUserMessages;
+    }
+    if (JSON.stringify(this.messageHandler.messages) !== JSON.stringify(state.messages)) {
+      this.messageHandler.messages = state.messages;
+    }
+    if (JSON.stringify(this.messageHandler.modList) !== JSON.stringify(props.modList)) {
+      this.messageHandler.modList = props.modList;
+    }
+    if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(state.settings)) {
+      this.messageHandler.settings = state.settings;
+    }
+    if (this.messageHandler.nextGameIdx !== state.nextGameIdx ||
+    JSON.stringify(this.messageHandler.history) !== JSON.stringify(state.history)) {
+      this.messageHandler.previousGames = state.history.slice(0, state.nextGameIdx);
+      this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
+    }
+    return null;
   };
 
 
@@ -368,27 +284,21 @@ class ImportedMainScreen extends Component {
   };
 
   toggleOptionsMenu = () => {
-    this.setState((state) => {
-      return {
-        showOptionsMenu: !state.showOptionsMenu
-      };
-    });
+    this.setState((state) => ({
+      showOptionsMenu: !state.showOptionsMenu
+    }));
   };
 
   toggleOptionsModal = () => {
-    this.setState((state) => {
-      return {
-        showOptionsModal: !state.showOptionsModal
-      };
-    });
+    this.setState((state) => ({
+      showOptionsModal: !state.showOptionsModal
+    }));
   };
 
   togglePlayerSelect = () => {
-    this.setState((state) => {
-      return {
-        showPlayerSelect: !state.showPlayerSelect
-      };
-    });
+    this.setState((state) => ({
+      showPlayerSelect: !state.showPlayerSelect
+    }));
   };
 
   routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
@@ -407,12 +317,10 @@ class ImportedMainScreen extends Component {
   };
 
   routeOpenQueueRequest = () => {
-    this.setState((state) => {
-      return {
-        ...state,
-        showPlayerSelect: true
-      };
-    });
+    this.setState((state) => ({
+      ...state,
+      showPlayerSelect: true
+    }));
     this.playerSelector?.openQueue();
   };
 
@@ -439,7 +347,7 @@ class ImportedMainScreen extends Component {
      */
   sendWhisper = async(player, msg) => {
     if (this.twitchApi?.sendWhisper) {
-      const response = await this.twitchApi?.sendWhisper(player, msg);
+      const response = await this.twitchApi.sendWhisper(player, msg);
       this.props.setWhisperStatus({login: player.username, response});
       return;
     }
@@ -466,39 +374,8 @@ class ImportedMainScreen extends Component {
 
     let gamesList = this.getGamesList();
 
-    const messageHandlerElement = (this.useMessageHandlerComponent) ? (
-      <MessageHandler
-        access_token={this.props.access_token}
-        allowGameRequests={this.state.allowGameRequests}
-        caniplayHandler={this.routePlayRequest}
-        changeNextGameIdx={this.changeNextGameIdx}
-        channel={this.props.channel}
-        clearQueueHandler={this.routeClearQueueRequest}
-        closeQueueHandler={this.routeCloseQueueRequest}
-        debug={true}
-        logUserMessages={this.state.logUserMessages}
-        messages={this.state.messages}
-        modList={this.props.modList}
-        onDelete={this.removeGame}
-        onMessage={this.onMessage}
-        onSettingsUpdate={this.onSettingsUpdate}
-        openQueueHandler={this.routeOpenQueueRequest}
-        playerExitHandler={this.routeLeaveRequest}
-        previousGames={this.state.history.slice(0, this.state.nextGameIdx)}
-        ref={this.setMessageHandlerRef}
-        removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
-        setNextGame={this.setNextGame}
-        settings={this.state.settings}
-        startGame={this.startGame}
-        toggleAllowGameRequests={this.toggleAllowGameRequests}
-        twitchApi={this.props.twitchApi}
-        upcomingGames={this.state.history.slice(this.state.nextGameIdx)}
-      />
-    ) : this.updateMessageCommandHandler(this.props, this.state, this.props.connected);
-
     return (
       <div className="main-screen">
-        {messageHandlerElement}
         <HeaderMenu
           gamesList={gamesList}
           parentState={this.state}
@@ -535,10 +412,13 @@ class ImportedMainScreen extends Component {
 ImportedMainScreen.propTypes = {
   access_token: PropTypes.string,
   channel: PropTypes.string,
-  connected: PropTypes.bool,
   modList: PropTypes.object,
   onLogOut: PropTypes.func,
   // profile_image_url: PropTypes.string,
+  setFakeStates: PropTypes.func.isRequired,
+  setUserInfo: PropTypes.func.isRequired,
+  setWhisperStatus: PropTypes.func.isRequired,
+  showModalCommandList: PropTypes.func.isRequired,
   toggleDeprecatedView: PropTypes.func,
   twitchApi: PropTypes.object,
   // updateUsername: PropTypes.func,
@@ -549,7 +429,6 @@ ImportedMainScreen.propTypes = {
 ImportedMainScreen.defaultProps = {
   access_token: null,
   channel: null,
-  connected: null,
   modList: null,
   onLogOut: null,
   profile_image_url: null,

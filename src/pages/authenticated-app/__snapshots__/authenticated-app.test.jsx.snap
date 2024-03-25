@@ -8,22 +8,17 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 <div
   id="authenticated-app container text-center"
 >
-  <Memo(Connect(ImportedMainScreen))
-    channel="sirgoosewell"
-    modList={[]}
-    onLogOut={[Function]}
-    profile_image_url=""
-    toggleDeprecatedView={[Function]}
-    twitchApi={
-      {
-        "mock": "TwitchApi",
-      }
-    }
-    updateUsername={[Function]}
-    userInfo={{}}
-    user_id={0}
-    username="sirgoosewell"
-  />
+  <div
+    className="col display-6 text-center full-pg"
+  >
+    <div />
+    <div>
+      <LoadingRipple />
+      <br />
+      Loading...
+    </div>
+    <div />
+  </div>
 </div>
 `;
 
