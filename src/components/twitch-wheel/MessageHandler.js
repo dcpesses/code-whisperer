@@ -116,6 +116,9 @@ export default class MessageHandler extends Component {
       // validCommands: jsonCommandList,
       validGames: jsonJackboxGameList
     };
+    this.maxPlayersList = maxPlayersList;
+    this.validGames = jsonJackboxGameList;
+
     this.isModOrBroadcaster = this.isModOrBroadcaster.bind(this);
     this.checkForMiscCommands = this.checkForMiscCommands.bind(this);
     this.findGame = this.findGame.bind(this);
@@ -125,7 +128,7 @@ export default class MessageHandler extends Component {
   }
 
   componentDidMount = () => {
-    if (this.debug) {window.console.log('componentDidMount - connect');}
+    if (this.debug) {window.console.log('MessageHandler - componentDidMount - connect');}
 
     if (!this.props.twitchApi) {
       return window.console.warn('componentDidMount - no _chatClient available');
@@ -139,11 +142,11 @@ export default class MessageHandler extends Component {
     if (!prevProps.twitchApi?._chatClient && this.props.twitchApi?._chatClient) {
       try {
         // await this.client.disconnect();
-        if (this.debug) {window.console.log('componentDidUpdate - connect');}
+        if (this.debug) {window.console.log('MessageHandler - componentDidUpdate: connect');}
         this.client = this.props.twitchApi._chatClient;
         this.props.twitchApi.onMessage = this.onMessage;
       } catch (e) {
-        window.console.log('componentDidUpdate: Error setting twitchApi.onMessage:', e);
+        window.console.log('MessageHandler - componentDidUpdate: Error setting twitchApi.onMessage:', e);
       }
     } else {
       if (this.props.twitchApi) {
@@ -169,7 +172,7 @@ export default class MessageHandler extends Component {
 
   updateMessageCallbackFn = () => {
     // ABC: Always Be Chatting
-    if (this.debug) {window.console.log('componentDidUpdate - Always Be Chatting');}
+    if (this.debug) {window.console.log('MessageHandler - updateMessageCallbackFn - Always Be Chatting');}
     if (this.props.twitchApi) {
       this.props.twitchApi.onMessage = this.onMessage;
     }
@@ -340,7 +343,7 @@ export default class MessageHandler extends Component {
 
   onMessage = (target, tags, msg, self) => {
     if (this.props.logUserMessages) {
-      window.console.log({target, tags, msg, self});
+      window.console.log('MessageHandler - onMessage', {target, tags, msg, self});
     }
     if (self) {return;} // ignore messages from yourself
     this.props.onMessage(msg, tags.username, tags);
