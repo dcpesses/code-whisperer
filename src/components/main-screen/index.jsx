@@ -122,16 +122,16 @@ class ImportedMainScreen extends Component {
     let messageHandler = new MessageCommandHandler({
       access_token: this.props.access_token,
       allowGameRequests: this.state.allowGameRequests,
-      caniplayHandler: this.routePlayRequest.bind(this),
       changeNextGameIdx: this.changeNextGameIdx,
       channel: this.props.channel,
       clearQueueHandler: this.routeClearQueueRequest.bind(this),
       closeQueueHandler: this.routeCloseQueueRequest.bind(this),
+      joinQueueHandler: this.routePlayRequest.bind(this),
       logUserMessages: this.state.logUserMessages,
       messages: this.state.messages,
       modList: this.props.modList,
       // onDelete: this.removeGame.bind(this),
-      onMessage: this.onMessage.bind(this),
+      onMessageCallback: this.onMessage.bind(this),
       onSettingsUpdate: this.onSettingsUpdate.bind(this),
       openQueueHandler: this.routeOpenQueueRequest.bind(this),
       playerExitHandler: this.routeLeaveRequest.bind(this),
@@ -163,7 +163,7 @@ class ImportedMainScreen extends Component {
     }
     this.messageHandler.twitchApi = props.twitchApi;
     this.messageHandler.client = props.twitchApi._chatClient;
-    props.twitchApi.onMessage = this.messageHandler._onMessage;
+    props.twitchApi.onMessage = this.messageHandler.onMessage;
     if (this.messageHandler.access_token !== props.access_token) {
       this.messageHandler.access_token = props.access_token;
     }

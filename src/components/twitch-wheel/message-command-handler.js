@@ -1,5 +1,3 @@
-import {Debounce} from '@/utils';
-// import jsonCommandList from './Commands.json';
 import jsonJackboxGameList from './JackboxGames.json';
 import {version} from '../../../package.json';
 
@@ -65,7 +63,7 @@ export default class MessageCommandHandler {
     access_token,
     addGameRequest=noop,
     allowGameRequests,
-    caniplayHandler=noop,
+    joinQueueHandler=noop,
     changeNextGameIdx,
     channel,
     clearQueueHandler=noop,
@@ -75,12 +73,11 @@ export default class MessageCommandHandler {
     messages,
     modList,
     onDelete=noop,
-    onMessage=noop,
+    onMessageCallback=noop,
     onSettingsUpdate=noop,
     openQueueHandler=noop,
     playerExitHandler=noop,
     previousGames,
-    ref,
     removeSelectedGameFromHistory=noop,
     setNextGame=noop,
     settings,
@@ -93,7 +90,7 @@ export default class MessageCommandHandler {
     this.access_token = access_token;
     this.addGameRequest = addGameRequest;
     this.allowGameRequests = allowGameRequests;
-    this.caniplayHandler = caniplayHandler;
+    this.joinQueueHandler = joinQueueHandler;
     this.changeNextGameIdx = changeNextGameIdx;
     this.channel = channel;
     this.clearQueueHandler = clearQueueHandler;
@@ -103,11 +100,10 @@ export default class MessageCommandHandler {
     this.messages = messages;
     this.modList = modList;
     this.onDelete = onDelete;
-    this.onMessage = onMessage;
+    this.onMessageCallback = onMessageCallback;
     this.openQueueHandler = openQueueHandler;
     this.playerExitHandler = playerExitHandler;
     this.previousGames = previousGames;
-    this.ref = ref;
     this.removeSelectedGameFromHistory = removeSelectedGameFromHistory;
     this.setNextGame = setNextGame;
     this.settings = settings;
@@ -134,14 +130,12 @@ export default class MessageCommandHandler {
       .filter(i => i && i<50) // only numeric values under 50
       .sort( (a, b) => a-b );
 
-    this.isModOrBroadcaster = this.isModOrBroadcaster.bind(this);
-    this.checkForMiscCommands = this.checkForMiscCommands.bind(this);
-    this.findGame = this.findGame.bind(this);
-    this._onMessage = this._onMessage.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    this.updateMessageCallbackFnDebounced = Debounce(this.updateMessageCallbackFn.bind(this), 150);
+    this._isInit = false;
 
+    this.init();
   }
+
+  get isInit() {return this._isInit;}
 
   init = () => {
     if (this.debug) {window.console.log('MessageCommandHandler - init');}
@@ -150,26 +144,9 @@ export default class MessageCommandHandler {
       return window.console.warn('MessageCommandHandler - no _chatClient available');
     }
 
-    this.twitchApi.onMessage = this._onMessage;
+    this.twitchApi.onMessage = this.onMessage;
     this.client = this.twitchApi._chatClient;
-  };
-
-  onClose = async() => {
-    try {
-      if (this.client) {
-        return await this.client.disconnect();
-      }
-    } catch (e) {
-      window.console.log('MessageCommandHandler - onClose: Error', e);
-    }
-  };
-
-  updateMessageCallbackFn = () => {
-    // ABC: Always Be Chatting
-    if (this.debug) {window.console.log('MessageCommandHandler - updateMessageCallbackFn - Always Be Chatting');}
-    if (this.twitchApi) {
-      this.twitchApi.onMessage = this._onMessage;
-    }
+    this._isInit = true;
   };
 
   isModOrBroadcaster = (username) => {
@@ -209,7 +186,7 @@ export default class MessageCommandHandler {
 
     //========= player queue management =========
     if (message === '!caniplay' || message.startsWith('!new') || (message.toLowerCase().startsWith('!dew') && this.channel?.toLowerCase() === 'dewinblack')) {
-      this.caniplayHandler(username, {
+      this.joinQueueHandler(username, {
         sendConfirmationMsg: message === '!caniplay'
       });
       return true;
@@ -225,7 +202,7 @@ export default class MessageCommandHandler {
         this.sendMessage(`/me @${username}, please specify the user who has redeemed a priority seat in the next game: for example, ${message.startsWith('!p') ? '!priorityseat' : '!redeemseat'} @asukii314`);
         return true;
       }
-      this.caniplayHandler(redeemingUser, {
+      this.joinQueueHandler(redeemingUser, {
         sendConfirmationMsg: true,
         isPrioritySeat: true
       });
@@ -338,12 +315,15 @@ export default class MessageCommandHandler {
     return this.findGame(requestedGame, username);
   };
 
-  _onMessage = (target, tags, msg, self) => {
+  onMessage = (target, tags, msg, self) => {
     if (this.logUserMessages) {
-      window.console.log('MessageCommandHandler - _onMessage', {target, tags, msg, self});
+      window.console.log('MessageCommandHandler - onMessage', {target, tags, msg, self});
     }
     if (self) {return;} // ignore messages from yourself
-    this.onMessage(msg, tags.username, tags);
+    if (this.onMessageCallback) {
+      this.onMessageCallback(msg, tags.username, tags);
+    }
+
 
     const cleanedMsg = msg.trim().toLowerCase();
     if (this.checkForMiscCommands(cleanedMsg, tags.username)) {return;}
