@@ -3,6 +3,196 @@ import {version} from '../../../package.json';
 
 const REQUEST_COMMAND = '!request';
 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+const commandSchema = {
+  commands: ['!command'],
+  displayName: 'CommandName',
+  description: 'Description of what this command does',
+  mod: false, // true if command only available for mods & broadcaster
+  response: (username, message) => `@${username}, you said "${message}" in chat!`, // may be a string or func
+};
+
+const chatCommands = {
+  //========= general =========
+  listCommands: {
+    commands: ['!commands'],
+    displayName: '!commands',
+    description: 'Posts the version of the app and its url',
+    mod: false,
+    response: (scope) => {
+      let commands = 'This feature is not yet available.'; // Object.keys(scope.state.validCommands).map(c => `!${c}`).join(' ');
+      scope.sendMessage(`Code Whisperer Commands: ${commands}`);
+      return true;
+    },
+  },
+  listVersion: {
+    commands: ['!version'],
+    displayName: '!version',
+    description: 'Posts the version of the app and its url',
+    mod: false,
+    response: (scope) => {
+      scope.sendMessage(`/me is using Game Code Whisperer, v${version} GoatEmotey https://github.com/dcpesses/code-whisperer`);
+      return true;
+    },
+  },
+  whichPack: {
+    commands: ['!whichpack'],
+    displayName: '!whichpack GAME',
+    description: 'Replies with the Jackbox Party Pack of the specified game',
+    mod: false,
+    response: (scope, username, message) => {
+      const requestedGame = message.replace('!whichpack', '').trim();
+      if (requestedGame === '') {
+        scope.sendMessage(`/me @${username}, please specify the game you would like to look up: e.g. !whichpack TMP 2`);
+        return true;
+      }
+
+      const gameObj = scope.findGame(requestedGame, username);
+      if (typeof gameObj === 'object') {
+        scope.sendMessage(`/me @${username}, ${gameObj.name} is a ${gameObj.partyPack} game.`);
+      }
+      if (typeof gameObj === 'string') {
+        scope.sendMessage(gameObj);
+      }
+      return true;
+    },
+  },
+
+  //========= player management =========
+  joinQueue: {
+    commands: ['!join', '!new'],
+    displayName: 'join',
+    description: 'Adds the user to the Interested queue',
+    mod: false,
+    response: (scope, username, message) => {
+      scope.joinQueueHandler(username, {
+        sendConfirmationMsg: (message === '!join')
+      });
+      return true;
+    },
+  },
+  leaveQueue: {
+    commands: ['!leave'],
+    displayName: 'leave',
+    description: 'Removes the user from the Interested queue',
+    mod: false,
+    response: (scope, username) => {
+      scope.playerExitHandler(username);
+      return true;
+    },
+  },
+  addUser: {
+    commands: ['!adduser', '!redeemseat'],
+    displayName: 'adduser',
+    description: 'Adds the specified user directly to Playing queue',
+    mod: true,
+    response: (scope, username, message) => {
+      if (!scope.isModOrBroadcaster(username)) {
+        scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
+        return true;
+      }
+      const redeemingUser = message.replace('!adduser', '').replace('!redeemseat', '').replace('@', '').trim();
+      if (redeemingUser === '') {
+        scope.sendMessage(`/me @${username}, please specify the user who has redeemed a priority seat in the next game: for example, ${message.startsWith('!a') ? '!adduser' : '!redeemseat'} @asukii314`);
+        return true;
+      }
+      scope.joinQueueHandler(redeemingUser, {
+        sendConfirmationMsg: true,
+        isPrioritySeat: true
+      });
+      return true;
+    },
+  },
+  removeUser: {
+    commands: ['!removeuser'],
+    displayName: 'removeuser',
+    description: 'Removes the specified user from all queues',
+    mod: true,
+    response: (scope, username, message) => {
+      if (!scope.isModOrBroadcaster(username)) {
+        scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
+        return true;
+      }
+      const exitingUser = message.replace('!removeuser', '').replace('@', '').trim();
+      if (exitingUser === '') {
+        scope.sendMessage(`/me @${username}, please specify the user who will be removed in the next game: for example, !removeuser @dewinblack`);
+        return true;
+      }
+      scope.playerExitHandler(exitingUser);
+      return true;
+    },
+  },
+
+  //========= queue management =========
+  clear: {
+    commands: ['!clear'],
+    displayName: 'clear',
+    description: 'Removes all users from all of the queues',
+    mod: true,
+    response: (scope, username) => {
+      if (scope.isModOrBroadcaster(username)) {
+        scope.clearQueueHandler();
+      }
+      return true;
+    },
+  },
+  open: {
+    commands: ['!open'],
+    displayName: 'open',
+    description: 'Opens the Interested queue',
+    mod: true,
+    response: (scope, username) => {
+      if (scope.isModOrBroadcaster(username)) {
+        scope.openQueueHandler();
+      }
+      return true;
+    },
+  },
+  close: {
+    commands: ['!close'],
+    displayName: 'close',
+    description: 'Closes the Interested queue',
+    mod: true,
+    response: (scope, username) => {
+      if (scope.isModOrBroadcaster(username)) {
+        scope.closeQueueHandler();
+      }
+      return true;
+    },
+  },
+  clearopen: {
+    commands: ['!clearopen'],
+    displayName: 'clearopen',
+    description: 'Removes all users from the queues and reopens the Interested queue',
+    mod: true,
+    response: (scope, username) => {
+      if (scope.isModOrBroadcaster(username)) {
+        scope.clearQueueHandler();
+        scope.openQueueHandler();
+      }
+      return true;
+    },
+  },
+  startgame: {
+    commands: ['!startgame'],
+    displayName: 'startgame',
+    description: 'Removes all users from the queues and resets additional things.',
+    mod: true,
+    response: (scope, username) => {
+      if (!scope.isModOrBroadcaster(username)) {
+        scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
+        return true;
+      }
+      if (scope.startGame()) {
+        scope.sendMessage(`/me @${username}, the game has been started.`);
+      } else {
+        scope.sendMessage(`/me @${username}, the game was already started.`);
+      }
+      return true;
+    },
+  },
+};
+
 export const easterEggRequests = [
   {
     RequestName: 'Version',
@@ -130,6 +320,16 @@ export default class MessageCommandHandler {
       .filter(i => i && i<50) // only numeric values under 50
       .sort( (a, b) => a-b );
 
+    this.chatCommands = Object.assign({},
+      ...Object.values(chatCommands).map(
+        cmdObj => cmdObj.commands.map(
+          command => ({
+            [`${command}`]: cmdObj}
+          )
+        )
+      ).flat()
+    );
+
     this._isInit = false;
 
     this.init();
@@ -151,6 +351,16 @@ export default class MessageCommandHandler {
 
   isModOrBroadcaster = (username) => {
     return (this.channel === username || this.modList.includes(username.toLowerCase()));
+  };
+
+  // returns true if a known command was found & responded to
+  checkUserCommands = (message, username) => {
+    const command = message.trim().toLowerCase().split(' ')[0];
+    window.console.log({command, exists: !!this.chatCommands[command]});
+    if (this.chatCommands[command]) {
+      return this.chatCommands[command].response(this, username, message);
+    }
+    return;
   };
 
   // returns true if a known command was found & responded to
@@ -326,7 +536,7 @@ export default class MessageCommandHandler {
 
 
     const cleanedMsg = msg.trim().toLowerCase();
-    if (this.checkForMiscCommands(cleanedMsg, tags.username)) {return;}
+    if (this.checkUserCommands(cleanedMsg, tags.username)) {return;}
     // let gameObj = this.checkForGameCommand(cleanedMsg, tags.username);
     // if (!gameObj) {return;}
 
@@ -338,3 +548,4 @@ export default class MessageCommandHandler {
     return await this.twitchApi?.sendMessage(msg);
   };
 }
+export {chatCommands};
