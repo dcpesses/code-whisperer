@@ -1,33 +1,46 @@
+import {resolveDuplicateCommands} from '@/utils';
 import jsonJackboxGameList from './JackboxGames.json';
 import {version} from '../../../package.json';
 
 const REQUEST_COMMAND = '!request';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-const commandSchema = {
+const ChatCommand = {
   commands: ['!command'],
   displayName: 'CommandName',
   description: 'Description of what this command does',
   mod: false, // true if command only available for mods & broadcaster
-  response: (username, message) => `@${username}, you said "${message}" in chat!`, // may be a string or func
+  response: (scope, username, message) => scope.sendMessage(`@${username} said "${message}" in chat!`) && true, // func, return bool on success
 };
+
+/*
+// For future TypeScript conversion
+type chatResponseFunctionType = (scope: unknown, username: string, message: string) => boolean;
+interface ChatCommand {
+  commands: string[];
+  displayName: string;
+  description: string;
+  mod: boolean;
+  response: chatResponseFunctionType;
+}
+*/
 
 const chatCommands = {
   //========= general =========
   listCommands: {
     commands: ['!commands'],
-    displayName: '!commands',
+    displayName: 'commands',
     description: 'Posts the version of the app and its url',
     mod: false,
     response: (scope) => {
-      let commands = 'This feature is not yet available.'; // Object.keys(scope.state.validCommands).map(c => `!${c}`).join(' ');
+      const commands = resolveDuplicateCommands(scope.chatCommands).map(v => v.commands.join(', ')).join(', ');
       scope.sendMessage(`Code Whisperer Commands: ${commands}`);
       return true;
     },
   },
   listVersion: {
     commands: ['!version'],
-    displayName: '!version',
+    displayName: 'version',
     description: 'Posts the version of the app and its url',
     mod: false,
     response: (scope) => {
@@ -37,7 +50,7 @@ const chatCommands = {
   },
   whichPack: {
     commands: ['!whichpack'],
-    displayName: '!whichpack GAME',
+    displayName: 'whichpack GAME',
     description: 'Replies with the Jackbox Party Pack of the specified game',
     mod: false,
     response: (scope, username, message) => {

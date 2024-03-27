@@ -136,7 +136,6 @@ class ImportedMainScreen extends Component {
       openQueueHandler: this.routeOpenQueueRequest.bind(this),
       playerExitHandler: this.routeLeaveRequest.bind(this),
       previousGames: this.state.history.slice(0, this.state.nextGameIdx),
-      ref: this.setMessageHandlerRef.bind(this),
       // removeSelectedGameFromHistory: this.removeSelectedGameFromHistory.bind(this),
       // setNextGame: this.setNextGame.bind(this),
       settings: this.state.settings,
@@ -404,7 +403,9 @@ class ImportedMainScreen extends Component {
             userLookup={this.state.userLookup}
           />
         </div>
-        <ModalCommandList />
+        <ModalCommandList
+          chatCommands={this.messageHandler?.chatCommands || []}
+        />
       </div>
     );
   }

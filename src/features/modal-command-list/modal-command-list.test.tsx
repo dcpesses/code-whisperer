@@ -3,7 +3,18 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
 import ModalCommandList from './index';
+import {chatCommands} from '@/components/twitch-wheel/message-command-handler';
 import { Store, UnknownAction } from '@reduxjs/toolkit';
+
+const defaultChatCommands = Object.assign({},
+  ...Object.values(chatCommands).map(
+    cmdObj => cmdObj.commands.map(
+      command => ({
+        [`${command}`]: cmdObj}
+      )
+    )
+  ).flat()
+);
 
 describe('ModalCommandList', () => {
   let store: Store<unknown, UnknownAction, unknown>;
@@ -13,7 +24,7 @@ describe('ModalCommandList', () => {
   test('Should render without modal', () => {
     const {container} = render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={defaultChatCommands} />
       </Provider>
     );
 
@@ -23,7 +34,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={defaultChatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');
@@ -36,7 +47,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={defaultChatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');
@@ -49,7 +60,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={defaultChatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');
