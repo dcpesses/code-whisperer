@@ -1,10 +1,11 @@
 import {resolveDuplicateCommands} from '@/utils';
-import jsonJackboxGameList from './JackboxGames.json';
+import jsonJackboxGameList from './jackbox-games.json';
 import {version} from '../../../package.json';
 
 const REQUEST_COMMAND = '!request';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+/*
 const ChatCommand = {
   commands: ['!command'],
   displayName: 'CommandName',
@@ -13,7 +14,7 @@ const ChatCommand = {
   response: (scope, username, message) => scope.sendMessage(`@${username} said "${message}" in chat!`) && true, // func, return bool on success
 };
 
-/*
+
 // For future TypeScript conversion
 type chatResponseFunctionType = (scope: unknown, username: string, message: string) => boolean;
 interface ChatCommand {
@@ -25,7 +26,7 @@ interface ChatCommand {
 }
 */
 
-const chatCommands = {
+export const chatCommands = {
   //========= general =========
   listCommands: {
     commands: ['!commands'],
@@ -261,7 +262,7 @@ export const easterEggRequests = [
 
 export const noop = () => {};
 
-export default class MessageCommandHandler {
+export default class MessageHandler {
   constructor({
     access_token,
     addGameRequest=noop,
@@ -271,7 +272,6 @@ export default class MessageCommandHandler {
     channel,
     clearQueueHandler=noop,
     closeQueueHandler=noop,
-    debug=true,
     logUserMessages,
     messages,
     modList,
@@ -288,18 +288,20 @@ export default class MessageCommandHandler {
     toggleAllowGameRequests=noop,
     twitchApi,
     upcomingGames,
+    debug=false,
+    init=true,
   }) {
 
     this.access_token = access_token;
     this.addGameRequest = addGameRequest;
     this.allowGameRequests = allowGameRequests;
-    this.joinQueueHandler = joinQueueHandler;
     this.changeNextGameIdx = changeNextGameIdx;
     this.channel = channel;
     this.clearQueueHandler = clearQueueHandler;
     this.closeQueueHandler = closeQueueHandler;
+    this.debug = debug ?? (!import.meta.env.PROD & import.meta.env.MODE !== 'test');
+    this.joinQueueHandler = joinQueueHandler;
     this.logUserMessages = logUserMessages;
-    this.debug = debug;
     this.messages = messages;
     this.modList = modList;
     this.onDelete = onDelete;
@@ -343,18 +345,24 @@ export default class MessageCommandHandler {
       ).flat()
     );
 
-    this._isInit = false;
+    this._isInit = false; // indicates if init() has both executed and completed
 
-    this.init();
+    if (this.debug) {
+      window.console.log('MessageHandler constructed');
+    }
+
+    if (init === true) {
+      return this.init();
+    }
   }
 
   get isInit() {return this._isInit;}
 
   init = () => {
-    if (this.debug) {window.console.log('MessageCommandHandler - init');}
+    if (this.debug) {window.console.log('MessageHandler - init');}
 
     if (!this.twitchApi) {
-      return window.console.warn('MessageCommandHandler - no _chatClient available');
+      return window.console.warn('MessageHandler - no _chatClient available');
     }
 
     this.twitchApi.onMessage = this.onMessage;
@@ -363,7 +371,7 @@ export default class MessageCommandHandler {
   };
 
   isModOrBroadcaster = (username) => {
-    return (this.channel === username || this.modList.includes(username.toLowerCase()));
+    return (this.channel === username.toLowerCase() || this.modList.includes(username.toLowerCase()));
   };
 
   // returns true if a known command was found & responded to
@@ -372,125 +380,6 @@ export default class MessageCommandHandler {
     window.console.log({command, exists: !!this.chatCommands[command]});
     if (this.chatCommands[command]) {
       return this.chatCommands[command].response(this, username, message);
-    }
-    return;
-  };
-
-  // returns true if a known command was found & responded to
-  checkForMiscCommands = (message, username) => {
-    //========= general =========
-    if (message.startsWith('!commands')) {
-      let commands = 'This feature is not yet available yet.'; // Object.keys(this.state.validCommands).map(c => `!${c}`).join(' ');
-      this.sendMessage(`Code Whisperer Commands: ${commands}`);
-      return true;
-    }
-
-    if (message.startsWith('!version')) {
-      this.sendMessage(`/me is using Game Code Whisperer, v${version} GoatEmotey https://github.com/dcpesses/code-whisperer`);
-      return true;
-    }
-
-    if (message.startsWith('!whichpack')) {
-      const requestedGame = message.replace('!whichpack', '').trim();
-      if (requestedGame === '') {
-        this.sendMessage(`/me @${username}, please specify the game you would like to look up: e.g. !whichpack TMP 2`);
-        return true;
-      }
-
-      const gameObj = this.findGame(requestedGame, username);
-      if (typeof gameObj === 'object') {
-        this.sendMessage(`/me @${username}, ${gameObj.name} is a ${gameObj.partyPack} game.`);
-      }
-      if (typeof gameObj === 'string') {
-        this.sendMessage(gameObj);
-      }
-      return true;
-    }
-
-    //========= player queue management =========
-    if (message === '!caniplay' || message.startsWith('!new') || (message.toLowerCase().startsWith('!dew') && this.channel?.toLowerCase() === 'dewinblack')) {
-      this.joinQueueHandler(username, {
-        sendConfirmationMsg: message === '!caniplay'
-      });
-      return true;
-    }
-
-    if (message.startsWith('!priorityseat') || message.startsWith('!redeemseat')) {
-      if (!this.isModOrBroadcaster(username)) {
-        this.sendMessage(`/me @${username}, only channel moderators can use this command.`);
-        return true;
-      }
-      const redeemingUser = message.replace('!priorityseat', '').replace('!redeemseat', '').replace('@', '').trim();
-      if (redeemingUser === '') {
-        this.sendMessage(`/me @${username}, please specify the user who has redeemed a priority seat in the next game: for example, ${message.startsWith('!p') ? '!priorityseat' : '!redeemseat'} @asukii314`);
-        return true;
-      }
-      this.joinQueueHandler(redeemingUser, {
-        sendConfirmationMsg: true,
-        isPrioritySeat: true
-      });
-      return true;
-    }
-
-    if ( message.startsWith('!removeuser')) {
-      if (!this.isModOrBroadcaster(username)) {
-        this.sendMessage(`/me @${username}, only channel moderators can use this command.`);
-        return true;
-      }
-      const exitingUser = message.replace('!removeuser', '').replace('@', '').trim();
-      if (exitingUser === '') {
-        this.sendMessage(`/me @${username}, please specify the user who will be removed in the next game: for example, !removeuser @dewinblack`);
-        return true;
-      }
-      this.playerExitHandler(exitingUser);
-      return true;
-    }
-
-    if (message === '!leave' || message === '!murd') {
-      this.playerExitHandler(username);
-      return true;
-    }
-
-    if (message === '!clear') {
-      if (this.isModOrBroadcaster(username)) {
-        this.clearQueueHandler();
-      }
-      return true;
-    }
-
-    if (message === '!open') {
-      if (this.isModOrBroadcaster(username)) {
-        this.openQueueHandler();
-      }
-      return true;
-    }
-
-    if (message === '!clearopen') {
-      if (this.isModOrBroadcaster(username)) {
-        this.clearQueueHandler();
-        this.openQueueHandler();
-      }
-      return true;
-    }
-
-    if (message === '!close') {
-      if (this.isModOrBroadcaster(username)) {
-        this.closeQueueHandler();
-      }
-      return true;
-    }
-
-    if (message === '!startgame') {
-      if (!this.isModOrBroadcaster(username)) {
-        this.sendMessage(`/me @${username}, only channel moderators can use this command.`);
-        return true;
-      }
-      if (this.startGame()) {
-        this.sendMessage(`/me @${username}, the game has been started.`);
-      } else {
-        this.sendMessage(`/me @${username}, the game was already started.`);
-      }
-      return true;
     }
     return;
   };
@@ -508,8 +397,8 @@ export default class MessageCommandHandler {
       }
     }
     // check against games
-    for (let partyPackName in this.state.validGames) {
-      const partyPackObj = this.state.validGames[partyPackName];
+    for (let partyPackName in this.validGames) {
+      const partyPackObj = this.validGames[partyPackName];
       for (const [formalGameName, metadata] of Object.entries(partyPackObj)) {
         if (metadata?.Variants?.includes(requestedGame)) {
           return {
@@ -540,7 +429,7 @@ export default class MessageCommandHandler {
 
   onMessage = (target, tags, msg, self) => {
     if (this.logUserMessages) {
-      window.console.log('MessageCommandHandler - onMessage', {target, tags, msg, self});
+      window.console.log('MessageHandler - onMessage', {target, tags, msg, self});
     }
     if (self) {return;} // ignore messages from yourself
     if (this.onMessageCallback) {
@@ -561,4 +450,4 @@ export default class MessageCommandHandler {
     return await this.twitchApi?.sendMessage(msg);
   };
 }
-export {chatCommands};
+

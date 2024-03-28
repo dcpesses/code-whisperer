@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
 import ModalCommandList from './index';
-import {chatCommands} from '@/components/twitch-wheel/message-command-handler';
+import { chatCommands } from '@/features/twitch-messages/message-handler';
 import { Store, UnknownAction } from '@reduxjs/toolkit';
 
 const defaultChatCommands = Object.assign({},

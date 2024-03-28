@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
-import MessageCommandHandler from '../twitch-wheel/message-command-handler';
+import MessageHandler from '@/features/twitch-messages/message-handler';
 import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
@@ -85,14 +85,14 @@ class ImportedMainScreen extends Component {
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
 
     this.twitchApi = this.props.twitchApi;
-    this.messageHandler = this.initMessageCommandHandler();
+    this.messageHandler = this.initMessageHandler();
 
   }
 
   componentDidMount() {
     if (!this.messageHandler && !this.twitchApi && this.props.twitchApi) {
       this.twitchApi = this.props.twitchApi;
-      this.messageHandler = this.initMessageCommandHandler();
+      this.messageHandler = this.initMessageHandler();
     }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(
@@ -106,20 +106,20 @@ class ImportedMainScreen extends Component {
   componentDidUpdate = (prevProps) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
       || !this.messageHandler && this.props.twitchApi?.isChatConnected) {
-      this.messageHandler = this.initMessageCommandHandler();
+      this.messageHandler = this.initMessageHandler();
     } else if (this.props.twitchApi?.isChatConnected) {
-      this.updateMessageCommandHandler(this.props, this.state);
+      this.updateMessageHandler(this.props, this.state);
     }
 
   };
 
-  initMessageCommandHandler = () => {
-    console.log('initMessageCommandHandler');
+  initMessageHandler = () => {
+    console.log('initMessageHandler');
     if (!this.props.twitchApi?.isChatConnected) {
-      console.log('main-screen - initMessageCommandHandler: cannot init; no chat client available');
+      console.log('main-screen - initMessageHandler: cannot init; no chat client available');
       return null;
     }
-    let messageHandler = new MessageCommandHandler({
+    let messageHandler = new MessageHandler({
       access_token: this.props.access_token,
       allowGameRequests: this.state.allowGameRequests,
       changeNextGameIdx: this.changeNextGameIdx,
@@ -150,13 +150,13 @@ class ImportedMainScreen extends Component {
     return messageHandler;
   };
 
-  updateMessageCommandHandler = (props, state) => {
+  updateMessageHandler = (props, state) => {
     if (!this.messageHandler || !this.twitchApi?.isChatConnected) {
       if (!this.twitchApi?.isChatConnected && props.twitchApi?.isChatConnected) {
         this.twitchApi = props.twitchApi;
-        this.messageHandler = this.initMessageCommandHandler();
+        this.messageHandler = this.initMessageHandler();
       } else {
-        console.log('main-screen - updateMessageCommandHandler: cannot update, chat not yet initialized');
+        console.log('main-screen - updateMessageHandler: cannot update, chat not yet initialized');
       }
       return;
     }
