@@ -1,4 +1,3 @@
-import {resolveDuplicateCommands} from '@/utils';
 import jsonJackboxGameList from './jackbox-games.json';
 import {version} from '../../../package.json';
 
@@ -10,6 +9,7 @@ const ChatCommand = {
   commands: ['!command'],
   displayName: 'CommandName',
   description: 'Description of what this command does',
+  id: 'commandName',
   mod: false, // true if command only available for mods & broadcaster
   response: (scope, username, message) => scope.sendMessage(`@${username} said "${message}" in chat!`) && true, // func, return bool on success
 };
@@ -21,38 +21,42 @@ interface ChatCommand {
   commands: string[];
   displayName: string;
   description: string;
+  id: string;
   mod: boolean;
   response: chatResponseFunctionType;
 }
 */
 
-export const chatCommands = {
+export const DefaultChatCommands = [
   //========= general =========
-  listCommands: {
+  {
     commands: ['!commands'],
     displayName: 'commands',
-    description: 'Posts the version of the app and its url',
+    description: 'Lists all available commands in the chat',
+    id: 'listCommands',
     mod: false,
     response: (scope) => {
-      const commands = resolveDuplicateCommands(scope.chatCommands).map(v => v.commands.join(', ')).join(', ');
+      const commands = scope.chatCommands.map(v => v.commands.join(', ')).join(', ');
       scope.sendMessage(`Code Whisperer Commands: ${commands}`);
       return true;
     },
   },
-  listVersion: {
+  {
     commands: ['!version'],
     displayName: 'version',
     description: 'Posts the version of the app and its url',
+    id: 'listVersion',
     mod: false,
     response: (scope) => {
       scope.sendMessage(`/me is using Game Code Whisperer, v${version} GoatEmotey https://github.com/dcpesses/code-whisperer`);
       return true;
     },
   },
-  whichPack: {
+  {
     commands: ['!whichpack'],
     displayName: 'whichpack GAME',
     description: 'Replies with the Jackbox Party Pack of the specified game',
+    id: 'whichPack',
     mod: false,
     response: (scope, username, message) => {
       const requestedGame = message.replace('!whichpack', '').trim();
@@ -73,10 +77,11 @@ export const chatCommands = {
   },
 
   //========= player management =========
-  joinQueue: {
-    commands: ['!join', '!new'],
+  {
+    commands: ['!join'],
     displayName: 'join',
     description: 'Adds the user to the Interested queue',
+    id: 'joinQueue',
     mod: false,
     response: (scope, username, message) => {
       scope.joinQueueHandler(username, {
@@ -85,20 +90,22 @@ export const chatCommands = {
       return true;
     },
   },
-  leaveQueue: {
+  {
     commands: ['!leave'],
     displayName: 'leave',
     description: 'Removes the user from the Interested queue',
+    id: 'leaveQueue',
     mod: false,
     response: (scope, username) => {
       scope.playerExitHandler(username);
       return true;
     },
   },
-  addUser: {
-    commands: ['!adduser', '!redeemseat'],
+  {
+    commands: ['!adduser'],
     displayName: 'adduser',
     description: 'Adds the specified user directly to Playing queue',
+    id: 'addUser',
     mod: true,
     response: (scope, username, message) => {
       if (!scope.isModOrBroadcaster(username)) {
@@ -117,10 +124,11 @@ export const chatCommands = {
       return true;
     },
   },
-  removeUser: {
+  {
     commands: ['!removeuser'],
     displayName: 'removeuser',
     description: 'Removes the specified user from all queues',
+    id: 'removeUser',
     mod: true,
     response: (scope, username, message) => {
       if (!scope.isModOrBroadcaster(username)) {
@@ -138,10 +146,11 @@ export const chatCommands = {
   },
 
   //========= queue management =========
-  clear: {
+  {
     commands: ['!clear'],
     displayName: 'clear',
     description: 'Removes all users from all of the queues',
+    id: 'clear',
     mod: true,
     response: (scope, username) => {
       if (scope.isModOrBroadcaster(username)) {
@@ -150,10 +159,11 @@ export const chatCommands = {
       return true;
     },
   },
-  open: {
+  {
     commands: ['!open'],
     displayName: 'open',
     description: 'Opens the Interested queue',
+    id: 'open',
     mod: true,
     response: (scope, username) => {
       if (scope.isModOrBroadcaster(username)) {
@@ -162,10 +172,11 @@ export const chatCommands = {
       return true;
     },
   },
-  close: {
+  {
     commands: ['!close'],
     displayName: 'close',
     description: 'Closes the Interested queue',
+    id: 'close',
     mod: true,
     response: (scope, username) => {
       if (scope.isModOrBroadcaster(username)) {
@@ -174,10 +185,11 @@ export const chatCommands = {
       return true;
     },
   },
-  clearopen: {
+  {
     commands: ['!clearopen'],
     displayName: 'clearopen',
     description: 'Removes all users from the queues and reopens the Interested queue',
+    id: 'clearopen',
     mod: true,
     response: (scope, username) => {
       if (scope.isModOrBroadcaster(username)) {
@@ -187,10 +199,11 @@ export const chatCommands = {
       return true;
     },
   },
-  startgame: {
+  {
     commands: ['!startgame'],
     displayName: 'startgame',
     description: 'Removes all users from the queues and resets additional things.',
+    id: 'startgame',
     mod: true,
     response: (scope, username) => {
       if (!scope.isModOrBroadcaster(username)) {
@@ -205,7 +218,11 @@ export const chatCommands = {
       return true;
     },
   },
-};
+];
+
+export const DefaultChatCommandsArray = Object.entries(DefaultChatCommands).map(
+  cmdEntry => Object.assign({}, cmdEntry[1], {id: cmdEntry[0]})
+).flat();
 
 export const easterEggRequests = [
   {
@@ -276,6 +293,7 @@ export default class MessageHandler {
     messages,
     modList,
     onDelete=noop,
+    onInit=noop,
     onMessageCallback=noop,
     onSettingsUpdate=noop,
     openQueueHandler=noop,
@@ -305,6 +323,7 @@ export default class MessageHandler {
     this.messages = messages;
     this.modList = modList;
     this.onDelete = onDelete;
+    this._onInitCallback = onInit ?? noop;
     this.onMessageCallback = onMessageCallback;
     this.openQueueHandler = openQueueHandler;
     this.playerExitHandler = playerExitHandler;
@@ -335,15 +354,18 @@ export default class MessageHandler {
       .filter(i => i && i<50) // only numeric values under 50
       .sort( (a, b) => a-b );
 
-    this.chatCommands = Object.assign({},
-      ...Object.values(chatCommands).map(
-        cmdObj => cmdObj.commands.map(
-          command => ({
-            [`${command}`]: cmdObj}
-          )
-        )
-      ).flat()
-    );
+    this.customCommandTerms = {};
+
+    // this.chatCommands = Object.assign({},
+    //   ...Object.entries(DefaultChatCommands).map(
+    //     cmdEntry => cmdEntry[1].commands.map(
+    //       command => ({
+    //         [`${command}`]: Object.assign({}, cmdEntry[1], {id: cmdEntry[0]})
+    //       })
+    //     )
+    //   ).flat()
+    // );
+    this.chatCommands = DefaultChatCommands;
 
     this._isInit = false; // indicates if init() has both executed and completed
 
@@ -368,6 +390,7 @@ export default class MessageHandler {
     this.twitchApi.onMessage = this.onMessage;
     this.client = this.twitchApi._chatClient;
     this._isInit = true;
+    this._onInitCallback();
   };
 
   isModOrBroadcaster = (username) => {
@@ -376,10 +399,11 @@ export default class MessageHandler {
 
   // returns true if a known command was found & responded to
   checkUserCommands = (message, username) => {
-    const command = message.trim().toLowerCase().split(' ')[0];
-    window.console.log({command, exists: !!this.chatCommands[command]});
-    if (this.chatCommands[command]) {
-      return this.chatCommands[command].response(this, username, message);
+    const term = message.trim().toLowerCase().split(' ')[0];
+    const chatCommand = this.chatCommands.find(cmd => cmd.commands[0] === term);
+    if (this.debug) {window.console.log({term, exists: !!chatCommand});}
+    if (chatCommand?.response) {
+      return chatCommand.response(this, username, message);
     }
     return;
   };
@@ -428,7 +452,7 @@ export default class MessageHandler {
   };
 
   onMessage = (target, tags, msg, self) => {
-    if (this.logUserMessages) {
+    if (this.logUserMessages || this.debug) {
       window.console.log('MessageHandler - onMessage', {target, tags, msg, self});
     }
     if (self) {return;} // ignore messages from yourself
@@ -445,9 +469,27 @@ export default class MessageHandler {
     return;
   };
 
+  updateChatCommandTerm = (key, term) => {
+    if (!key || !term) {
+      return;
+    }
+    let defaultChatCommands = Object.assign({}, DefaultChatCommands);
+    if (!defaultChatCommands[key]?.commands) {
+      return;
+    }
+    defaultChatCommands[key][0] = term.trim();
+    this.chatCommands = Object.assign({},
+      ...Object.values(DefaultChatCommands).map(
+        cmdObj => cmdObj.commands.map(
+          command => ({
+            [`${command}`]: cmdObj}
+          )
+        )
+      ).flat()
+    );
+  };
 
   sendMessage = async(msg) => {
     return await this.twitchApi?.sendMessage(msg);
   };
 }
-

@@ -4,7 +4,6 @@ import {
   selectModalCommandList,
 } from './modalSlice';
 import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { resolveDuplicateCommands } from '@/utils';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
@@ -16,12 +15,13 @@ interface ChatCommand {
   commands: string[];
   displayName: string;
   description: string;
+  id: string;
   mod: boolean;
   response: chatResponseFunctionType;
 }
 
 interface ModalCommandListProps {
-  chatCommands: ChatCommand[];
+  chatCommands: Array<ChatCommand>;
 }
 
 function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
@@ -66,7 +66,7 @@ function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
             </tr>
           </thead>
           <tbody>
-            {chatCommands && resolveDuplicateCommands(chatCommands).map(renderTableRow)}
+            {chatCommands?.map(renderTableRow)}
           </tbody>
         </Table>
       </Modal.Body>

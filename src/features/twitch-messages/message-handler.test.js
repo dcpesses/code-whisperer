@@ -1,7 +1,6 @@
 /* eslint-env jest */
 import {vi} from 'vitest';
-import MessageHandler, { chatCommands, noop } from './message-handler';
-import * as Utils from '@/utils';
+import MessageHandler, { DefaultChatCommands, noop } from './message-handler';
 
 vi.mock('../../../package.json', () => {
   return {
@@ -645,25 +644,24 @@ describe('MessageHandler', () => {
   });
 });
 
-describe('chatCommands', () => {
+describe('DefaultChatCommands', () => {
   test('should be defined', () => {
-    expect(chatCommands).toBeDefined();
+    expect(DefaultChatCommands).toBeDefined();
   });
   describe('listCommands', () => {
     test('should return list of commands', () => {
-      vi.spyOn(Utils, 'resolveDuplicateCommands').mockReturnValue([
-        {commands: ['!mockCommand1']},
-        {commands: ['!mockCommand2']},
-      ]);
-      const scope = {sendMessage: vi.fn()};
-      expect(chatCommands.listCommands.response(scope)).toBeTruthy();
+      const scope = {
+        chatCommands: DefaultChatCommands,
+        sendMessage: vi.fn()
+      };
+      expect(DefaultChatCommands.find(c => c.id === 'listCommands').response(scope)).toBeTruthy();
       expect(scope.sendMessage.mock.calls).toMatchSnapshot();
     });
   });
   describe('listVersion', () => {
     test('should return the version of the app', () => {
       const scope = {sendMessage: vi.fn()};
-      expect(chatCommands.listVersion.response(scope)).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'listVersion').response(scope)).toBeTruthy();
       expect(scope.sendMessage).toBeCalledWith(
         expect.stringContaining('v0.0.0'),
       );
@@ -679,7 +677,7 @@ describe('chatCommands', () => {
         }),
         sendMessage: vi.fn()
       };
-      expect(chatCommands.whichPack.response(scope, 'username', '!whichpack formalGameName')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'whichPack').response(scope, 'username', '!whichpack formalGameName')).toBeTruthy();
       expect(scope.sendMessage).toBeCalledWith(
         expect.stringContaining('formalGameName is a partyPackName game'),
       );
@@ -690,7 +688,7 @@ describe('chatCommands', () => {
       const scope = {
         joinQueueHandler: vi.fn()
       };
-      expect(chatCommands.joinQueue.response(scope, 'username', '!join')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'joinQueue').response(scope, 'username', '!join')).toBeTruthy();
       expect(scope.joinQueueHandler).toBeCalledWith(
         'username',
         {sendConfirmationMsg: true},
@@ -702,7 +700,7 @@ describe('chatCommands', () => {
       const scope = {
         playerExitHandler: vi.fn()
       };
-      expect(chatCommands.leaveQueue.response(scope, 'username')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'leaveQueue').response(scope, 'username')).toBeTruthy();
       expect(scope.playerExitHandler).toBeCalledWith('username');
     });
   });
@@ -717,7 +715,7 @@ describe('chatCommands', () => {
     });
     test('should add a user to the queue with a priority seat', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.addUser.response(scope, 'channelmod', '!adduser @mockplayer')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'addUser').response(scope, 'channelmod', '!adduser @mockplayer')).toBeTruthy();
       expect(scope.joinQueueHandler).toBeCalledWith('mockplayer', {
         sendConfirmationMsg: true,
         isPrioritySeat: true
@@ -725,12 +723,12 @@ describe('chatCommands', () => {
     });
     test('should not add anyone if no user is specified', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.addUser.response(scope, 'channelmod', '!adduser ')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'addUser').response(scope, 'channelmod', '!adduser ')).toBeTruthy();
       expect(scope.joinQueueHandler).not.toBeCalled();
     });
     test('should not add anyone if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.addUser.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'addUser').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.joinQueueHandler).not.toBeCalled();
     });
   });
@@ -745,17 +743,17 @@ describe('chatCommands', () => {
     });
     test('should remove a user from the queue', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.removeUser.response(scope, 'channelmod', '!removeuser @mockplayer')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'removeUser').response(scope, 'channelmod', '!removeuser @mockplayer')).toBeTruthy();
       expect(scope.playerExitHandler).toBeCalledWith('mockplayer');
     });
     test('should not remove anyone if no user is specified', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.removeUser.response(scope, 'channelmod', '!removeuser ')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'removeUser').response(scope, 'channelmod', '!removeuser ')).toBeTruthy();
       expect(scope.playerExitHandler).not.toBeCalled();
     });
     test('should not remove anyone if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.removeUser.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'removeUser').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.playerExitHandler).not.toBeCalled();
     });
   });
@@ -769,12 +767,12 @@ describe('chatCommands', () => {
     });
     test('should clear all users from the queue', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.clear.response(scope, 'channelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'clear').response(scope, 'channelmod')).toBeTruthy();
       expect(scope.clearQueueHandler).toBeCalled();
     });
     test('should not clear queue if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.clear.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'clear').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.clearQueueHandler).not.toBeCalled();
     });
   });
@@ -788,12 +786,12 @@ describe('chatCommands', () => {
     });
     test('should open the Interested queue to all users', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.open.response(scope, 'channelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'open').response(scope, 'channelmod')).toBeTruthy();
       expect(scope.openQueueHandler).toBeCalled();
     });
     test('should not open the Interested queue if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.open.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'open').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.openQueueHandler).not.toBeCalled();
     });
   });
@@ -807,12 +805,12 @@ describe('chatCommands', () => {
     });
     test('should close the Interested queue to all users', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.close.response(scope, 'channelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'close').response(scope, 'channelmod')).toBeTruthy();
       expect(scope.closeQueueHandler).toBeCalled();
     });
     test('should not close the Interested queue if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.close.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'close').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.closeQueueHandler).not.toBeCalled();
     });
   });
@@ -827,13 +825,13 @@ describe('chatCommands', () => {
     });
     test('should clear all users from the queues and reopens the Interested queue', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(true);
-      expect(chatCommands.clearopen.response(scope, 'channelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'clearopen').response(scope, 'channelmod')).toBeTruthy();
       expect(scope.clearQueueHandler).toBeCalled();
       expect(scope.openQueueHandler).toBeCalled();
     });
     test('should not clear any users or reopen the Interested queue if user is not a mod', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
-      expect(chatCommands.clearopen.response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(DefaultChatCommands.find(c => c.id === 'clearopen').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.clearQueueHandler).not.toBeCalled();
       expect(scope.openQueueHandler).not.toBeCalled();
     });
