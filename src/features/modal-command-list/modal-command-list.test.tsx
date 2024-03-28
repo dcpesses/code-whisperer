@@ -25,15 +25,7 @@ describe('ModalCommandList', () => {
   let store: Store<unknown, UnknownAction, unknown>;
   beforeEach(() => {
     store = getStoreWithState();
-    chatCommands = Object.assign({},
-      ...Object.values(DefaultChatCommands).map(
-        cmdObj => cmdObj.commands.map(
-          command => ({
-            [`${command}`]: cmdObj}
-          )
-        )
-      ).flat()
-    );
+    chatCommands = DefaultChatCommands;
   });
   test('Should render without modal', () => {
     const {container} = render(

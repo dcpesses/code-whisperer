@@ -1,0 +1,813 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ModalCommandList > Should render with modal 1`] = `
+<div
+  aria-modal="true"
+  class="fade modal show"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
+              </td>
+              <td>
+                Lists all available commands in the chat
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
+              </td>
+              <td>
+                Replies with the Jackbox Party Pack of the specified game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
+              </td>
+              <td>
+                Removes the specified user from all queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
+              </td>
+              <td>
+                Removes all users from all of the queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
+              </td>
+              <td>
+                Opens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
+              </td>
+              <td>
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render with modal and close on top-right button press 1`] = `
+<div
+  aria-modal="true"
+  class="fade modal"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
+              </td>
+              <td>
+                Lists all available commands in the chat
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
+              </td>
+              <td>
+                Replies with the Jackbox Party Pack of the specified game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
+              </td>
+              <td>
+                Removes the specified user from all queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
+              </td>
+              <td>
+                Removes all users from all of the queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
+              </td>
+              <td>
+                Opens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
+              </td>
+              <td>
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render with modal and close on top-right button press 2`] = `
+<div
+  aria-modal="true"
+  class="fade modal"
+  role="dialog"
+  style="display: block; padding-right: 0px;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog modal-90w modal-fullscreen-md-down"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <div
+          class="modal-title h4"
+        >
+          List of Available Chat Commands
+        </div>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          type="button"
+        />
+      </div>
+      <div
+        class="modal-body"
+      >
+        <table
+          class="table table-striped"
+        >
+          <thead>
+            <tr>
+              <th>
+                Command
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Permission
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
+              </td>
+              <td>
+                Lists all available commands in the chat
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
+              </td>
+              <td>
+                Posts the version of the app and its url
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
+              </td>
+              <td>
+                Replies with the Jackbox Party Pack of the specified game
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
+              </td>
+              <td>
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
+              </td>
+              <td>
+                Removes the specified user from all queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
+              </td>
+              <td>
+                Removes all users from all of the queues
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
+              </td>
+              <td>
+                Opens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
+              </td>
+              <td>
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCommandList > Should render without modal 1`] = `<div />`;

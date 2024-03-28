@@ -66,7 +66,7 @@ function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
             </tr>
           </thead>
           <tbody>
-            {chatCommands?.map(renderTableRow)}
+            {!!chatCommands && chatCommands.map(renderTableRow)}
           </tbody>
         </Table>
       </Modal.Body>
