@@ -115,6 +115,7 @@ export default class TwitchApi {
   get expiry_time() {return this._expiry_time;}
 
   get isAuth() {return this._isAuth;}
+  get isChatConnected() {return !!this._chatClient;}
   get isInit() {return this._isInit;}
 
   get channel() {return this._channel;}

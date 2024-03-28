@@ -1,14 +1,12 @@
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 // import ChatActivity, { ActivityStatus } from '../ChatActivity';
-import MessageHandler from '../twitch-wheel/MessageHandler';
-// import MessageCommandHandler from '../message-command-handler';
+import MessageHandler from '@/features/twitch-messages/message-handler';
 import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalCommandList from '@/features/modal-command-list';
@@ -87,15 +85,14 @@ class ImportedMainScreen extends Component {
     this.toggleUserMessageLogging = this.toggleUserMessageLogging.bind(this);
 
     this.twitchApi = this.props.twitchApi;
-    // if (this.props.twitchApi) {
-    //   this.initMessageCommandHandler();
-    // }
+    this.messageHandler = this.initMessageHandler();
+
   }
 
   componentDidMount() {
-    if (!this.twitchApi) {
+    if (!this.messageHandler && !this.twitchApi && this.props.twitchApi) {
       this.twitchApi = this.props.twitchApi;
-      // this.initMessageCommandHandler();
+      this.messageHandler = this.initMessageHandler();
     }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(
@@ -106,12 +103,104 @@ class ImportedMainScreen extends Component {
       this.props.setFakeStates(fakeStates.UserStore);
     }
   }
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
+      || !this.messageHandler && this.props.twitchApi?.isChatConnected) {
+      this.messageHandler = this.initMessageHandler();
+    } else if (this.props.twitchApi?.isChatConnected) {
+      this.updateMessageHandler(this.props, this.state);
+    }
+
+  };
+
+  initMessageHandler = () => {
+    console.log('initMessageHandler');
+    if (!this.props.twitchApi?.isChatConnected) {
+      console.log('main-screen - initMessageHandler: cannot init; no chat client available');
+      return null;
+    }
+    let messageHandler = new MessageHandler({
+      access_token: this.props.access_token,
+      allowGameRequests: this.state.allowGameRequests,
+      changeNextGameIdx: this.changeNextGameIdx,
+      channel: this.props.channel,
+      clearQueueHandler: this.routeClearQueueRequest.bind(this),
+      closeQueueHandler: this.routeCloseQueueRequest.bind(this),
+      joinQueueHandler: this.routePlayRequest.bind(this),
+      logUserMessages: this.state.logUserMessages,
+      messages: this.state.messages,
+      modList: this.props.modList,
+      // onDelete: this.removeGame.bind(this),
+      onMessageCallback: this.onMessage.bind(this),
+      onSettingsUpdate: this.onSettingsUpdate.bind(this),
+      openQueueHandler: this.routeOpenQueueRequest.bind(this),
+      playerExitHandler: this.routeLeaveRequest.bind(this),
+      previousGames: this.state.history.slice(0, this.state.nextGameIdx),
+      // removeSelectedGameFromHistory: this.removeSelectedGameFromHistory.bind(this),
+      // setNextGame: this.setNextGame.bind(this),
+      settings: this.state.settings,
+      startGame: this.startGame.bind(this),
+      // toggleAllowGameRequests: this.toggleAllowGameRequests.bind(this),
+      twitchApi: this.props.twitchApi,
+      upcomingGames: this.state.history.slice(this.state.nextGameIdx),
+    });
+
+    messageHandler.client = this.props.twitchApi._chatClient;
+    this.props.twitchApi.onMessage = messageHandler._onMessage;
+    return messageHandler;
+  };
+
+  updateMessageHandler = (props, state) => {
+    if (!this.messageHandler || !this.twitchApi?.isChatConnected) {
+      if (!this.twitchApi?.isChatConnected && props.twitchApi?.isChatConnected) {
+        this.twitchApi = props.twitchApi;
+        this.messageHandler = this.initMessageHandler();
+      } else {
+        console.log('main-screen - updateMessageHandler: cannot update, chat not yet initialized');
+      }
+      return;
+    }
+    this.messageHandler.twitchApi = props.twitchApi;
+    this.messageHandler.client = props.twitchApi._chatClient;
+    props.twitchApi.onMessage = this.messageHandler.onMessage;
+    if (this.messageHandler.access_token !== props.access_token) {
+      this.messageHandler.access_token = props.access_token;
+    }
+    if (this.messageHandler.allowGameRequests !== state.allowGameRequests) {
+      this.messageHandler.allowGameRequests = state.allowGameRequests;
+    }
+    if (this.messageHandler.changeNextGameIdx !== this.changeNextGameIdx) {
+      this.messageHandler.changeNextGameIdx = this.changeNextGameIdx;
+    }
+    if (this.messageHandler.channel !== props.channel) {
+      this.messageHandler.channel = props.channel;
+    }
+    if (this.messageHandler.logUserMessages !== state.logUserMessages) {
+      this.messageHandler.logUserMessages = state.logUserMessages;
+    }
+    if (JSON.stringify(this.messageHandler.messages) !== JSON.stringify(state.messages)) {
+      this.messageHandler.messages = state.messages;
+    }
+    if (JSON.stringify(this.messageHandler.modList) !== JSON.stringify(props.modList)) {
+      this.messageHandler.modList = props.modList;
+    }
+    if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(state.settings)) {
+      this.messageHandler.settings = state.settings;
+    }
+    if (this.messageHandler.nextGameIdx !== state.nextGameIdx ||
+    JSON.stringify(this.messageHandler.history) !== JSON.stringify(state.history)) {
+      this.messageHandler.previousGames = state.history.slice(0, state.nextGameIdx);
+      this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
+    }
+    return null;
+  };
+
 
   getGamesList = () => {
     return {
-      allowedGames: this.messageHandler?.state.allowedGames,
-      maxPlayersList: this.messageHandler?.state.maxPlayersList,
-      validGames: this.messageHandler?.state.validGames
+      allowedGames: this.messageHandler?.allowedGames,
+      maxPlayersList: this.messageHandler?.maxPlayersList,
+      validGames: this.messageHandler?.validGames
     };
   };
   getOptionsDebugMenu = () => {
@@ -169,6 +258,7 @@ class ImportedMainScreen extends Component {
   };
 
   onMessage = async(message, user, metadata) => {
+    console.log('ImportedMainScreen - onMessage');
     this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
@@ -193,30 +283,25 @@ class ImportedMainScreen extends Component {
   };
 
   toggleOptionsMenu = () => {
-    this.setState((state) => {
-      return {
-        showOptionsMenu: !state.showOptionsMenu
-      };
-    });
+    this.setState((state) => ({
+      showOptionsMenu: !state.showOptionsMenu
+    }));
   };
 
   toggleOptionsModal = () => {
-    this.setState((state) => {
-      return {
-        showOptionsModal: !state.showOptionsModal
-      };
-    });
+    this.setState((state) => ({
+      showOptionsModal: !state.showOptionsModal
+    }));
   };
 
   togglePlayerSelect = () => {
-    this.setState((state) => {
-      return {
-        showPlayerSelect: !state.showPlayerSelect
-      };
-    });
+    this.setState((state) => ({
+      showPlayerSelect: !state.showPlayerSelect
+    }));
   };
 
   routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
+    console.log('ImportedMainScreen - routePlayRequest');
     const msg = this.state.showPlayerSelect
       ? this.playerSelector?.handleNewPlayerRequest(user, {isPrioritySeat})
       : 'sign-ups are currently closed; try again after this game wraps up!';
@@ -231,12 +316,10 @@ class ImportedMainScreen extends Component {
   };
 
   routeOpenQueueRequest = () => {
-    this.setState((state) => {
-      return {
-        ...state,
-        showPlayerSelect: true
-      };
-    });
+    this.setState((state) => ({
+      ...state,
+      showPlayerSelect: true
+    }));
     this.playerSelector?.openQueue();
   };
 
@@ -263,7 +346,7 @@ class ImportedMainScreen extends Component {
      */
   sendWhisper = async(player, msg) => {
     if (this.twitchApi?.sendWhisper) {
-      const response = await this.twitchApi?.sendWhisper(player, msg);
+      const response = await this.twitchApi.sendWhisper(player, msg);
       this.props.setWhisperStatus({login: player.username, response});
       return;
     }
@@ -292,32 +375,6 @@ class ImportedMainScreen extends Component {
 
     return (
       <div className="main-screen">
-        <MessageHandler
-          access_token={this.props.access_token}
-          allowGameRequests={this.state.allowGameRequests}
-          caniplayHandler={this.routePlayRequest}
-          changeNextGameIdx={this.changeNextGameIdx}
-          channel={this.props.channel}
-          clearQueueHandler={this.routeClearQueueRequest}
-          closeQueueHandler={this.routeCloseQueueRequest}
-          logUserMessages={this.state.logUserMessages}
-          messages={this.state.messages}
-          modList={this.props.modList}
-          onDelete={this.removeGame}
-          onMessage={this.onMessage}
-          onSettingsUpdate={this.onSettingsUpdate}
-          openQueueHandler={this.routeOpenQueueRequest}
-          playerExitHandler={this.routeLeaveRequest}
-          previousGames={this.state.history.slice(0, this.state.nextGameIdx)}
-          ref={this.setMessageHandlerRef}
-          removeSelectedGameFromHistory={this.removeSelectedGameFromHistory}
-          setNextGame={this.setNextGame}
-          settings={this.state.settings}
-          startGame={this.startGame}
-          toggleAllowGameRequests={this.toggleAllowGameRequests}
-          twitchApi={this.props.twitchApi}
-          upcomingGames={this.state.history.slice(this.state.nextGameIdx)}
-        />
         <HeaderMenu
           gamesList={gamesList}
           parentState={this.state}
@@ -346,7 +403,9 @@ class ImportedMainScreen extends Component {
             userLookup={this.state.userLookup}
           />
         </div>
-        <ModalCommandList />
+        <ModalCommandList
+          chatCommands={this.messageHandler?.chatCommands || []}
+        />
       </div>
     );
   }
@@ -357,6 +416,10 @@ ImportedMainScreen.propTypes = {
   modList: PropTypes.object,
   onLogOut: PropTypes.func,
   // profile_image_url: PropTypes.string,
+  setFakeStates: PropTypes.func.isRequired,
+  setUserInfo: PropTypes.func.isRequired,
+  setWhisperStatus: PropTypes.func.isRequired,
+  showModalCommandList: PropTypes.func.isRequired,
   toggleDeprecatedView: PropTypes.func,
   twitchApi: PropTypes.object,
   // updateUsername: PropTypes.func,

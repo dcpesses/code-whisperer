@@ -224,7 +224,7 @@ class AuthenticatedApp extends Component {
 
     let classNames = ['authenticated-app', 'container', 'text-center'];
 
-    if (this.state.username) {
+    if (this.state.username && this.twitchApi?.isChatConnected) {
       if (this.state.deprecatedView) {
         mainContent = (
           <ImportedMainScreen

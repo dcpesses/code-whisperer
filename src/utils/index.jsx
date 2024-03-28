@@ -80,3 +80,28 @@ export function getRelativeTimeString(date, lang = navigator.language) {
   const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' });
   return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
 }
+
+/*
+// For later TypeScript conversion
+type chatResponseFunctionType = (scope: unknown, username: string, message: string) => boolean;
+
+interface ChatCommand {
+  commands: string[];
+  displayName: string;
+  description: string;
+  mod: boolean;
+  response: chatResponseFunctionType;
+}
+
+interface ModalCommandListProps {
+  chatCommands: ChatCommand[];
+}
+*/
+export const resolveDuplicateCommands = (chatCommands/*: ChatCommand[]*/)/*: ChatCommand[]*/ => {
+  return Object.values(chatCommands).reduce((accumulator/*: ChatCommand[]*/, item/*: ChatCommand*/) => {
+    if (!accumulator.includes(item)) {
+      accumulator.push(item);
+    }
+    return accumulator;
+  }, []);
+};

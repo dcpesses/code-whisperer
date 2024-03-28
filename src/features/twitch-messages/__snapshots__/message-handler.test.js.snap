@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`chatCommands > listCommands > should return list of commands 1`] = `
+[
+  [
+    "Code Whisperer Commands: !mockCommand1, !mockCommand2",
+  ],
+]
+`;
