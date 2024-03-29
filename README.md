@@ -33,7 +33,8 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - No additional login necessary from users willing to play
 - Option to randomize user selection
 - Set the Max # of Players via Dropdown
-- NEW: Indicates if issues occur sending whispers
+- Indicates if issues occur when sending whispers
+- Specify your own `!join`/`!leave` commands
 - More features coming soon...
 
 ### Caveats
@@ -44,9 +45,8 @@ be whispered. Users indicate if they want to join a game by entering commands in
 ### Chat Commands
 
 #### User Commands:
-* `!join` - Adds the user to the Interested queue
-* `!new` - Adds the user to the Interested queue without notifying chat
-* `!leave` - Removes the user from all queues
+* `!join` - Adds the user to the Interested queue*
+* `!leave` - Removes the user from all queues*
 * `!version` - Posts the version of the app and its url
 * `!whichpack GAME` - replies with the Jackbox Party Pack of a given game
 * `!commands` - Lists all available commands
@@ -58,11 +58,13 @@ be whispered. Users indicate if they want to join a game by entering commands in
 * `!adduser @USER` - Adds specified user directly to Playing queue
 * `!removeuser @USER` - Removes specified user from all queues
 
+ *Commands can be changed in the Settings menu
+
 ### Currently Planned Features:
 - [x] Display creation date of player's account
 - [ ] In-app Documentation & Tutorial
 - [ ] Usage instructions via command
-- [ ] Custom join/leave commands
+- [x] Custom join/leave commands
 - [x] Using icons in place of text
 - [ ] Game description lookup via command
 - [ ] Player blacklisting
