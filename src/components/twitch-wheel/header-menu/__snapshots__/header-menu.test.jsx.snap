@@ -203,6 +203,14 @@ exports[`HeaderMenu > Should render without error 1`] = `
               role="button"
               tabindex="0"
             >
+              Changelog
+            </a>
+            <a
+              class="nav-link"
+              href="#"
+              role="button"
+              tabindex="0"
+            >
               Switch View 
               <small>
                 (Debug)

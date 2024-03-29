@@ -27,6 +27,8 @@ exports[`MainScreen > Should render without error 1`] = `
           aria-controls="navbar-options-menu"
           aria-label="Toggle navigation"
           class="border-0 rounded-0 navbar-toggler collapsed"
+          data-margin-right=""
+          style=""
           type="button"
         >
           <span
@@ -199,6 +201,14 @@ exports[`MainScreen > Should render without error 1`] = `
                 tabindex="0"
               >
                 View Chat Commands
+              </a>
+              <a
+                class="nav-link"
+                href="#"
+                role="button"
+                tabindex="0"
+              >
+                Changelog
               </a>
               <a
                 class="nav-link"

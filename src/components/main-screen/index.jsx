@@ -9,10 +9,13 @@ import {connect} from 'react-redux';
 import MessageHandler from '@/features/twitch-messages/message-handler';
 import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
+import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { setFakeStates, setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../twitch-wheel/example-states';
+
+import {version} from '../../../package.json';
 
 import './main-screen.css';
 
@@ -50,6 +53,9 @@ class ImportedMainScreen extends Component {
     } catch (e) {
       console.log('Unable to load or read saved settings, using defaults.');
     }
+
+    const lastVersion = localStorage.getItem('__version');
+
     this.state = {
       allowGameRequests: true,
       gameSelected: GAME_PLACEHOLDER,
@@ -60,6 +66,7 @@ class ImportedMainScreen extends Component {
       logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
       settings,
+      showChangelogModal: (lastVersion !== version),
       showOptionsMenu: false,
       showOptionsModal: false,
       showPlayerSelect: true,
@@ -90,6 +97,7 @@ class ImportedMainScreen extends Component {
   }
 
   componentDidMount() {
+    localStorage.setItem('__version', version);
     if (!this.messageHandler && !this.twitchApi && this.props.twitchApi) {
       this.twitchApi = this.props.twitchApi;
       this.messageHandler = this.initMessageHandler();
@@ -317,6 +325,12 @@ class ImportedMainScreen extends Component {
     }, () => this.updateMessageHandler());
   };
 
+  toggleChangelogModal = () => {
+    this.setState((state) => ({
+      showChangelogModal: !state.showChangelogModal
+    }));
+  };
+
   toggleOptionsMenu = () => {
     this.setState((state) => ({
       showOptionsMenu: !state.showOptionsMenu
@@ -430,6 +444,7 @@ class ImportedMainScreen extends Component {
           settings={this.state.settings}
           showOptionsMenu={this.state.showOptionsMenu}
           twitchApi={this.props.twitchApi}
+          toggleChangelogModal={this.toggleChangelogModal}
           toggleDeprecatedView={this.props.toggleDeprecatedView}
         />
         <div id="content" className="container mx-auto">
@@ -448,6 +463,10 @@ class ImportedMainScreen extends Component {
         </div>
         <ModalCommandList
           chatCommands={this.messageHandler?.chatCommands || []}
+        />
+        <ModalChangelog
+          handleClose={this.toggleChangelogModal}
+          show={this.state.showChangelogModal}
         />
       </div>
     );
