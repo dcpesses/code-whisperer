@@ -1,19 +1,36 @@
+/* eslint-env jest */
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
+import { DefaultChatCommands } from '@/features/twitch-messages/message-handler';
 import ModalCommandList from './index';
 import { Store, UnknownAction } from '@reduxjs/toolkit';
 
+type chatResponseFunctionType = (scope: unknown, username: string, message: string) => boolean;
+
+interface ChatCommand {
+  commands: string[];
+  displayName: string;
+  description: string;
+  id: string;
+  mod: boolean;
+  response: chatResponseFunctionType;
+}
+
+
 describe('ModalCommandList', () => {
+  let chatCommands: ChatCommand[];
+
   let store: Store<unknown, UnknownAction, unknown>;
   beforeEach(() => {
     store = getStoreWithState();
+    chatCommands = DefaultChatCommands;
   });
   test('Should render without modal', () => {
     const {container} = render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={chatCommands} />
       </Provider>
     );
 
@@ -23,7 +40,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={chatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');
@@ -36,7 +53,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={chatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');
@@ -49,7 +66,7 @@ describe('ModalCommandList', () => {
     store.dispatch({ type: 'modal/showModalCommandList' });
     render(
       <Provider store={store}>
-        <ModalCommandList />
+        <ModalCommandList chatCommands={chatCommands} />
       </Provider>
     );
     const modalElement = screen.getByRole('dialog');

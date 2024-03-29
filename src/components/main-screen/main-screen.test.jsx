@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
 import MainScreen from './index';
 
-vi.mock('../../../../package.json', () => {
+vi.mock('../../../package.json', () => {
   return {
-    ...vi.importActual('../../../../package.json'),
+    ...vi.importActual('../../../package.json'),
     version: '0.0.0'
   };
 });

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DefaultChatCommands > listCommands > should return list of commands 1`] = `
+[
+  [
+    "Code Whisperer Commands: !commands, !version, !whichpack, !join, !leave, !adduser, !removeuser, !clear, !open, !close, !clearopen, !startgame",
+  ],
+]
+`;

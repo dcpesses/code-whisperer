@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import PropTypes from 'prop-types';
-import Header from '@/components/header';
+import Header from '@/components/mockups/header';
 import GameCodeForm from '@/components/game-code-form';
-import GameQueue from '@/components/game-queue';
-import TestUserForm from '@/components/test-user-form';
+import GameQueue from '@/components/mockups/game-queue';
+import TestUserForm from '@/components/mockups/test-user-form';
 
 import './main-screen.css';
 

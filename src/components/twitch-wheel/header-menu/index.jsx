@@ -21,6 +21,7 @@ export default class HeaderMenu extends Component {
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
+      toggleChangelogModal: PropTypes.func,
       toggleDeprecatedView: PropTypes.func,
       twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
@@ -37,6 +38,7 @@ export default class HeaderMenu extends Component {
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
       settings: {},
+      toggleChangelogModal: () => void 0,
       toggleDeprecatedView: () => void 0,
       twitchApi: null,
       userInfo: {
@@ -173,11 +175,41 @@ export default class HeaderMenu extends Component {
       }
       onSettingsUpdate({customDelimiter: value});
     };
+    let updateCustomJoinCommand = (e) => {
+      let {value} = e.target;
+      if (!value) {
+        value = null;
+      } else {
+        value = value.trim();
+      }
+      onSettingsUpdate({customJoinCommand: value});
+    };
+    let updateCustomLeaveCommand = (e) => {
+      let {value} = e.target;
+      if (!value) {
+        value = null;
+      } else {
+        value = value.trim();
+      }
+      onSettingsUpdate({customLeaveCommand: value});
+    };
     let toggleEnableRoomCode = () => {
       let value = typeof settings?.enableRoomCode === 'boolean'
         ? !settings?.enableRoomCode
         : true;
       onSettingsUpdate({enableRoomCode: value});
+    };
+    let toggleJoinConfirmationMessage = () => {
+      let value = typeof settings?.enableJoinConfirmationMessage === 'boolean'
+        ? !settings?.enableJoinConfirmationMessage
+        : true;
+      onSettingsUpdate({enableJoinConfirmationMessage: value});
+    };
+    let toggleLeaveConfirmationMessage = () => {
+      let value = typeof settings?.enableLeaveConfirmationMessage === 'boolean'
+        ? !settings?.enableLeaveConfirmationMessage
+        : true;
+      onSettingsUpdate({enableLeaveConfirmationMessage: value});
     };
 
     const userInfo = this.props?.twitchApi?.userInfo;
@@ -243,18 +275,55 @@ export default class HeaderMenu extends Component {
                         <input type="checkbox" role="switch" checked={(settings?.clearSeatsAfterRedeem)} readOnly /> <span>Clear Seats After Redeem</span>
                       </Button>
                        */}
+                      <Button variant="link" className="btn settings-menu"
+                        title="Replaces the !join command with a custom term to use to join the Interested queue."
+                      >
+                        <span htmlFor="custom-join-command">Use Custom Join Command: </span>
+                        <input type="text" id="custom-join-command" name="custom-join-command"
+                          placeholder="e.g. !join"
+                          defaultValue={settings?.customJoinCommand}
+                          onChange={updateCustomJoinCommand} className="form-control" spellCheck="false" />
+                      </Button>
+
+                      <Button variant="link" className="btn settings-menu"
+                        onClick={toggleJoinConfirmationMessage}
+                        title="Messages users in chat when they've successfully joined the Interested queue."
+                      >
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableJoinConfirmationMessage)} readOnly /> <span>Show Join Confirmation Message</span>
+                      </Button>
+
+                      <Button variant="link" className="btn settings-menu"
+                        title="Replaces the !leave command with a custom term to use to leave all of the queues."
+                      >
+                        <span htmlFor="custom-leave-command">Use Custom Leave Command: </span>
+                        <input type="text" id="custom-leave-command" name="custom-leave-command"
+                          placeholder="e.g. !leave"
+                          defaultValue={settings?.customLeaveCommand}
+                          onChange={updateCustomLeaveCommand} className="form-control" spellCheck="false" />
+                      </Button>
+
+                      <Button variant="link" className="btn settings-menu"
+                        onClick={toggleLeaveConfirmationMessage}
+                        title="Messages users in chat when they've successfully left the queues."
+                      >
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableLeaveConfirmationMessage)} readOnly /> <span>Show Leave Confirmation Message</span>
+                      </Button>
 
                       <Button variant="link" className="btn settings-menu"
                         title="Uses a custom character or emote to separate requests listed in the chat."
                       >
                         <span htmlFor="custom-delimiter">Use Custom Delimiter: </span>
-                        <input type="text" id="custom-delimiter" name="custom-delimiter" defaultValue={settings?.customDelimiter}
-                          onChange={updateCustomDelimiter} className="form-control" />
+                        <input type="text" id="custom-delimiter" name="custom-delimiter"
+                          defaultValue={settings?.customDelimiter}
+                          onChange={updateCustomDelimiter} className="form-control" spellCheck="false" />
                       </Button>
                     </div>
                   </div>
                 </Collapse>
                 {optionMenuItems}
+                <Nav.Link onClick={this.props.toggleChangelogModal}>Changelog</Nav.Link>
                 <Nav.Link onClick={this.props.toggleDeprecatedView}>Switch View <small>(Debug)</small></Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">

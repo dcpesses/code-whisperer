@@ -50,12 +50,16 @@ exports[`ModalCommandList > Should render with modal 1`] = `
           <tbody>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !caniplay
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
               </td>
               <td>
-                Adds the user to the Interested queue
+                Lists all available commands in the chat
               </td>
               <td>
                 All users
@@ -63,35 +67,13 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !new
-              </td>
-              <td>
-                Adds the user to the Interested queue (with no acknowledgement in chat)
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !leave
-              </td>
-              <td>
-                Removes the user from the Interested queue
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !version
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
               </td>
               <td>
                 Posts the version of the app and its url
@@ -102,12 +84,16 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !whichpack GAME
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
               </td>
               <td>
-                replies with the Jackbox Party Pack of a given game
+                Replies with the Jackbox Party Pack of the specified game
               </td>
               <td>
                 All users
@@ -115,12 +101,50 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !open
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
               </td>
               <td>
-                Opens the interested queue
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
               </td>
               <td>
                 Mods / Streamer
@@ -128,12 +152,16 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !close
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
               </td>
               <td>
-                Closes the interested queue
+                Removes the specified user from all queues
               </td>
               <td>
                 Mods / Streamer
@@ -141,12 +169,16 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !clear
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
               </td>
               <td>
-                Removes all users from the board
+                Removes all users from all of the queues
               </td>
               <td>
                 Mods / Streamer
@@ -154,12 +186,16 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !redeemseat @USER
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
               </td>
               <td>
-                Adds user directly to Playing queue*
+                Opens the Interested queue
               </td>
               <td>
                 Mods / Streamer
@@ -167,12 +203,50 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !removeuser @USER
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
               </td>
               <td>
-                Removes user from all queues*
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
               </td>
               <td>
                 Mods / Streamer
@@ -180,7 +254,6 @@ exports[`ModalCommandList > Should render with modal 1`] = `
             </tr>
           </tbody>
         </table>
-        * Note: These will likely change in the next version
       </div>
       <div
         class="modal-footer"
@@ -247,12 +320,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
           <tbody>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !caniplay
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
               </td>
               <td>
-                Adds the user to the Interested queue
+                Lists all available commands in the chat
               </td>
               <td>
                 All users
@@ -260,35 +337,13 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !new
-              </td>
-              <td>
-                Adds the user to the Interested queue (with no acknowledgement in chat)
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !leave
-              </td>
-              <td>
-                Removes the user from the Interested queue
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !version
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
               </td>
               <td>
                 Posts the version of the app and its url
@@ -299,12 +354,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !whichpack GAME
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
               </td>
               <td>
-                replies with the Jackbox Party Pack of a given game
+                Replies with the Jackbox Party Pack of the specified game
               </td>
               <td>
                 All users
@@ -312,12 +371,50 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !open
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
               </td>
               <td>
-                Opens the interested queue
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
               </td>
               <td>
                 Mods / Streamer
@@ -325,12 +422,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !close
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
               </td>
               <td>
-                Closes the interested queue
+                Removes the specified user from all queues
               </td>
               <td>
                 Mods / Streamer
@@ -338,12 +439,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !clear
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
               </td>
               <td>
-                Removes all users from the board
+                Removes all users from all of the queues
               </td>
               <td>
                 Mods / Streamer
@@ -351,12 +456,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !redeemseat @USER
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
               </td>
               <td>
-                Adds user directly to Playing queue*
+                Opens the Interested queue
               </td>
               <td>
                 Mods / Streamer
@@ -364,12 +473,50 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !removeuser @USER
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
               </td>
               <td>
-                Removes user from all queues*
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
               </td>
               <td>
                 Mods / Streamer
@@ -377,7 +524,6 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
           </tbody>
         </table>
-        * Note: These will likely change in the next version
       </div>
       <div
         class="modal-footer"
@@ -444,12 +590,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
           <tbody>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !caniplay
+                <span
+                  class="chat-command"
+                >
+                  !commands
+                </span>
               </td>
               <td>
-                Adds the user to the Interested queue
+                Lists all available commands in the chat
               </td>
               <td>
                 All users
@@ -457,35 +607,13 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !new
-              </td>
-              <td>
-                Adds the user to the Interested queue (with no acknowledgement in chat)
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !leave
-              </td>
-              <td>
-                Removes the user from the Interested queue
-              </td>
-              <td>
-                All users
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-monospace"
-              >
-                !version
+                <span
+                  class="chat-command"
+                >
+                  !version
+                </span>
               </td>
               <td>
                 Posts the version of the app and its url
@@ -496,12 +624,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !whichpack GAME
+                <span
+                  class="chat-command"
+                >
+                  !whichpack
+                </span>
               </td>
               <td>
-                replies with the Jackbox Party Pack of a given game
+                Replies with the Jackbox Party Pack of the specified game
               </td>
               <td>
                 All users
@@ -509,12 +641,50 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !open
+                <span
+                  class="chat-command"
+                >
+                  !join
+                </span>
               </td>
               <td>
-                Opens the interested queue
+                Adds the user to the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !leave
+                </span>
+              </td>
+              <td>
+                Removes the user from the Interested queue
+              </td>
+              <td>
+                All users
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !adduser
+                </span>
+              </td>
+              <td>
+                Adds the specified user directly to Playing queue
               </td>
               <td>
                 Mods / Streamer
@@ -522,12 +692,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !close
+                <span
+                  class="chat-command"
+                >
+                  !removeuser
+                </span>
               </td>
               <td>
-                Closes the interested queue
+                Removes the specified user from all queues
               </td>
               <td>
                 Mods / Streamer
@@ -535,12 +709,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !clear
+                <span
+                  class="chat-command"
+                >
+                  !clear
+                </span>
               </td>
               <td>
-                Removes all users from the board
+                Removes all users from all of the queues
               </td>
               <td>
                 Mods / Streamer
@@ -548,12 +726,16 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !redeemseat @USER
+                <span
+                  class="chat-command"
+                >
+                  !open
+                </span>
               </td>
               <td>
-                Adds user directly to Playing queue*
+                Opens the Interested queue
               </td>
               <td>
                 Mods / Streamer
@@ -561,12 +743,50 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
             <tr>
               <td
-                class="font-monospace"
+                class="chat-command-list"
               >
-                !removeuser @USER
+                <span
+                  class="chat-command"
+                >
+                  !close
+                </span>
               </td>
               <td>
-                Removes user from all queues*
+                Closes the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !clearopen
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and reopens the Interested queue
+              </td>
+              <td>
+                Mods / Streamer
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="chat-command-list"
+              >
+                <span
+                  class="chat-command"
+                >
+                  !startgame
+                </span>
+              </td>
+              <td>
+                Removes all users from the queues and resets additional things.
               </td>
               <td>
                 Mods / Streamer
@@ -574,7 +794,6 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
             </tr>
           </tbody>
         </table>
-        * Note: These will likely change in the next version
       </div>
       <div
         class="modal-footer"

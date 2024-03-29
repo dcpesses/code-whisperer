@@ -46,3 +46,18 @@ nav .navbar-pfp-img {
 #dropdown-debug-menu-items.dropup .dropdown-toggle::after {
   content: unset;
 }
+
+.settings-menu input::placeholder {
+  font-style: italic;
+}
+.settings-menu input.form-control {
+  background-color: var(--bs-secondary-bg-subtle)!important;
+  color: var(--bs-gray-200)!important;
+}
+.settings-menu input.form-control:active,
+.settings-menu input.form-control:focus,
+.settings-menu input.form-control:focus-within,
+.settings-menu input.form-control:target {
+  color: var(--bs-emphasis-color)!important;
+}
+

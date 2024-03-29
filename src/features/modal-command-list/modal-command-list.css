@@ -8,4 +8,12 @@
     max-width: 90%!important;
   }
 }
+.chat-command-list {
+  color: var(--bs-secondary-text-emphasis)!important;
+}
 
+.chat-command {
+  font-family: var(--bs-font-monospace) !important;
+  color: var(--bs-emphasis-color) !important;
+  font-style: italic;
+}

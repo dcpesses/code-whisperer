@@ -78,8 +78,7 @@ export default class PlayerQueue extends Component {
         : 'there was an error adding you to the lobby.';
     }
 
-    if (this.state?.interested?.map((uObj) => uObj.username)?.includes(username)
-        || this.state?.playing?.map((uObj) => uObj.username)?.includes(username)) {
+    if (this.isUserInLobby(username)) {
       return 'you are already in the lobby.';
     }
 
@@ -97,6 +96,13 @@ export default class PlayerQueue extends Component {
       roomCode = evt.target.value.trim();
     }
     this.setState({roomCode});
+  };
+
+  isUserInLobby = (username) => {
+    return (
+      this.state?.interested?.map((uObj) => uObj.username)?.includes(username)
+      || this.state?.playing?.map((uObj) => uObj.username)?.includes(username)
+    );
   };
 
   updateColumnForUser = (userObj, newColumn) => {
