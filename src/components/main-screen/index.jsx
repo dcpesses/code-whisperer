@@ -103,12 +103,20 @@ class ImportedMainScreen extends Component {
       this.props.setFakeStates(fakeStates.UserStore);
     }
   }
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
       || !this.messageHandler && this.props.twitchApi?.isChatConnected) {
       this.messageHandler = this.initMessageHandler();
     } else if (this.props.twitchApi?.isChatConnected) {
       this.updateMessageHandler(this.props, this.state);
+
+      // remove any custom command terms if necessary
+      if (!this.state.settings.customJoinCommand && prevState.settings.customJoinCommand) {
+        this.messageHandler.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+      }
+      if (!this.state.settings.customLeaveCommand && prevState.settings.customLeaveCommand) {
+        this.messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+      }
     }
 
   };
@@ -131,6 +139,7 @@ class ImportedMainScreen extends Component {
       messages: this.state.messages,
       modList: this.props.modList,
       // onDelete: this.removeGame.bind(this),
+      // onInit: this.onMessageHandlerInit.bind(this),
       onMessageCallback: this.onMessage.bind(this),
       onSettingsUpdate: this.onSettingsUpdate.bind(this),
       openQueueHandler: this.routeOpenQueueRequest.bind(this),
@@ -147,10 +156,19 @@ class ImportedMainScreen extends Component {
 
     messageHandler.client = this.props.twitchApi._chatClient;
     this.props.twitchApi.onMessage = messageHandler._onMessage;
+    if (this.state.settings?.customJoinCommand ) {
+      messageHandler.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+    }
+    if (this.state.settings?.customLeaveCommand) {
+      messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+    }
     return messageHandler;
   };
 
   updateMessageHandler = (props, state) => {
+    window.console.log('updateMessageHandler', {hasProps: !!props, hasState: !!state});
+    props = props || this.props;
+    state = state || this.state;
     if (!this.messageHandler || !this.twitchApi?.isChatConnected) {
       if (!this.twitchApi?.isChatConnected && props.twitchApi?.isChatConnected) {
         this.twitchApi = props.twitchApi;
@@ -192,9 +210,25 @@ class ImportedMainScreen extends Component {
       this.messageHandler.previousGames = state.history.slice(0, state.nextGameIdx);
       this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
     }
+    // update any custom command terms from settings
+    if (state.settings.customJoinCommand) {
+      this.messageHandler.updateChatCommandTerm('joinQueue', state.settings.customJoinCommand);
+    }
+    if (state.settings.customLeaveCommand) {
+      this.messageHandler.updateChatCommandTerm('leaveQueue', state.settings.customLeaveCommand);
+    }
     return null;
   };
 
+  onMessageHandlerInit = () => {
+    if (!this.messageHandler) {return;}
+    if (this.state.settings.customJoinCommand ) {
+      this.messageHandler?.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+    }
+    if (this.state.settings.customLeaveCommand) {
+      this.messageHandler?.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+    }
+  };
 
   getGamesList = () => {
     return {
@@ -272,14 +306,15 @@ class ImportedMainScreen extends Component {
   };
 
   onSettingsUpdate = (nextSettings) => {
-    let {settings} = this.state;
+    const {settings} = this.state;
+    const mergedSettings = Object.assign({}, settings, nextSettings);
     localStorage.setItem('__settings', JSON.stringify(
-      Object.assign({}, settings, nextSettings)
+      mergedSettings
     ));
-    console.log('Settings saved:', settings);
+    console.log('Settings saved:', mergedSettings);
     return this.setState({
-      settings: Object.assign({}, settings, nextSettings)
-    });
+      settings: mergedSettings
+    }, () => this.updateMessageHandler());
   };
 
   toggleOptionsMenu = () => {
@@ -311,8 +346,16 @@ class ImportedMainScreen extends Component {
     }
   };
 
-  routeLeaveRequest = (user) => {
+  routeLeaveRequest = (user, {sendConfirmationMsg = true}) => {
+    const msg = this.playerSelector?.isUserInLobby(user)
+      ? 'you have successfully left the lobby'
+      : 'you were not in the lobby';
+
     this.playerSelector?.removeUser(user);
+
+    if (sendConfirmationMsg) {
+      this.twitchApi?.sendMessage(`/me @${user}, ${msg}.`);
+    }
   };
 
   routeOpenQueueRequest = () => {

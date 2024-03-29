@@ -100,6 +100,76 @@ exports[`HeaderMenu > Should render without error 1`] = `
                 </button>
                 <button
                   class="btn settings-menu btn btn-link"
+                  title="Replaces the !join command with a custom term to use to join the Interested queue."
+                  type="button"
+                >
+                  <span
+                    for="custom-join-command"
+                  >
+                    Use Custom Join Command: 
+                  </span>
+                  <input
+                    class="form-control"
+                    id="custom-join-command"
+                    name="custom-join-command"
+                    placeholder="e.g. !join"
+                    spellcheck="false"
+                    type="text"
+                    value=""
+                  />
+                </button>
+                <button
+                  class="btn settings-menu btn btn-link"
+                  title="Messages users in chat when they've successfully joined the Interested queue."
+                  type="button"
+                >
+                  <input
+                    readonly=""
+                    role="switch"
+                    type="checkbox"
+                  />
+                   
+                  <span>
+                    Show Join Confirmation Message
+                  </span>
+                </button>
+                <button
+                  class="btn settings-menu btn btn-link"
+                  title="Replaces the !leave command with a custom term to use to leave all of the queues."
+                  type="button"
+                >
+                  <span
+                    for="custom-leave-command"
+                  >
+                    Use Custom Leave Command: 
+                  </span>
+                  <input
+                    class="form-control"
+                    id="custom-leave-command"
+                    name="custom-leave-command"
+                    placeholder="e.g. !leave"
+                    spellcheck="false"
+                    type="text"
+                    value=""
+                  />
+                </button>
+                <button
+                  class="btn settings-menu btn btn-link"
+                  title="Messages users in chat when they've successfully left the queues."
+                  type="button"
+                >
+                  <input
+                    readonly=""
+                    role="switch"
+                    type="checkbox"
+                  />
+                   
+                  <span>
+                    Show Leave Confirmation Message
+                  </span>
+                </button>
+                <button
+                  class="btn settings-menu btn btn-link"
                   title="Uses a custom character or emote to separate requests listed in the chat."
                   type="button"
                 >
@@ -112,6 +182,7 @@ exports[`HeaderMenu > Should render without error 1`] = `
                     class="form-control"
                     id="custom-delimiter"
                     name="custom-delimiter"
+                    spellcheck="false"
                     type="text"
                     value=""
                   />

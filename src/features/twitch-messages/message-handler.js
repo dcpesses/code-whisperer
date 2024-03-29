@@ -83,9 +83,9 @@ export const DefaultChatCommands = [
     description: 'Adds the user to the Interested queue',
     id: 'joinQueue',
     mod: false,
-    response: (scope, username, message) => {
+    response: (scope, username) => {
       scope.joinQueueHandler(username, {
-        sendConfirmationMsg: (message === '!join')
+        sendConfirmationMsg: (scope.settings?.enableJoinConfirmationMessage)
       });
       return true;
     },
@@ -97,7 +97,9 @@ export const DefaultChatCommands = [
     id: 'leaveQueue',
     mod: false,
     response: (scope, username) => {
-      scope.playerExitHandler(username);
+      scope.playerExitHandler(username, {
+        sendConfirmationMsg: (scope.settings?.enableLeaveConfirmationMessage)
+      });
       return true;
     },
   },
@@ -354,17 +356,6 @@ export default class MessageHandler {
       .filter(i => i && i<50) // only numeric values under 50
       .sort( (a, b) => a-b );
 
-    this.customCommandTerms = {};
-
-    // this.chatCommands = Object.assign({},
-    //   ...Object.entries(DefaultChatCommands).map(
-    //     cmdEntry => cmdEntry[1].commands.map(
-    //       command => ({
-    //         [`${command}`]: Object.assign({}, cmdEntry[1], {id: cmdEntry[0]})
-    //       })
-    //     )
-    //   ).flat()
-    // );
     this.chatCommands = DefaultChatCommands;
 
     this._isInit = false; // indicates if init() has both executed and completed
@@ -470,23 +461,19 @@ export default class MessageHandler {
   };
 
   updateChatCommandTerm = (key, term) => {
-    if (!key || !term) {
-      return;
+    if (!key) {
+      return false;
     }
-    let defaultChatCommands = Object.assign({}, DefaultChatCommands);
-    if (!defaultChatCommands[key]?.commands) {
-      return;
+    const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === key);
+    if (chatCommandIndex === -1) {
+      return false;
     }
-    defaultChatCommands[key][0] = term.trim();
-    this.chatCommands = Object.assign({},
-      ...Object.values(DefaultChatCommands).map(
-        cmdObj => cmdObj.commands.map(
-          command => ({
-            [`${command}`]: cmdObj}
-          )
-        )
-      ).flat()
-    );
+    let chatCommand = DefaultChatCommands.find(cmd => cmd.id === key);
+    if (term && term.trim() !== '') {
+      chatCommand.commands[0] = term.trim();
+    }
+    this.chatCommands[chatCommandIndex] = chatCommand;
+    return true;
   };
 
   sendMessage = async(msg) => {

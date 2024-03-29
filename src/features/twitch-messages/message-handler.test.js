@@ -684,9 +684,12 @@ describe('DefaultChatCommands', () => {
     });
   });
   describe('joinQueue', () => {
-    test('should joinQueueHandler with the joining username', () => {
+    test('should call joinQueueHandler with the joining username', () => {
       const scope = {
-        joinQueueHandler: vi.fn()
+        joinQueueHandler: vi.fn(),
+        settings: {
+          enableJoinConfirmationMessage: true
+        }
       };
       expect(DefaultChatCommands.find(c => c.id === 'joinQueue').response(scope, 'username', '!join')).toBeTruthy();
       expect(scope.joinQueueHandler).toBeCalledWith(
@@ -698,10 +701,16 @@ describe('DefaultChatCommands', () => {
   describe('leaveQueue', () => {
     test('should call playerExitHandler with departing username', () => {
       const scope = {
-        playerExitHandler: vi.fn()
+        playerExitHandler: vi.fn(),
+        settings: {
+          enableLeaveConfirmationMessage: true
+        }
       };
       expect(DefaultChatCommands.find(c => c.id === 'leaveQueue').response(scope, 'username')).toBeTruthy();
-      expect(scope.playerExitHandler).toBeCalledWith('username');
+      expect(scope.playerExitHandler).toBeCalledWith(
+        'username',
+        {sendConfirmationMsg: true},
+      );
     });
   });
   describe('addUser', () => {
