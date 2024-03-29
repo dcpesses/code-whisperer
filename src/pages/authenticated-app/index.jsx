@@ -2,12 +2,11 @@
 /* eslint-disable no-console */
 import React, {Component} from 'react';
 import LoadingRipple from '@/components/loading-ripple';
-import MainScreen from '@/components/mockups/main-screen';
 import {Navigate} from 'react-router-dom';
 import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
-import ImportedMainScreen from '@/components/main-screen';
+import MainScreen from '@/components/main-screen';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -29,19 +28,14 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
-      deprecatedView: true,
     };
 
     this.twitchApi = TWITCH_API;
-    // this.twitchApi.onInit = this.onTwitchAuthInit.bind(this);
-    // this.twitchApi.authError = this.onTwitchAuthError.bind(this);
 
     this.hasAlreadyInit = false;
     this._isMounted = false;
 
     this.twitchAuthReady = false;
-
-    this.componentDidMountDelayInt = 0;
 
     this.onDelayedMount = Debounce(this.onMount.bind(this), 50);
 
@@ -51,11 +45,9 @@ class AuthenticatedApp extends Component {
   componentDidMount() {
     this._isMounted = true;
     console.log('authenticated-app - componentDidMount');
-    // this.componentDidMountDelayInt = setTimeout(this.onDelayedMount, 1500);
     this.onDelayedMount();
   }
   componentWillUnmount() {
-    clearTimeout(this.componentDidMountDelayInt);
     this._isMounted = false;
     console.log('authenticated-app - componentWillUnmount');
   }
@@ -147,7 +139,7 @@ class AuthenticatedApp extends Component {
   };
 
   onTwitchAuthError = () => {
-    // console.log('authenticated-app - onTwitchAuthError', e);
+    console.log('authenticated-app - onTwitchAuthError');
     return this.setState({
       auth_pending: false,
       failed_login: true,
@@ -175,7 +167,7 @@ class AuthenticatedApp extends Component {
   handleUsername = async() => {
     try {
       await this.twitchApi.validateToken();
-      let login = this.state.username;
+      const login = this.state.username;
       console.log('handleUsername', {login});
       const userInfo = await this.twitchApi.requestUserInfo({login});
       console.log({userInfo: JSON.stringify(userInfo)});
@@ -195,13 +187,7 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
-  toggleDeprecatedView = () => {
-    this.setState((prevState) => ({
-      deprecatedView: !prevState.deprecatedView
-    }));
-  };
-
-  render() {
+  render = () => {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       if (this.showLoginButton) {
         return (<Login />);
@@ -222,49 +208,29 @@ class AuthenticatedApp extends Component {
       </div>
     );
 
-    let classNames = ['authenticated-app', 'container', 'text-center'];
-
     if (this.state.username && this.twitchApi?.isChatConnected) {
-      if (this.state.deprecatedView) {
-        mainContent = (
-          <ImportedMainScreen
-            access_token={this.twitchApi?.accessToken}
-            channel={this.state.username}
-            modList={this.state.modList}
-            onLogOut={this.logOut}
-            profile_image_url={this.state.profile_image_url}
-            toggleDeprecatedView={this.toggleDeprecatedView}
-            twitchApi={this.twitchApi}
-            userInfo={this.state.userInfo}
-            user_id={this.state.user_id}
-            username={this.state.username}
-            updateUsername={this.updateUsername}
-          />
-        );
-      } else {
-        mainContent = (
-          <MainScreen
-            accessToken={this.twitchApi?.accessToken}
-            onLogOut={this.logOut}
-            toggleDeprecatedView={this.toggleDeprecatedView}
-            profile_image_url={this.state.profile_image_url}
-            twitchApi={this.twitchApi}
-            user_id={this.state.user_id}
-            username={this.state.username}
-            updateUsername={this.updateUsername}
-          />
-        );
-      }
-
+      mainContent = (
+        <MainScreen
+          access_token={this.twitchApi?.accessToken}
+          channel={this.state.username}
+          modList={this.state.modList}
+          onLogOut={this.logOut}
+          profile_image_url={this.state.profile_image_url}
+          twitchApi={this.twitchApi}
+          userInfo={this.state.userInfo}
+          user_id={this.state.user_id}
+          username={this.state.username}
+          updateUsername={this.updateUsername}
+        />
+      );
     }
 
-
     return (
-      <div id={classNames.join(' ')}>
+      <div id="authenticated-app container text-center">
         {mainContent}
       </div>
     );
-  }
+  };
 }
 
 export {AuthenticatedApp};

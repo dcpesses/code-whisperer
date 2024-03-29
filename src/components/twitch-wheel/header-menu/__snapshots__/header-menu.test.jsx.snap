@@ -205,17 +205,6 @@ exports[`HeaderMenu > Should render without error 1`] = `
             >
               Changelog
             </a>
-            <a
-              class="nav-link"
-              href="#"
-              role="button"
-              tabindex="0"
-            >
-              Switch View 
-              <small>
-                (Debug)
-              </small>
-            </a>
             <div
               class="position-absolute bottom-0 start-0 end-0 pb-3 text-center"
               id="options-debug-menu-items"

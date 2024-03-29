@@ -1,11 +1,9 @@
-/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable no-console */
 
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
-// import ChatActivity, { ActivityStatus } from '../ChatActivity';
 import MessageHandler from '@/features/twitch-messages/message-handler';
 import HeaderMenu from '../twitch-wheel/header-menu';
 import PlayerQueue from '@/features/player-queue';
@@ -32,14 +30,14 @@ const GAME_PLACEHOLDER = {
   'chosen': false
 };
 
-class ImportedMainScreen extends Component {
+class MainScreen extends Component {
   constructor(props) {
     super(props);
-    // this.chatActivity = new ChatActivity(this.props.channel);
+
     let settings = {enableRoomCode: true};
-    let isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
     try {
-      let savedSettings = localStorage.getItem('__settings');
+      const isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
+      const savedSettings = localStorage.getItem('__settings');
       if (savedSettings) {
         settings = JSON.parse(savedSettings);
         if (!isJestEnv) {
@@ -300,7 +298,7 @@ class ImportedMainScreen extends Component {
   };
 
   onMessage = async(message, user, metadata) => {
-    console.log('ImportedMainScreen - onMessage');
+    console.log('MainScreen - onMessage');
     this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
@@ -350,7 +348,7 @@ class ImportedMainScreen extends Component {
   };
 
   routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
-    console.log('ImportedMainScreen - routePlayRequest');
+    console.log('MainScreen - routePlayRequest');
     const msg = this.state.showPlayerSelect
       ? this.playerSelector?.handleNewPlayerRequest(user, {isPrioritySeat})
       : 'sign-ups are currently closed; try again after this game wraps up!';
@@ -407,7 +405,7 @@ class ImportedMainScreen extends Component {
       this.props.setWhisperStatus({login: player.username, response});
       return;
     }
-    return window.console.log('ImportedMainScreen - sendWhisper: no whisper sent', player, msg);
+    return window.console.log('MainScreen - sendWhisper: no whisper sent', player, msg);
   };
 
   startGame = () => {
@@ -445,7 +443,6 @@ class ImportedMainScreen extends Component {
           showOptionsMenu={this.state.showOptionsMenu}
           twitchApi={this.props.twitchApi}
           toggleChangelogModal={this.toggleChangelogModal}
-          toggleDeprecatedView={this.props.toggleDeprecatedView}
         />
         <div id="content" className="container mx-auto">
           <PlayerQueue
@@ -472,7 +469,7 @@ class ImportedMainScreen extends Component {
     );
   }
 }
-ImportedMainScreen.propTypes = {
+MainScreen.propTypes = {
   access_token: PropTypes.string,
   channel: PropTypes.string,
   modList: PropTypes.object,
@@ -482,20 +479,18 @@ ImportedMainScreen.propTypes = {
   setUserInfo: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
   showModalCommandList: PropTypes.func.isRequired,
-  toggleDeprecatedView: PropTypes.func,
   twitchApi: PropTypes.object,
   // updateUsername: PropTypes.func,
   // userInfo: PropTypes.object,
   // user_id: PropTypes.any,
   // username: PropTypes.string,
 };
-ImportedMainScreen.defaultProps = {
+MainScreen.defaultProps = {
   access_token: null,
   channel: null,
   modList: null,
   onLogOut: null,
   profile_image_url: null,
-  toggleDeprecatedView: null,
   twitchApi: null,
   updateUsername: null,
   userInfo: null,
@@ -514,4 +509,4 @@ const mapDispatchToProps = () => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps()
-)(ImportedMainScreen);
+)(MainScreen);

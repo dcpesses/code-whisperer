@@ -22,7 +22,6 @@ export default class HeaderMenu extends Component {
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
       toggleChangelogModal: PropTypes.func,
-      toggleDeprecatedView: PropTypes.func,
       twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
     };
@@ -39,7 +38,6 @@ export default class HeaderMenu extends Component {
       onSettingsUpdate: () => void 0,
       settings: {},
       toggleChangelogModal: () => void 0,
-      toggleDeprecatedView: () => void 0,
       twitchApi: null,
       userInfo: {
         username: '',
@@ -324,7 +322,6 @@ export default class HeaderMenu extends Component {
                 </Collapse>
                 {optionMenuItems}
                 <Nav.Link onClick={this.props.toggleChangelogModal}>Changelog</Nav.Link>
-                <Nav.Link onClick={this.props.toggleDeprecatedView}>Switch View <small>(Debug)</small></Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">
