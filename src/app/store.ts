@@ -2,12 +2,14 @@ import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import counterReducer from '@/features/redux-counter/counterSlice';
 import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
 // import twitchReducer from '../features/twitch/twitchSlice';
+import channelReducer from '@/features/twitch/channel-slice.js';
 import userReducer from '@/features/player-queue/user-slice.js';
 // import { profileReducer } from '@/features/twitch/profileSlice';
 import todosReducer from '@/features/todos/todosSlice';
 
 const reducer = {
   counter: counterReducer,
+  channel: channelReducer,
   modal: modalCommandListReducer,
   // profile: profileReducer,
   user: userReducer,
