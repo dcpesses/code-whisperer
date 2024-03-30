@@ -30,18 +30,16 @@ export const userSlice = createSlice({
     },
     removeUserInfo: (state, action) => {
       if (action.payload) {
-        state.info[action.payload] = null;
+        delete state.info[action.payload];
       }
     },
     removeWhisperStatus: (state, action) => {
       if (action.payload) {
-        state.whisperStatus[action.payload] = null;
+        delete state.whisperStatus[action.payload];
       }
     },
   },
 });
-
-export const selectUser = (state) => state.users.info;
 
 export const { setFakeStates, setUserInfo, setWhisperStatus, removeUserInfo, removeWhisperStatus } = userSlice.actions;
 
