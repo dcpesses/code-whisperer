@@ -291,32 +291,6 @@ class MainScreen extends Component {
     }];
   };
 
-  getModeratedChannelsMenu = () => {
-    if (!this.props.moderatedChannels) {
-      return [];
-    }
-    return [{
-      broadcaster_id: this.twitchApi?.userInfo?.id,
-      broadcaster_login: this.twitchApi?.userInfo?.login,
-      broadcaster_name: this.twitchApi?.userInfo?.display_name,
-    }].concat(this.props.moderatedChannels).map(
-      channel => ({
-        label: channel.broadcaster_name,
-        onClick: async() => {
-          try {
-            console.log(`getModeratedChannelsMenu - ${channel.broadcaster_name} - calling twitchApi.switchChannel`);
-            await this.twitchApi?.switchChannel(channel.broadcaster_login);
-            console.log(`getModeratedChannelsMenu - ${channel.broadcaster_name} - success`);
-            return this.setState({
-              activeChannel: channel.broadcaster_login
-            });
-          } catch (e) {
-            console.log(`getModeratedChannelsMenu - ${channel.broadcaster_name} - error`, e);
-          }
-        }
-      })
-    );
-  };
 
   handleOpenModalCommandList = () => {
     if (this.props.showModalCommandList) {
@@ -462,8 +436,6 @@ class MainScreen extends Component {
           parentState={this.state}
           debugItems={this.getOptionsDebugMenu()}
           items={this.getOptionsMenu()}
-          moderatedChannelsItems={this.getModeratedChannelsMenu()}
-          moderatedChannels={this.props.moderatedChannels}
           reloadGameList={this.messageHandler?.reloadGameList}
           onHide={this.toggleOptionsMenu}
           onLogout={this.props.onLogOut}
@@ -501,7 +473,6 @@ class MainScreen extends Component {
 MainScreen.propTypes = {
   access_token: PropTypes.string,
   channel: PropTypes.string,
-  moderatedChannels: PropTypes.array,
   moderators: PropTypes.object,
   onLogOut: PropTypes.func,
   setChatterInfo: PropTypes.func.isRequired,
@@ -518,7 +489,6 @@ MainScreen.propTypes = {
 MainScreen.defaultProps = {
   access_token: null,
   channel: null,
-  moderatedChannels: null,
   moderators: null,
   onLogOut: null,
   profile_image_url: null,
@@ -529,7 +499,8 @@ MainScreen.defaultProps = {
   username: null,
 };
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  user: state.user
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,

@@ -1,27 +1,33 @@
 
 import {Component} from 'react';
+import {connect} from 'react-redux';
 import {Button, Collapse, Dropdown} from 'react-bootstrap';
 // import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { setChannelInfo } from '@/features/twitch/channel-slice';
+import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
 import {version} from '../../../../package.json';
 
 import './header-menu.css';
 
-export default class HeaderMenu extends Component {
+export class HeaderMenu extends Component {
   static get propTypes() {
     return {
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
       items: PropTypes.array,
       moderatedChannelsItems: PropTypes.array,
+      moderatedChannels: PropTypes.array,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
+      setChannelInfo: PropTypes.func,
+      showModalCommandList: PropTypes.func,
       toggleChangelogModal: PropTypes.func,
       twitchApi: PropTypes.object,
     };
@@ -35,9 +41,12 @@ export default class HeaderMenu extends Component {
       },
       items: [],
       moderatedChannelsItems: [],
+      moderatedChannels: [],
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
       settings: {},
+      setChannelInfo: () => void 0,
+      showModalCommandList: () => void 0,
       toggleChangelogModal: () => void 0,
       twitchApi: null,
     };
@@ -92,7 +101,31 @@ export default class HeaderMenu extends Component {
     }).filter(i => i);
   };
 
-  createModeratedChannelsMenuItems = (items, activeLabel) => {
+  createModeratedChannelsMenuItems = (activeLabel) => {
+    if (!this.props.moderatedChannels) {
+      return null;
+    }
+    const currentUser = {
+      broadcaster_id: this.twitchApi?.userInfo?.id,
+      broadcaster_login: this.twitchApi?.userInfo?.login,
+      broadcaster_name: this.twitchApi?.userInfo?.display_name,
+    };
+    const items = [currentUser].concat(this.props.moderatedChannels).map(
+      channel => ({
+        label: channel.broadcaster_name,
+        onClick: async() => {
+          try {
+            const channelInfo = await this.twitchApi?.switchChannel(channel.broadcaster_login);
+            this.props.setChannelInfo(channelInfo);
+            return; /* this.setState({
+              activeChannel: channel.broadcaster_login
+            });*/
+          } catch (e) {
+            console.warn(`getModeratedChannelsMenu - ${channel.broadcaster_name} - error`, e);
+          }
+        }
+      })
+    );
     return (
       <>
         <Dropdown.Header>
@@ -361,6 +394,7 @@ export default class HeaderMenu extends Component {
                   </div>
                 </Collapse>
                 {optionMenuItems}
+                <Nav.Link onClick={()=>this.props.showModalCommandList()}>View Chat Commands</Nav.Link>
                 <Nav.Link onClick={this.props.toggleChangelogModal}>Changelog</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
@@ -385,3 +419,17 @@ export default class HeaderMenu extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  modal: state.modal,
+  moderatedChannels: state.user.moderatedChannels,
+  user: state.user
+});
+const mapDispatchToProps = () => ({
+  setChannelInfo,
+  showModalCommandList,
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps()
+)(HeaderMenu);
