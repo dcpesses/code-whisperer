@@ -10,7 +10,7 @@ const reducer = {
   counter: counterReducer,
   modal: modalCommandListReducer,
   // profile: profileReducer,
-  users: userReducer,
+  user: userReducer,
   todos: todosReducer,
 };
 export const store = configureStore({ reducer });

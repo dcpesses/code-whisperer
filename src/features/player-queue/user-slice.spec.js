@@ -1,14 +1,16 @@
 /* eslint-env jest */
 import userReducer, {
   setFakeStates,
-  setUserInfo,
+  setModeratedChannels,
+  setChatterInfo,
   setWhisperStatus,
-  removeUserInfo,
+  removeModeratedChannels,
+  removeChatterInfo,
   removeWhisperStatus
 } from './user-slice';
 
 const userState = {
-  info: {
+  chatters: {
     twitchuser: {
       id: '0',
       login: 'twitchuser',
@@ -22,6 +24,11 @@ const userState = {
       created_at: '2019-11-18T00:47:34Z'
     }
   },
+  moderatedChannels: [{
+    broadcaster_id: '1',
+    broadcaster_login: 'TwitchStreamer',
+    broadcaster_name: 'twitchstreamer',
+  }],
   whisperStatus: {
     twitchuser: {
       login: 'twitchuser',
@@ -35,25 +42,27 @@ const userState = {
 
 describe('user reducer', () => {
   const initialState = {
-    info: {},
+    chatters: {},
+    moderatedChannels: [],
     whisperStatus: {}
   };
   it('should handle initial state', () => {
     expect(userReducer(undefined, { type: 'unknown' })).toEqual({
-      info: {},
+      chatters: {},
+      moderatedChannels: [],
       whisperStatus: {}
     });
   });
 
   it('should set the fake states', () => {
     const actual = userReducer(initialState, setFakeStates(userState));
-    expect(actual.info).toEqual(userState.info);
+    expect(actual.chatters).toEqual(userState.chatters);
     expect(actual.whisperStatus).toEqual(userState.whisperStatus);
   });
 
-  it('should set the user info for the given user', () => {
-    const actual = userReducer(initialState, setUserInfo(userState.info.twitchuser));
-    expect(actual.info.twitchuser).toEqual(userState.info.twitchuser);
+  it('should set the user chatters for the given user', () => {
+    const actual = userReducer(initialState, setChatterInfo(userState.chatters.twitchuser));
+    expect(actual.chatters.twitchuser).toEqual(userState.chatters.twitchuser);
   });
 
   it('should set the whisper status for the given user', () => {
@@ -61,13 +70,23 @@ describe('user reducer', () => {
     expect(actual.whisperStatus.twitchuser).toEqual(userState.whisperStatus.twitchuser);
   });
 
-  it('should remove the user info for the given user', () => {
-    const actual = userReducer(userState, removeUserInfo('twitchuser'));
-    expect(actual.info).toEqual(initialState.info);
+  it('should remove the user chatters for the given user', () => {
+    const actual = userReducer(userState, removeChatterInfo('twitchuser'));
+    expect(actual.chatters).toEqual(initialState.chatters);
   });
 
   it('should remove the whisper status for the given user', () => {
     const actual = userReducer(userState, removeWhisperStatus('twitchuser'));
     expect(actual.whisperStatus).toEqual(initialState.whisperStatus);
+  });
+
+  it('should update the list of moderated channels by merging the payload data', () => {
+    const actual = userReducer(initialState, setModeratedChannels(userState.moderatedChannels));
+    expect(actual.moderatedChannels).toEqual(userState.moderatedChannels);
+  });
+
+  it('should update the list of moderated channels by clearing all data', () => {
+    const actual = userReducer(initialState, removeModeratedChannels());
+    expect(actual.moderatedChannels).toEqual(initialState.moderatedChannels);
   });
 });

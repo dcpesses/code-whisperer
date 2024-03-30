@@ -10,7 +10,7 @@ import PlayerQueue from '@/features/player-queue';
 import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
-import { setFakeStates, setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { setFakeStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
@@ -125,7 +125,6 @@ class MainScreen extends Component {
         this.messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
       }
     }
-
   };
 
   initMessageHandler = () => {
@@ -334,7 +333,7 @@ class MainScreen extends Component {
       }));
       const userInfo = await this.twitchApi.requestUserInfo({login: user});
       if (userInfo?.data && userInfo?.data[0]) {
-        this.props.setUserInfo(userInfo.data[0]);
+        this.props.setChatterInfo(userInfo.data[0]);
       }
     }
   };
@@ -505,12 +504,12 @@ MainScreen.propTypes = {
   moderatedChannels: PropTypes.array,
   moderators: PropTypes.object,
   onLogOut: PropTypes.func,
+  setChatterInfo: PropTypes.func.isRequired,
   // profile_image_url: PropTypes.string,
   setFakeStates: PropTypes.func.isRequired,
-  setUserInfo: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
   showModalCommandList: PropTypes.func.isRequired,
-  twitchApi: PropTypes.object,
+  twitchApi: PropTypes.object.isRequired,
   // updateUsername: PropTypes.func,
   // userInfo: PropTypes.object,
   // user_id: PropTypes.any,
@@ -534,8 +533,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
+  setChatterInfo,
   setFakeStates,
-  setUserInfo,
   setWhisperStatus,
 });
 export default connect(
