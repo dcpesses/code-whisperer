@@ -1,12 +1,15 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-console */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import LoadingRipple from '@/components/loading-ripple';
 import {Navigate} from 'react-router-dom';
 import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import MainScreen from '@/components/main-screen';
+import { setModeratedChannels, } from '@/features/player-queue/user-slice.js';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -17,6 +20,16 @@ const TWITCH_API = new TwitchApi({
 });
 
 class AuthenticatedApp extends Component {
+  static get propTypes() {
+    return {
+      setModeratedChannels: PropTypes.func,
+    };
+  }
+  static get defaultProps() {
+    return {
+      setModeratedChannels: () => void 0
+    };
+  }
   constructor() {
     super();
     this.state = {
@@ -28,7 +41,6 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
-      moderatedChannels: null,
       moderators: null,
       vips: null,
     };
@@ -194,17 +206,12 @@ class AuthenticatedApp extends Component {
     try {
       await this.twitchApi.validateToken();
       const id = this.state.user_id;
-      console.log('updateModeratedChannels', {id});
       let moderatedChannels = await this.twitchApi.requestModeratedChannels(id);
-      // console.log({moderatedChannels: JSON.stringify(moderatedChannels)});
       if (moderatedChannels.data) {
-        moderatedChannels = moderatedChannels.data;
+        this.props.setModeratedChannels(moderatedChannels.data);
       }
-      this.setState({
-        moderatedChannels,
-      });
     } catch (e) {
-      console.log('updateModeratedChannels: error', e);
+      console.warn('updateModeratedChannels: error', e);
     }
   };
 
@@ -276,7 +283,6 @@ class AuthenticatedApp extends Component {
         <MainScreen
           access_token={this.twitchApi?.accessToken}
           channel={this.state.username}
-          moderatedChannels={this.state.moderatedChannels}
           moderators={this.state.moderators}
           onLogOut={this.logOut}
           profile_image_url={this.state.profile_image_url}
@@ -300,4 +306,10 @@ class AuthenticatedApp extends Component {
 
 export {AuthenticatedApp};
 
-export default withRouter(AuthenticatedApp);
+const mapDispatchToProps = () => ({
+  setModeratedChannels,
+});
+export default connect(
+  null,
+  mapDispatchToProps()
+)(withRouter(AuthenticatedApp));
