@@ -12,17 +12,30 @@ exports[`MainScreen > Should render without error 1`] = `
       <div
         class="container-fluid"
       >
-        <span
-          class="fw-semibold navbar-brand"
+        <div
+          class="dropdown"
+          id="dropdown-moderated-channels"
+          variant="link"
         >
-          <img
-            alt="dcpesses"
-            class="rounded-circle navbar-pfp-img"
-            src="profile_image-300x300.png"
-          />
-           
-          dcpesses
-        </span>
+          <button
+            aria-expanded="false"
+            class="text-decoration-none text-white dropdown-toggle btn btn-link btn-sm"
+            id="dropdown-moderated-channels-toggle"
+            type="button"
+          >
+            <span
+              class="fw-semibold navbar-brand"
+            >
+              <img
+                alt="dcpesses"
+                class="rounded-circle navbar-pfp-img"
+                src="profile_image-300x300.png"
+              />
+               
+              dcpesses
+            </span>
+          </button>
+        </div>
         <button
           aria-controls="navbar-options-menu"
           aria-label="Toggle navigation"

@@ -2,6 +2,25 @@ nav .navbar-pfp-img {
   height: 28px;
   width: 28px;
 }
+nav .navbar-pfp-img.proxy-profile-img {
+  height: 19px;
+  width: 19px;
+  position: absolute;
+  margin-top: 16px;
+  margin-left: 16px;
+  border: 1px solid var(--purple-30);
+  /* box-shadow: 0px 0px 5px var(--purple-10)!important; */
+}
+
+#dropdown-moderated-channels .dropdown-item {
+  font-size: 14px!important;
+  font-weight: 500!important;
+}
+
+#dropdown-moderated-channels .dropdown-menu-dark {
+  --bs-dropdown-link-active-bg: var(--bs-secondary-bg-subtle)!important;
+}
+
 
 #navbar-options-menu .offcanvas-body {
   padding-left: calc(var(--bs-offcanvas-padding-x) * 1.75);

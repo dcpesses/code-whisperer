@@ -118,7 +118,7 @@ describe('AuthenticatedApp', () => {
         profile_image_url: 'mockProfileImageUrl',
         auth_pending: false,
         failed_login: false,
-      });
+      }, component.updateModsAndVIPs);
     });
 
     test('should handle response with no user info', () => {
@@ -194,7 +194,7 @@ describe('AuthenticatedApp', () => {
       instance.setState({
         access_token: 'yadayadayada',
         failed_login: false,
-        modList: [],
+        moderators: [],
         username: 'sirgoosewell'
       });
       let component = shallowRenderer.getRenderOutput();

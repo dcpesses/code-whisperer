@@ -28,6 +28,9 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
+      moderatedChannels: null,
+      moderators: null,
+      vips: null,
     };
 
     this.twitchApi = TWITCH_API;
@@ -131,11 +134,11 @@ class AuthenticatedApp extends Component {
     this.setState({
       username: userInfo.login,
       user_id: userInfo.id,
-      // modList,
+      // moderators,
       profile_image_url: userInfo.profile_image_url,
       auth_pending: false,
       failed_login: false,
-    });
+    }, this.updateModsAndVIPs);
   };
 
   onTwitchAuthError = () => {
@@ -187,6 +190,66 @@ class AuthenticatedApp extends Component {
     this.setState({username}, this.handleUsername);
   };
 
+  updateModeratedChannels = async() => {
+    try {
+      await this.twitchApi.validateToken();
+      const id = this.state.user_id;
+      console.log('updateModeratedChannels', {id});
+      let moderatedChannels = await this.twitchApi.requestModeratedChannels(id);
+      // console.log({moderatedChannels: JSON.stringify(moderatedChannels)});
+      if (moderatedChannels.data) {
+        moderatedChannels = moderatedChannels.data;
+      }
+      this.setState({
+        moderatedChannels,
+      });
+    } catch (e) {
+      console.log('updateModeratedChannels: error', e);
+    }
+  };
+
+  updateModsAndVIPs = async() => {
+    console.log('updateModsAndVIPs');
+    try {
+      await this.twitchApi.validateToken();
+      this.updateModerators();
+      this.updateVIPs();
+      this.updateModeratedChannels();
+    } catch (e) {
+      console.log('updateModsAndVIPs: error', e);
+    }
+  };
+
+  updateModerators = async() => {
+    try {
+      // await this.twitchApi.validateToken();
+      const id = this.state.user_id;
+      console.log('updateModerators', {id});
+      const moderators = await this.twitchApi.requestModerators(id);
+      console.log({moderators: JSON.stringify(moderators)});
+      this.setState({
+        moderators,
+      });
+    } catch (e) {
+      console.log('updateModerators: error', e);
+    }
+  };
+
+  updateVIPs = async() => {
+    try {
+      // await this.twitchApi.validateToken();
+      const id = this.state.user_id;
+      console.log('updateVIPs', {id});
+      const vips = await this.twitchApi.requestVIPs(id);
+      console.log({vips: JSON.stringify(vips)});
+      this.setState({
+        vips,
+      });
+    } catch (e) {
+      console.log('updateVIPs: error', e);
+    }
+  };
+
   render = () => {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       if (this.showLoginButton) {
@@ -213,7 +276,8 @@ class AuthenticatedApp extends Component {
         <MainScreen
           access_token={this.twitchApi?.accessToken}
           channel={this.state.username}
-          modList={this.state.modList}
+          moderatedChannels={this.state.moderatedChannels}
+          moderators={this.state.moderators}
           onLogOut={this.logOut}
           profile_image_url={this.state.profile_image_url}
           twitchApi={this.twitchApi}
@@ -221,6 +285,7 @@ class AuthenticatedApp extends Component {
           user_id={this.state.user_id}
           username={this.state.username}
           updateUsername={this.updateUsername}
+          vips={this.state.vips}
         />
       );
     }

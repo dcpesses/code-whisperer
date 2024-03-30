@@ -37,9 +37,12 @@ export default class TwitchApi {
     this._authErrorCallback = authError ?? noop;
     this._expires_in = null;
     this._expiry_time = null;
+
     this._userInfo = {};
 
-    this._channel = null;
+    this._channel = null; // used when connected to a channel other than your own
+    this._channelInfo = {};
+
     this._onMessageCallback = onMessage ?? noop;
     this._chatClient = null;
     this._joinAccounced = [];
@@ -119,6 +122,8 @@ export default class TwitchApi {
   get isInit() {return this._isInit;}
 
   get channel() {return this._channel;}
+  get channelInfo() {return this._channelInfo;}
+
   get lastMessageTimes() {return this._lastMessageTimes;}
 
   _init = async() => {
@@ -146,7 +151,7 @@ export default class TwitchApi {
       localStorage.setItem('__channel', valid.login);
       let userInfo = users.data.filter(u => u.login === valid.login);
       if (userInfo.length === 1) {
-        this.setStreamerInfo(userInfo[0]);
+        this.setUserInfo(userInfo[0]);
       }
       if (this.debug) {window.console.log('TwitchApi - init: isInit');}
       this._isInit = true;
@@ -220,7 +225,7 @@ export default class TwitchApi {
       localStorage.setItem('__channel', valid.login);
       let userInfo = users.data.filter(u => u.login === valid.login);
       if (userInfo.length === 1) {
-        this.setStreamerInfo(userInfo[0]);
+        this.setUserInfo(userInfo[0]);
       }
       if (this.debug) {window.console.log('TwitchApi - resume: isInit');}
       this._isInit = true;
@@ -355,7 +360,7 @@ export default class TwitchApi {
     }
   };
 
-  setStreamerInfo = (userInfo) => {
+  setUserInfo = (userInfo) => {
     if (userInfo) {
       this._userInfo = userInfo;
       this._channel = userInfo.login;
@@ -366,6 +371,38 @@ export default class TwitchApi {
       localStorage.setItem('__profile_image_url', userInfo.profile_image_url);
     }
     return userInfo;
+  };
+
+  /**
+   * Leaves the current channel and joins the specified one
+   * @param {string} channel username of the channel to join
+   */
+  switchChannel = async(channel) => {
+    try {
+      this._channel = channel;
+      // let currChannel = await this._chatClient.getUsername();
+      // let resp = {};
+      // resp.part = await this._chatClient.part(currChannel);
+      // resp.join = await this._chatClient.join(channel);
+      // window.console.log('switchChannel - join', resp);
+      let channelInfo = await this.requestUserInfo({ login: channel });
+      this.setChannelInfo(channelInfo.data[0]);
+      return await this.initChatClient();
+    } catch (e) {
+      window.console.log('switchChannel - error', e);
+    }
+  };
+
+  setChannelInfo = (channelInfo) => {
+    if (channelInfo) {
+      this._channelInfo = channelInfo;
+      this._channel = channelInfo.login;
+      localStorage.setItem('__channel', channelInfo.login);
+      localStorage.setItem('__username', channelInfo.login);
+      localStorage.setItem('__user_id', channelInfo.id);
+      localStorage.setItem('__profile_image_url', channelInfo.profile_image_url);
+    }
+    return channelInfo;
   };
 
   requestAuthentication = async(code) => {
@@ -467,6 +504,32 @@ export default class TwitchApi {
     }
   };
 
+  /**
+   * Gets a list of channels that the specified user has moderator privileges in.
+   * https://dev.twitch.tv/docs/api/reference/#get-moderated-channels
+   * @param {string} id  A user’s ID. Returns the list of channels that this user has moderator privileges in. This ID must match the user ID in the user OAuth token
+   * @returns {Object[]} data		The list of channels that the user has moderator privileges in.
+   *  {string} broadcaster_id	String	An ID that uniquely identifies the channel this user can moderate.
+   *  {string} broadcaster_login	String	The channel’s login name.
+   *  {string} broadcaster_name	String	The channel’s display name.
+   */
+  requestModeratedChannels = async(id) => {
+    try {
+      const response = await fetch(`https://api.twitch.tv/helix/moderation/channels?user_id=${id}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestModeratedChannels: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
+  // Gets all users allowed to moderate the broadcaster’s chat room.
+  // https://dev.twitch.tv/docs/api/reference/#get-moderators
   requestModerators = async(broadcasterId) => {
     try {
       const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${broadcasterId}`, {
@@ -482,6 +545,34 @@ export default class TwitchApi {
     }
   };
 
+  /**
+   * Gets a list of the broadcaster’s VIPs.
+   * @param {string|number} broadcasterId  The ID of the broadcaster whose list of VIPs you want to get. This ID must match the user ID in the access token.
+   * @param {Array} userIds  Filters the list for specific VIPs. The maximum number of IDs that you may specify is 100. Ignores the ID of those users in the list that aren’t VIPs.
+   * @returns {Object[]} data  The list of VIPs. The list is empty if the broadcaster doesn’t have VIP users.
+   *  {string} user_id	String	An ID that uniquely identifies the VIP user.
+   *  {string} user_name	String	The user’s display name.
+   *  {string} user_login	String	The user’s login name.
+   */
+  requestVIPs = async(broadcasterId, userIds=null) => {
+    try {
+      if (!userIds || userIds.length === 0) {
+        userIds = '';
+      } else {
+        userIds = `&user_id=${userIds.join('&user_id=')}`;
+      }
+      const response = await fetch(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}${userIds}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestVIPs: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
 
   // https://dev.twitch.tv/docs/api/reference/#send-whisper
   // note: access token must include user:manage:whispers scope

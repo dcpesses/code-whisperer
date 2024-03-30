@@ -18,12 +18,12 @@ export default class HeaderMenu extends Component {
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
       items: PropTypes.array,
+      moderatedChannelsItems: PropTypes.array,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
       settings: PropTypes.object,
       toggleChangelogModal: PropTypes.func,
       twitchApi: PropTypes.object,
-      userInfo: PropTypes.object,
     };
   }
   static get defaultProps() {
@@ -34,16 +34,12 @@ export default class HeaderMenu extends Component {
         validGames: null
       },
       items: [],
+      moderatedChannelsItems: [],
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
       settings: {},
       toggleChangelogModal: () => void 0,
       twitchApi: null,
-      userInfo: {
-        username: '',
-        user_id: 0,
-        profile_image_url: null
-      }
     };
   }
 
@@ -69,7 +65,7 @@ export default class HeaderMenu extends Component {
 
 
      */
-  createDebugMenuItems = (items) => {
+  createDebugMenuItems = (items, activeLabel=null) => {
     if (!items) {
       return [];
     }
@@ -84,6 +80,7 @@ export default class HeaderMenu extends Component {
       }
       return (
         <Dropdown.Item
+          active={activeLabel && activeLabel === i.label}
           eventKey={i.label}
           href={i.href || null}
           key={`${idx} ${i.label}`}
@@ -93,6 +90,19 @@ export default class HeaderMenu extends Component {
         </Dropdown.Item>
       );
     }).filter(i => i);
+  };
+
+  createModeratedChannelsMenuItems = (items, activeLabel) => {
+    return (
+      <>
+        <Dropdown.Header>
+          Moderated Channels
+        </Dropdown.Header>
+        {this.createDebugMenuItems(items.slice(0, 1), activeLabel)}
+        <Dropdown.Divider />
+        {this.createDebugMenuItems(items.slice(1), activeLabel)}
+      </>
+    );
   };
 
   createMenuItems = (items) => {
@@ -140,7 +150,7 @@ export default class HeaderMenu extends Component {
   };
 
   render() {
-    let {debugItems, items, settings, onSettingsUpdate} = this.props;
+    let {debugItems, items, moderatedChannelsItems, settings, onSettingsUpdate, twitchApi} = this.props;
     let optionMenuItems = this.createMenuItems(items);
     let debugMenuItems = this.createDebugMenuItems(debugItems);
 
@@ -210,19 +220,49 @@ export default class HeaderMenu extends Component {
       onSettingsUpdate({enableLeaveConfirmationMessage: value});
     };
 
-    const userInfo = this.props?.twitchApi?.userInfo;
-    let img, username;
-    if (userInfo?.profile_image_url) {
-      img = (
-        <img src={userInfo.profile_image_url} className="rounded-circle navbar-pfp-img" alt={userInfo.display_name} />
-      );
-      username = userInfo.display_name;
+    // user may not always be same as broadcaster/channel
+    let selectedUserInfo = twitchApi?.userInfo;
+    let isUserChannel = true;
+    if (twitchApi?.channelInfo?.login && twitchApi.channel !== selectedUserInfo.login) {
+      selectedUserInfo = twitchApi?.channelInfo;
+      isUserChannel = false;
     }
+
+    let img, username;
+    if (selectedUserInfo?.profile_image_url) {
+      img = (
+        <>
+          {!isUserChannel && (
+            <img
+              src={twitchApi?.userInfo.profile_image_url}
+              className="rounded-circle navbar-pfp-img proxy-profile-img"
+              alt={twitchApi?.userInfo.display_name}
+            />
+          )}
+          <img
+            src={selectedUserInfo.profile_image_url}
+            className="rounded-circle navbar-pfp-img"
+            alt={selectedUserInfo.display_name}
+          />
+        </>
+      );
+      username = selectedUserInfo.display_name;
+    }
+
+    let moderatedChannelsMenuItems = this.createModeratedChannelsMenuItems(moderatedChannelsItems, username);
 
     return (
       <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font">
         <Container fluid>
-          <Navbar.Brand className="fw-semibold">{img} {username}</Navbar.Brand>
+          {/* <Navbar.Brand className="fw-semibold">{img} {username}</Navbar.Brand> */}
+          <Dropdown id="dropdown-moderated-channels" variant="link">
+            <Dropdown.Toggle id="dropdown-moderated-channels-toggle" size="sm" variant="link" className="text-decoration-none text-white">
+              <Navbar.Brand className="fw-semibold">{img} {username}</Navbar.Brand>
+            </Dropdown.Toggle>
+            <Dropdown.Menu variant="dark">
+              {moderatedChannelsMenuItems}
+            </Dropdown.Menu>
+          </Dropdown>
           <Navbar.Toggle aria-controls="navbar-options-menu" className="border-0 rounded-0" />
           <Navbar.Offcanvas
             id="navbar-options-menu"
