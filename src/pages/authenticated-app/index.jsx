@@ -85,6 +85,7 @@ class AuthenticatedApp extends Component {
     this.props.clearModerators();
     this.props.clearUserInfo();
     this.props.clearVIPs();
+    this.twitchApi.closeChatClient();
     console.log('authenticated-app - componentWillUnmount');
   }
 

@@ -197,7 +197,10 @@ describe('AuthenticatedApp', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
-      instance.twitchApi = {mock: 'TwitchApi'};
+      instance.twitchApi = {
+        mock: 'TwitchApi',
+        closeChatClient: vi.fn()
+      };
       instance.setState({
         access_token: 'yadayadayada',
         failed_login: false,
