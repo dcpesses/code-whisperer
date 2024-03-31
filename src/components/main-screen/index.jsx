@@ -10,7 +10,7 @@ import PlayerQueue from '@/features/player-queue';
 import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
-import { setFakeStates, setUserInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { setFakeStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
@@ -68,7 +68,8 @@ class MainScreen extends Component {
       showOptionsMenu: false,
       showOptionsModal: false,
       showPlayerSelect: true,
-      userLookup: {}
+      userLookup: {},
+      activeChannel: null,
     };
 
     this.playerSelector = null;
@@ -124,7 +125,6 @@ class MainScreen extends Component {
         this.messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
       }
     }
-
   };
 
   initMessageHandler = () => {
@@ -143,7 +143,7 @@ class MainScreen extends Component {
       joinQueueHandler: this.routePlayRequest.bind(this),
       logUserMessages: this.state.logUserMessages,
       messages: this.state.messages,
-      modList: this.props.modList,
+      moderators: this.props.moderators,
       // onDelete: this.removeGame.bind(this),
       // onInit: this.onMessageHandlerInit.bind(this),
       onMessageCallback: this.onMessage.bind(this),
@@ -205,8 +205,8 @@ class MainScreen extends Component {
     if (JSON.stringify(this.messageHandler.messages) !== JSON.stringify(state.messages)) {
       this.messageHandler.messages = state.messages;
     }
-    if (JSON.stringify(this.messageHandler.modList) !== JSON.stringify(props.modList)) {
-      this.messageHandler.modList = props.modList;
+    if (JSON.stringify(this.messageHandler.moderators) !== JSON.stringify(props.moderators)) {
+      this.messageHandler.moderators = props.moderators;
     }
     if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(state.settings)) {
       this.messageHandler.settings = state.settings;
@@ -291,6 +291,7 @@ class MainScreen extends Component {
     }];
   };
 
+
   handleOpenModalCommandList = () => {
     if (this.props.showModalCommandList) {
       return this.props.showModalCommandList();
@@ -298,7 +299,7 @@ class MainScreen extends Component {
   };
 
   onMessage = async(message, user, metadata) => {
-    console.log('MainScreen - onMessage');
+    console.log('MainScreen - onMessage', {message, user, metadata});
     this.twitchApi.updateLastMessageTime(user);
     if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
       this.setState(prevState => ({
@@ -306,7 +307,7 @@ class MainScreen extends Component {
       }));
       const userInfo = await this.twitchApi.requestUserInfo({login: user});
       if (userInfo?.data && userInfo?.data[0]) {
-        this.props.setUserInfo(userInfo.data[0]);
+        this.props.setChatterInfo(userInfo.data[0]);
       }
     }
   };
@@ -472,14 +473,14 @@ class MainScreen extends Component {
 MainScreen.propTypes = {
   access_token: PropTypes.string,
   channel: PropTypes.string,
-  modList: PropTypes.object,
+  moderators: PropTypes.object,
   onLogOut: PropTypes.func,
+  setChatterInfo: PropTypes.func.isRequired,
   // profile_image_url: PropTypes.string,
   setFakeStates: PropTypes.func.isRequired,
-  setUserInfo: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
   showModalCommandList: PropTypes.func.isRequired,
-  twitchApi: PropTypes.object,
+  twitchApi: PropTypes.object.isRequired,
   // updateUsername: PropTypes.func,
   // userInfo: PropTypes.object,
   // user_id: PropTypes.any,
@@ -488,7 +489,7 @@ MainScreen.propTypes = {
 MainScreen.defaultProps = {
   access_token: null,
   channel: null,
-  modList: null,
+  moderators: null,
   onLogOut: null,
   profile_image_url: null,
   twitchApi: null,
@@ -498,12 +499,13 @@ MainScreen.defaultProps = {
   username: null,
 };
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  user: state.user
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
+  setChatterInfo,
   setFakeStates,
-  setUserInfo,
   setWhisperStatus,
 });
 export default connect(

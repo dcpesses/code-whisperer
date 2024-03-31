@@ -23,7 +23,7 @@ const getMessageHandlerConfig = (overrides={}) => Object.assign({
   joinQueueHandler: vi.fn(),
   logUserMessages: false,
   messages: {},
-  modList: [],
+  moderators: [],
   onDelete: vi.fn(),
   onMessageCallback: vi.fn(),
   onSettingsUpdate: vi.fn(),
@@ -315,7 +315,7 @@ describe('MessageHandler', () => {
     props = {
       access_token: 'blahblahblahblahblah',
       channel: 'sirfarewell',
-      modList: [
+      moderators: [
         'asukii314',
         'dcpesses'
       ],
@@ -394,7 +394,7 @@ describe('MessageHandler', () => {
       expect(messageHandler.logUserMessages).toBeUndefined();
       expect(messageHandler._isInit).toBeFalsy();
       expect(messageHandler.messages).toBeUndefined();
-      expect(messageHandler.modList).toBeUndefined();
+      expect(messageHandler.moderators).toBeUndefined();
       expect(messageHandler.onDelete).toBe(noop);
       expect(messageHandler.onMessageCallback).toBe(noop);
       expect(messageHandler.openQueueHandler).toBe(noop);
@@ -422,7 +422,7 @@ describe('MessageHandler', () => {
         joinQueueHandler: mockCallback,
         logUserMessages: false,
         messages: {},
-        modList: [],
+        moderators: [],
         onDelete: mockCallback,
         onMessageCallback: mockCallback,
         onSettingsUpdate: mockCallback,
@@ -451,7 +451,7 @@ describe('MessageHandler', () => {
       expect(messageHandler.debug).toBeFalsy();
       expect(messageHandler._isInit).toBeFalsy();
       expect(messageHandler.messages).toEqual({});
-      expect(messageHandler.modList).toEqual([]);
+      expect(messageHandler.moderators).toEqual([]);
       expect(messageHandler.onDelete).toBe(mockCallback);
       expect(messageHandler.onMessageCallback).toBe(mockCallback);
       expect(messageHandler.openQueueHandler).toBe(mockCallback);
@@ -489,7 +489,7 @@ describe('MessageHandler', () => {
     test('returns true only if the user is the channel host or mod', () => {
       messageHandler = new MessageHandler(getMessageHandlerConfig({
         channel: 'sirfarewell',
-        modList: [
+        moderators: [
           'dcpesses',
           'mockmoduser',
         ]

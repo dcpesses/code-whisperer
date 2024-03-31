@@ -29,8 +29,8 @@ describe('PlayerQueueCard', () => {
 
   test('Should render as a user in the interested queue', () => {
     store = getStoreWithState({
-      users: {
-        info: {
+      user: {
+        chatters: {
           dcpesses: {
             id: '473294395',
             login: 'dcpesses',
@@ -78,8 +78,8 @@ describe('PlayerQueueCard', () => {
 
   test('Should render as a whispered user in the playing queue', () => {
     store = getStoreWithState({
-      users: {
-        info: {
+      user: {
+        chatters: {
           dcpesses: {
             id: '473294395',
             login: 'dcpesses',

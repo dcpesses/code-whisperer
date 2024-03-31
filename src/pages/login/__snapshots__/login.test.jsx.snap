@@ -17,7 +17,7 @@ exports[`Login > render > Should render as expected 1`] = `
     </div>
     <a
       class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters&redirect_uri=VITE_APP_REDIRECT_URI"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
     >
       Log In With 
       <strong>
@@ -77,7 +77,7 @@ exports[`Login > render > Should render with error during development 1`] = `
     </div>
     <a
       class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters&redirect_uri=VITE_APP_REDIRECT_URI"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
     >
       Log In With 
       <strong>
@@ -137,7 +137,7 @@ exports[`Login > render > Should render without error in production 1`] = `
     </div>
     <a
       class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters&redirect_uri=VITE_APP_REDIRECT_URI"
+      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
     >
       Log In With 
       <strong>

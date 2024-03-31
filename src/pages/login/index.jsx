@@ -4,7 +4,18 @@ import {version} from '../../../package.json';
 import logo from '@/assets/new-logo.svg';
 import './login.css';
 
-const scopes = 'chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters';
+const scopes = [
+  'chat:read',
+  'chat:edit',
+  'moderation:read', // https://dev.twitch.tv/docs/api/reference#get-moderators
+  'user:manage:whispers', // https://dev.twitch.tv/docs/api/reference#send-whisper
+  'moderator:read:chatters', // https://dev.twitch.tv/docs/api/reference#get-chatters
+  'user:read:moderated_channels', // https://dev.twitch.tv/docs/api/reference#get-moderated-channels
+  'channel:read:vips', // https://dev.twitch.tv/docs/api/reference#get-vips
+  'channel:read:editors', // https://dev.twitch.tv/docs/api/reference#get-channel-editors
+  'moderator:manage:announcements', // https://dev.twitch.tv/docs/api/reference#send-chat-announcement
+  'user:read:subscriptions', // https://dev.twitch.tv/docs/api/reference#check-user-subscription
+].join(' ');
 
 class Login extends Component {
   constructor() {

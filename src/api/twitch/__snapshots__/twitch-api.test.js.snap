@@ -72,7 +72,7 @@ exports[`TwitchApi > setAuthentication > should save oauth tokens and expiry tim
 ]
 `;
 
-exports[`TwitchApi > setStreamerInfo > should save streamer info to localStorage 1`] = `
+exports[`TwitchApi > setUserInfo > should save streamer info to localStorage 1`] = `
 [
   [
     "__channel",

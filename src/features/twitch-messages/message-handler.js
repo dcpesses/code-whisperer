@@ -293,7 +293,7 @@ export default class MessageHandler {
     closeQueueHandler=noop,
     logUserMessages,
     messages,
-    modList,
+    moderators,
     onDelete=noop,
     onInit=noop,
     onMessageCallback=noop,
@@ -323,7 +323,7 @@ export default class MessageHandler {
     this.joinQueueHandler = joinQueueHandler;
     this.logUserMessages = logUserMessages;
     this.messages = messages;
-    this.modList = modList;
+    this.moderators = moderators;
     this.onDelete = onDelete;
     this._onInitCallback = onInit ?? noop;
     this.onMessageCallback = onMessageCallback;
@@ -385,7 +385,7 @@ export default class MessageHandler {
   };
 
   isModOrBroadcaster = (username) => {
-    return (this.channel === username.toLowerCase() || this.modList.includes(username.toLowerCase()));
+    return (this.channel === username.toLowerCase() || this.moderators.includes(username.toLowerCase()));
   };
 
   // returns true if a known command was found & responded to

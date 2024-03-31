@@ -239,7 +239,7 @@ describe('TwitchApi', () => {
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
       vi.spyOn(twitchApi, '_authErrorCallback').mockResolvedValue(void 0);
       vi.spyOn(twitchApi, '_onInitCallback').mockResolvedValue(void 0);
-      vi.spyOn(twitchApi, 'setStreamerInfo').mockResolvedValue(void 0);
+      vi.spyOn(twitchApi, 'setUserInfo').mockResolvedValue(void 0);
       vi.spyOn(twitchApi, 'initChatClient').mockResolvedValue(void 0);
     });
     test('should return oauth, users, and valid data', async() => {
@@ -317,7 +317,7 @@ describe('TwitchApi', () => {
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
       vi.spyOn(twitchApi, '_authErrorCallback').mockResolvedValue(void 0);
       vi.spyOn(twitchApi, '_onInitCallback');
-      vi.spyOn(twitchApi, 'setStreamerInfo').mockResolvedValue(void 0);
+      vi.spyOn(twitchApi, 'setUserInfo').mockResolvedValue(void 0);
       vi.spyOn(twitchApi, 'initChatClient').mockResolvedValue(void 0);
     });
     test('should return oauth, users, and valid data', async() => {
@@ -487,10 +487,10 @@ describe('TwitchApi', () => {
     });
   });
 
-  describe('setStreamerInfo', () => {
+  describe('setUserInfo', () => {
     test('should save streamer info to localStorage', () => {
       vi.spyOn(window.localStorage.__proto__, 'setItem');
-      twitchApi.setStreamerInfo({
+      twitchApi.setUserInfo({
         login: 'login',
         id: 'id',
         profile_image_url: 'url'

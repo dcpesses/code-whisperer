@@ -1,12 +1,16 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-console */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import LoadingRipple from '@/components/loading-ripple';
 import {Navigate} from 'react-router-dom';
 import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import MainScreen from '@/components/main-screen';
+import { clearUserInfo, setModeratedChannels, setUserInfo } from '@/features/player-queue/user-slice.js';
+import { clearChannelInfo, clearModerators, clearVIPs, setChannelInfo, setModerators, setVIPs } from '@/features/twitch/channel-slice.js';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -17,6 +21,32 @@ const TWITCH_API = new TwitchApi({
 });
 
 class AuthenticatedApp extends Component {
+  static get propTypes() {
+    return {
+      clearChannelInfo: PropTypes.func,
+      clearModerators: PropTypes.func,
+      clearUserInfo: PropTypes.func,
+      clearVIPs: PropTypes.func,
+      setChannelInfo: PropTypes.func,
+      setModeratedChannels: PropTypes.func,
+      setModerators: PropTypes.func,
+      setUserInfo: PropTypes.func,
+      setVIPs: PropTypes.func,
+    };
+  }
+  static get defaultProps() {
+    return {
+      clearChannelInfo: () => void 0,
+      clearModerators: () => void 0,
+      clearUserInfo: () => void 0,
+      clearVIPs: () => void 0,
+      setChannelInfo: () => void 0,
+      setModeratedChannels: () => void 0,
+      setModerators: () => void 0,
+      setUserInfo: () => void 0,
+      setVIPs: () => void 0,
+    };
+  }
   constructor() {
     super();
     this.state = {
@@ -28,6 +58,8 @@ class AuthenticatedApp extends Component {
       auth_pending: false,
       failed_login: false,
       has_logged_out: false,
+      moderators: null,
+      vips: null,
     };
 
     this.twitchApi = TWITCH_API;
@@ -49,6 +81,10 @@ class AuthenticatedApp extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.clearChannelInfo();
+    this.props.clearModerators();
+    this.props.clearUserInfo();
+    this.props.clearVIPs();
     console.log('authenticated-app - componentWillUnmount');
   }
 
@@ -128,14 +164,15 @@ class AuthenticatedApp extends Component {
         failed_login: true,
       });
     }
+    this.props.setUserInfo(userInfo);
+    this.props.setChannelInfo(userInfo);
     this.setState({
       username: userInfo.login,
       user_id: userInfo.id,
-      // modList,
       profile_image_url: userInfo.profile_image_url,
       auth_pending: false,
       failed_login: false,
-    });
+    }, this.updateModsAndVIPs);
   };
 
   onTwitchAuthError = () => {
@@ -178,13 +215,58 @@ class AuthenticatedApp extends Component {
         profile_image_url: userInfo.data[0].profile_image_url,
       });
     } catch (e) {
-      console.log('handleUsername: error', e);
+      console.warn('handleUsername: error', e);
       this.logOut();
     }
   };
 
   updateUsername = (username) => {
     this.setState({username}, this.handleUsername);
+  };
+
+  updateModeratedChannels = async() => {
+    try {
+      await this.twitchApi.validateToken();
+      const id = this.state.user_id;
+      let moderatedChannels = await this.twitchApi.requestModeratedChannels(id);
+      if (moderatedChannels.data) {
+        this.props.setModeratedChannels(moderatedChannels.data);
+      }
+    } catch (e) {
+      console.warn('updateModeratedChannels: error', e);
+    }
+  };
+
+  updateModsAndVIPs = async() => {
+    console.log('updateModsAndVIPs');
+    try {
+      await this.twitchApi.validateToken();
+      this.updateModerators();
+      this.updateVIPs();
+      this.updateModeratedChannels();
+    } catch (e) {
+      console.warn('updateModsAndVIPs: error', e);
+    }
+  };
+
+  updateModerators = async() => {
+    try {
+      const id = this.state.user_id;
+      const moderators = await this.twitchApi.requestModerators(id);
+      this.props.setModerators(moderators);
+    } catch (e) {
+      console.warn('updateModerators: error', e);
+    }
+  };
+
+  updateVIPs = async() => {
+    try {
+      const id = this.state.user_id;
+      const vips = await this.twitchApi.requestVIPs(id);
+      this.props.setVIPs(vips);
+    } catch (e) {
+      console.warn('updateVIPs: error', e);
+    }
   };
 
   render = () => {
@@ -213,7 +295,7 @@ class AuthenticatedApp extends Component {
         <MainScreen
           access_token={this.twitchApi?.accessToken}
           channel={this.state.username}
-          modList={this.state.modList}
+          moderators={this.state.moderators}
           onLogOut={this.logOut}
           profile_image_url={this.state.profile_image_url}
           twitchApi={this.twitchApi}
@@ -221,6 +303,7 @@ class AuthenticatedApp extends Component {
           user_id={this.state.user_id}
           username={this.state.username}
           updateUsername={this.updateUsername}
+          vips={this.state.vips}
         />
       );
     }
@@ -235,4 +318,18 @@ class AuthenticatedApp extends Component {
 
 export {AuthenticatedApp};
 
-export default withRouter(AuthenticatedApp);
+const mapDispatchToProps = () => ({
+  clearChannelInfo,
+  clearModerators,
+  clearUserInfo,
+  clearVIPs,
+  setChannelInfo,
+  setModeratedChannels,
+  setModerators,
+  setUserInfo,
+  setVIPs,
+});
+export default connect(
+  null,
+  mapDispatchToProps()
+)(withRouter(AuthenticatedApp));

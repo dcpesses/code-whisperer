@@ -5,7 +5,7 @@ const generateMockUserInfo = (max) => {
     bdate.setFullYear(bdate.getFullYear() - n);
 
     return {
-      info: {
+      chatters: {
         [`player${n}`]: {
           broadcaster_type: '',
           created_at: bdate.toISOString(),
@@ -48,7 +48,7 @@ const generateMockUserInfo = (max) => {
     };
   });
   return {
-    info: Object.assign({}, ...players.map(p => p.info)),
+    chatters: Object.assign({}, ...players.map(p => p.chatters)),
     lookup: Object.assign({}, ...players.map(p => p.lookup)),
   };
 };
@@ -640,7 +640,7 @@ const statePlayerSelect = {
 };
 
 const stateUserStore = {
-  info: Object.assign({
+  chatters: Object.assign({
     dcpesses: {
       'id': '0',
       'login': 'dcpesses',
@@ -653,7 +653,7 @@ const stateUserStore = {
       'view_count': 0,
       'created_at': '2019-11-18T00:47:34Z'
     }
-  }, mockPlayers.info),
+  }, mockPlayers.chatters),
   'whisperStatus': {
     'player1': {
       'login': 'player1',

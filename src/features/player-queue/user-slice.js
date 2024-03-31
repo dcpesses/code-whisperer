@@ -1,26 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  chatters: {}, // user info for chatters
   info: {},
-  whisperStatus: {}
+  moderatedChannels: [],
+  whisperStatus: {},
 };
 
 
 export const userSlice = createSlice({
-  name: 'users',
+  name: 'user',
   initialState,
   reducers: {
+    clearUserInfo: (state) => {
+      state.info = {};
+    },
     setFakeStates: (state, action) => {
-      if (action.payload.info) {
-        state.info = action.payload.info;
+      if (action.payload.chatters) {
+        state.chatters = action.payload.chatters;
       }
       if (action.payload.whisperStatus) {
         state.whisperStatus = action.payload.whisperStatus;
       }
     },
+    setModeratedChannels: (state, action) => {
+      if (action.payload) {
+        state.moderatedChannels = action.payload;
+      }
+    },
+    setChatterInfo: (state, action) => {
+      if (action.payload.login) {
+        state.chatters[action.payload.login] = action.payload;
+      }
+    },
     setUserInfo: (state, action) => {
       if (action.payload.login) {
-        state.info[action.payload.login] = action.payload;
+        state.info = action.payload;
       }
     },
     setWhisperStatus: (state, action) => {
@@ -28,21 +43,22 @@ export const userSlice = createSlice({
         state.whisperStatus[action.payload.login] = action.payload;
       }
     },
-    removeUserInfo: (state, action) => {
+    removeModeratedChannels: (state) => {
+      state.moderatedChannels = [];
+    },
+    removeChatterInfo: (state, action) => {
       if (action.payload) {
-        state.info[action.payload] = null;
+        delete state.chatters[action.payload];
       }
     },
     removeWhisperStatus: (state, action) => {
       if (action.payload) {
-        state.whisperStatus[action.payload] = null;
+        delete state.whisperStatus[action.payload];
       }
     },
   },
 });
 
-export const selectUser = (state) => state.users.info;
-
-export const { setFakeStates, setUserInfo, setWhisperStatus, removeUserInfo, removeWhisperStatus } = userSlice.actions;
+export const { clearUserInfo, setChatterInfo, setFakeStates, setModeratedChannels, setUserInfo, setWhisperStatus, removeChatterInfo, removeModeratedChannels, removeWhisperStatus } = userSlice.actions;
 
 export default userSlice.reducer;
