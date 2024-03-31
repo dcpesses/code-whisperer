@@ -280,9 +280,9 @@ export default class TwitchApi {
     });
     this._chatClient.on('message', callback);
 
-    /*
+
     if (this.debug) {
-      this._chatClient.on('chat', (channel, userstate, message, self) => {
+      /*this._chatClient.on('chat', (channel, userstate, message, self) => {
         window.console.log('chatClient: chat', {channel, userstate, message, self});
       });
       this._chatClient.on('crash', (e) => {
@@ -329,9 +329,8 @@ export default class TwitchApi {
       });
       this._chatClient.on('ping', () => {
         if (this.debug) {window.console.log('chatClient: Ping!');}
-      });
+      });*/
     }
-    */
 
     await this._chatClient.connect();
     return this._chatClient;

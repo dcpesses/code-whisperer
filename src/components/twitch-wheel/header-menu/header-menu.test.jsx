@@ -184,6 +184,7 @@ describe('HeaderMenu', () => {
         { label: 'View Chat Commands' }
       ],
       settings: {
+        enableModeratedChannelsOption: false,
         enableRoomCode: true,
         enableSubRequests: false,
         customDelimiter: null
@@ -224,5 +225,18 @@ describe('HeaderMenu', () => {
     // expect(container).toMatchSnapshot();
   });
 
+  test('Should render with moderated channels menu', () => {
+    props.settings.enableModeratedChannelsOption = true;
+    const {container} = render(
+      <Provider store={store}>
+        <HeaderMenu {...props} />
+      </Provider>
+    );
+    expect(container).toMatchSnapshot();
+    fireEvent.click(screen.getByLabelText('Toggle navigation'));
+    expect(container).toMatchSnapshot();
+    fireEvent.click(screen.getByText('Settings', {selector: 'a.settings-menu'}));
+    expect(container).toMatchSnapshot();
+  });
 });
 

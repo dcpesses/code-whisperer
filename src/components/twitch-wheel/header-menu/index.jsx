@@ -21,7 +21,6 @@ export class HeaderMenu extends Component {
       channelInfo:PropTypes.object,
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
-      moderatedChannelsItems: PropTypes.array,
       moderatedChannels: PropTypes.array,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
@@ -41,7 +40,6 @@ export class HeaderMenu extends Component {
         allowedGames: null,
         validGames: null
       },
-      moderatedChannelsItems: [],
       moderatedChannels: [],
       onLogout: () => void 0,
       onSettingsUpdate: () => void 0,
@@ -134,7 +132,6 @@ export class HeaderMenu extends Component {
   onModeratedChannelMenuItem = async(channel) => {
     try {
       let channelInfo = await this.props.twitchApi.switchChannel(channel.broadcaster_login);
-      // window.console.log('onModeratedChannelMenuItem', {channelInfo});
       if (!channelInfo) {
         channelInfo = this.props.twitchApi.channelInfo;
       }
@@ -147,25 +144,9 @@ export class HeaderMenu extends Component {
 
 
   createMenuItems = (items) => {
-    if (!items) {
-      return [];
-    }
+    if (!items) {return [];}
     return items.map(i => {
-      if (!i.label) {
-        return null;
-      }
-      /*let liClassName = (!i.listItemClassName)
-        ? i.label.trim().toLowerCase().split(' ').join('-')
-        : i.listItemClassName;
-      let listItemClassNames = ['mb-1 fs-4 d-grid text-start', liClassName || null].filter(n => n).join(' ');
-      let btnClassNames = ['btn', i.btnClassName || null].filter(n => n).join(' ');
-      return (
-        <li className={listItemClassNames} key={i.label}>
-          <Button variant="link" className={btnClassNames} onClick={i.onClick || null}>
-            {i.label}
-          </Button>
-        </li>
-      );*/
+      if (!i.label) {return null;}
       return (
         <Nav.Link key={i.label} onClick={i.onClick || null}>
           {i.label}
@@ -191,7 +172,7 @@ export class HeaderMenu extends Component {
   };
 
   render() {
-    let {debugItems, moderatedChannelsItems, settings, onSettingsUpdate} = this.props;
+    let {channelInfo, debugItems, userInfo, settings, onSettingsUpdate} = this.props;
     let debugMenuItems = this.createDebugMenuItems(debugItems);
 
     /*
@@ -260,10 +241,17 @@ export class HeaderMenu extends Component {
       onSettingsUpdate({enableLeaveConfirmationMessage: value});
     };
 
+    let toggleEnableModeratedChannelsOption = () => {
+      let value = typeof settings?.enableModeratedChannelsOption === 'boolean'
+        ? !settings?.enableModeratedChannelsOption
+        : true;
+      onSettingsUpdate({enableModeratedChannelsOption: value});
+    };
+
     // user may not always be same as broadcaster/channel
-    let selectedUserInfo = this.props.channelInfo;
-    let displayName = this.props.channelInfo.display_name;
-    let isUserChannel = (this.props.channelInfo.login === this.props.userInfo.login);
+    let selectedUserInfo = channelInfo;
+    let displayName = channelInfo.display_name;
+    let isUserChannel = (channelInfo.login === userInfo.login);
 
     let img;
     if (selectedUserInfo.profile_image_url) {
@@ -271,9 +259,9 @@ export class HeaderMenu extends Component {
         <>
           {!isUserChannel && (
             <img
-              src={this.props.userInfo.profile_image_url}
+              src={userInfo.profile_image_url}
               className="rounded-circle navbar-pfp-img proxy-profile-img"
-              alt={this.props.userInfo.display_name}
+              alt={userInfo.display_name}
             />
           )}
           <img
@@ -284,21 +272,30 @@ export class HeaderMenu extends Component {
         </>
       );
     }
-
-    let moderatedChannelsMenuItems = this.createModeratedChannelsMenuItems(moderatedChannelsItems, selectedUserInfo.login);
+    const navbarBrand = (
+      <Navbar.Brand className="fw-semibold">{img} {displayName}</Navbar.Brand>
+    );
+    let dropdownNavbarBrand = navbarBrand;
+    if (settings.enableModeratedChannelsOption) {
+      window.console.log('channelInfo.display_name:', channelInfo.display_name);
+      let moderatedChannelsMenuItems = this.createModeratedChannelsMenuItems(channelInfo.display_name);
+      dropdownNavbarBrand = (
+        <Dropdown id="dropdown-moderated-channels" variant="link">
+          <Dropdown.Toggle id="dropdown-moderated-channels-toggle" size="sm" variant="link" className="text-decoration-none text-white px-0">
+            {navbarBrand}
+          </Dropdown.Toggle>
+          <Dropdown.Menu variant="dark">
+            {moderatedChannelsMenuItems}
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+    }
 
     return (
       <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font">
         <Container fluid>
 
-          <Dropdown id="dropdown-moderated-channels" variant="link">
-            <Dropdown.Toggle id="dropdown-moderated-channels-toggle" size="sm" variant="link" className="text-decoration-none text-white px-0">
-              <Navbar.Brand className="fw-semibold">{img} {displayName}</Navbar.Brand>
-            </Dropdown.Toggle>
-            <Dropdown.Menu variant="dark">
-              {moderatedChannelsMenuItems}
-            </Dropdown.Menu>
-          </Dropdown>
+          {dropdownNavbarBrand}
 
           <Navbar.Toggle aria-controls="navbar-options-menu" className="border-0 rounded-0" />
           <Navbar.Offcanvas
@@ -394,6 +391,22 @@ export class HeaderMenu extends Component {
                           defaultValue={settings?.customDelimiter}
                           onChange={updateCustomDelimiter} className="form-control" spellCheck="false" />
                       </Button>
+
+
+                      <hr className="border-bottom my-2" />
+
+                      <h5>Beta Options</h5>
+                      <div className="smaller">
+                        These options have not been fully tested and may not work as intended.
+                      </div>
+
+                      <Button variant="link" id="enable-moderated-channels-option" className="btn settings-menu"
+                        onClick={toggleEnableModeratedChannelsOption}
+                        title="Allows user to use this app on another channel that grants them moderation access."
+                      >
+                        <input type="checkbox" role="switch" checked={(settings?.enableModeratedChannelsOption)} readOnly /> <span>Enable Moderated Channels Menu</span>
+                      </Button>
+
                     </div>
                   </div>
                 </Collapse>
