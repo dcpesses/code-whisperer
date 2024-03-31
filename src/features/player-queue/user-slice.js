@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   chatters: {}, // user info for chatters
+  info: {},
   moderatedChannels: [],
   whisperStatus: {},
 };
@@ -11,6 +12,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    clearUserInfo: (state) => {
+      state.info = {};
+    },
     setFakeStates: (state, action) => {
       if (action.payload.chatters) {
         state.chatters = action.payload.chatters;
@@ -27,6 +31,11 @@ export const userSlice = createSlice({
     setChatterInfo: (state, action) => {
       if (action.payload.login) {
         state.chatters[action.payload.login] = action.payload;
+      }
+    },
+    setUserInfo: (state, action) => {
+      if (action.payload.login) {
+        state.info = action.payload;
       }
     },
     setWhisperStatus: (state, action) => {
@@ -50,6 +59,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setChatterInfo, setFakeStates, setModeratedChannels, setWhisperStatus, removeChatterInfo, removeModeratedChannels, removeWhisperStatus } = userSlice.actions;
+export const { clearUserInfo, setChatterInfo, setFakeStates, setModeratedChannels, setUserInfo, setWhisperStatus, removeChatterInfo, removeModeratedChannels, removeWhisperStatus } = userSlice.actions;
 
 export default userSlice.reducer;

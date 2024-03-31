@@ -43,12 +43,14 @@ const userState = {
 describe('user reducer', () => {
   const initialState = {
     chatters: {},
+    info: {},
     moderatedChannels: [],
     whisperStatus: {}
   };
   it('should handle initial state', () => {
     expect(userReducer(undefined, { type: 'unknown' })).toEqual({
       chatters: {},
+      info: {},
       moderatedChannels: [],
       whisperStatus: {}
     });

@@ -100,8 +100,13 @@ describe('AuthenticatedApp', () => {
 
   describe('onTwitchAuthInit', () => {
     test('should handle response with user info', () => {
-      let component = new AuthenticatedApp();
+      const component = new AuthenticatedApp();
       vi.spyOn(component, 'setState');
+      const props = {
+        setChannelInfo: vi.fn(),
+        setUserInfo: vi.fn(),
+      };
+      component.props = props;
       component.twitchApi = {
         userInfo: {
           login: 'mockUsername',
@@ -111,6 +116,8 @@ describe('AuthenticatedApp', () => {
       };
 
       component.onTwitchAuthInit();
+      expect(props.setUserInfo).toHaveBeenCalledTimes(1);
+      expect(props.setChannelInfo).toHaveBeenCalledTimes(1);
       expect(component.setState).toHaveBeenCalledTimes(1);
       expect(component.setState).toHaveBeenCalledWith({
         username: 'mockUsername',

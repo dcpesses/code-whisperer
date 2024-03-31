@@ -380,16 +380,13 @@ export default class TwitchApi {
   switchChannel = async(channel) => {
     try {
       this._channel = channel;
-      // let currChannel = await this._chatClient.getUsername();
-      // let resp = {};
-      // resp.part = await this._chatClient.part(currChannel);
-      // resp.join = await this._chatClient.join(channel);
-      // window.console.log('switchChannel - join', resp);
-      let channelInfo = await this.requestUserInfo({ login: channel });
+      const channelInfo = await this.requestUserInfo({ login: channel });
+      if (this.debug) {window.console.log('switchChannel', {channelInfo});}
       this.setChannelInfo(channelInfo.data[0]);
-      return await this.initChatClient();
+      await this._initChatClient();
+      return channelInfo;
     } catch (e) {
-      window.console.log('switchChannel - error', e);
+      window.console.error('switchChannel - error', e);
     }
   };
 

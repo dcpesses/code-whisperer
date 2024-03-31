@@ -13,24 +13,75 @@ vi.mock('../../../package.json', () => {
   };
 });
 
+const storeState = {
+  channel: {
+    user: {
+      id: '1',
+      login: 'twitchstreamer',
+      display_name: 'TwitchStreamer',
+      type: '',
+      broadcaster_type: '',
+      description: 'description',
+      profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+      offline_image_url: '',
+      view_count: 0,
+      created_at: '2019-11-18T00:47:34Z'
+    },
+    moderators: [{
+    }],
+    vips:[{
+    }],
+  },
+  user: {
+    info: {
+      id: '0',
+      login: 'twitchuser',
+      display_name: 'TwitchUser',
+      type: '',
+      broadcaster_type: '',
+      description: 'description',
+      profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+      offline_image_url: '',
+      view_count: 0,
+      created_at: '2019-11-18T00:47:34Z'
+    },
+    chatters: {
+      twitchuser: {
+        id: '0',
+        login: 'twitchuser',
+        display_name: 'TwitchUser',
+        type: '',
+        broadcaster_type: '',
+        description: 'description',
+        profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+        offline_image_url: '',
+        view_count: 0,
+        created_at: '2019-11-18T00:47:34Z'
+      }
+    },
+    moderatedChannels: [{
+      broadcaster_id: '1',
+      broadcaster_login: 'TwitchStreamer',
+      broadcaster_name: 'twitchstreamer',
+    }],
+    whisperStatus: {
+      twitchuser: {
+        login: 'twitchuser',
+        response: {
+          msg: 'Code sent to @TwitchUser',
+          status: 204
+        }
+      },
+    }
+  }
+};
+
 describe('MainScreen', () => {
   let store;
   let twitchApi;
   beforeEach(() => {
-    store = getStoreWithState();
+    store = getStoreWithState(storeState);
     twitchApi = {
-      userInfo: {
-        id: '473294395',
-        login: 'dcpesses',
-        display_name: 'dcpesses',
-        type: '',
-        broadcaster_type: '',
-        description: 'Don\'t mind me, I\'m just here for the Jackbox games and to support my peeps. ',
-        profile_image_url: 'profile_image-300x300.png',
-        offline_image_url: '',
-        view_count: 0,
-        created_at: '2019-11-18T10:47:34Z'
-      },
       debug: true
     };
   });

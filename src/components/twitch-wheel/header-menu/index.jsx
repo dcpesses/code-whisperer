@@ -18,9 +18,9 @@ import './header-menu.css';
 export class HeaderMenu extends Component {
   static get propTypes() {
     return {
+      channelInfo:PropTypes.object,
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
-      items: PropTypes.array,
       moderatedChannelsItems: PropTypes.array,
       moderatedChannels: PropTypes.array,
       onLogout: PropTypes.func,
@@ -30,16 +30,17 @@ export class HeaderMenu extends Component {
       showModalCommandList: PropTypes.func,
       toggleChangelogModal: PropTypes.func,
       twitchApi: PropTypes.object,
+      userInfo: PropTypes.object,
     };
   }
   static get defaultProps() {
     return {
+      channelInfo: {},
       debugItems: [],
       gamesList: {
         allowedGames: null,
         validGames: null
       },
-      items: [],
       moderatedChannelsItems: [],
       moderatedChannels: [],
       onLogout: () => void 0,
@@ -49,6 +50,7 @@ export class HeaderMenu extends Component {
       showModalCommandList: () => void 0,
       toggleChangelogModal: () => void 0,
       twitchApi: null,
+      userInfo: {},
     };
   }
 
@@ -106,24 +108,15 @@ export class HeaderMenu extends Component {
       return null;
     }
     const currentUser = {
-      broadcaster_id: this.twitchApi?.userInfo?.id,
-      broadcaster_login: this.twitchApi?.userInfo?.login,
-      broadcaster_name: this.twitchApi?.userInfo?.display_name,
+      broadcaster_id: this.props.userInfo?.id,
+      broadcaster_login: this.props.userInfo?.login,
+      broadcaster_name: this.props.userInfo?.display_name,
     };
+
     const items = [currentUser].concat(this.props.moderatedChannels).map(
       channel => ({
         label: channel.broadcaster_name,
-        onClick: async() => {
-          try {
-            const channelInfo = await this.twitchApi?.switchChannel(channel.broadcaster_login);
-            this.props.setChannelInfo(channelInfo);
-            return; /* this.setState({
-              activeChannel: channel.broadcaster_login
-            });*/
-          } catch (e) {
-            console.warn(`getModeratedChannelsMenu - ${channel.broadcaster_name} - error`, e);
-          }
-        }
+        onClick: this.onModeratedChannelMenuItem.bind(this, channel)
       })
     );
     return (
@@ -137,6 +130,21 @@ export class HeaderMenu extends Component {
       </>
     );
   };
+
+  onModeratedChannelMenuItem = async(channel) => {
+    try {
+      let channelInfo = await this.props.twitchApi.switchChannel(channel.broadcaster_login);
+      // window.console.log('onModeratedChannelMenuItem', {channelInfo});
+      if (!channelInfo) {
+        channelInfo = this.props.twitchApi.channelInfo;
+      }
+      this.props.setChannelInfo(channelInfo.data[0]);
+      return;
+    } catch (e) {
+      console.error(`getModeratedChannelsMenu - ${channel.broadcaster_name} - error`, e);
+    }
+  };
+
 
   createMenuItems = (items) => {
     if (!items) {
@@ -183,8 +191,7 @@ export class HeaderMenu extends Component {
   };
 
   render() {
-    let {debugItems, items, moderatedChannelsItems, settings, onSettingsUpdate, twitchApi} = this.props;
-    let optionMenuItems = this.createMenuItems(items);
+    let {debugItems, moderatedChannelsItems, settings, onSettingsUpdate} = this.props;
     let debugMenuItems = this.createDebugMenuItems(debugItems);
 
     /*
@@ -254,22 +261,19 @@ export class HeaderMenu extends Component {
     };
 
     // user may not always be same as broadcaster/channel
-    let selectedUserInfo = twitchApi?.userInfo;
-    let isUserChannel = true;
-    if (twitchApi?.channelInfo?.login && twitchApi.channel !== selectedUserInfo.login) {
-      selectedUserInfo = twitchApi?.channelInfo;
-      isUserChannel = false;
-    }
+    let selectedUserInfo = this.props.channelInfo;
+    let displayName = this.props.channelInfo.display_name;
+    let isUserChannel = (this.props.channelInfo.login === this.props.userInfo.login);
 
-    let img, username;
-    if (selectedUserInfo?.profile_image_url) {
+    let img;
+    if (selectedUserInfo.profile_image_url) {
       img = (
         <>
           {!isUserChannel && (
             <img
-              src={twitchApi?.userInfo.profile_image_url}
+              src={this.props.userInfo.profile_image_url}
               className="rounded-circle navbar-pfp-img proxy-profile-img"
-              alt={twitchApi?.userInfo.display_name}
+              alt={this.props.userInfo.display_name}
             />
           )}
           <img
@@ -279,23 +283,23 @@ export class HeaderMenu extends Component {
           />
         </>
       );
-      username = selectedUserInfo.display_name;
     }
 
-    let moderatedChannelsMenuItems = this.createModeratedChannelsMenuItems(moderatedChannelsItems, username);
+    let moderatedChannelsMenuItems = this.createModeratedChannelsMenuItems(moderatedChannelsItems, selectedUserInfo.login);
 
     return (
       <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font">
         <Container fluid>
-          {/* <Navbar.Brand className="fw-semibold">{img} {username}</Navbar.Brand> */}
+
           <Dropdown id="dropdown-moderated-channels" variant="link">
-            <Dropdown.Toggle id="dropdown-moderated-channels-toggle" size="sm" variant="link" className="text-decoration-none text-white">
-              <Navbar.Brand className="fw-semibold">{img} {username}</Navbar.Brand>
+            <Dropdown.Toggle id="dropdown-moderated-channels-toggle" size="sm" variant="link" className="text-decoration-none text-white px-0">
+              <Navbar.Brand className="fw-semibold">{img} {displayName}</Navbar.Brand>
             </Dropdown.Toggle>
             <Dropdown.Menu variant="dark">
               {moderatedChannelsMenuItems}
             </Dropdown.Menu>
           </Dropdown>
+
           <Navbar.Toggle aria-controls="navbar-options-menu" className="border-0 rounded-0" />
           <Navbar.Offcanvas
             id="navbar-options-menu"
@@ -393,7 +397,7 @@ export class HeaderMenu extends Component {
                     </div>
                   </div>
                 </Collapse>
-                {optionMenuItems}
+                {/* {optionMenuItems} */}
                 <Nav.Link onClick={()=>this.props.showModalCommandList()}>View Chat Commands</Nav.Link>
                 <Nav.Link onClick={this.props.toggleChangelogModal}>Changelog</Nav.Link>
 
@@ -421,9 +425,10 @@ export class HeaderMenu extends Component {
 }
 
 const mapStateToProps = state => ({
+  channelInfo: state.channel.user,
   modal: state.modal,
   moderatedChannels: state.user.moderatedChannels,
-  user: state.user
+  userInfo: state.user.info,
 });
 const mapDispatchToProps = () => ({
   setChannelInfo,

@@ -9,7 +9,8 @@ import Login from '@/pages/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import MainScreen from '@/components/main-screen';
-import { setModeratedChannels, } from '@/features/player-queue/user-slice.js';
+import { clearUserInfo, setModeratedChannels, setUserInfo } from '@/features/player-queue/user-slice.js';
+import { clearChannelInfo, clearModerators, clearVIPs, setChannelInfo, setModerators, setVIPs } from '@/features/twitch/channel-slice.js';
 
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
@@ -22,12 +23,28 @@ const TWITCH_API = new TwitchApi({
 class AuthenticatedApp extends Component {
   static get propTypes() {
     return {
+      clearChannelInfo: PropTypes.func,
+      clearModerators: PropTypes.func,
+      clearUserInfo: PropTypes.func,
+      clearVIPs: PropTypes.func,
+      setChannelInfo: PropTypes.func,
       setModeratedChannels: PropTypes.func,
+      setModerators: PropTypes.func,
+      setUserInfo: PropTypes.func,
+      setVIPs: PropTypes.func,
     };
   }
   static get defaultProps() {
     return {
-      setModeratedChannels: () => void 0
+      clearChannelInfo: () => void 0,
+      clearModerators: () => void 0,
+      clearUserInfo: () => void 0,
+      clearVIPs: () => void 0,
+      setChannelInfo: () => void 0,
+      setModeratedChannels: () => void 0,
+      setModerators: () => void 0,
+      setUserInfo: () => void 0,
+      setVIPs: () => void 0,
     };
   }
   constructor() {
@@ -64,6 +81,10 @@ class AuthenticatedApp extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.clearChannelInfo();
+    this.props.clearModerators();
+    this.props.clearUserInfo();
+    this.props.clearVIPs();
     console.log('authenticated-app - componentWillUnmount');
   }
 
@@ -143,10 +164,11 @@ class AuthenticatedApp extends Component {
         failed_login: true,
       });
     }
+    this.props.setUserInfo(userInfo);
+    this.props.setChannelInfo(userInfo);
     this.setState({
       username: userInfo.login,
       user_id: userInfo.id,
-      // moderators,
       profile_image_url: userInfo.profile_image_url,
       auth_pending: false,
       failed_login: false,
@@ -193,7 +215,7 @@ class AuthenticatedApp extends Component {
         profile_image_url: userInfo.data[0].profile_image_url,
       });
     } catch (e) {
-      console.log('handleUsername: error', e);
+      console.warn('handleUsername: error', e);
       this.logOut();
     }
   };
@@ -223,37 +245,27 @@ class AuthenticatedApp extends Component {
       this.updateVIPs();
       this.updateModeratedChannels();
     } catch (e) {
-      console.log('updateModsAndVIPs: error', e);
+      console.warn('updateModsAndVIPs: error', e);
     }
   };
 
   updateModerators = async() => {
     try {
-      // await this.twitchApi.validateToken();
       const id = this.state.user_id;
-      console.log('updateModerators', {id});
       const moderators = await this.twitchApi.requestModerators(id);
-      console.log({moderators: JSON.stringify(moderators)});
-      this.setState({
-        moderators,
-      });
+      this.props.setModerators(moderators);
     } catch (e) {
-      console.log('updateModerators: error', e);
+      console.warn('updateModerators: error', e);
     }
   };
 
   updateVIPs = async() => {
     try {
-      // await this.twitchApi.validateToken();
       const id = this.state.user_id;
-      console.log('updateVIPs', {id});
       const vips = await this.twitchApi.requestVIPs(id);
-      console.log({vips: JSON.stringify(vips)});
-      this.setState({
-        vips,
-      });
+      this.props.setVIPs(vips);
     } catch (e) {
-      console.log('updateVIPs: error', e);
+      console.warn('updateVIPs: error', e);
     }
   };
 
@@ -307,7 +319,15 @@ class AuthenticatedApp extends Component {
 export {AuthenticatedApp};
 
 const mapDispatchToProps = () => ({
+  clearChannelInfo,
+  clearModerators,
+  clearUserInfo,
+  clearVIPs,
+  setChannelInfo,
   setModeratedChannels,
+  setModerators,
+  setUserInfo,
+  setVIPs,
 });
 export default connect(
   null,
