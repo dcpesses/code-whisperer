@@ -10,7 +10,7 @@ import { setChannelInfo } from '@/features/twitch/channel-slice';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
-import {version} from '../../../../package.json';
+import {version} from '../../../package.json';
 
 import './header-menu.css';
 

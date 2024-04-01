@@ -5,9 +5,9 @@ import { getStoreWithState } from '@/app/store';
 import { fireEvent, render, screen } from '@testing-library/react';
 import HeaderMenu, {HeaderMenu as HeaderMenuComponent, noop} from './index';
 
-vi.mock('../../../../package.json', () => {
+vi.mock('../../../package.json', () => {
   return {
-    ...vi.importActual('../../../../package.json'),
+    ...vi.importActual('../../../package.json'),
     version: '0.0.0'
   };
 });

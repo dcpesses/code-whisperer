@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Button, Modal} from 'react-bootstrap';
 import MessageHandler from '@/features/twitch-messages/message-handler';
-import HeaderMenu from '../twitch-wheel/header-menu';
+import HeaderMenu from '../header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
