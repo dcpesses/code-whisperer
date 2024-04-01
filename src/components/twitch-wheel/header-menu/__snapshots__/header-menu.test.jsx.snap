@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeaderMenu > Should render with moderated channels menu 1`] = `
+exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -277,7 +277,7 @@ exports[`HeaderMenu > Should render with moderated channels menu 1`] = `
 </div>
 `;
 
-exports[`HeaderMenu > Should render with moderated channels menu 2`] = `
+exports[`HeaderMenu > render > Should render with moderated channels menu 2`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -332,7 +332,7 @@ exports[`HeaderMenu > Should render with moderated channels menu 2`] = `
 </div>
 `;
 
-exports[`HeaderMenu > Should render with moderated channels menu 3`] = `
+exports[`HeaderMenu > render > Should render with moderated channels menu 3`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -387,7 +387,7 @@ exports[`HeaderMenu > Should render with moderated channels menu 3`] = `
 </div>
 `;
 
-exports[`HeaderMenu > Should render without error 1`] = `
+exports[`HeaderMenu > render > Should render without error 1`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -651,7 +651,7 @@ exports[`HeaderMenu > Should render without error 1`] = `
 </div>
 `;
 
-exports[`HeaderMenu > Should render without error 2`] = `
+exports[`HeaderMenu > render > Should render without error 2`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -693,7 +693,7 @@ exports[`HeaderMenu > Should render without error 2`] = `
 </div>
 `;
 
-exports[`HeaderMenu > Should render without error 3`] = `
+exports[`HeaderMenu > render > Should render without error 3`] = `
 <div>
   <nav
     class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
@@ -733,4 +733,39 @@ exports[`HeaderMenu > Should render without error 3`] = `
     </div>
   </nav>
 </div>
+`;
+
+exports[`HeaderMenu > toggleOption > should call onSettingUpdate with the specified option 1`] = `
+[
+  [
+    {
+      "enableTestOption1": false,
+    },
+  ],
+  [
+    {
+      "enableTestOption2": true,
+    },
+  ],
+  [
+    {
+      "enableTestOption3": false,
+    },
+  ],
+]
+`;
+
+exports[`HeaderMenu > updateInputOption > should call onSettingUpdate with the specified option and event 1`] = `
+[
+  [
+    {
+      "enableTestOption1": "Testing",
+    },
+  ],
+  [
+    {
+      "enableTestOption2": null,
+    },
+  ],
+]
 `;
