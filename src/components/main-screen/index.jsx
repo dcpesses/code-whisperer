@@ -173,7 +173,7 @@ class MainScreen extends Component {
   };
 
   updateMessageHandler = (props, state) => {
-    window.console.log('updateMessageHandler', {hasProps: !!props, hasState: !!state});
+    if (this.debug) {window.console.log('updateMessageHandler', {hasProps: !!props, hasState: !!state});}
     props = props || this.props;
     state = state || this.state;
     if (!this.messageHandler || !this.twitchApi?.isChatConnected) {
@@ -441,30 +441,31 @@ class MainScreen extends Component {
     return (
       <div className="main-screen">
         <HeaderMenu
-          gamesList={gamesList}
-          parentState={this.state}
+          clearAllQueues={this.routeClearQueueRequest}
           debugItems={this.getOptionsDebugMenu()}
+          gamesList={gamesList}
           items={this.getOptionsMenu()}
-          reloadGameList={this.messageHandler?.reloadGameList}
           onHide={this.toggleOptionsMenu}
           onLogout={this.props.onLogOut}
           onSettingsUpdate={this.onSettingsUpdate}
+          parentState={this.state}
+          reloadGameList={this.messageHandler?.reloadGameList}
           settings={this.state.settings}
           showOptionsMenu={this.state.showOptionsMenu}
-          twitchApi={this.props.twitchApi}
           toggleChangelogModal={this.toggleChangelogModal}
+          twitchApi={this.props.twitchApi}
         />
         <div id="content" className="container mx-auto">
           <PlayerQueue
             _game={this.state.history?.[this.state.nextGameIdx]}
             game={GAME_PLACEHOLDER}
             gamesList={gamesList}
+            ref={this.setPlayerSelectRef}
             sendMessage={this.twitchApi?.sendMessage}
             sendWhisper={this.sendWhisper}
             settings={this.state.settings}
-            twitchApi={this.props.twitchApi}
             startGame={this.startGame}
-            ref={this.setPlayerSelectRef}
+            twitchApi={this.props.twitchApi}
             userLookup={this.state.userLookup}
           />
         </div>
