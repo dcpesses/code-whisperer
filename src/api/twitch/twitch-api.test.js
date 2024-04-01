@@ -488,7 +488,7 @@ describe('TwitchApi', () => {
   });
 
   describe('setUserInfo', () => {
-    test('should save streamer info to localStorage', () => {
+    test('should save user info to localStorage', () => {
       vi.spyOn(window.localStorage.__proto__, 'setItem');
       twitchApi.setUserInfo({
         login: 'login',
@@ -496,6 +496,43 @@ describe('TwitchApi', () => {
         profile_image_url: 'url'
       });
       expect(window.localStorage.setItem).toHaveBeenCalledTimes(5);
+      expect(window.localStorage.setItem.mock.calls).toMatchSnapshot();
+    });
+  });
+
+
+  describe('switchChannel', () => {
+    test('should load user info for the specified channel and reinit the chat client', async() => {
+      vi.spyOn(twitchApi, '_initChatClient').mockResolvedValue();
+      vi.spyOn(twitchApi, 'setChannelInfo').mockImplementation();
+      vi.spyOn(twitchApi, 'requestUserInfo').mockResolvedValue({
+        data: [{
+          id: '0',
+          login: 'login',
+          profile_image_url: 'url'
+        }]
+      });
+      const response = await twitchApi.switchChannel('login');
+      expect(twitchApi.requestUserInfo).toHaveBeenCalled();
+      expect(response).toEqual({
+        data: [{
+          id: '0',
+          login: 'login',
+          profile_image_url: 'url'
+        }]
+      });
+    });
+  });
+
+  describe('setChannelInfo', () => {
+    test('should save channel info to localStorage', () => {
+      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      twitchApi.setChannelInfo({
+        login: 'login',
+        id: '1',
+        profile_image_url: 'url'
+      });
+      expect(window.localStorage.setItem).toHaveBeenCalledTimes(4);
       expect(window.localStorage.setItem.mock.calls).toMatchSnapshot();
     });
   });
@@ -570,6 +607,30 @@ describe('TwitchApi', () => {
     });
   });
 
+  describe('requestModeratedChannels', () => {
+    test('should return a list of channels that the specified user has moderator privileges in', async() => {
+      const mockModeratorResponse = {
+        data: [
+          { broadcaster_login: 'twitchstreamer1' },
+          { broadcaster_login: 'twitchstreamer2' },
+        ]
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve(mockModeratorResponse)
+      });
+      const userId = '123456789';
+      const response = await twitchApi.requestModeratedChannels(userId);
+
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/channels?user_id=${userId}`, {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(response).toEqual(mockModeratorResponse);
+    });
+  });
+
   describe('requestModerators', () => {
     test('should return information about users allowed to moderate chat for the broadcaster', async() => {
       const mockModeratorResponse = {
@@ -591,6 +652,71 @@ describe('TwitchApi', () => {
         },
       });
       expect(response).toEqual(mockModeratorResponse);
+    });
+  });
+
+  describe('requestVIPs', () => {
+    test('should return a list of the VIPs of the broadcaster', async() => {
+      const mockModeratorResponse = {
+        data: [
+          { user_login: 'vipuser1', user_id: '123' },
+          { user_login: 'vipuser2', user_id: '456' },
+          { user_login: 'vipuser3', user_id: '789' },
+        ]
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve(mockModeratorResponse)
+      });
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestVIPs(broadcasterId);
+
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}`, {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(response).toEqual(mockModeratorResponse);
+    });
+    test('should return a filtered list of the VIPs of the broadcaster', async() => {
+      const mockModeratorResponse = {
+        data: [
+          { user_login: 'vipuser1', user_id: '123' },
+          { user_login: 'vipuser2', user_id: '456' },
+        ]
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve(mockModeratorResponse)
+      });
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestVIPs(broadcasterId, ['123', '456']);
+
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}&user_id=123&user_id=456`, {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(response).toEqual(mockModeratorResponse);
+    });
+  });
+
+  describe('sendChatAnnouncement', () => {
+    test('should send a chat announcement without error', async() => {
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({status: 204})
+      });
+      const broadcasterId = '12345', moderatorId = '54321', message = 'Type !join to play!';
+      await twitchApi.sendChatAnnouncement({message, broadcasterId, moderatorId});
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/chat/announcements?broadcaster_id=${broadcasterId}&moderator_id=${moderatorId}`, {
+        body: JSON.stringify({message: 'Type !join to play!'}),
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      });
     });
   });
 

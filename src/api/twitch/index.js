@@ -570,6 +570,46 @@ export default class TwitchApi {
     }
   };
 
+  /**
+   * Sends an announcement to the broadcaster’s chat room.
+   * @param {string} message Announcement to make in the broadcaster's chat room
+   * @param {string} color The color used to highlight the announcement. Accepted values: 'blue', 'green', 'orange', 'purple', 'primary' (default)
+   * @param {string} broadcasterId The ID of the broadcaster that owns the chat room to send the announcement to.
+   * @param {string} moderatorId The ID of a user who has permission to moderate the broadcaster’s chat room, or the broadcaster’s ID if they’re sending the announcement. This ID must match the user ID in the user access token.
+   * @returns http status code:
+   *  204 No Content
+   *    Successfully sent the announcement.
+   *  400 Bad Request
+   *    The message field in the request's body is required.
+   *    The message field may not contain an empty string.
+   *    The string in the message field failed review.
+   *    The specified color is not valid.
+   *  401 Unauthorized
+   *    The Authorization header is required and must contain a user access token.
+   *    The user access token is missing the moderator:manage:announcements scope.
+   *    The OAuth token is not valid.
+   *    The client ID specified in the Client-Id header does not match the client ID specified in the OAuth token.
+   */
+  sendChatAnnouncement = async({message, broadcasterId, moderatorId, color}) => {
+    if (this.debug) {window.console.log('sendAnnouncement:', message);}
+    let requestBody = (color) ? {color, message} : {message};
+    try {
+      const response = await fetch(`https://api.twitch.tv/helix/chat/announcements?broadcaster_id=${broadcasterId}&moderator_id=${moderatorId}`, {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          Authorization: `Bearer ${this._accessToken}`,
+          'Client-ID': this._clientId,
+          'Content-Type': 'application/json'
+        }
+      });
+      return await response.json();
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - sendChatAnnouncement: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
   // https://dev.twitch.tv/docs/api/reference/#send-whisper
   // note: access token must include user:manage:whispers scope
   // note: sending user must have a verified phone number
@@ -633,6 +673,7 @@ export default class TwitchApi {
       return {msg: errMsg, status: response?.status, error};
     }
   };
+
 
   sendMessage = async(msg) => {
     if (this.debug) {window.console.log('sendMessage:', msg);}
