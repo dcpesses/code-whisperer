@@ -141,6 +141,7 @@ class MainScreen extends Component {
       clearQueueHandler: this.routeClearQueueRequest.bind(this),
       closeQueueHandler: this.routeCloseQueueRequest.bind(this),
       joinQueueHandler: this.routePlayRequest.bind(this),
+      listQueueHandler: this.routeListPlayingQueueRequest.bind(this),
       logUserMessages: this.state.logUserMessages,
       messages: this.state.messages,
       moderators: this.props.moderators,
@@ -385,6 +386,14 @@ class MainScreen extends Component {
 
   routeClearQueueRequest = () => {
     this.playerSelector?.clearQueue();
+  };
+
+  routeListInterestedQueueRequest = () => {
+    this.playerSelector?.listInterestedQueue();
+  };
+
+  routeListPlayingQueueRequest = () => {
+    return this.playerSelector?.listPlayingQueue();
   };
 
   sendMessage = (msg) => {

@@ -21,6 +21,7 @@ const getMessageHandlerConfig = (overrides={}) => Object.assign({
   clearQueueHandler: vi.fn(),
   closeQueueHandler: vi.fn(),
   joinQueueHandler: vi.fn(),
+  listQueueHandler: vi.fn(),
   logUserMessages: false,
   messages: {},
   moderators: [],
@@ -764,6 +765,33 @@ describe('DefaultChatCommands', () => {
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
       expect(DefaultChatCommands.find(c => c.id === 'removeUser').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.playerExitHandler).not.toBeCalled();
+    });
+  });
+  describe('listCommands', () => {
+    let scope;
+    beforeEach(() => {
+      scope = {
+        isModOrBroadcaster: vi.fn().mockReturnValue(true),
+        listQueueHandler: vi.fn().mockReturnValue(['dcpesses', 'dewinblack', 'rxpcgal70']),
+        sendMessage: vi.fn(),
+        settings: {
+          customDelimiter: false
+        },
+      };
+    });
+    test('should return list of players in the Playing queue', () => {
+      expect(DefaultChatCommands.find(c => c.id === 'listQueue').response(scope, 'channelmod')).toBeTruthy();
+      expect(scope.sendMessage.mock.calls).toMatchSnapshot();
+    });
+    test('should return list of players in the Playing queue separated by a custom delimiter', () => {
+      scope.settings.customDelimiter = '#';
+      expect(DefaultChatCommands.find(c => c.id === 'listQueue').response(scope, 'channelmod')).toBeTruthy();
+      expect(scope.sendMessage.mock.calls).toMatchSnapshot();
+    });
+    test('should not return list of players in the Playing queue when user is not a mod', () => {
+      scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
+      expect(DefaultChatCommands.find(c => c.id === 'listQueue').response(scope, 'nonchannelmod')).toBeTruthy();
+      expect(scope.sendMessage.mock.calls).toMatchSnapshot();
     });
   });
   describe('clear', () => {
