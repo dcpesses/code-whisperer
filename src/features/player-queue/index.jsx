@@ -295,6 +295,7 @@ export class PlayerQueue extends Component {
         btnProps={btnProps}
         onRemoveUser={this.removeUser.bind(this, userObj.username)}
         onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
+        prioritySeat={(userObj.isPrioritySeat === true)}
         queueName={curColumn}
         relativeTime={relativeTime}
         showSendButton={displaySendCodeBtn}
