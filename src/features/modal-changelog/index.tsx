@@ -23,6 +23,7 @@ export const changelogArray = [
     'New command `!queue` lists all of the people in the Playing queue',
     'Migrated several component states to use Redux stores',
     'Fixed issue with chat client improperly disconnecting',
+    'Added in-app Ko-fi donation button with iframe overlay. Hey, why not.',
   ]},
   {'0.4.0': [
     (
