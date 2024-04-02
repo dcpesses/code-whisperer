@@ -9,6 +9,18 @@
   --todo-bg-form-rgb: 153, 102, 204!important;
   --todo-bg-item-rgb: 102, 153, 204!important;
   --todo-bg-alpha: 0.35!important;
+
+  --purple-0: #f6f2ff;
+  --purple-10: #e2d4ff;
+  --purple-20: #ccb0ff;
+  --purple-30: #b68cff;
+  --purple-40: #a269ff;
+  --purple-50: #9146ff;
+  --purple-60: #8331f5;
+  --purple-70: #721de0;
+  --purple-75: #6f42c1;
+  --purple-80: #5e0cc2;
+  --purple-90: #470099;
 }
 
 .text-purple-0 {color: #f6f2ff;}

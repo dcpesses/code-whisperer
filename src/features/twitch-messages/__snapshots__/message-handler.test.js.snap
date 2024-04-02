@@ -1,9 +1,33 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`DefaultChatCommands > listCommands > should not return list of players in the Playing queue when user is not a mod 1`] = `
+[
+  [
+    "/me @nonchannelmod, only channel moderators can use this command.",
+  ],
+]
+`;
+
 exports[`DefaultChatCommands > listCommands > should return list of commands 1`] = `
 [
   [
-    "Code Whisperer Commands: !commands, !version, !whichpack, !join, !leave, !adduser, !removeuser, !clear, !open, !close, !clearopen, !startgame",
+    "Code Whisperer Commands: !commands, !version, !whichpack, !join, !leave, !adduser, !removeuser, !queue, !clear, !open, !close, !clearopen, !startgame",
+  ],
+]
+`;
+
+exports[`DefaultChatCommands > listCommands > should return list of players in the Playing queue 1`] = `
+[
+  [
+    "/me Current Queue (3): dcpesses, dewinblack, rxpcgal70",
+  ],
+]
+`;
+
+exports[`DefaultChatCommands > listCommands > should return list of players in the Playing queue separated by a custom delimiter 1`] = `
+[
+  [
+    "/me Current Queue (3): dcpesses # dewinblack # rxpcgal70",
   ],
 ]
 `;

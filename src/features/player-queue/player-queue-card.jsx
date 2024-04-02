@@ -33,15 +33,15 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
   }
 
   // Merge user info with props data
-  const { info, whisperStatus } = useSelector((state) => state.users);
+  const { chatters, whisperStatus } = useSelector((state) => state.user);
   let userInfo = {};
   let display_name = username;
   let img = (
     <i className="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50" alt={display_name} />
   );
   let created_at, description, relativeCreatedAt;
-  if (info[username]) {
-    userInfo = info[username];
+  if (chatters[username]) {
+    userInfo = chatters[username];
     display_name = userInfo.display_name;
     if (userInfo?.profile_image_url) {
       img = (

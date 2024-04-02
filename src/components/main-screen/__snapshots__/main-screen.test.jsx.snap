@@ -16,12 +16,17 @@ exports[`MainScreen > Should render without error 1`] = `
           class="fw-semibold navbar-brand"
         >
           <img
-            alt="dcpesses"
+            alt="TwitchUser"
+            class="rounded-circle navbar-pfp-img proxy-profile-img"
+            src="https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png"
+          />
+          <img
+            alt="TwitchStreamer"
             class="rounded-circle navbar-pfp-img"
-            src="profile_image-300x300.png"
+            src="https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png"
           />
            
-          dcpesses
+          TwitchStreamer
         </span>
         <button
           aria-controls="navbar-options-menu"
@@ -192,6 +197,33 @@ exports[`MainScreen > Should render without error 1`] = `
                       value=""
                     />
                   </button>
+                  <hr
+                    class="border-bottom my-2"
+                  />
+                  <h5>
+                    Beta Options
+                  </h5>
+                  <div
+                    class="smaller"
+                  >
+                    These options have not been fully tested and may not work as intended.
+                  </div>
+                  <button
+                    class="btn settings-menu btn btn-link"
+                    id="enable-moderated-channels-option"
+                    title="Allows user to use this app on another channel that grants them moderation access."
+                    type="button"
+                  >
+                    <input
+                      readonly=""
+                      role="switch"
+                      type="checkbox"
+                    />
+                     
+                    <span>
+                      Enable Moderated Channels Menu
+                    </span>
+                  </button>
                 </div>
               </div>
               <a
@@ -208,23 +240,24 @@ exports[`MainScreen > Should render without error 1`] = `
                 role="button"
                 tabindex="0"
               >
-                Changelog
-              </a>
-              <a
-                class="nav-link"
-                href="#"
-                role="button"
-                tabindex="0"
-              >
-                Switch View 
-                <small>
-                  (Debug)
-                </small>
+                What's New
               </a>
               <div
                 class="position-absolute bottom-0 start-0 end-0 pb-3 text-center"
                 id="options-debug-menu-items"
               >
+                <a
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
+                  title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!"
+                >
+                  <img
+                    alt="Support Me on Ko-fi"
+                    src="https://ko-fi.com/img/githubbutton_sm.svg"
+                  />
+                </a>
                 <div
                   class="dropup-center dropup"
                   id="dropdown-debug-menu-items"

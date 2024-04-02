@@ -154,6 +154,16 @@ export default class PlayerQueue extends Component {
       + (this.state.streamerSeat ? 1 : 0);
   };
 
+  listInterestedQueue = () => this.state.interested;
+
+  listPlayingQueue = () => {
+    let queue = [];
+    if (this.state.streamerSeat && this.props.twitchApi.channel) {
+      queue.push({username: this.props.twitchApi.channel});
+    }
+    return queue.concat(this.state.playing).map(player => player.username);
+  };
+
   toggleStreamerSeat = () => {
     this.setState((prevState) => ({
       ...prevState,

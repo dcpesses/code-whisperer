@@ -100,8 +100,13 @@ describe('AuthenticatedApp', () => {
 
   describe('onTwitchAuthInit', () => {
     test('should handle response with user info', () => {
-      let component = new AuthenticatedApp();
+      const component = new AuthenticatedApp();
       vi.spyOn(component, 'setState');
+      const props = {
+        setChannelInfo: vi.fn(),
+        setUserInfo: vi.fn(),
+      };
+      component.props = props;
       component.twitchApi = {
         userInfo: {
           login: 'mockUsername',
@@ -111,6 +116,8 @@ describe('AuthenticatedApp', () => {
       };
 
       component.onTwitchAuthInit();
+      expect(props.setUserInfo).toHaveBeenCalledTimes(1);
+      expect(props.setChannelInfo).toHaveBeenCalledTimes(1);
       expect(component.setState).toHaveBeenCalledTimes(1);
       expect(component.setState).toHaveBeenCalledWith({
         username: 'mockUsername',
@@ -118,7 +125,7 @@ describe('AuthenticatedApp', () => {
         profile_image_url: 'mockProfileImageUrl',
         auth_pending: false,
         failed_login: false,
-      });
+      }, component.updateModsAndVIPs);
     });
 
     test('should handle response with no user info', () => {
@@ -190,11 +197,14 @@ describe('AuthenticatedApp', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedApp {...props} />);
       let instance = shallowRenderer.getMountedInstance();
-      instance.twitchApi = {mock: 'TwitchApi'};
+      instance.twitchApi = {
+        mock: 'TwitchApi',
+        closeChatClient: vi.fn()
+      };
       instance.setState({
         access_token: 'yadayadayada',
         failed_login: false,
-        modList: [],
+        moderators: [],
         username: 'sirgoosewell'
       });
       let component = shallowRenderer.getRenderOutput();

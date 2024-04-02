@@ -48,7 +48,7 @@ export const DefaultChatCommands = [
     id: 'listVersion',
     mod: false,
     response: (scope) => {
-      scope.sendMessage(`/me is using Game Code Whisperer, v${version} GoatEmotey https://github.com/dcpesses/code-whisperer`);
+      scope.sendMessage(`/me is using Code Whisperer v${version}, created by @dcpesses GoatEmotey More Info: https://github.com/dcpesses/code-whisperer`);
       return true;
     },
   },
@@ -143,6 +143,27 @@ export const DefaultChatCommands = [
         return true;
       }
       scope.playerExitHandler(exitingUser);
+      return true;
+    },
+  },
+  {
+    commands: ['!queue'],
+    displayName: 'queue',
+    description: 'List all the players currently in the Playing queue',
+    id: 'listQueue',
+    mod: true,
+    response: (scope, username) => {
+      if (!scope.isModOrBroadcaster(username)) {
+        scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
+        return true;
+      }
+      const pipe = (scope.settings?.customDelimiter)
+        ? ` ${scope.settings.customDelimiter} `
+        : ', ';
+      let queue = scope.listQueueHandler();
+      const count = queue.length;
+      queue = queue.join(pipe);
+      scope.sendMessage(`/me Current Queue (${count}): ${queue}`);
       return true;
     },
   },
@@ -292,8 +313,9 @@ export default class MessageHandler {
     clearQueueHandler=noop,
     closeQueueHandler=noop,
     logUserMessages,
+    listQueueHandler=noop,
     messages,
-    modList,
+    moderators,
     onDelete=noop,
     onInit=noop,
     onMessageCallback=noop,
@@ -322,8 +344,9 @@ export default class MessageHandler {
     this.debug = debug ?? (!import.meta.env.PROD & import.meta.env.MODE !== 'test');
     this.joinQueueHandler = joinQueueHandler;
     this.logUserMessages = logUserMessages;
+    this.listQueueHandler = listQueueHandler;
     this.messages = messages;
-    this.modList = modList;
+    this.moderators = moderators;
     this.onDelete = onDelete;
     this._onInitCallback = onInit ?? noop;
     this.onMessageCallback = onMessageCallback;
@@ -385,7 +408,7 @@ export default class MessageHandler {
   };
 
   isModOrBroadcaster = (username) => {
-    return (this.channel === username.toLowerCase() || this.modList.includes(username.toLowerCase()));
+    return (this.channel === username.toLowerCase() || this.moderators.includes(username.toLowerCase()));
   };
 
   // returns true if a known command was found & responded to
