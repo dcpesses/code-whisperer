@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
+import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
@@ -14,35 +16,39 @@ const GAME_PLACEHOLDER = {
   'Max players': 16,
   username: '',
 };
-export default class PlayerQueue extends Component {
+
+export class PlayerQueue extends Component {
   static get propTypes() {
     return {
+      channelInfo: PropTypes.object,
       gamesList: PropTypes.object,
       sendMessage: PropTypes.any,
       sendWhisper: PropTypes.any,
       settings: PropTypes.object,
       twitchApi: PropTypes.any.isRequired,
+      userInfo: PropTypes.object,
       userLookup: PropTypes.any,
     };
   }
   static get defaultProps() {
     return {
+      channelInfo: {},
       gamesList: {},
-      userLookup: {},
-      settings: {},
-      sendWhisper: {},
       sendMessage: {},
+      sendWhisper: {},
+      settings: {},
+      userInfo: {},
+      userLookup: {},
     };
   }
   constructor(props) {
     super(props);
-    this.firstColumn = React.createRef();
+
     this.state = {
       interested: [],
       playing: [],
       maxPlayers: 8,
       roomCode: null,
-      sentCodeStatus: {},
       streamerSeat: false,
       isQueueOpen: true,
       randCount: 0
@@ -477,3 +483,38 @@ export default class PlayerQueue extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  channelInfo: state.channel.user,
+  userInfo: state.user.info,
+  // queue related
+  interested: state.queue.interested,
+  playing: state.queue.playing,
+  joined: state.queue.joined,
+  maxPlayers: state.queue.maxPlayers,
+  roomCode: state.queue.roomCode,
+  streamerSeat: state.queue.streamerSeat,
+  isQueueOpen: state.queue.isQueueOpen,
+  randCount: state.queue.randCount,
+  signupMessage: state.queue.signupMessage
+});
+const mapDispatchToProps = () => ({
+  clearQueue,
+  clearRoomCode,
+  closeQueue,
+  incrementRandomCount,
+  openQueue,
+  removeUser,
+  resetRandomCount,
+  setFakeStates,
+  setMaxPlayers,
+  setRoomCode,
+  toggleStreamerSeat,
+  updateColumnForUser,
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps(),
+  null,
+  { forwardRef: true }
+)(PlayerQueue);

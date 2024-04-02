@@ -4,14 +4,14 @@ import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
 // import twitchReducer from '../features/twitch/twitchSlice';
 import channelReducer from '@/features/twitch/channel-slice.js';
 import userReducer from '@/features/player-queue/user-slice.js';
-// import { profileReducer } from '@/features/twitch/profileSlice';
+import queueReducer from '@/features/player-queue/queue-slice';
 import todosReducer from '@/features/todos/todosSlice';
 
 const reducer = {
   counter: counterReducer,
   channel: channelReducer,
   modal: modalCommandListReducer,
-  // profile: profileReducer,
+  queue: queueReducer,
   user: userReducer,
   todos: todosReducer,
 };
