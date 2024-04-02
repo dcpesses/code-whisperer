@@ -12,6 +12,18 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  {'0.5.0': [
+    'Added Beta Options section to Settings menu',
+    'Allow Twitch moderators to listen to chat commands on another stream.',
+    [
+      '- Must opt-in under Settings -> Beta Options to enable ',
+      '- Only available on channels where the logged in user can moderate.',
+      '- When enabled, moderated channels are listed in the new dropdown at the top left.',
+    ],
+    'New command `!queue` lists all of the people in the Playing queue',
+    'Migrated several component states to use Redux stores',
+    'Fixed issue with chat client improperly disconnecting',
+  ]},
   {'0.4.0': [
     (
       <>
@@ -58,11 +70,28 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
 
   const renderLog = (log: object) => {
     const [[version, items]] = Object.entries(log);
-    const listitems = items.map((item: string, idx: number) => (
-      <li key={`changelog-v${version}-${idx}`}>
-        {item}
-      </li>
-    ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const listitems = items.map((item: any, idx: number) => {
+      if (item.map) {
+        return (
+          <ul key={`changelog-v${version}-${idx}`} className="ms-5">
+            {
+              item.map((subitem: string, subidx: number) => (
+                <li key={`changelog-v${version}-${idx}-${subidx}`}>
+                  {subitem}
+                </li>
+              ))
+            }
+          </ul>
+        );
+      }
+
+      return (
+        <li key={`changelog-v${version}-${idx}`}>
+          {item}
+        </li>
+      );
+    });
     return (
       <Fragment key={`changelog-v${version}`}>
         <strong>
@@ -78,6 +107,12 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
   return (
     <ModalReusable show={show} title="What's New" handleClose={handleClose}>
       <>
+        <div className="alert alert-warning d-flex align-items-center" role="alert">
+          <i className="bi-exclamation-triangle-fill fs-1"></i>
+          <div className="ms-3">
+            <b>HEADS UP!</b> If you&apos;re reading this notice for the first time, you may need to log out and log back in to approve additional permissions in order for some new and upcoming features to work correctly.
+          </div>
+        </div>
         {renderLog(changelogArray[0])}
         <hr />
         <Collapse in={showPastUpdates}>
