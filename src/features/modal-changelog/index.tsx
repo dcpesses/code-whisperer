@@ -13,7 +13,11 @@ interface ModalChangelogProps {
 
 export const changelogArray = [
   {'0.4.0': [
-    'MAJOR overhaul of the MessageHandler class to remove its reliance on React and increase its extensibility',
+    (
+      <>
+        <b>MAJOR</b> overhaul of the MessageHandler class to remove its reliance on React and increase its extensibility
+      </>
+    ),
     'Added settings for custom !join and !leave commands',
     'Added settings to enable/disable chat confirmations for !join and !leave commands',
     'Added this Changelog modal, which should automatically show up the first time a new version is loaded.',
@@ -72,7 +76,7 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
   };
 
   return (
-    <ModalReusable show={show} title="Changelog" handleClose={handleClose}>
+    <ModalReusable show={show} title="What's New" handleClose={handleClose}>
       <>
         {renderLog(changelogArray[0])}
         <hr />

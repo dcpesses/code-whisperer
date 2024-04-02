@@ -240,7 +240,7 @@ exports[`MainScreen > Should render without error 1`] = `
                 role="button"
                 tabindex="0"
               >
-                Changelog
+                What's New
               </a>
               <div
                 class="position-absolute bottom-0 start-0 end-0 pb-3 text-center"

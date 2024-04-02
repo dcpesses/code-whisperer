@@ -370,7 +370,7 @@ export class HeaderMenu extends Component {
                 </Collapse>
                 {/* {optionMenuItems} */}
                 <Nav.Link onClick={()=>this.props.showModalCommandList()}>View Chat Commands</Nav.Link>
-                <Nav.Link onClick={this.props.toggleChangelogModal}>Changelog</Nav.Link>
+                <Nav.Link onClick={this.props.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">
