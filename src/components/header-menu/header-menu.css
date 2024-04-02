@@ -80,3 +80,20 @@ nav .navbar-pfp-img.proxy-profile-img {
   color: var(--bs-emphasis-color)!important;
 }
 
+.kofi-overlay {
+  z-index: 2045;
+  position: relative;
+  max-width: 392px;
+  width: 100%;
+}
+.kofi-overlay .btn-close {
+  filter: none!important;
+}
+#kofiframe{
+  border: none;
+  width: 100%;
+  max-width: 392px;
+  padding: 4px;
+  background: #f9f9f9;
+}
+

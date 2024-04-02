@@ -246,6 +246,18 @@ exports[`MainScreen > Should render without error 1`] = `
                 class="position-absolute bottom-0 start-0 end-0 pb-3 text-center"
                 id="options-debug-menu-items"
               >
+                <a
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
+                  title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!"
+                >
+                  <img
+                    alt="Support Me on Ko-fi"
+                    src="https://ko-fi.com/img/githubbutton_sm.svg"
+                  />
+                </a>
                 <div
                   class="dropup-center dropup"
                   id="dropdown-debug-menu-items"

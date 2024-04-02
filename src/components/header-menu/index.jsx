@@ -1,7 +1,7 @@
 
 import {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Collapse, Dropdown} from 'react-bootstrap';
+import {Button, CloseButton, Collapse, Dropdown, OverlayTrigger} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -58,10 +58,12 @@ export class HeaderMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showKofiOverlay: false,
       showGameList: false,
       showSettingsMenu: false,
     };
     this.toggleGameList = this.toggleGameList.bind(this);
+    this.toggleKofiOverlay = this.toggleKofiOverlay.bind(this);
     this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
 
     this.updateCustomDelimiter = this.updateInputOption.bind(this, 'customDelimiter');
@@ -72,6 +74,8 @@ export class HeaderMenu extends Component {
     this.toggleJoinConfirmationMessage = this.toggleOption.bind(this, 'enableJoinConfirmationMessage');
     this.toggleLeaveConfirmationMessage = this.toggleOption.bind(this, 'enableLeaveConfirmationMessage');
     this.toggleEnableModeratedChannelsOption = this.toggleOption.bind(this, 'enableModeratedChannelsOption');
+
+    this.offcanvasRef;
   }
 
   /**
@@ -162,8 +166,8 @@ export class HeaderMenu extends Component {
     }
   };
 
+  toggleKofiOverlay = () => this.setState((state) => ({showKofiOverlay: !state.showKofiOverlay}));
   toggleGameList = () => this.setState((state) => ({showGameList: !state.showGameList}));
-
   toggleSettingsMenu = () => this.setState((state) => ({showSettingsMenu: !state.showSettingsMenu}));
 
   /**
@@ -201,6 +205,9 @@ export class HeaderMenu extends Component {
   //   this.props.onSettingsUpdate({customLeaveCommand: this.sanitizeInputEventTargetValue(e)});
   // };
 
+  // setOffcanvasRef = (ref) => {
+  //   this.offcanvasRef = ref;
+  // };
 
   render() {
     let {channelInfo, debugItems, userInfo, settings/*, onSettingsUpdate*/} = this.props;
@@ -267,7 +274,7 @@ export class HeaderMenu extends Component {
                 Options
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body className="fw-medium">
+            <Offcanvas.Body className="fw-medium" ref={this.setOffcanvasRef}>
               <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
                 <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
                 <hr className="border-bottom my-2" />
@@ -373,6 +380,26 @@ export class HeaderMenu extends Component {
                 <Nav.Link onClick={this.props.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
+                  <OverlayTrigger
+                    show={this.state.showKofiOverlay}
+                    onToggle={this.toggleKofiOverlay}
+                    trigger="click"
+                    placement="top"
+                    overlay={
+
+                      <div className="kofi-overlay" style={{zIndex: 1046}}>
+                        <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="dcpesses"></iframe>
+                        <div className="position-absolute top-0 end-0 p-2">
+                          <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
+                        </div>
+                      </div>
+
+                    }
+                  >
+                    <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
+                      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support Me on Ko-fi" />
+                    </Nav.Link>
+                  </OverlayTrigger>
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">
                     <Dropdown.Toggle id="dropdown-debug-menu-items-toggle" size="sm" variant="link" className="text-decoration-none">
                       {`version ${version}`}
