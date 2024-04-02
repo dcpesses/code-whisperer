@@ -10,6 +10,8 @@ import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
 
+export const noop = () => void 0;
+
 const GAME_PLACEHOLDER = {
   name: '',
   'Min players': 1,
@@ -28,6 +30,27 @@ export class PlayerQueue extends Component {
       twitchApi: PropTypes.any.isRequired,
       userInfo: PropTypes.object,
       userLookup: PropTypes.any,
+
+      interested: PropTypes.array,
+      playing: PropTypes.array,
+      maxPlayers: PropTypes.number,
+      roomCode: PropTypes.string,
+      streamerSeat: PropTypes.bool,
+      isQueueOpen: PropTypes.bool,
+      randCount: PropTypes.number,
+      // dispatch
+      clearQueue: PropTypes.func,
+      clearRoomCode: PropTypes.func,
+      closeQueue: PropTypes.func,
+      incrementRandomCount: PropTypes.func,
+      openQueue: PropTypes.func,
+      removeUser: PropTypes.func,
+      resetRandomCount: PropTypes.func,
+      setFakeStates: PropTypes.func,
+      setMaxPlayers: PropTypes.func,
+      setRoomCode: PropTypes.func,
+      toggleStreamerSeat: PropTypes.func,
+      updateColumnForUser: PropTypes.func,
     };
   }
   static get defaultProps() {
@@ -39,6 +62,29 @@ export class PlayerQueue extends Component {
       settings: {},
       userInfo: {},
       userLookup: {},
+
+      interested: [],
+      playing: [],
+      joined: [],
+      maxPlayers: 8,
+      roomCode: null,
+      streamerSeat: false,
+      isQueueOpen: true,
+      randCount: 0,
+      // signupMessage: null,
+
+      clearQueue: noop,
+      clearRoomCode: noop,
+      closeQueue: noop,
+      incrementRandomCount: noop,
+      openQueue: noop,
+      removeUser: noop,
+      resetRandomCount: noop,
+      setFakeStates: noop,
+      setMaxPlayers: noop,
+      setRoomCode: noop,
+      toggleStreamerSeat: noop,
+      updateColumnForUser: noop,
     };
   }
   constructor(props) {
@@ -61,6 +107,7 @@ export class PlayerQueue extends Component {
   componentDidMount() {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       this.setState(fakeStates.PlayerSelect);
+      this.props.setFakeStates(fakeStates.PlayerSelect);
     }
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
@@ -101,6 +148,7 @@ export class PlayerQueue extends Component {
     if (evt.target?.value) {
       roomCode = evt.target.value.trim();
     }
+    this.props.setRoomCode(roomCode);
     this.setState({roomCode});
   };
 
@@ -114,6 +162,7 @@ export class PlayerQueue extends Component {
   updateColumnForUser = (userObj, newColumn) => {
     if (!this.state || !this.state[newColumn]) {return false;}
 
+    this.props.updateColumnForUser({user: userObj, column: newColumn});
     this.removeUser(userObj.username);
     this.setState((prevState) => ({
       ...prevState,
@@ -126,6 +175,7 @@ export class PlayerQueue extends Component {
   };
 
   removeUser = (username) => {
+    this.props.removeUser(username);
     return this.setState((prevState) => ({
       ...prevState,
       interested: prevState.interested.filter((iObj) => iObj.username !== username),
@@ -134,6 +184,7 @@ export class PlayerQueue extends Component {
   };
 
   clearQueue = () => {
+    this.props.clearQueue();
     return this.setState((prevState) => ({
       ...prevState,
       interested: [],
@@ -142,6 +193,7 @@ export class PlayerQueue extends Component {
   };
 
   openQueue = () => {
+    this.props.openQueue();
     return this.setState((prevState) => ({
       ...prevState,
       isQueueOpen: true
@@ -149,6 +201,7 @@ export class PlayerQueue extends Component {
   };
 
   closeQueue = () => {
+    this.props.closeQueue();
     return this.setState((prevState) => ({
       ...prevState,
       isQueueOpen: false
@@ -171,6 +224,7 @@ export class PlayerQueue extends Component {
   };
 
   toggleStreamerSeat = () => {
+    this.props.toggleStreamerSeat();
     this.setState((prevState) => ({
       ...prevState,
       streamerSeat: !prevState.streamerSeat
@@ -178,6 +232,7 @@ export class PlayerQueue extends Component {
   };
 
   canStartGame = () => this.state.maxPlayers >= this.playerCount();
+  // canStartGame = () => this.props.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
@@ -188,6 +243,8 @@ export class PlayerQueue extends Component {
       roomCode: null
     }));
     // this.props.startGame();
+    this.props.clearQueue();
+    this.props.clearRoomCode();
   };
 
   initRandomizePlayersAnimation = () => {
@@ -201,9 +258,7 @@ export class PlayerQueue extends Component {
         // skip animation if no need to randomize
         this.randomizePlayers();
         clearInterval(this.randInt);
-        this.setState({
-          randCount: 0
-        });
+        this.props.resetRandomCount();
         return;
       }
       this.randInt = setInterval(this.randomizePlayersAnimation, 50);
@@ -212,15 +267,17 @@ export class PlayerQueue extends Component {
   };
 
   randomizePlayersAnimation = () => {
-    switch (this.state.randCount) {
+    switch (this.props.randCount) {
     case 15:
       this.randomizePlayers();
       clearInterval(this.randInt);
       this.setState({
         randCount: 0
       });
+      this.props.resetRandomCount();
       break;
     default:
+      this.props.incrementRandomCount();
       this.setState(
         (prevState) => ({
           randCount: prevState.randCount + 1
@@ -404,6 +461,9 @@ export class PlayerQueue extends Component {
   };
 
   render() {
+    let {interested, playing, maxPlayers, roomCode} = this.state;
+    let {randCount} = this.props;
+
     const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
     if (playerCount < this.game?.['Min players']) {
@@ -411,7 +471,7 @@ export class PlayerQueue extends Component {
     }
 
     let btnRandomizeLabel = 'Randomize';
-    if (this.state.maxPlayers >= this.state.interested.length + playerCount) {
+    if (maxPlayers >= interested.length + playerCount) {
       btnRandomizeLabel = 'Add All to Playing';
     }
 
@@ -419,10 +479,10 @@ export class PlayerQueue extends Component {
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
         <div className="queue my-1 px-md-1 col-12">
           <GameCodeForm
-            value={this.state.roomCode || ''}
+            value={roomCode || ''}
             onInputChange={this.handleRoomCodeChange}
             onSendToAll={this.sendCodeToAll}
-            disabled={this.state.playing.length===0 || !this.state.roomCode}
+            disabled={playing.length===0 || !roomCode}
           />
         </div>
 
@@ -449,10 +509,10 @@ export class PlayerQueue extends Component {
                 {btnRandomizeLabel}
               </button>
             </h6>
-            <div className={`d-flex flex-column text-body interested-queue rand-${this.state.randCount}`}>
+            <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
 
-              {this.state.interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-              {this.state.interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+              {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+              {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
 
             </div>
           </div>
@@ -472,8 +532,8 @@ export class PlayerQueue extends Component {
             </h6>
             <div className="d-flex flex-column text-body playing-queue">
 
-              {this.state.playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-              {this.state.playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
 
             </div>
 

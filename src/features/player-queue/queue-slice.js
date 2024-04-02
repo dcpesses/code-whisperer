@@ -35,12 +35,12 @@ export const queueSlice = createSlice({
     },
 
     updateColumnForUser: (state, action) => {
-      const {userObj, newColumn} = action.payload;
-      if (state[newColumn]) {
-        this.removeUser(userObj.username);
-        state.interested = state.interested.filter((iObj) => iObj.username !== userObj.username);
-        state.playing = state.playing.filter((pObj) => pObj.username !== userObj.username);
-        state[newColumn] = [...state[newColumn], userObj];
+      const {user, column} = action.payload;
+      if (state[column]) {
+        this.removeUser(user.username);
+        state.interested = state.interested.filter((iObj) => iObj.username !== user.username);
+        state.playing = state.playing.filter((pObj) => pObj.username !== user.username);
+        state[column] = [...state[column], user];
       }
     },
 
