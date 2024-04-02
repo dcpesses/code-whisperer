@@ -379,7 +379,7 @@ exports[`MainScreen > Should render without error 1`] = `
               <button
                 class="btn btn-sm"
               >
-                Randomize
+                Add All to Playing
               </button>
             </h6>
             <div

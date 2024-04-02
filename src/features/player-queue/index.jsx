@@ -185,11 +185,21 @@ export default class PlayerQueue extends Component {
   };
 
   initRandomizePlayersAnimation = () => {
+    const playerCount = this.playerCount();
     const numPlayersToAdd = Math.min(
-      this.state.maxPlayers - this.playerCount(),
+      this.state.maxPlayers - playerCount,
       this.state.interested.length
     );
     if (numPlayersToAdd > 0) {
+      if (this.state.maxPlayers >= this.state.interested.length + playerCount) {
+        // skip animation if no need to randomize
+        this.randomizePlayers();
+        clearInterval(this.randInt);
+        this.setState({
+          randCount: 0
+        });
+        return;
+      }
       this.randInt = setInterval(this.randomizePlayersAnimation, 50);
       return;
     }
@@ -387,9 +397,15 @@ export default class PlayerQueue extends Component {
   };
 
   render() {
+    const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
-    if (this.playerCount() < this.game?.['Min players']) {
+    if (playerCount < this.game?.['Min players']) {
       startGameClass += ' disabled';
+    }
+
+    let btnRandomizeLabel = 'Randomize';
+    if (this.state.maxPlayers >= this.state.interested.length + playerCount) {
+      btnRandomizeLabel = 'Add All to Playing';
     }
 
     return (
@@ -423,7 +439,7 @@ export default class PlayerQueue extends Component {
               </span>
 
               <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
-                Randomize
+                {btnRandomizeLabel}
               </button>
             </h6>
             <div className={`d-flex flex-column text-body interested-queue rand-${this.state.randCount}`}>
