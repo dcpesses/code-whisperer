@@ -17,31 +17,26 @@ export const queueSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setFakeStates: (state, action) => {
-      if (action.payload.interested) {state.interested = action.payload.interested;}
-      if (action.payload.playing) {state.playing = action.payload.playing;}
-      if (action.payload.joined) {state.joined = action.payload.joined;}
-      if (action.payload.maxPlayers) {state.maxPlayers = action.payload.maxPlayers;}
-      if (action.payload.roomCode) {state.roomCode = action.payload.roomCode;}
-      if (action.payload.streamerSeat) {state.streamerSeat = action.payload.streamerSeat;}
-      if (action.payload.isQueueOpen) {state.isQueueOpen = action.payload.isQueueOpen;}
-      if (action.payload.randCount) {state.randCount = action.payload.randCount;}
+    clearQueue: (state) => {
+      state.interested = [];
+      state.joined = [];
+      state.playing = [];
     },
 
-    setRoomCode: (state, action) => {
-      if (action.payload) {
-        state.roomCode = action.payload;
-      }
+    clearRoomCode: (state) => {
+      state.roomCode = null;
     },
 
-    updateColumnForUser: (state, action) => {
-      const {user, column} = action.payload;
-      if (state[column]) {
-        this.removeUser(user.username);
-        state.interested = state.interested.filter((iObj) => iObj.username !== user.username);
-        state.playing = state.playing.filter((pObj) => pObj.username !== user.username);
-        state[column] = [...state[column], user];
-      }
+    closeQueue: (state) => {
+      state.isQueueOpen = false;
+    },
+
+    incrementRandomCount: (state) => {
+      state.randCount += 1;
+    },
+
+    openQueue: (state) => {
+      state.isQueueOpen = true;
     },
 
     removeUser: (state, action) => {
@@ -50,39 +45,44 @@ export const queueSlice = createSlice({
       state.playing = state.playing.filter((pObj) => pObj.username !== username);
     },
 
-    clearQueue: (state) => {
-      state.interested = [];
-      state.joined = [];
-      state.playing = [];
+    resetRandomCount: (state) => {
+      state.randCount = 0;
     },
 
-    openQueue: (state) => {
-      state.isQueueOpen = true;
+    setFakeQueueStates: (state, action) => {
+      if (action.payload.interested) {state.interested = action.payload.interested;}
+      if (action.payload.isQueueOpen !== undefined) {state.isQueueOpen = action.payload.isQueueOpen;}
+      if (action.payload.joined) {state.joined = action.payload.joined;}
+      if (action.payload.maxPlayers) {state.maxPlayers = action.payload.maxPlayers;}
+      if (action.payload.playing) {state.playing = action.payload.playing;}
+      if (!isNaN(action.payload.randCount)) {state.randCount = action.payload.randCount;}
+      if (action.payload.roomCode !== undefined) {state.roomCode = action.payload.roomCode;}
+      if (action.payload.signupMessage !== undefined) {state.signupMessage = action.payload.signupMessage;}
+      if (action.payload.streamerSeat !== undefined) {state.streamerSeat = action.payload.streamerSeat;}
     },
 
-    closeQueue: (state) => {
-      state.isQueueOpen = false;
+    setMaxPlayers: (state, action) => {
+      if (action.payload) {
+        state.maxPlayers = action.payload;
+      }
+    },
+
+    setRoomCode: (state, action) => {
+      if (action.payload) {
+        state.roomCode = action.payload;
+      }
     },
 
     toggleStreamerSeat: (state) => {
       state.streamerSeat = !state.streamerSeat;
     },
 
-    clearRoomCode: (state) => {
-      state.roomCode = null;
-    },
-
-    incrementRandomCount: (state) => {
-      state.randCount += 1;
-    },
-
-    resetRandomCount: (state) => {
-      state.randCount = 0;
-    },
-
-    setMaxPlayers: (state, action) => {
-      if (action.payload) {
-        state.maxPlayers = action.payload;
+    updateColumnForUser: (state, action) => {
+      const {user, column} = action.payload;
+      if (state[column]) {
+        state.interested = state.interested.filter((iObj) => iObj.username !== user.username);
+        state.playing = state.playing.filter((pObj) => pObj.username !== user.username);
+        state[column] = [...state[column], user];
       }
     },
   },
@@ -96,7 +96,7 @@ export const {
   openQueue,
   removeUser,
   resetRandomCount,
-  setFakeStates,
+  setFakeQueueStates,
   setMaxPlayers,
   setRoomCode,
   toggleStreamerSeat,

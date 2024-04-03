@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
-import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
+import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
@@ -46,7 +46,7 @@ export class PlayerQueue extends Component {
       openQueue: PropTypes.func,
       removeUser: PropTypes.func,
       resetRandomCount: PropTypes.func,
-      setFakeStates: PropTypes.func,
+      setFakeQueueStates: PropTypes.func,
       setMaxPlayers: PropTypes.func,
       setRoomCode: PropTypes.func,
       toggleStreamerSeat: PropTypes.func,
@@ -80,7 +80,7 @@ export class PlayerQueue extends Component {
       openQueue: noop,
       removeUser: noop,
       resetRandomCount: noop,
-      setFakeStates: noop,
+      setFakeQueueStates: noop,
       setMaxPlayers: noop,
       setRoomCode: noop,
       toggleStreamerSeat: noop,
@@ -107,7 +107,7 @@ export class PlayerQueue extends Component {
   componentDidMount() {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
       // this.setState(fakeStates.PlayerSelect);
-      this.props.setFakeStates(fakeStates.PlayerSelect);
+      this.props.setFakeQueueStates(fakeStates.PlayerSelect);
     }
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
@@ -568,7 +568,7 @@ const mapDispatchToProps = () => ({
   openQueue,
   removeUser,
   resetRandomCount,
-  setFakeStates,
+  setFakeQueueStates,
   setMaxPlayers,
   setRoomCode,
   toggleStreamerSeat,

@@ -10,7 +10,7 @@ import PlayerQueue from '@/features/player-queue';
 import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
-import { setFakeStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { setFakeUserStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
@@ -107,7 +107,7 @@ class MainScreen extends Component {
           showPlayerSelect: true
         })
       );
-      this.props.setFakeStates(fakeStates.UserStore);
+      this.props.setFakeUserStates(fakeStates.UserStore);
     }
   }
   componentDidUpdate = (prevProps, prevState) => {
@@ -261,7 +261,7 @@ class MainScreen extends Component {
           }),
           () => {
             this.playerSelector?.setState(fakeStates.PlayerSelect);
-            this.props.setFakeStates(fakeStates.UserStore);
+            this.props.setFakeUserStates(fakeStates.UserStore);
           }
         );
       }
@@ -487,7 +487,7 @@ MainScreen.propTypes = {
   onLogOut: PropTypes.func,
   setChatterInfo: PropTypes.func.isRequired,
   // profile_image_url: PropTypes.string,
-  setFakeStates: PropTypes.func.isRequired,
+  setFakeUserStates: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
   showModalCommandList: PropTypes.func.isRequired,
   twitchApi: PropTypes.object.isRequired,
@@ -516,6 +516,7 @@ const mapDispatchToProps = () => ({
   showModalCommandList,
   setChatterInfo,
   setFakeStates,
+  setFakeUserStates,
   setWhisperStatus,
 });
 export default connect(
