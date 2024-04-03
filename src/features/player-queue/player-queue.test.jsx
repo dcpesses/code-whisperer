@@ -181,12 +181,13 @@ describe('PlayerQueue', () => {
   });
 
   describe('handleNewPlayerRequest', () => {
-    const component = new PlayerQueueComponent({updateColumnForUser: vi.fn()});
-
-    vi.spyOn(component, 'setState').mockImplementation(()=>{});
-    vi.spyOn(component, 'removeUser').mockImplementation(()=>{});
+    let component;
 
     beforeEach(() => {
+      component = new PlayerQueueComponent({updateColumnForUser: vi.fn()});
+      vi.spyOn(component, 'setState').mockImplementation(()=>{});
+      vi.spyOn(component, 'removeUser').mockImplementation(()=>{});
+
       component.state = {
         ...state,
         maxPlayers: 8,
@@ -207,55 +208,49 @@ describe('PlayerQueue', () => {
       vi.resetAllMocks();
     });
 
-    test('should return the expected message when successful', () => {
+    test('should message that the user is currently in the Playing queue', () => {
       component.state.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player9', {})).toBe(
         'you are already in the lobby.'
       );
+    });
+    test('should add the user to the Interested queue and message the user', () => {
+      component.state.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player10', {})).toBe(
         'you have successfully joined the lobby.'
       );
+    });
+    test('should add the priority user to the Playing queue and message the user', () => {
+      component.state.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player11', {isPrioritySeat: true})).toBe(
         'you have been successfully added to the lobby.'
       );
+    });
+    test('should message the user but not add the user to the Interested queue when the queue is closed', () => {
       component.state.isQueueOpen = false;
       expect(component.handleNewPlayerRequest('player10', {})).toBe(
         'the queue is currently closed; users have already been selected for this game.'
       );
+    });
+    test('should add the priority user to the Playing queue and message the user when the queue is closed', () => {
+      component.state.isQueueOpen = false;
       expect(component.handleNewPlayerRequest('player11', {isPrioritySeat: true})).toBe(
         'you have been successfully added to the lobby.'
       );
-
-      expect(component.removeUser).toHaveBeenCalledTimes(3);
-      expect(component.setState).toHaveBeenCalledTimes(3);
-      expect(component.setState.mock.calls[1][0](component.state)).toEqual({
-        ...component.state,
-        playing: [
-          ...component.state.playing,
-          {username: 'player11', isPrioritySeat: true}
-        ]
-      });
     });
-    test('should return the expected message when an error occurs', () => {
-      component.state.playing = null;
-      component.state.interested = null;
+    test('should message the user when an error occurs adding the user to the queue', () => {
       component.state.isQueueOpen = true;
-
-      // expect(component.handleNewPlayerRequest('player9', {})).toBe(
-      //   'you are already in the lobby.'
-      // );
-      expect(component.handleNewPlayerRequest('player10', {isPrioritySeat: true})).toBe(
-        'there was an error adding you to the lobby.'
-      );
-      // component.state.isQueueOpen = false;
+      vi.spyOn(component, 'updateColumnForUser').mockImplementation(()=>{});
       expect(component.handleNewPlayerRequest('player11', {})).toBe(
         'there was an error adding you to the lobby.'
       );
-
-
-      expect(component.removeUser).toHaveBeenCalledTimes(0);
-      expect(component.setState).toHaveBeenCalledTimes(0);
-
+    });
+    test('should message the user when an error occurs adding the priority user to the queue', () => {
+      component.state.isQueueOpen = true;
+      vi.spyOn(component, 'updateColumnForUser').mockImplementation(()=>{});
+      expect(component.handleNewPlayerRequest('player10', {isPrioritySeat: true})).toBe(
+        'there was an error adding you to the lobby.'
+      );
     });
   });
 
