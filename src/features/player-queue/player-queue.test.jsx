@@ -184,12 +184,7 @@ describe('PlayerQueue', () => {
     let component;
 
     beforeEach(() => {
-      component = new PlayerQueueComponent({updateColumnForUser: vi.fn()});
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
-      vi.spyOn(component, 'removeUser').mockImplementation(()=>{});
-
-      component.state = {
-        ...state,
+      component = new PlayerQueueComponent({
         maxPlayers: 8,
         interested: [
           {username: 'player4'},
@@ -204,49 +199,50 @@ describe('PlayerQueue', () => {
         joined: [
           // {username: 'player9'}
         ],
-      };
+        updateColumnForUser: vi.fn()
+      });
       vi.resetAllMocks();
     });
 
     test('should message that the user is currently in the Playing queue', () => {
-      component.state.isQueueOpen = true;
+      component.props.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player9', {})).toBe(
         'you are already in the lobby.'
       );
     });
     test('should add the user to the Interested queue and message the user', () => {
-      component.state.isQueueOpen = true;
+      component.props.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player10', {})).toBe(
         'you have successfully joined the lobby.'
       );
     });
     test('should add the priority user to the Playing queue and message the user', () => {
-      component.state.isQueueOpen = true;
+      component.props.isQueueOpen = true;
       expect(component.handleNewPlayerRequest('player11', {isPrioritySeat: true})).toBe(
         'you have been successfully added to the lobby.'
       );
     });
     test('should message the user but not add the user to the Interested queue when the queue is closed', () => {
-      component.state.isQueueOpen = false;
+      component.props.isQueueOpen = false;
       expect(component.handleNewPlayerRequest('player10', {})).toBe(
         'the queue is currently closed; users have already been selected for this game.'
       );
     });
     test('should add the priority user to the Playing queue and message the user when the queue is closed', () => {
-      component.state.isQueueOpen = false;
+      component.props.isQueueOpen = false;
       expect(component.handleNewPlayerRequest('player11', {isPrioritySeat: true})).toBe(
         'you have been successfully added to the lobby.'
       );
     });
     test('should message the user when an error occurs adding the user to the queue', () => {
-      component.state.isQueueOpen = true;
+      component.props.isQueueOpen = true;
       vi.spyOn(component, 'updateColumnForUser').mockImplementation(()=>{});
       expect(component.handleNewPlayerRequest('player11', {})).toBe(
         'there was an error adding you to the lobby.'
       );
     });
     test('should message the user when an error occurs adding the priority user to the queue', () => {
-      component.state.isQueueOpen = true;
+      component.props.isQueueOpen = true;
       vi.spyOn(component, 'updateColumnForUser').mockImplementation(()=>{});
       expect(component.handleNewPlayerRequest('player10', {isPrioritySeat: true})).toBe(
         'there was an error adding you to the lobby.'
@@ -255,11 +251,8 @@ describe('PlayerQueue', () => {
   });
 
   describe('removeUser', () => {
-    test('should call setState', () => {
-      const component = new PlayerQueueComponent({removeUser: vi.fn()});
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
-      component.state = {
-        ...state,
+    test('should remove the user from all of the queues', () => {
+      const component = new PlayerQueueComponent({
         interested: [
           {username: 'CrunchyButtMD'},
           {username: 'HyalineRose'}
@@ -270,122 +263,142 @@ describe('PlayerQueue', () => {
         ],
         joined: [
           {username: 'Aurora88877'}
-        ]
-      };
-      component.removeUser('HyalineRose');
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        interested: [
-          {username: 'CrunchyButtMD'}
-        ]
+        ],
+        removeUser: vi.fn()
       });
+      component.removeUser('HyalineRose');
+      expect(component.props.removeUser).toHaveBeenCalled(1);
+      // expect(component.props.removeUser.mock.calls[0][0](component.props)).toEqual({
+      //   interested: [
+      //     {username: 'CrunchyButtMD'}
+      //   ]
+      // });
     });
   });
 
   describe('clearQueue', () => {
     test('should clear the users from state', () => {
-      const component = new PlayerQueueComponent({clearQueue: vi.fn()});
-      component.state = state;
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
+      const component = new PlayerQueueComponent({
+        interested: [
+          {username: 'CrunchyButtMD'},
+          {username: 'HyalineRose'}
+        ],
+        playing: [
+          {username: 'Iniquity_Stepbro'},
+          {username: 'HiddenPudding'}
+        ],
+        joined: [
+          {username: 'Aurora88877'}
+        ],
+        clearQueue: vi.fn()
+      });
 
       component.clearQueue();
 
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        interested: [],
-        playing: [],
-        joined: []
-      });
+      expect(component.props.clearQueue).toHaveBeenCalledTimes(1);
+      // expect(component.setState.mock.calls[0][0](component.state)).toEqual({
+      //   ...component.state,
+      //   interested: [],
+      //   playing: [],
+      //   joined: []
+      // });
     });
   });
 
   describe('openQueue', () => {
     test('should set an open queue state', () => {
-      const component = new PlayerQueueComponent({openQueue: vi.fn()});
-      component.state = state;
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
+      const component = new PlayerQueueComponent({
+        isQueueOpen: false,
+        openQueue: vi.fn()
+      });
+      // component.state = state;
+      // vi.spyOn(component, 'setState').mockImplementation(()=>{});
 
       component.openQueue();
 
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        isQueueOpen: true
-      });
+      expect(component.props.openQueue).toHaveBeenCalledTimes(1);
+      // expect(component.setState.mock.calls[0][0](component.state)).toEqual({
+      //   ...component.state,
+      //   isQueueOpen: true
+      // });
     });
   });
 
   describe('closeQueue', () => {
     test('should set a closed queue state', () => {
-      const component = new PlayerQueueComponent({closeQueue: vi.fn()});
-      component.state = state;
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
+      const component = new PlayerQueueComponent({
+        isQueueOpen: true,
+        closeQueue: vi.fn()
+      });
+      // component.state = state;
+      // vi.spyOn(component, 'setState').mockImplementation(()=>{});
 
       component.closeQueue();
 
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        isQueueOpen: false
-      });
+      expect(component.props.closeQueue).toHaveBeenCalledTimes(1);
+      // expect(component.setState.mock.calls[0][0](component.state)).toEqual({
+      //   ...component.state,
+      //   isQueueOpen: false
+      // });
     });
   });
 
   describe('playerCount', () => {
-    const component = new PlayerQueueComponent(propsTMP2);
-    component.state = state;
+    const component = new PlayerQueueComponent(
+      Object.assign({}, propsTMP2, state)
+    );
+    // component.state = state;
 
     test('should return number of players that will be playing, including streamer', () => {
-      component.state.streamerSeat = true;
+      component.props.streamerSeat = true;
       expect(component.playerCount()).toBe(8);
     });
     test('should return number of players that will be playing, excluding streamer', () => {
-      component.state.streamerSeat = false;
+      component.props.streamerSeat = false;
       expect(component.playerCount()).toBe(7);
     });
   });
 
   describe('toggleStreamerSeat', () => {
     test('should toggle the streamer seat state', () => {
-      const props = {
+      const props = Object.assign({}, state, {
+        streamerSeat: false,
         toggleStreamerSeat: vi.fn()
-      };
+      });
       const component = new PlayerQueueComponent(props);
-      component.state = state;
-      component.state.streamerSeat = false;
+      // component.state = state;
+      // component.state.streamerSeat = false;
       vi.spyOn(component, 'setState').mockImplementation(()=>{});
 
       component.toggleStreamerSeat();
 
       expect(props.toggleStreamerSeat).toHaveBeenCalledTimes(1);
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        streamerSeat: true
-      });
+      // expect(component.setState).toHaveBeenCalledTimes(1);
+      // expect(component.setState.mock.calls[0][0](component.state)).toEqual({
+      //   ...component.state,
+      //   streamerSeat: true
+      // });
     });
   });
 
   describe('startGame', () => {
     test('should reset the state', () => {
       const component = new PlayerQueueComponent(
-        Object.assign({}, propsTMP2, {
+        Object.assign({}, propsTMP2, state, {
           clearQueue: vi.fn(),
           clearRoomCode: vi.fn()
         })
       );
-      vi.spyOn(component, 'setState').mockImplementation(()=>{});
+      // vi.spyOn(component, 'setState').mockImplementation(()=>{});
 
       component.startGame();
 
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state)).toEqual({
-        ...component.state,
-        interested: [],
-        playing: []
-      });
+      // expect(component.setState).toHaveBeenCalledTimes(1);
+      // expect(component.setState.mock.calls[0][0](component.state)).toEqual({
+      //   ...component.state,
+      //   interested: [],
+      //   playing: []
+      // });
       expect(component.props.clearQueue).toHaveBeenCalledTimes(1);
       expect(component.props.clearRoomCode).toHaveBeenCalledTimes(1);
     });
@@ -400,9 +413,7 @@ describe('PlayerQueue', () => {
         .mockReturnValueOnce(4)
         .mockReturnValueOnce(2);
 
-      const component = new PlayerQueueComponent(propsBlather);
-      component.state = {
-        ...state,
+      const component = new PlayerQueueComponent(Object.assign({}, propsBlather, {
         interested: [
           {username: 'player4'},
           {username: 'player5'},
@@ -415,8 +426,14 @@ describe('PlayerQueue', () => {
           {username: 'player2', isPrioritySeat: true},
           {username: 'player3'}
         ],
-        maxPlayers: 6
-      };
+        maxPlayers: 6,
+        clearQueue: vi.fn(),
+        clearRoomCode: vi.fn()
+      }));
+      // component.state = {
+      //   ...state,
+
+      // };
       vi.spyOn(component, 'setState').mockImplementation(()=>{});
 
       component.randomizePlayers();
@@ -456,10 +473,12 @@ describe('PlayerQueue', () => {
     test('Should render with fake state data', () => {
       vi.spyOn(window.location, 'hash', 'get').mockReturnValue('?fakestate=true');
       store = getStoreWithState(storeState);
+      let props = {...state};
       const {container} = render(
         <Provider store={store}>
           <PlayerQueue
             twitchApi={mockTwitchApi}
+            {...props}
           />
         </Provider>
       );
