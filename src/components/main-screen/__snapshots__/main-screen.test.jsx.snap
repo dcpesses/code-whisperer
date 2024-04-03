@@ -255,7 +255,7 @@ exports[`MainScreen > Should render without error 1`] = `
                 >
                   <img
                     alt="Support Me on Ko-fi"
-                    src="https://ko-fi.com/img/githubbutton_sm.svg"
+                    src="/code-whisperer/src/assets/kofi.svg"
                   />
                 </a>
                 <div
