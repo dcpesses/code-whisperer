@@ -428,7 +428,8 @@ describe('PlayerQueue', () => {
         ],
         maxPlayers: 6,
         clearQueue: vi.fn(),
-        clearRoomCode: vi.fn()
+        clearRoomCode: vi.fn(),
+        setFakeQueueStates: vi.fn(),
       }));
       // component.state = {
       //   ...state,
@@ -438,9 +439,10 @@ describe('PlayerQueue', () => {
 
       component.randomizePlayers();
 
-      expect(component.setState).toHaveBeenCalledTimes(1);
-      expect(component.setState.mock.calls[0][0](component.state).interested.length).toBe(2);
-      expect(component.setState.mock.calls[0][0](component.state).playing.length).toBe(6);
+      expect(component.props.setFakeQueueStates).toHaveBeenCalledTimes(1);
+      expect(component.props.setFakeQueueStates.mock.calls[0][0].interested.length).toBe(2);
+      expect(component.props.setFakeQueueStates.mock.calls[0][0].playing.length).toBe(6);
+      expect(component.setState).toHaveBeenCalledTimes(0);
     });
   });
 

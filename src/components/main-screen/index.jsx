@@ -11,11 +11,18 @@ import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { setFakeUserStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import {
+  clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount,
+  setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser
+} from '@/features/player-queue/queue-slice';
+import { setFakeChannelStates, setUserLookup } from '@/features/twitch/channel-slice';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
 
 import './main-screen.css';
+
+export const noop = () => void 0;
 
 const GAME_PLACEHOLDER = {
   'name': '',
@@ -108,6 +115,7 @@ class MainScreen extends Component {
         })
       );
       this.props.setFakeUserStates(fakeStates.UserStore);
+      this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
     }
   }
   componentDidUpdate = (prevProps, prevState) => {
@@ -162,7 +170,7 @@ class MainScreen extends Component {
     });
 
     messageHandler.client = this.props.twitchApi._chatClient;
-    this.props.twitchApi.onMessage = messageHandler._onMessage;
+    this.props.twitchApi.onMessage = messageHandler.onMessage;
     if (this.state.settings?.customJoinCommand ) {
       messageHandler.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
     }
@@ -260,8 +268,9 @@ class MainScreen extends Component {
             showPlayerSelect: true
           }),
           () => {
-            this.playerSelector?.setState(fakeStates.PlayerSelect);
+            this.props.setFakeQueueStates(fakeStates.PlayerSelect);
             this.props.setFakeUserStates(fakeStates.UserStore);
+            this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
           }
         );
       }
@@ -294,23 +303,24 @@ class MainScreen extends Component {
 
 
   handleOpenModalCommandList = () => {
-    if (this.props.showModalCommandList) {
-      return this.props.showModalCommandList();
-    }
+    return this.props.showModalCommandList();
   };
 
   onMessage = async(message, user, metadata) => {
     console.log('MainScreen - onMessage', {message, user, metadata});
     this.twitchApi.updateLastMessageTime(user);
-    if (!this.state.userLookup[user] && metadata && metadata['user-id']) {
-      this.setState(prevState => ({
-        userLookup: Object.assign({}, prevState.userLookup, {[user]: metadata})
-      }));
-      const userInfo = await this.twitchApi.requestUserInfo({login: user});
-      if (userInfo?.data && userInfo?.data[0]) {
-        this.props.setChatterInfo(userInfo.data[0]);
+    try {
+      if (!this.props.userLookup[user] && metadata && metadata['user-id']) {
+        this.props.setUserLookup(metadata);
+        const userInfo = await this.twitchApi.requestUserInfo({login: user});
+        if (userInfo?.data?.[0]) {
+          this.props.setChatterInfo(userInfo.data[0]);
+        }
       }
+    } catch (e) {
+      console.error('MainScreen - onMessage Error:', e);
     }
+
   };
 
   onSettingsUpdate = (nextSettings) => {
@@ -351,13 +361,18 @@ class MainScreen extends Component {
 
   routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
     console.log('MainScreen - routePlayRequest');
-    const msg = this.state.showPlayerSelect
-      ? this.playerSelector?.handleNewPlayerRequest(user, {isPrioritySeat})
-      : 'sign-ups are currently closed; try again after this game wraps up!';
+    try {
+      const msg = this.props.isQueueOpen
+        ? this.playerSelector?.handleNewPlayerRequest(user, {isPrioritySeat})
+        : 'sign-ups are currently closed; try again after this game wraps up!';
 
-    if (sendConfirmationMsg) {
-      this.twitchApi?.sendMessage(`/me @${user}, ${msg}`);
+      if (sendConfirmationMsg) {
+        this.twitchApi?.sendMessage(`/me @${user}, ${msg}`);
+      }
+    } catch (e) {
+      console.error('MainScreen - routePlayRequest Error:', e);
     }
+
   };
 
   routeLeaveRequest = (user, {sendConfirmationMsg = true}) => {
@@ -365,7 +380,7 @@ class MainScreen extends Component {
       ? 'you have successfully left the lobby'
       : 'you were not in the lobby';
 
-    this.playerSelector?.removeUser(user);
+    this.props.removeUser(user);
 
     if (sendConfirmationMsg) {
       this.twitchApi?.sendMessage(`/me @${user}, ${msg}.`);
@@ -377,19 +392,19 @@ class MainScreen extends Component {
       ...state,
       showPlayerSelect: true
     }));
-    this.playerSelector?.openQueue();
+    this.props.openQueue();
   };
 
   routeCloseQueueRequest = () => {
-    this.playerSelector?.closeQueue();
+    this.props.closeQueue();
   };
 
   routeClearQueueRequest = () => {
-    this.playerSelector?.clearQueue();
+    this.props.clearQueue();
   };
 
   routeListInterestedQueueRequest = () => {
-    this.playerSelector?.listInterestedQueue();
+    return this.playerSelector?.listInterestedQueue();
   };
 
   routeListPlayingQueueRequest = () => {
@@ -466,7 +481,7 @@ class MainScreen extends Component {
             settings={this.state.settings}
             startGame={this.startGame}
             twitchApi={this.props.twitchApi}
-            userLookup={this.state.userLookup}
+            userLookup={this.props.userLookup}
           />
         </div>
         <ModalCommandList
@@ -483,18 +498,24 @@ class MainScreen extends Component {
 MainScreen.propTypes = {
   access_token: PropTypes.string,
   channel: PropTypes.string,
+  clearQueue: PropTypes.func,
+  // clearRoomCode: PropTypes.func,
+  closeQueue: PropTypes.func,
+  // incrementRandomCount: PropTypes.func,
+  isQueueOpen: PropTypes.bool,
   moderators: PropTypes.object,
   onLogOut: PropTypes.func,
+  openQueue: PropTypes.func,
+  removeUser: PropTypes.func,
   setChatterInfo: PropTypes.func.isRequired,
-  // profile_image_url: PropTypes.string,
+  setFakeChannelStates: PropTypes.func.isRequired,
+  setFakeQueueStates: PropTypes.func.isRequired,
   setFakeUserStates: PropTypes.func.isRequired,
+  setUserLookup: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
   showModalCommandList: PropTypes.func.isRequired,
   twitchApi: PropTypes.object.isRequired,
-  // updateUsername: PropTypes.func,
-  // userInfo: PropTypes.object,
-  // user_id: PropTypes.any,
-  // username: PropTypes.string,
+  userLookup: PropTypes.object,
 };
 MainScreen.defaultProps = {
   access_token: null,
@@ -505,19 +526,45 @@ MainScreen.defaultProps = {
   twitchApi: null,
   updateUsername: null,
   userInfo: null,
+  userLookup: {},
   user_id: null,
   username: null,
+
+  isQueueOpen: true,
+
+  clearQueue: noop,
+  clearRoomCode: noop,
+  closeQueue: noop,
+  incrementRandomCount: noop,
+  openQueue: noop,
+  removeUser: noop,
 };
 const mapStateToProps = state => ({
   modal: state.modal,
+  isQueueOpen: state.queue.isQueueOpen,
+  userLookup: state.channel.lookup,
   user: state.user
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
   setChatterInfo,
-  setFakeStates,
+  setFakeChannelStates,
+  setFakeQueueStates,
   setFakeUserStates,
+  setUserLookup,
   setWhisperStatus,
+
+  clearQueue,
+  clearRoomCode,
+  closeQueue,
+  incrementRandomCount,
+  openQueue,
+  removeUser,
+  resetRandomCount,
+  setMaxPlayers,
+  setRoomCode,
+  toggleStreamerSeat,
+  updateColumnForUser,
 });
 export default connect(
   mapStateToProps,

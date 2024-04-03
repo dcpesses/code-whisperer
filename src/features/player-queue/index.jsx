@@ -22,13 +22,11 @@ const GAME_PLACEHOLDER = {
 export class PlayerQueue extends Component {
   static get propTypes() {
     return {
-      channelInfo: PropTypes.object,
       gamesList: PropTypes.object,
       sendMessage: PropTypes.any,
       sendWhisper: PropTypes.any,
       settings: PropTypes.object,
       twitchApi: PropTypes.any.isRequired,
-      userInfo: PropTypes.object,
       userLookup: PropTypes.any,
 
       interested: PropTypes.array,
@@ -72,6 +70,7 @@ export class PlayerQueue extends Component {
       isQueueOpen: true,
       randCount: 0,
       // signupMessage: null,
+      time: null,
 
       clearQueue: noop,
       clearRoomCode: noop,
@@ -91,13 +90,7 @@ export class PlayerQueue extends Component {
     super(props);
 
     this.state = {
-      interested: [],
-      playing: [],
-      maxPlayers: 8,
-      roomCode: null,
-      streamerSeat: false,
-      isQueueOpen: true,
-      randCount: 0
+      time: null
     };
     this.randInt = 0;
     this.timestampInt = 0;
@@ -310,12 +303,13 @@ export class PlayerQueue extends Component {
         playing = [...playing, this.props.interested[randIdx]];
       }
     }
-    this.setState((prevState) => ({
-      interested: prevState.interested.filter(
+
+    this.props.setFakeQueueStates({
+      interested: this.props.interested.filter(
         (uObj) => !randUsernameArray.includes(uObj.username)
       ),
       playing
-    }));
+    });
   };
 
   renderPlayerCard = (userObj, id, curColumn) => {
@@ -406,7 +400,7 @@ export class PlayerQueue extends Component {
         <Dropdown id="dropdown-max-player-seats" drop="down-centered" variant="link" className="d-inline">
           <Dropdown.Toggle id="dropdown-max-player-seats-toggle" variant="link"
             className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top">
-            {this.state?.maxPlayers}
+            {this.props.maxPlayers}
           </Dropdown.Toggle>
           <Dropdown.Menu variant="dark">
             <Dropdown.Header>
@@ -462,8 +456,7 @@ export class PlayerQueue extends Component {
   };
 
   render() {
-    let {interested, playing, maxPlayers, roomCode} = this.state;
-    let {randCount} = this.props;
+    let {interested, playing, maxPlayers, randCount, roomCode} = this.props;
 
     const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
@@ -477,7 +470,7 @@ export class PlayerQueue extends Component {
     }
 
     return (
-      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
+      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
           <GameCodeForm
             value={roomCode || ''}
