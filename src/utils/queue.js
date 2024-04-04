@@ -1,11 +1,21 @@
 
+export const addUserToColumn = (props, user, column) => {
+  if (!props || !props[column]) {
+    return false;
+  }
+
+  props.updateColumnForUser({user, column});
+
+  return true;
+};
+
 export const handleNewPlayerRequest = (props, username, {isPrioritySeat}) => {
 
   if (isPrioritySeat) {
     // even if the queue is closed, still add them to the interested column for consideration
     const column = (props.isQueueOpen ? 'playing' : 'interested');
 
-    return updateColumnForUser(props, {username, isPrioritySeat}, column)
+    return addUserToColumn(props, {username, isPrioritySeat}, column)
       ? 'you have been successfully added to the lobby.'
       : 'there was an error adding you to the lobby.';
   }
@@ -17,7 +27,7 @@ export const handleNewPlayerRequest = (props, username, {isPrioritySeat}) => {
   if (!props.isQueueOpen) {
     return 'the queue is currently closed; users have already been selected for this game.';
   }
-  return updateColumnForUser(props, {username}, 'interested')
+  return addUserToColumn(props, {username}, 'interested')
     ? 'you have successfully joined the lobby.'
     : 'there was an error adding you to the lobby.';
 };
@@ -39,6 +49,10 @@ export const listPlayingQueue = ({playing, streamerSeat, twitchApi}) => {
     queue.push({username: twitchApi.channel});
   }
   return queue.concat(playing).map(u => u.username);
+};
+
+export const playerCount = ({playing, streamerSeat}) => {
+  return playing.length + (streamerSeat ? 1 : 0);
 };
 
 // routePlayRequest
@@ -66,14 +80,4 @@ export const routeLeaveRequest = ({interested, playing, removeUser, twitchApi}, 
   if (sendConfirmationMsg) {
     twitchApi?.sendMessage(`/me @${user}, ${msg}.`);
   }
-};
-
-export const updateColumnForUser = (props, userObj, newColumn) => {
-  if (!props || !props[newColumn]) {
-    return false;
-  }
-
-  props.updateColumnForUser({user: userObj, column: newColumn});
-
-  return true;
 };

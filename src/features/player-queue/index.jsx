@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
-import { handleNewPlayerRequest, isUserInLobby, listPlayingQueue } from '@/utils/queue';
+import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -35,7 +35,6 @@ export class PlayerQueue extends Component {
       maxPlayers: PropTypes.number,
       roomCode: PropTypes.string,
       streamerSeat: PropTypes.bool,
-      isQueueOpen: PropTypes.bool,
       randCount: PropTypes.number,
       // dispatch
       clearQueue: PropTypes.func,
@@ -49,7 +48,6 @@ export class PlayerQueue extends Component {
       setMaxPlayers: PropTypes.func,
       setRoomCode: PropTypes.func,
       toggleStreamerSeat: PropTypes.func,
-      updateColumnForUser: PropTypes.func,
     };
   }
   static get defaultProps() {
@@ -115,140 +113,40 @@ export class PlayerQueue extends Component {
     return;
   }
 
-
-  handleNewPlayerRequest = (username, {isPrioritySeat=false}) => {
-    /*
-    if (isPrioritySeat) {
-      // even if the queue is closed, still add them to the interested column for consideration
-      const column = (this.props.isQueueOpen ? 'playing' : 'interested');
-
-      return this.updateColumnForUser({username, isPrioritySeat}, column)
-        ? 'you have been successfully added to the lobby.'
-        : 'there was an error adding you to the lobby.';
-    }
-
-    if (this.isUserInLobby(username)) {
-      return 'you are already in the lobby.';
-    }
-
-    if (!this.props.isQueueOpen) {
-      return 'the queue is currently closed; users have already been selected for this game.';
-    }
-    return this.updateColumnForUser({username}, 'interested')
-      ? 'you have successfully joined the lobby.'
-      : 'there was an error adding you to the lobby.';
-
-    */
-
-    return handleNewPlayerRequest(this.props, username, {isPrioritySeat});
-  };
+  handleNewPlayerRequest = (username, {isPrioritySeat=false}) => handleNewPlayerRequest(this.props, username, {isPrioritySeat});
 
   handleRoomCodeChange = (evt) => {
     let roomCode;
-    if (evt.target?.value) {
+    if (typeof evt.target?.value === 'string') {
       roomCode = evt.target.value.trim();
     }
     this.props.setRoomCode(roomCode);
-    // this.setState({roomCode});
   };
 
-  isUserInLobby = (username) => {
-    /*
-    return (
-      this.props?.interested?.map((uObj) => uObj.username)?.includes(username)
-      || this.props?.playing?.map((uObj) => uObj.username)?.includes(username)
-    );
-    */
-    return isUserInLobby(this.props, username);
-  };
+  isUserInLobby = (username) => isUserInLobby(this.props, username);
 
-  updateColumnForUser = (userObj, newColumn) => {
-    if (!this.props || !this.props[newColumn]) {return false;}
+  addUserToColumn = (user, column) => addUserToColumn(this.props, user, column);
 
-    this.props.updateColumnForUser({user: userObj, column: newColumn});
-    // this.removeUser(userObj.username);
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   [newColumn]: [
-    //     ...prevState[newColumn],
-    //     userObj
-    //   ]
-    // }));
-    return true;
-  };
+  removeUser = (username) => this.props.removeUser(username);
 
-  removeUser = (username) => {
-    this.props.removeUser(username);
-    // return this.setState((prevState) => ({
-    //   ...prevState,
-    //   interested: prevState.interested.filter((iObj) => iObj.username !== username),
-    //   playing: prevState.playing.filter((pObj) => pObj.username !== username)
-    // }));
-  };
+  clearQueue = () => this.props.clearQueue();
 
-  clearQueue = () => {
-    this.props.clearQueue();
-    // return this.setState((prevState) => ({
-    //   ...prevState,
-    //   interested: [],
-    //   playing: []
-    // }));
-  };
+  openQueue = () => this.props.openQueue();
 
-  openQueue = () => {
-    this.props.openQueue();
-    // return this.setState((prevState) => ({
-    //   ...prevState,
-    //   isQueueOpen: true
-    // }));
-  };
+  closeQueue = () => this.props.closeQueue();
 
-  closeQueue = () => {
-    this.props.closeQueue();
-    // return this.setState((prevState) => ({
-    //   ...prevState,
-    //   isQueueOpen: false
-    // }));
-  };
+  playerCount = () => playerCount(this.props);
 
-  playerCount = () => {
-    return this.props.playing.length
-      + (this.props.streamerSeat ? 1 : 0);
-  };
+  listInterestedQueue = () => listInterestedQueue(this.props);
 
-  listInterestedQueue = () => this.props.interested;
+  listPlayingQueue = () => listPlayingQueue(this.props);
 
-  listPlayingQueue = () => {
-    /*
-    let queue = [];
-    if (this.props.streamerSeat && this.props.twitchApi.channel) {
-      queue.push({username: this.props.twitchApi.channel});
-    }
-    return queue.concat(this.props.playing).map(player => player.username);
-    */
-    return listPlayingQueue(this.props);
-  };
+  toggleStreamerSeat = () => this.props.toggleStreamerSeat();
 
-  toggleStreamerSeat = () => {
-    this.props.toggleStreamerSeat();
-    // this.setState((prevState) => ({
-    //   ...prevState,
-    //   streamerSeat: !prevState.streamerSeat
-    // }));
-  };
-
-  // canStartGame = () => this.state.maxPlayers >= this.playerCount();
   canStartGame = () => this.props.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
-    // this.setState ((prevState) => ({
-    //   ...prevState,
-    //   interested: [],
-    //   playing: [],
-    //   roomCode: null
-    // }));
-    // this.props.startGame();
     this.props.clearQueue();
     this.props.clearRoomCode();
   };
@@ -277,18 +175,10 @@ export class PlayerQueue extends Component {
     case 15:
       this.randomizePlayers();
       clearInterval(this.randInt);
-      // this.setState({
-      //   randCount: 0
-      // });
       this.props.resetRandomCount();
       break;
     default:
       this.props.incrementRandomCount();
-      // this.setState(
-      //   (prevState) => ({
-      //     randCount: prevState.randCount + 1
-      //   })
-      // );
       break;
     }
   };
@@ -336,13 +226,13 @@ export class PlayerQueue extends Component {
 
     if (curColumn === 'interested') {
       btnProps = {
-        onClick: this.updateColumnForUser.bind(this, userObj, 'playing'),
+        onClick: this.addUserToColumn.bind(this, userObj, 'playing'),
         label: 'Add to Playing'
       };
     }
     if (curColumn === 'playing') {
       btnProps = {
-        onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
+        onClick: this.addUserToColumn.bind(this, userObj, 'interested'),
         label: 'Back to Interested'
       };
     }
@@ -380,12 +270,7 @@ export class PlayerQueue extends Component {
     );
   };
 
-  setMaxPlayers = (val) => {
-    this.props.setMaxPlayers(val);
-    // this.setState({
-    //   maxPlayers: val
-    // });
-  };
+  setMaxPlayers = (val) => this.props.setMaxPlayers(val);
 
   renderPlayerCount = () => {
     let className = 'player-count';
@@ -439,31 +324,32 @@ export class PlayerQueue extends Component {
   };
 
   sendCodeToAll = () => {
-    if (!this.props.roomCode) {
+    let {playing, roomCode, settings, twitchApi} = this.props;
+    if (!roomCode) {
       return;
     }
-    if (this.props.playing.length === 0) {
-      this.props.twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
+    if (playing.length === 0) {
+      twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
-    const pipe = (this.props.settings?.customDelimiter)
-      ? ` ${this.props.settings.customDelimiter} `
+    const pipe = (settings?.customDelimiter)
+      ? ` ${settings.customDelimiter} `
       : ' ⋆ ';
-    const recipients = this.props.playing.map(p => '@'+p['display-name']).join(pipe);
+    const recipients = playing.map(user => '@'+user['display-name']).join(pipe);
+
     let sendingToMsg = 'Sending room code to';
-    if (this.props.playing.length === 1) {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
+    if (playing.length === 1) {
+      twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
     } else {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.props.playing.length} people: ${recipients}`);
+      twitchApi.sendMessage(`${sendingToMsg} ${playing.length} people: ${recipients}`);
     }
 
-    return this.props.playing.forEach((userObj, i) => {
-      // this.sendCodeToEach(i, userObj, this.props.roomCode, this.props);
-      (function(i, userObj, sendCode) {
+    return playing.forEach((user, i) => {
+      (function(i, user, sendCode) {
         setTimeout(() => {
-          return sendCode(userObj);
+          return sendCode(user);
         }, 1000 * (i+1));
-      }(i, userObj, this.sendCode));
+      }(i, user, this.sendCode));
     });
   };
 

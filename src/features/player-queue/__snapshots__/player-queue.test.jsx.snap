@@ -1257,3 +1257,195 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
   </div>
 </div>
 `;
+
+exports[`PlayerQueue > renderPlayerCard > should render the player queue card in the Playing queue with a button to send the room code 1`] = `
+<PlayerQueueCard
+  btnProps={
+    {
+      "label": "",
+      "onClick": null,
+    }
+  }
+  onRemoveUser={[Function]}
+  onSendCode={[Function]}
+  prioritySeat={false}
+  queueName={null}
+  relativeTime="1 second ago"
+  showSendButton={true}
+  username="player1"
+/>
+`;
+
+exports[`PlayerQueue > renderPlayerCount > should display a dropdown menu and indicate more players are in the queue than the game allows 1`] = `
+<div
+  className="player-count overlimit"
+>
+  9
+   of 
+  <Dropdown
+    className="d-inline"
+    drop="down-centered"
+    id="dropdown-max-player-seats"
+    variant="link"
+  >
+    <DropdownToggle
+      className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top"
+      id="dropdown-max-player-seats-toggle"
+      variant="link"
+    >
+      8
+    </DropdownToggle>
+    <DropdownMenu
+      variant="dark"
+    >
+      <DropdownHeader>
+        Max # of Players
+      </DropdownHeader>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-1"
+        href={null}
+        onClick={[Function]}
+      >
+        1
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-2"
+        href={null}
+        onClick={[Function]}
+      >
+        2
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-3"
+        href={null}
+        onClick={[Function]}
+      >
+        3
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-4"
+        href={null}
+        onClick={[Function]}
+      >
+        4
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-5"
+        href={null}
+        onClick={[Function]}
+      >
+        5
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-6"
+        href={null}
+        onClick={[Function]}
+      >
+        6
+      </DropdownItem>
+      <DropdownItem
+        active={true}
+        eventKey="max-players-option-8"
+        href={null}
+        onClick={[Function]}
+      >
+        8
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+   seats claimed
+</div>
+`;
+
+exports[`PlayerQueue > renderPlayerCount > should display a dropdown menu and indicate there are still available spots for more people in the queue 1`] = `
+<div
+  className="player-count"
+>
+  7
+   of 
+  <Dropdown
+    className="d-inline"
+    drop="down-centered"
+    id="dropdown-max-player-seats"
+    variant="link"
+  >
+    <DropdownToggle
+      className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top"
+      id="dropdown-max-player-seats-toggle"
+      variant="link"
+    >
+      8
+    </DropdownToggle>
+    <DropdownMenu
+      variant="dark"
+    >
+      <DropdownHeader>
+        Max # of Players
+      </DropdownHeader>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-1"
+        href={null}
+        onClick={[Function]}
+      >
+        1
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-2"
+        href={null}
+        onClick={[Function]}
+      >
+        2
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-3"
+        href={null}
+        onClick={[Function]}
+      >
+        3
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-4"
+        href={null}
+        onClick={[Function]}
+      >
+        4
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-5"
+        href={null}
+        onClick={[Function]}
+      >
+        5
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-6"
+        href={null}
+        onClick={[Function]}
+      >
+        6
+      </DropdownItem>
+      <DropdownItem
+        active={true}
+        eventKey="max-players-option-8"
+        href={null}
+        onClick={[Function]}
+      >
+        8
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+   seats claimed
+</div>
+`;

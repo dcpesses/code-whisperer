@@ -8,7 +8,7 @@ import * as queueUtils from '@/utils/queue';
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
 import TwitchApi from '@/api/twitch';
-import PlayerQueue, {PlayerQueue as PlayerQueueComponent} from './index';
+import PlayerQueue, {PlayerQueue as PlayerQueueComponent, noop} from './index';
 
 vi.mock('@/api/twitch');
 
@@ -100,6 +100,11 @@ const storeState = {
   }
 };
 
+describe('noop', () => {
+  test('should execute without error', () => {
+    expect(noop()).toBeUndefined();
+  });
+});
 
 describe('PlayerQueue', () => {
   const propsBlather = {
@@ -250,6 +255,18 @@ describe('PlayerQueue', () => {
       );
     });
   });
+
+  describe('handleRoomCodeChange', () => {
+    test('should remove the user from all of the queues', () => {
+      const props = {
+        setRoomCode: vi.fn()
+      };
+      const component = new PlayerQueueComponent(props);
+      component.handleRoomCodeChange({target: {value: 'code'} });
+      expect(component.props.setRoomCode).toHaveBeenCalledWith('code');
+    });
+  });
+
 
   describe('removeUser', () => {
     test('should remove the user from all of the queues', () => {
@@ -447,6 +464,240 @@ describe('PlayerQueue', () => {
     });
   });
 
+  describe('renderPlayerCard', () => {
+    test('should render the player queue card in the Playing queue with a button to send the room code', () => {
+      vi.useFakeTimers();
+      vi.spyOn(Date, 'now').mockReturnValue(1445470141000); // October 21, 2015 4:29:01 PM PST
+      const component = new PlayerQueueComponent(
+        Object.assign({}, propsTMP2, state, {
+          clearQueue: vi.fn(),
+          clearRoomCode: vi.fn(),
+          roomCode: 'NICE',
+          settings: {
+            enableRoomCode: true,
+          },
+          userLookup: {
+            player1: {
+              'display-name': 'player1',
+              'tmi-sent-ts': 1445470140000, // October 21, 2015 4:29:01 PM PST
+              'user-id': '42',
+              'username': 'player1',
+            }
+          },
+        })
+      );
+      vi.spyOn(component, 'sendCode');
+      const user = {
+        'username': 'player1',
+      };
+      const view = component.renderPlayerCard(user, user['user-id']);
+      expect(view).toMatchSnapshot();
+      vi.useRealTimers();
+    });
+  });
+
+  describe('initRandomizePlayersAnimation', () => {
+    test('should add the max number of users to the Playing queue', () => {
+      vi.useFakeTimers();
+      const props = {
+        ...propsTMP2,
+        ...state,
+        randCount: 0,
+        interested: [
+          {username: 'player4'},
+          {username: 'player5'},
+          {username: 'player6'},
+        ],
+        maxPlayers: 2,
+        playing: [{username: 'player1'},],
+        incrementRandomCount: () => {
+          props.randCount += 1;
+        },
+        resetRandomCount: vi.fn(),
+        setFakeQueueStates: vi.fn(),
+      };
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'playerCount').mockReturnValue(1);
+      vi.spyOn(component, 'randomizePlayers');
+
+      component.initRandomizePlayersAnimation();
+
+      vi.advanceTimersByTime(1000);
+      expect(component.randomizePlayers).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+    test('should add all users to the Playing queue without calling randomizePlayersAnimation', () => {
+      vi.useFakeTimers();
+      const props = {
+        ...propsTMP2,
+        ...state,
+        randCount: 0,
+        interested: [
+          {username: 'player4'},
+          {username: 'player5'},
+          {username: 'player6'},
+        ],
+        maxPlayers: 6,
+        playing: [{username: 'player1'},],
+        incrementRandomCount: () => {
+          props.randCount += 1;
+        },
+        resetRandomCount: vi.fn(),
+        setFakeQueueStates: vi.fn(),
+      };
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'playerCount').mockReturnValue(1);
+      vi.spyOn(component, 'randomizePlayers');
+      vi.spyOn(component, 'randomizePlayersAnimation');
+
+      component.initRandomizePlayersAnimation();
+
+      vi.advanceTimersByTime(1000);
+      expect(component.randomizePlayers).toHaveBeenCalled();
+      expect(component.randomizePlayersAnimation).not.toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+  });
+
+  describe('renderPlayerCount', () => {
+    test('should display a dropdown menu and indicate there are still available spots for more people in the queue', () => {
+      vi.useFakeTimers();
+      const component = new PlayerQueueComponent(
+        Object.assign({}, propsTMP2, state, {
+          gamesList: {
+            maxPlayersList: [1, 2, 3, 4, 5, 6, 8],
+          },
+          maxPlayers: 8,
+        })
+      );
+      vi.spyOn(component, 'playerCount').mockReturnValue(7);
+      const view = component.renderPlayerCount();
+      expect(view).toMatchSnapshot();
+      vi.useRealTimers();
+    });
+    test('should display a dropdown menu and indicate more players are in the queue than the game allows', () => {
+      vi.useFakeTimers();
+      const component = new PlayerQueueComponent(
+        Object.assign({}, propsTMP2, state, {
+          gamesList: {
+            maxPlayersList: [1, 2, 3, 4, 5, 6, 8],
+          },
+          maxPlayers: 8,
+        })
+      );
+      vi.spyOn(component, 'playerCount').mockReturnValue(9);
+      const view = component.renderPlayerCount();
+      expect(view).toMatchSnapshot();
+      vi.useRealTimers();
+    });
+  });
+
+  describe('sendCode', () => {
+    test('should whisper the room code to the specified user', async() => {
+      const props = Object.assign({}, state, {
+        roomCode: 'CODE',
+        sendWhisper: vi.fn().mockResolvedValue()
+      });
+      const component = new PlayerQueueComponent(props);
+
+      await component.sendCode({
+        'user-id': '42',
+        username: 'player1'
+      });
+
+      expect(props.sendWhisper).toHaveBeenCalled();
+    });
+  });
+
+  describe('sendCodeToAll', () => {
+    test('should whisper the room code to all 3 users in the Playing queue using a custom delimiter', () => {
+      vi.useFakeTimers();
+      const props = Object.assign({}, state, {
+        playing: [
+          {'user-id': '1', username: 'player1'},
+          {'user-id': '2', username: 'player2'},
+          {'user-id': '3', username: 'player3'},
+        ],
+        roomCode: 'CODE',
+        sendWhisper: vi.fn().mockResolvedValue(),
+        settings: {
+          customDelimiter: ' | '
+        },
+        twitchApi: {
+          sendMessage: vi.fn()
+        },
+      });
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'sendCode');
+
+      component.sendCodeToAll();
+      vi.advanceTimersByTime(4000);
+      expect(props.twitchApi.sendMessage).toHaveBeenCalled();
+      expect(component.sendCode).toHaveBeenCalledTimes(3);
+      vi.useRealTimers();
+    });
+    test('should whisper the room code to the single user in the Playing queue', () => {
+      vi.useFakeTimers();
+      const props = Object.assign({}, state, {
+        playing: [
+          {'user-id': '1', username: 'player1'},
+        ],
+        roomCode: 'CODE',
+        sendWhisper: vi.fn().mockResolvedValue(),
+        settings: {
+          customDelimiter: null
+        },
+        twitchApi: {
+          sendMessage: vi.fn()
+        },
+      });
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'sendCode');
+
+      component.sendCodeToAll();
+      vi.advanceTimersByTime(1000);
+      expect(props.twitchApi.sendMessage).toHaveBeenCalled();
+      expect(component.sendCode).toHaveBeenCalledTimes(1);
+      vi.useRealTimers();
+    });
+    test('should message chat that there is no one in the Playing queue', () => {
+      vi.useFakeTimers();
+      const props = Object.assign({}, state, {
+        playing: [],
+        roomCode: 'CODE',
+        sendWhisper: vi.fn().mockResolvedValue(),
+        twitchApi: {
+          sendMessage: vi.fn()
+        },
+      });
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'sendCode');
+
+      component.sendCodeToAll();
+      vi.advanceTimersByTime(1000);
+      expect(props.twitchApi.sendMessage).toHaveBeenCalled();
+      expect(component.sendCode).toHaveBeenCalledTimes(0);
+      vi.useRealTimers();
+    });
+    test('should return when no room code is set', () => {
+      vi.useFakeTimers();
+      const props = Object.assign({}, state, {
+        playing: [],
+        sendWhisper: vi.fn().mockResolvedValue(),
+        twitchApi: {
+          sendMessage: vi.fn()
+        },
+      });
+      const component = new PlayerQueueComponent(props);
+      vi.spyOn(component, 'sendCode');
+
+      component.sendCodeToAll();
+      vi.advanceTimersByTime(1000);
+      expect(props.twitchApi.sendMessage).not.toHaveBeenCalled();
+      expect(component.sendCode).toHaveBeenCalledTimes(0);
+      vi.useRealTimers();
+    });
+  });
 
   describe('render', () => {
     let store;
