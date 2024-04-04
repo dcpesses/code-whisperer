@@ -5,6 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
+import { handleNewPlayerRequest, isUserInLobby, listPlayingQueue } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -104,6 +105,7 @@ export class PlayerQueue extends Component {
     }
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
+
     return;
   }
 
@@ -115,7 +117,7 @@ export class PlayerQueue extends Component {
 
 
   handleNewPlayerRequest = (username, {isPrioritySeat=false}) => {
-
+    /*
     if (isPrioritySeat) {
       // even if the queue is closed, still add them to the interested column for consideration
       const column = (this.props.isQueueOpen ? 'playing' : 'interested');
@@ -135,6 +137,10 @@ export class PlayerQueue extends Component {
     return this.updateColumnForUser({username}, 'interested')
       ? 'you have successfully joined the lobby.'
       : 'there was an error adding you to the lobby.';
+
+    */
+
+    return handleNewPlayerRequest(this.props, username, {isPrioritySeat});
   };
 
   handleRoomCodeChange = (evt) => {
@@ -147,10 +153,13 @@ export class PlayerQueue extends Component {
   };
 
   isUserInLobby = (username) => {
+    /*
     return (
       this.props?.interested?.map((uObj) => uObj.username)?.includes(username)
       || this.props?.playing?.map((uObj) => uObj.username)?.includes(username)
     );
+    */
+    return isUserInLobby(this.props, username);
   };
 
   updateColumnForUser = (userObj, newColumn) => {
@@ -210,11 +219,14 @@ export class PlayerQueue extends Component {
   listInterestedQueue = () => this.props.interested;
 
   listPlayingQueue = () => {
+    /*
     let queue = [];
     if (this.props.streamerSeat && this.props.twitchApi.channel) {
       queue.push({username: this.props.twitchApi.channel});
     }
     return queue.concat(this.props.playing).map(player => player.username);
+    */
+    return listPlayingQueue(this.props);
   };
 
   toggleStreamerSeat = () => {

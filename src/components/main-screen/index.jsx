@@ -15,6 +15,7 @@ import {
   clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount,
   setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser
 } from '@/features/player-queue/queue-slice';
+import { handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue } from '@/utils/queue';
 import { setFakeChannelStates, setUserLookup } from '@/features/twitch/channel-slice';
 import * as fakeStates from '../twitch-wheel/example-states';
 
@@ -363,7 +364,7 @@ class MainScreen extends Component {
     console.log('MainScreen - routePlayRequest');
     try {
       const msg = this.props.isQueueOpen
-        ? this.playerSelector?.handleNewPlayerRequest(user, {isPrioritySeat})
+        ? handleNewPlayerRequest(this.props, user, {isPrioritySeat})
         : 'sign-ups are currently closed; try again after this game wraps up!';
 
       if (sendConfirmationMsg) {
@@ -376,7 +377,7 @@ class MainScreen extends Component {
   };
 
   routeLeaveRequest = (user, {sendConfirmationMsg = true}) => {
-    const msg = this.playerSelector?.isUserInLobby(user)
+    const msg = isUserInLobby(this.props, user)
       ? 'you have successfully left the lobby'
       : 'you were not in the lobby';
 
@@ -385,6 +386,7 @@ class MainScreen extends Component {
     if (sendConfirmationMsg) {
       this.twitchApi?.sendMessage(`/me @${user}, ${msg}.`);
     }
+
   };
 
   routeOpenQueueRequest = () => {
@@ -404,11 +406,11 @@ class MainScreen extends Component {
   };
 
   routeListInterestedQueueRequest = () => {
-    return this.playerSelector?.listInterestedQueue();
+    return listInterestedQueue(this.props);
   };
 
   routeListPlayingQueueRequest = () => {
-    return this.playerSelector?.listPlayingQueue();
+    return listPlayingQueue(this.props);
   };
 
   sendMessage = (msg) => {
@@ -541,9 +543,12 @@ MainScreen.defaultProps = {
 };
 const mapStateToProps = state => ({
   modal: state.modal,
+  interested: state.queue.interested,
+  playing: state.queue.playing,
   isQueueOpen: state.queue.isQueueOpen,
+  streamerSeat: state.queue.streamerSeat,
   userLookup: state.channel.lookup,
-  user: state.user
+  user: state.user,
 });
 const mapDispatchToProps = () => ({
   showModalCommandList,
