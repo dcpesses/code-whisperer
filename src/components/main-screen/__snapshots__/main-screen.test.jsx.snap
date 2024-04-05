@@ -353,7 +353,20 @@ exports[`MainScreen > render > Should render without error 1`] = `
               >
                 0
                  of 
-                8
+                <div
+                  class="d-inline dropdown-center"
+                  id="dropdown-max-player-seats"
+                  variant="link"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top dropdown-toggle btn btn-link"
+                    id="dropdown-max-player-seats-toggle"
+                    type="button"
+                  >
+                    8
+                  </button>
+                </div>
                  seats claimed
               </div>
             </div>

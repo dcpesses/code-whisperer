@@ -18,7 +18,9 @@ vi.mock('../../../package.json', () => {
 const getMockTwitchApi = (overrides={}) => Object.assign({
   isChatConnected: true,
   _chatClient: {},
-  onMessage: vi.fn()
+  onMessage: vi.fn(),
+  sendMessage: vi.fn().mockResolvedValue([]),
+  updateLastMessageTime: vi.fn(),
 }, overrides);
 
 const getMessageHandlerConfig = (overrides={}) => Object.assign({
@@ -45,9 +47,7 @@ const getMessageHandlerConfig = (overrides={}) => Object.assign({
   settings: {},
   startGame: vi.fn(),
   toggleAllowGameRequests: vi.fn(),
-  twitchApi: vi.fn().mockReturnValue({
-    sendMessage: vi.fn().mockResolvedValue([])
-  }),
+  twitchApi: vi.fn().mockReturnValue(getMockTwitchApi()),
   upcomingGames: [],
   debug: false,
   init: false,
@@ -125,20 +125,55 @@ describe('noop', () => {
 
 describe('MainScreen', () => {
 
-  describe.skip('componentDidMount', () => {
+  describe('constructor', () => {
+    test('should load and initialize settings from localStorage', () => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({customDelimiter: true}));
+      const mainScreen = new MainScreenComponent({});
+      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
+        {
+          "customDelimiter": true,
+          "enableRoomCode": true,
+        }
+      `);
+    });
+    test('should initialize settings without any saved data from localStorage', () => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      const mainScreen = new MainScreenComponent({});
+      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
+        {
+          "enableRoomCode": true,
+        }
+      `);
+    });
+    test('should handle any errors that occur when initializing settings and use the default settings', () => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('{]');
+      // vi.spyOn(JSON, 'parse').mockReturnValue()
+      const mainScreen = new MainScreenComponent({});
+      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
+        {
+          "enableRoomCode": true,
+        }
+      `);
+    });
+  });
+
+  describe('componentDidMount', () => {
     let mainScreen;
 
     beforeEach(() => {
-      mainScreen = new MainScreenComponent({});
+      mainScreen = new MainScreenComponent({
+        setFakeUserStates: vi.fn(),
+        setFakeChannelStates: vi.fn(),
+      });
+      vi.spyOn(mainScreen, 'initMessageHandler');
     });
 
-    test('should initialize messageHandler if twitchApi is available and call initMessageHandler', () => {
+    test('should initialize messageHandler if TwitchApi is available', () => {
       mainScreen.props = {
         twitchApi: {
           isChatConnected: true
         }
       };
-      mainScreen.initMessageHandler = vi.fn();
       mainScreen.componentDidMount();
       expect(mainScreen.initMessageHandler).toHaveBeenCalled();
     });
@@ -151,6 +186,17 @@ describe('MainScreen', () => {
       mainScreen.componentDidMount();
       expect(mainScreen.initMessageHandler).not.toHaveBeenCalled();
     });
+
+    test('should load fake state data', () => {
+      vi.spyOn(window.location, 'hash', 'get').mockReturnValue('?fakestate=true');
+      vi.spyOn(mainScreen, 'setState');
+
+      mainScreen.componentDidMount();
+      expect(mainScreen.setState).toHaveBeenCalled();
+      expect(mainScreen.props.setFakeUserStates).toHaveBeenCalled();
+      expect(mainScreen.props.setFakeChannelStates).toHaveBeenCalled();
+    });
+
   });
 
   describe('componentDidUpdate', () => {
@@ -349,6 +395,135 @@ describe('MainScreen', () => {
 
       expect(messageHandler.updateChatCommandTerm).not.toHaveBeenCalled();
     });
+
+    test('should return if messageHandler is not set', () => {
+      mainScreen.messageHandler = null;
+
+      expect(mainScreen.onMessageHandlerInit()).toBeUndefined();
+    });
+  });
+
+  describe('getOptionsDebugMenu', () => {
+    let mainScreen;
+    let optionsDebugMenu;
+
+    beforeEach(() => {
+      mainScreen = new MainScreenComponent({
+        setFakeQueueStates: vi.fn(),
+        setFakeUserStates: vi.fn(),
+        setFakeChannelStates: vi.fn(),
+      });
+      vi.spyOn(mainScreen, 'setState').mockImplementation((state, callbackFn) => {
+        typeof state === 'function' && state({}); callbackFn && callbackFn();
+      });
+      optionsDebugMenu = mainScreen.getOptionsDebugMenu();
+    });
+    test('should be defined', () => {
+      expect(optionsDebugMenu).toBeDefined();
+      expect(optionsDebugMenu.every(item => !!item.label && !!item.onClick)).toBeTruthy();
+    });
+    test('should load mock game requests', () => {
+      let menuItem = optionsDebugMenu.find(item => item.label === 'Load Mock Game Requests');
+      expect(menuItem).toBeDefined();
+      expect(menuItem.onClick()).not.toBeDefined();
+      expect(mainScreen.setState).toHaveBeenCalled();
+    });
+    test('should load mock game and player requests', () => {
+      let menuItem = optionsDebugMenu.find(item => item.label === 'Load Mock Game & Player Requests');
+      expect(menuItem).toBeDefined();
+      expect(menuItem.onClick()).not.toBeDefined();
+      expect(mainScreen.props.setFakeQueueStates).toHaveBeenCalled();
+      expect(mainScreen.props.setFakeUserStates).toHaveBeenCalled();
+      expect(mainScreen.props.setFakeChannelStates).toHaveBeenCalled();
+      expect(mainScreen.setState).toHaveBeenCalled();
+    });
+    test('should log the debug environment', () => {
+      let menuItem = optionsDebugMenu.find(item => item.label === 'Log Debug Environment');
+      expect(menuItem).toBeDefined();
+      expect(menuItem.onClick()).not.toBeDefined();
+    });
+    test('should toggle the user message logging', () => {
+      let menuItem = optionsDebugMenu.find(item => item.label === 'Toggle User Message Logging');
+      expect(menuItem).toBeDefined();
+      expect(menuItem.onClick()).not.toBeDefined();
+      expect(mainScreen.setState).toHaveBeenCalled();
+    });
+  });
+
+  describe('onMessage', () => {
+    let mainScreen;
+    let props;
+
+    beforeEach(() => {
+      props = {
+        userLookup: {},
+        setUserLookup: vi.fn(),
+        setChatterInfo: vi.fn(),
+        twitchApi: getMockTwitchApi({
+          updateLastMessageTime: vi.fn(),
+          requestUserInfo: vi.fn().mockResolvedValue({ data: [{ login: 'testUser' }] })
+        })
+      };
+      mainScreen = new MainScreenComponent(props);
+      mainScreen.twitchApi = props.twitchApi;
+    });
+
+    test('should update user lookup and chatter info when user metadata is provided', async() => {
+      const message = 'Hello!';
+      const user = 'testUser';
+      const metadata = { 'user-id': '123' };
+      await mainScreen.onMessage(message, user, metadata);
+      expect(mainScreen.props.setUserLookup).toHaveBeenCalledWith(metadata);
+      expect(mainScreen.props.setChatterInfo).toHaveBeenCalledWith({ login: 'testUser' });
+    });
+
+    test('should not update user lookup and chatter info when user metadata is not provided', async() => {
+      const message = 'Hello!';
+      const user = 'testUser';
+      await mainScreen.onMessage(message, user);
+      expect(mainScreen.props.setUserLookup).not.toHaveBeenCalled();
+      expect(mainScreen.props.setChatterInfo).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onSettingsUpdate', () => {
+    let mainScreen;
+
+    beforeEach(() => {
+      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      mainScreen = new MainScreenComponent({});
+      mainScreen.updateMessageHandler = vi.fn();
+    });
+
+    test('should update settings in state, save to localStorage, and call updateMessageHandler', () => {
+      const nextSettings = { enableRoomCode: false };
+      // mainScreen.setState = vi.fn();
+      vi.spyOn(mainScreen, 'setState').mockImplementation((state, callbackFn)=>{callbackFn();});
+      mainScreen.onSettingsUpdate(nextSettings);
+      expect(mainScreen.setState).toHaveBeenCalledWith({ settings: nextSettings }, expect.any(Function));
+      expect(localStorage.setItem).toHaveBeenCalledWith('__settings', JSON.stringify(nextSettings));
+      expect(mainScreen.updateMessageHandler).toHaveBeenCalled();
+    });
+  });
+
+  describe('toggleChangelogModal', () => {
+    test('should toggle the state of showChangelogModal', () => {
+      const mainScreen = new MainScreenComponent({});
+      vi.spyOn(mainScreen, 'setState');
+      mainScreen.state.showChangelogModal = false;
+      mainScreen.toggleChangelogModal();
+      expect(mainScreen.setState.mock.calls[0][0](mainScreen.state)).toEqual({ showChangelogModal: true });
+    });
+  });
+
+  describe('toggleOptionsMenu', () => {
+    test('should toggle the state of toggleOptionsMenu', () => {
+      const mainScreen = new MainScreenComponent({});
+      vi.spyOn(mainScreen, 'setState');
+      mainScreen.state.showOptionsMenu = false;
+      mainScreen.toggleOptionsMenu();
+      expect(mainScreen.setState.mock.calls[0][0](mainScreen.state)).toEqual({ showOptionsMenu: true });
+    });
   });
 
   describe('sendWhisper', () => {
@@ -388,9 +563,7 @@ describe('MainScreen', () => {
     let twitchApi;
     beforeEach(() => {
       store = getStoreWithState(storeState);
-      twitchApi = {
-        debug: true
-      };
+      twitchApi = getMockTwitchApi();
     });
     test('Should render without error', () => {
       const {container} = render(

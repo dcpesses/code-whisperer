@@ -47,7 +47,7 @@ export class MainScreen extends Component {
       const isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
       const savedSettings = localStorage.getItem('__settings');
       if (savedSettings) {
-        settings = JSON.parse(savedSettings);
+        settings = Object.assign({}, settings, JSON.parse(savedSettings));
         if (!isJestEnv) {
           console.log('Saved settings loaded!');
         }
@@ -308,9 +308,7 @@ export class MainScreen extends Component {
   onSettingsUpdate = (nextSettings) => {
     const {settings} = this.state;
     const mergedSettings = Object.assign({}, settings, nextSettings);
-    localStorage.setItem('__settings', JSON.stringify(
-      mergedSettings
-    ));
+    localStorage.setItem('__settings', JSON.stringify(mergedSettings));
     console.log('Settings saved:', mergedSettings);
     return this.setState({
       settings: mergedSettings
