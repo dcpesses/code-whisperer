@@ -59,6 +59,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearUserInfo, clearUserLookup, setChatterInfo, setFakeUserStates, setModeratedChannels, setUserInfo, setUserLookup, setWhisperStatus, removeChatterInfo, removeModeratedChannels, removeWhisperStatus } = userSlice.actions;
+export const { clearUserInfo, clearUserLookup, setChatterInfo, setFakeUserStates, setModeratedChannels, setUserInfo, setWhisperStatus, removeChatterInfo, removeModeratedChannels, removeWhisperStatus } = userSlice.actions;
 
 export default userSlice.reducer;
