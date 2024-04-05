@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MainScreen > Should render without error 1`] = `
+exports[`MainScreen > render > Should render without error 1`] = `
 <div>
   <div
     class="main-screen"
