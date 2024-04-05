@@ -66,7 +66,7 @@ export const routeJoinRequest = ({isQueueOpen, twitchApi}, user, {sendConfirmati
       twitchApi?.sendMessage(`/me @${user}, ${msg}`);
     }
   } catch (e) {
-    console.error('MainScreen - routePlayRequest Error:', e);
+    console.error('routeJoinRequest Error:', e);
   }
 };
 
