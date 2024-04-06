@@ -7,14 +7,18 @@ import './modal.css';
 interface ModalProps {
   children: ReactElement;
   handleClose: () => void;
+  id?: string,
   show: boolean;
   title: string;
 }
+ModalReusable.defaultProps = {
+  id: ''
+};
 
 function ModalReusable(props: ModalProps): JSX.Element {
-  const {children, handleClose, show, title} = props;
+  const {children, handleClose, id, show, title} = props;
   return (
-    <Modal show={show} fullscreen="md-down" dialogClassName="modal-90w" onHide={handleClose}>
+    <Modal id={id} show={show} fullscreen="md-down" dialogClassName="modal-90w" onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
