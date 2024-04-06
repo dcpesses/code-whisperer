@@ -636,7 +636,6 @@ const statePlayerSelect = {
   'joined': [],
   'streamerSeat': false,
   'isQueueOpen': true,
-  'columnWidth': 634
 };
 
 const stateUserStore = {

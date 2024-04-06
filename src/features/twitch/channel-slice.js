@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: {},
+  lookup: {}, // user "tags" metadata from messages
   moderators: [],
   vips: []
 };
@@ -16,6 +17,9 @@ export const userSlice = createSlice({
     clearModerators: (state) => {
       state.moderators = [];
     },
+    clearUserLookup: (state) => {
+      state.lookup = {};
+    },
     clearVIPs: (state,) => {
       state.vips = [];
     },
@@ -24,9 +28,20 @@ export const userSlice = createSlice({
         state.user = action.payload;
       }
     },
+    setFakeChannelStates: (state, action) => {
+      if (action.payload.user) {state.user = action.payload.user;}
+      if (action.payload.lookup) {state.lookup = action.payload.lookup;}
+      if (action.payload.moderators) {state.moderators = action.payload.moderators;}
+      if (action.payload.vips) {state.vips = action.payload.vips;}
+    },
     setModerators: (state, action) => {
       if (action.payload) {
         state.moderators = action.payload;
+      }
+    },
+    setUserLookup: (state, action) => {
+      if (action.payload.username) {
+        state.lookup[action.payload.username] = action.payload;
       }
     },
     setVIPs: (state, action) => {
@@ -37,6 +52,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearChannelInfo, clearModerators, clearVIPs, setChannelInfo, setModerators, setVIPs } = userSlice.actions;
+export const { clearChannelInfo, clearModerators, clearUserLookup, clearVIPs, setChannelInfo, setFakeChannelStates, setModerators, setUserLookup, setVIPs } = userSlice.actions;
 
 export default userSlice.reducer;

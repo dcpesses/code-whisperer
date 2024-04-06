@@ -1,0 +1,1451 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PlayerQueue > render > Should render with fake state data 1`] = `
+<div>
+  <div
+    class="queues d-flex flex-column flex-md-row my-2 flex-wrap"
+  >
+    <div
+      class="queue my-1 px-md-1 col-12"
+    >
+      <div
+        class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            aria-autocomplete="none"
+            aria-describedby="btn-send-to-queue"
+            aria-label="Enter Room Code"
+            autocomplete="false"
+            class="form-control libre-franklin-font"
+            name="room-code"
+            placeholder="ENTER ROOM CODE"
+            role="presentation"
+            title="Paste Room Code Here"
+            type="text"
+            value=""
+          />
+          <button
+            class="btn btn-primary libre-franklin-font text-uppercase"
+            disabled=""
+            id="btn-send-to-queue"
+            title="Send Code to All Players"
+            type="button"
+          >
+            Send to Queue
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2 d-flex justify-content-between"
+      >
+        <div
+          class="toggle-streamer-seat"
+        >
+          <label
+            class="toggle-label form-check-label"
+            for="reserve-seat-for-streamer"
+          >
+            Reserve seat for streamer?
+          </label>
+          <div
+            class="form-check form-switch"
+          >
+            <input
+              class="form-check-input"
+              id="reserve-seat-for-streamer"
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+        </div>
+        <div
+          class="fs-6 lh-sm align-self-center"
+        >
+          <div
+            class="player-count"
+          >
+            5
+             of 
+            8
+             seats claimed
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2"
+      >
+        <h6
+          class="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        >
+          <span
+            class="queue-header me-auto align-self-center"
+          >
+            <i
+              class="bi-people text-purple-1 fs-5"
+            />
+             Interested
+          </span>
+          <button
+            class="btn btn-sm"
+          >
+            Randomize
+          </button>
+        </h6>
+        <div
+          class="d-flex flex-column text-body interested-queue rand-0"
+        >
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player6"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player6
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Add to Playing"
+                >
+                  <i
+                    class="bi-plus-circle-fill text-purple-4"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player6"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player6"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player6"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player3"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player3
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Add to Playing"
+                >
+                  <i
+                    class="bi-plus-circle-fill text-purple-4"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player3"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player3"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player3"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player4"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player4
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Add to Playing"
+                >
+                  <i
+                    class="bi-plus-circle-fill text-purple-4"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player4"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player4"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player4"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="dcpesses"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    dcpesses
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Add to Playing"
+                >
+                  <i
+                    class="bi-plus-circle-fill text-purple-4"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-dcpesses"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/dcpesses"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-dcpesses"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2"
+      >
+        <h6
+          class="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        >
+          <span
+            class="queue-header me-auto align-self-center"
+          >
+            <i
+              class="bi-people-fill text-purple-1 fs-5"
+            />
+             Playing
+          </span>
+          <button
+            class="btn btn-sm strt-game"
+          >
+            Clear Seats
+          </button>
+        </h6>
+        <div
+          class="d-flex flex-column text-body playing-queue"
+        >
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player1"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-warning-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player1
+                     
+                    <span
+                      class="align-self-center fs-6"
+                      title="Priority seat redemption"
+                    >
+                      <i
+                        class="bi-stars"
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Back to Interested"
+                >
+                  <i
+                    class="bi-x-circle-fill text-purple-3"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player1"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player1"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player1"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player5"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-warning-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player5
+                     
+                    <span
+                      class="align-self-center fs-6"
+                      title="Priority seat redemption"
+                    >
+                      <i
+                        class="bi-stars"
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Back to Interested"
+                >
+                  <i
+                    class="bi-x-circle-fill text-purple-3"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player5"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player5"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player5"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player2"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-warning-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player2
+                     
+                    <span
+                      class="align-self-center fs-6"
+                      title="Priority seat redemption"
+                    >
+                      <i
+                        class="bi-stars"
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Back to Interested"
+                >
+                  <i
+                    class="bi-x-circle-fill text-purple-3"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player2"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player2"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player2"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player7"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player7
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Back to Interested"
+                >
+                  <i
+                    class="bi-x-circle-fill text-purple-3"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player7"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player7"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player7"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="player-queue-card p-2 mb-0 small lh-1 border-bottom w-100 raleway-font fw-medium border rounded bg-dark-subtle position-relative"
+          >
+            <div
+              class="d-flex justify-content-between"
+            >
+              <button
+                class="btn btn-base border-0 d-flex flex-row"
+                title="View Additional User Information"
+              >
+                <i
+                  alt="player8"
+                  class="bi-person-fill rounded-circle user-profile-image bg-secondary bg-gradient text-white-50"
+                />
+                 
+                <div
+                  class="flex-column ms-1 text-start"
+                >
+                  <strong
+                    class="text-body-emphasis fs-4 saira-condensed fw-bold d-inline-block"
+                  >
+                    player8
+                     
+                  </strong>
+                  <span
+                    class="text-purple-2 d-block smaller fw-semibold"
+                  />
+                </div>
+              </button>
+              <div
+                class="d-flex flex-row"
+              >
+                <button
+                  class="btn btn-icon remove-user"
+                  title="Remove"
+                >
+                  <i
+                    class="bi-trash3-fill"
+                  />
+                </button>
+                <button
+                  class="btn btn-icon"
+                  title="Back to Interested"
+                >
+                  <i
+                    class="bi-x-circle-fill text-purple-3"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="extended-info-pane p-0 m-0 collapse"
+              id="player-queue-card-info-player8"
+            >
+              <div
+                class="player-queue-card-info border-top mt-2 pt-2 px-1 lh-base"
+              >
+                <span
+                  class="d-block"
+                >
+                  <i
+                    aria-label="cake icon"
+                    class="bi-cake2-fill text-purple-2"
+                  />
+                   
+                   
+                  <span
+                    class="text-purple-2"
+                  >
+                    (
+                    )
+                  </span>
+                </span>
+                <div
+                  class="pt-2 fw-semibold lh-sm"
+                />
+                <div
+                  class="d-block mx-auto pt-2"
+                >
+                  <a
+                    class="d-inline-block ttv-link fw-bold"
+                    href="https://www.twitch.com/player8"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-block text-center position-absolute bottom-0 start-50 translate-middle-x"
+            >
+              <button
+                aria-controls="player-queue-card-info-player8"
+                aria-expanded="false"
+                class="btn badge rounded-pill user-info-toggle"
+              >
+                View More
+                 
+                <i
+                  class="bi-caret-down-fill "
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueue > render > Should render without error 1`] = `
+<div>
+  <div
+    class="queues d-flex flex-column flex-md-row my-2 flex-wrap"
+  >
+    <div
+      class="queue my-1 px-md-1 col-12"
+    >
+      <div
+        class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            aria-autocomplete="none"
+            aria-describedby="btn-send-to-queue"
+            aria-label="Enter Room Code"
+            autocomplete="false"
+            class="form-control libre-franklin-font"
+            name="room-code"
+            placeholder="ENTER ROOM CODE"
+            role="presentation"
+            title="Paste Room Code Here"
+            type="text"
+            value=""
+          />
+          <button
+            class="btn btn-primary libre-franklin-font text-uppercase"
+            disabled=""
+            id="btn-send-to-queue"
+            title="Send Code to All Players"
+            type="button"
+          >
+            Send to Queue
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2 d-flex justify-content-between"
+      >
+        <div
+          class="toggle-streamer-seat"
+        >
+          <label
+            class="toggle-label form-check-label"
+            for="reserve-seat-for-streamer"
+          >
+            Reserve seat for streamer?
+          </label>
+          <div
+            class="form-check form-switch"
+          >
+            <input
+              class="form-check-input"
+              id="reserve-seat-for-streamer"
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+        </div>
+        <div
+          class="fs-6 lh-sm align-self-center"
+        >
+          <div
+            class="player-count"
+          >
+            0
+             of 
+            8
+             seats claimed
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2"
+      >
+        <h6
+          class="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        >
+          <span
+            class="queue-header me-auto align-self-center"
+          >
+            <i
+              class="bi-people text-purple-1 fs-5"
+            />
+             Interested
+          </span>
+          <button
+            class="btn btn-sm"
+          >
+            Add All to Playing
+          </button>
+        </h6>
+        <div
+          class="d-flex flex-column text-body interested-queue rand-0"
+        />
+      </div>
+    </div>
+    <div
+      class="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2"
+    >
+      <div
+        class="bg-body rounded shadow-sm p-2"
+      >
+        <h6
+          class="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        >
+          <span
+            class="queue-header me-auto align-self-center"
+          >
+            <i
+              class="bi-people-fill text-purple-1 fs-5"
+            />
+             Playing
+          </span>
+          <button
+            class="btn btn-sm strt-game disabled"
+          >
+            Clear Seats
+          </button>
+        </h6>
+        <div
+          class="d-flex flex-column text-body playing-queue"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PlayerQueue > renderPlayerCard > should render the player queue card in the Playing queue with a button to send the room code 1`] = `
+<PlayerQueueCard
+  btnProps={
+    {
+      "label": "",
+      "onClick": null,
+    }
+  }
+  onRemoveUser={[Function]}
+  onSendCode={[Function]}
+  prioritySeat={false}
+  queueName={null}
+  relativeTime="1 second ago"
+  showSendButton={true}
+  username="player1"
+/>
+`;
+
+exports[`PlayerQueue > renderPlayerCount > should display a dropdown menu and indicate more players are in the queue than the game allows 1`] = `
+<div
+  className="player-count overlimit"
+>
+  9
+   of 
+  <Dropdown
+    className="d-inline"
+    drop="down-centered"
+    id="dropdown-max-player-seats"
+    variant="link"
+  >
+    <DropdownToggle
+      className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top"
+      id="dropdown-max-player-seats-toggle"
+      variant="link"
+    >
+      8
+    </DropdownToggle>
+    <DropdownMenu
+      variant="dark"
+    >
+      <DropdownHeader>
+        Max # of Players
+      </DropdownHeader>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-1"
+        href={null}
+        onClick={[Function]}
+      >
+        1
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-2"
+        href={null}
+        onClick={[Function]}
+      >
+        2
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-3"
+        href={null}
+        onClick={[Function]}
+      >
+        3
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-4"
+        href={null}
+        onClick={[Function]}
+      >
+        4
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-5"
+        href={null}
+        onClick={[Function]}
+      >
+        5
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-6"
+        href={null}
+        onClick={[Function]}
+      >
+        6
+      </DropdownItem>
+      <DropdownItem
+        active={true}
+        eventKey="max-players-option-8"
+        href={null}
+        onClick={[Function]}
+      >
+        8
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+   seats claimed
+</div>
+`;
+
+exports[`PlayerQueue > renderPlayerCount > should display a dropdown menu and indicate there are still available spots for more people in the queue 1`] = `
+<div
+  className="player-count"
+>
+  7
+   of 
+  <Dropdown
+    className="d-inline"
+    drop="down-centered"
+    id="dropdown-max-player-seats"
+    variant="link"
+  >
+    <DropdownToggle
+      className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top"
+      id="dropdown-max-player-seats-toggle"
+      variant="link"
+    >
+      8
+    </DropdownToggle>
+    <DropdownMenu
+      variant="dark"
+    >
+      <DropdownHeader>
+        Max # of Players
+      </DropdownHeader>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-1"
+        href={null}
+        onClick={[Function]}
+      >
+        1
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-2"
+        href={null}
+        onClick={[Function]}
+      >
+        2
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-3"
+        href={null}
+        onClick={[Function]}
+      >
+        3
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-4"
+        href={null}
+        onClick={[Function]}
+      >
+        4
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-5"
+        href={null}
+        onClick={[Function]}
+      >
+        5
+      </DropdownItem>
+      <DropdownItem
+        active={false}
+        eventKey="max-players-option-6"
+        href={null}
+        onClick={[Function]}
+      >
+        6
+      </DropdownItem>
+      <DropdownItem
+        active={true}
+        eventKey="max-players-option-8"
+        href={null}
+        onClick={[Function]}
+      >
+        8
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+   seats claimed
+</div>
+`;

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MainScreen > Should render without error 1`] = `
+exports[`MainScreen > render > Should render without error 1`] = `
 <div>
   <div
     class="main-screen"
@@ -255,7 +255,7 @@ exports[`MainScreen > Should render without error 1`] = `
                 >
                   <img
                     alt="Support Me on Ko-fi"
-                    src="https://ko-fi.com/img/githubbutton_sm.svg"
+                    src="/code-whisperer/src/assets/kofi.svg"
                   />
                 </a>
                 <div
@@ -353,7 +353,20 @@ exports[`MainScreen > Should render without error 1`] = `
               >
                 0
                  of 
-                8
+                <div
+                  class="d-inline dropdown-center"
+                  id="dropdown-max-player-seats"
+                  variant="link"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top dropdown-toggle btn btn-link"
+                    id="dropdown-max-player-seats-toggle"
+                    type="button"
+                  >
+                    8
+                  </button>
+                </div>
                  seats claimed
               </div>
             </div>
@@ -379,7 +392,7 @@ exports[`MainScreen > Should render without error 1`] = `
               <button
                 class="btn btn-sm"
               >
-                Randomize
+                Add All to Playing
               </button>
             </h6>
             <div

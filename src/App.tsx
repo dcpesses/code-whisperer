@@ -2,7 +2,6 @@ import { Link, Routes, Route } from 'react-router-dom';
 
 // Pages
 import AuthenticatedApp from '@/pages/authenticated-app';
-import Demo from '@/pages/demo';
 import Login from '@/pages/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -37,7 +36,6 @@ const Error404 = () => (
 function App() {
   return (
     <Routes>
-      <Route path="/demo" element={<Demo />} />
       <Route path="/login" element={<Login />} />
       <Route path="/error" element={<Error404 />} />
       <Route path="/*" element={<AuthenticatedApp />} />

@@ -30,12 +30,14 @@ const userState = {
 
 describe('channel reducer', () => {
   const initialState = {
+    lookup: {},
     user: {},
     moderators: [],
     vips: []
   };
   it('should handle initial state', () => {
     expect(userReducer(undefined, { type: 'unknown' })).toEqual({
+      lookup: {},
       user: {},
       moderators: [],
       vips: []

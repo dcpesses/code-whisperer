@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import {version} from '../../../package.json';
 
 import './header-menu.css';
+import KofiSvg from '@/assets/kofi.svg';
 
 export const noop = () => void 0;
 
@@ -386,18 +387,20 @@ export class HeaderMenu extends Component {
                     trigger="click"
                     placement="top"
                     overlay={
-
                       <div className="kofi-overlay" style={{zIndex: 1046}}>
-                        <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="dcpesses"></iframe>
+                        {
+                          (this.state.showKofiOverlay) && (
+                            <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="dcpesses"></iframe>
+                          )
+                        }
                         <div className="position-absolute top-0 end-0 p-2">
                           <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
                         </div>
                       </div>
-
                     }
                   >
                     <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
-                      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support Me on Ko-fi" />
+                      <img src={KofiSvg} alt="Support Me on Ko-fi" />
                     </Nav.Link>
                   </OverlayTrigger>
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">

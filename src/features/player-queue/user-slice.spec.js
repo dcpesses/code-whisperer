@@ -1,6 +1,7 @@
 /* eslint-env jest */
 import userReducer, {
-  setFakeStates,
+  setFakeUserStates,
+  setUserInfo,
   setModeratedChannels,
   setChatterInfo,
   setWhisperStatus,
@@ -23,6 +24,18 @@ const userState = {
       view_count: 0,
       created_at: '2019-11-18T00:47:34Z'
     }
+  },
+  info: {
+    id: '1',
+    login: 'twitchstreamer',
+    display_name: 'TwitchStreamer',
+    type: '',
+    broadcaster_type: '',
+    description: 'description',
+    profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/profile_image-300x300.png',
+    offline_image_url: '',
+    view_count: 0,
+    created_at: '2019-11-18T00:47:34Z'
   },
   moderatedChannels: [{
     broadcaster_id: '1',
@@ -57,9 +70,14 @@ describe('user reducer', () => {
   });
 
   it('should set the fake states', () => {
-    const actual = userReducer(initialState, setFakeStates(userState));
+    const actual = userReducer(initialState, setFakeUserStates(userState));
     expect(actual.chatters).toEqual(userState.chatters);
     expect(actual.whisperStatus).toEqual(userState.whisperStatus);
+  });
+
+  it('should set the user info for the current user', () => {
+    const actual = userReducer(initialState, setUserInfo(userState.info));
+    expect(actual.info).toEqual(userState.info);
   });
 
   it('should set the user chatters for the given user', () => {

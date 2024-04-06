@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
 import {getRelativeTimeString} from '@/utils';
+import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
+import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
+
+export const noop = () => void 0;
 
 const GAME_PLACEHOLDER = {
   name: '',
@@ -14,7 +19,8 @@ const GAME_PLACEHOLDER = {
   'Max players': 16,
   username: '',
 };
-export default class PlayerQueue extends Component {
+
+export class PlayerQueue extends Component {
   static get propTypes() {
     return {
       gamesList: PropTypes.object,
@@ -23,29 +29,67 @@ export default class PlayerQueue extends Component {
       settings: PropTypes.object,
       twitchApi: PropTypes.any.isRequired,
       userLookup: PropTypes.any,
+
+      interested: PropTypes.array,
+      playing: PropTypes.array,
+      maxPlayers: PropTypes.number,
+      roomCode: PropTypes.string,
+      streamerSeat: PropTypes.bool,
+      randCount: PropTypes.number,
+      // dispatch
+      clearQueue: PropTypes.func,
+      clearRoomCode: PropTypes.func,
+      closeQueue: PropTypes.func,
+      incrementRandomCount: PropTypes.func,
+      openQueue: PropTypes.func,
+      removeUser: PropTypes.func,
+      resetRandomCount: PropTypes.func,
+      setFakeQueueStates: PropTypes.func,
+      setMaxPlayers: PropTypes.func,
+      setRoomCode: PropTypes.func,
+      toggleStreamerSeat: PropTypes.func,
     };
   }
   static get defaultProps() {
     return {
+      channelInfo: {},
       gamesList: {},
-      userLookup: {},
-      settings: {},
-      sendWhisper: {},
       sendMessage: {},
+      sendWhisper: {},
+      settings: {},
+      userInfo: {},
+      userLookup: {},
+
+      interested: [],
+      playing: [],
+      joined: [],
+      maxPlayers: 8,
+      roomCode: null,
+      streamerSeat: false,
+      isQueueOpen: true,
+      randCount: 0,
+      // signupMessage: null,
+      time: null,
+
+      clearQueue: noop,
+      clearRoomCode: noop,
+      closeQueue: noop,
+      incrementRandomCount: noop,
+      openQueue: noop,
+      removeUser: noop,
+      resetRandomCount: noop,
+      setFakeQueueStates: noop,
+      setMaxPlayers: noop,
+      setRoomCode: noop,
+      toggleStreamerSeat: noop,
+      updateColumnForUser: noop,
     };
   }
   constructor(props) {
     super(props);
-    this.firstColumn = React.createRef();
+
     this.state = {
-      interested: [],
-      playing: [],
-      maxPlayers: 8,
-      roomCode: null,
-      sentCodeStatus: {},
-      streamerSeat: false,
-      isQueueOpen: true,
-      randCount: 0
+      time: null
     };
     this.randInt = 0;
     this.timestampInt = 0;
@@ -54,10 +98,12 @@ export default class PlayerQueue extends Component {
 
   componentDidMount() {
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
-      this.setState(fakeStates.PlayerSelect);
+      // this.setState(fakeStates.PlayerSelect);
+      this.props.setFakeQueueStates(fakeStates.PlayerSelect);
     }
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
+
     return;
   }
 
@@ -67,149 +113,72 @@ export default class PlayerQueue extends Component {
     return;
   }
 
-
-  handleNewPlayerRequest = (username, {isPrioritySeat=false}) => {
-    if (isPrioritySeat) {
-      // even if the queue is closed, still add them to the interested column for consideration
-      const column = (this.state.isQueueOpen ? 'playing' : 'interested');
-
-      return this.updateColumnForUser({username, isPrioritySeat}, column)
-        ? 'you have been successfully added to the lobby.'
-        : 'there was an error adding you to the lobby.';
-    }
-
-    if (this.isUserInLobby(username)) {
-      return 'you are already in the lobby.';
-    }
-
-    if (!this.state.isQueueOpen) {
-      return 'the queue is currently closed; users have already been selected for this game.';
-    }
-    return this.updateColumnForUser({username}, 'interested')
-      ? 'you have successfully joined the lobby.'
-      : 'there was an error adding you to the lobby.';
-  };
+  handleNewPlayerRequest = (username, {isPrioritySeat=false}) => handleNewPlayerRequest(this.props, username, {isPrioritySeat});
 
   handleRoomCodeChange = (evt) => {
     let roomCode;
-    if (evt.target?.value) {
+    if (typeof evt.target?.value === 'string') {
       roomCode = evt.target.value.trim();
     }
-    this.setState({roomCode});
+    this.props.setRoomCode(roomCode);
   };
 
-  isUserInLobby = (username) => {
-    return (
-      this.state?.interested?.map((uObj) => uObj.username)?.includes(username)
-      || this.state?.playing?.map((uObj) => uObj.username)?.includes(username)
-    );
-  };
+  isUserInLobby = (username) => isUserInLobby(this.props, username);
 
-  updateColumnForUser = (userObj, newColumn) => {
-    if (!this.state || !this.state[newColumn]) {return false;}
+  addUserToColumn = (user, column) => addUserToColumn(this.props, user, column);
 
-    this.removeUser(userObj.username);
-    this.setState((prevState) => ({
-      ...prevState,
-      [newColumn]: [
-        ...prevState[newColumn],
-        userObj
-      ]
-    }));
-    return true;
-  };
+  removeUser = (username) => this.props.removeUser(username);
 
-  removeUser = (username) => {
-    return this.setState((prevState) => ({
-      ...prevState,
-      interested: prevState.interested.filter((iObj) => iObj.username !== username),
-      playing: prevState.playing.filter((pObj) => pObj.username !== username)
-    }));
-  };
+  clearQueue = () => this.props.clearQueue();
 
-  clearQueue = () => {
-    return this.setState((prevState) => ({
-      ...prevState,
-      interested: [],
-      playing: []
-    }));
-  };
+  openQueue = () => this.props.openQueue();
 
-  openQueue = () => {
-    return this.setState((prevState) => ({
-      ...prevState,
-      isQueueOpen: true
-    }));
-  };
+  closeQueue = () => this.props.closeQueue();
 
-  closeQueue = () => {
-    return this.setState((prevState) => ({
-      ...prevState,
-      isQueueOpen: false
-    }));
-  };
+  playerCount = () => playerCount(this.props);
 
-  playerCount = () => {
-    return this.state.playing.length
-      + (this.state.streamerSeat ? 1 : 0);
-  };
+  listInterestedQueue = () => listInterestedQueue(this.props);
 
-  listInterestedQueue = () => this.state.interested;
+  listPlayingQueue = () => listPlayingQueue(this.props);
 
-  listPlayingQueue = () => {
-    let queue = [];
-    if (this.state.streamerSeat && this.props.twitchApi.channel) {
-      queue.push({username: this.props.twitchApi.channel});
-    }
-    return queue.concat(this.state.playing).map(player => player.username);
-  };
+  toggleStreamerSeat = () => this.props.toggleStreamerSeat();
 
-  toggleStreamerSeat = () => {
-    this.setState((prevState) => ({
-      ...prevState,
-      streamerSeat: !prevState.streamerSeat
-    }));
-  };
-
-  canStartGame = () => this.state.maxPlayers >= this.playerCount();
+  canStartGame = () => this.props.maxPlayers >= this.playerCount();
 
   startGame = () => {
     // clear for now; eventually, save elsewhere to report on user play history for that session
-    this.setState ((prevState) => ({
-      ...prevState,
-      interested: [],
-      playing: [],
-      roomCode: null
-    }));
-    // this.props.startGame();
+    this.props.clearQueue();
+    this.props.clearRoomCode();
   };
 
   initRandomizePlayersAnimation = () => {
+    const playerCount = this.playerCount();
     const numPlayersToAdd = Math.min(
-      this.state.maxPlayers - this.playerCount(),
-      this.state.interested.length
+      this.props.maxPlayers - playerCount,
+      this.props.interested.length
     );
     if (numPlayersToAdd > 0) {
+      if (this.props.maxPlayers >= this.props.interested.length + playerCount) {
+        // skip animation if no need to randomize
+        this.randomizePlayers();
+        clearInterval(this.randInt);
+        this.props.resetRandomCount();
+        return;
+      }
       this.randInt = setInterval(this.randomizePlayersAnimation, 50);
       return;
     }
   };
 
   randomizePlayersAnimation = () => {
-    switch (this.state.randCount) {
+    switch (this.props.randCount) {
     case 15:
       this.randomizePlayers();
       clearInterval(this.randInt);
-      this.setState({
-        randCount: 0
-      });
+      this.props.resetRandomCount();
       break;
     default:
-      this.setState(
-        (prevState) => ({
-          randCount: prevState.randCount + 1
-        })
-      );
+      this.props.incrementRandomCount();
       break;
     }
   };
@@ -218,31 +187,31 @@ export default class PlayerQueue extends Component {
 
   randomizePlayers = () => {
     const numPlayersToAdd = Math.min(
-      this.state.maxPlayers - this.playerCount(),
-      this.state.interested.length
+      this.props.maxPlayers - this.playerCount(),
+      this.props.interested.length
     );
 
     let randIdx, randUsername;
     let randIdxArray = [], randUsernameArray = [];
-    // let interested = this.state.interested;
-    let playing = this.state.playing;
+    // let interested = this.props.interested;
+    let playing = this.props.playing;
 
     while (randIdxArray.length < numPlayersToAdd) {
-      randIdx = Math.floor(Math.random() * this.state.interested.length);
+      randIdx = Math.floor(Math.random() * this.props.interested.length);
       if (!randIdxArray.includes(randIdx)) {
         randIdxArray.push(randIdx);
-        randUsername = this.state.interested[randIdx].username;
+        randUsername = this.props.interested[randIdx].username;
         randUsernameArray.push(randUsername);
-        playing = [
-          ...playing,
-          this.state.interested[randIdx]
-        ];
+        playing = [...playing, this.props.interested[randIdx]];
       }
     }
-    this.setState((prevState) => ({
-      interested: prevState.interested.filter((uObj) => !randUsernameArray.includes(uObj.username)),
+
+    this.props.setFakeQueueStates({
+      interested: this.props.interested.filter(
+        (uObj) => !randUsernameArray.includes(uObj.username)
+      ),
       playing
-    }));
+    });
   };
 
   renderPlayerCard = (userObj, id, curColumn) => {
@@ -251,19 +220,19 @@ export default class PlayerQueue extends Component {
       userObj = Object.assign({}, userObj, metadata);
     }
 
-    let displaySendCodeBtn = !!(this.props.settings?.enableRoomCode && this.state.roomCode);
+    let displaySendCodeBtn = !!(this.props.settings?.enableRoomCode && this.props.roomCode);
 
     let btnProps;
 
     if (curColumn === 'interested') {
       btnProps = {
-        onClick: this.updateColumnForUser.bind(this, userObj, 'playing'),
+        onClick: this.addUserToColumn.bind(this, userObj, 'playing'),
         label: 'Add to Playing'
       };
     }
     if (curColumn === 'playing') {
       btnProps = {
-        onClick: this.updateColumnForUser.bind(this, userObj, 'interested'),
+        onClick: this.addUserToColumn.bind(this, userObj, 'interested'),
         label: 'Back to Interested'
       };
     }
@@ -278,7 +247,8 @@ export default class PlayerQueue extends Component {
         key={`player-queue-card-${userObj.username}`}
         btnProps={btnProps}
         onRemoveUser={this.removeUser.bind(this, userObj.username)}
-        onSendCode={this.state.roomCode && this.sendCode.bind(this, userObj)}
+        onSendCode={this.props.roomCode && this.sendCode.bind(this, userObj)}
+        prioritySeat={(userObj.isPrioritySeat === true)}
         queueName={curColumn}
         relativeTime={relativeTime}
         showSendButton={displaySendCodeBtn}
@@ -294,21 +264,17 @@ export default class PlayerQueue extends Component {
           Reserve seat for streamer?
         </label>
         <div className="form-check form-switch">
-          <input className="form-check-input" type="checkbox" role="switch" id="reserve-seat-for-streamer" defaultChecked={this.state.streamerSeat} onChange={this.toggleStreamerSeat} />
+          <input className="form-check-input" type="checkbox" role="switch" id="reserve-seat-for-streamer" defaultChecked={this.props.streamerSeat} onChange={this.toggleStreamerSeat} />
         </div>
       </div>
     );
   };
 
-  setMaxPlayers = (val) => {
-    this.setState({
-      maxPlayers: val
-    });
-  };
+  setMaxPlayers = (val) => this.props.setMaxPlayers(val);
 
   renderPlayerCount = () => {
     let className = 'player-count';
-    if (this.state.maxPlayers < this.playerCount()) {
+    if (this.props.maxPlayers < this.playerCount()) {
       className += ' overlimit';
     }
     let maxPlayers = 8;
@@ -317,7 +283,7 @@ export default class PlayerQueue extends Component {
 
       const items = maxPlayerArray.map((n) => (
         <Dropdown.Item
-          active={n === this.state.maxPlayers}
+          active={n === this.props.maxPlayers}
           eventKey={`max-players-option-${n}`}
           href={null}
           key={`max-players-option-${n}`}
@@ -331,7 +297,7 @@ export default class PlayerQueue extends Component {
         <Dropdown id="dropdown-max-player-seats" drop="down-centered" variant="link" className="d-inline">
           <Dropdown.Toggle id="dropdown-max-player-seats-toggle" variant="link"
             className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top">
-            {this.state?.maxPlayers}
+            {this.props.maxPlayers}
           </Dropdown.Toggle>
           <Dropdown.Menu variant="dark">
             <Dropdown.Header>
@@ -354,52 +320,61 @@ export default class PlayerQueue extends Component {
       id: userObj['user-id'],
       username: userObj.username
     };
-    return await this.props.sendWhisper(player, this.state.roomCode);
+    return await this.props.sendWhisper(player, this.props.roomCode);
   };
 
   sendCodeToAll = () => {
-    if (!this.state.roomCode) {
+    let {playing, roomCode, settings, twitchApi} = this.props;
+    if (!roomCode) {
       return;
     }
-    if (this.state.playing.length === 0) {
-      this.props.twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
+    if (playing.length === 0) {
+      twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
-    const pipe = (this.props.settings?.customDelimiter)
-      ? ` ${this.props.settings.customDelimiter} `
+    const pipe = (settings?.customDelimiter)
+      ? ` ${settings.customDelimiter} `
       : ' ⋆ ';
-    const recipients = this.state.playing.map(p => '@'+p['display-name']).join(pipe);
+    const recipients = playing.map(user => '@'+user['display-name']).join(pipe);
+
     let sendingToMsg = 'Sending room code to';
-    if (this.state.playing.length === 1) {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
+    if (playing.length === 1) {
+      twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
     } else {
-      this.props.twitchApi.sendMessage(`${sendingToMsg} ${this.state.playing.length} people: ${recipients}`);
+      twitchApi.sendMessage(`${sendingToMsg} ${playing.length} people: ${recipients}`);
     }
 
-    return this.state.playing.forEach((userObj, i) => {
-      // this.sendCodeToEach(i, userObj, this.state.roomCode, this.props);
-      (function(i, userObj, sendCode) {
+    return playing.forEach((user, i) => {
+      (function(i, user, sendCode) {
         setTimeout(() => {
-          return sendCode(userObj);
+          return sendCode(user);
         }, 1000 * (i+1));
-      }(i, userObj, this.sendCode));
+      }(i, user, this.sendCode));
     });
   };
 
   render() {
+    let {interested, playing, maxPlayers, randCount, roomCode} = this.props;
+
+    const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
-    if (this.playerCount() < this.game?.['Min players']) {
+    if (playerCount < this.game?.['Min players']) {
       startGameClass += ' disabled';
     }
 
+    let btnRandomizeLabel = 'Randomize';
+    if (maxPlayers >= interested.length + playerCount) {
+      btnRandomizeLabel = 'Add All to Playing';
+    }
+
     return (
-      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap">
+      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
           <GameCodeForm
-            value={this.state.roomCode || ''}
+            value={roomCode || ''}
             onInputChange={this.handleRoomCodeChange}
             onSendToAll={this.sendCodeToAll}
-            disabled={this.state.playing.length===0 || !this.state.roomCode}
+            disabled={playing.length===0 || !roomCode}
           />
         </div>
 
@@ -423,13 +398,13 @@ export default class PlayerQueue extends Component {
               </span>
 
               <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
-                Randomize
+                {btnRandomizeLabel}
               </button>
             </h6>
-            <div className={`d-flex flex-column text-body interested-queue rand-${this.state.randCount}`}>
+            <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
 
-              {this.state.interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-              {this.state.interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+              {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+              {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
 
             </div>
           </div>
@@ -449,8 +424,8 @@ export default class PlayerQueue extends Component {
             </h6>
             <div className="d-flex flex-column text-body playing-queue">
 
-              {this.state.playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-              {this.state.playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
 
             </div>
 
@@ -461,3 +436,38 @@ export default class PlayerQueue extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  channelInfo: state.channel.user,
+  userInfo: state.user.info,
+  // queue related
+  interested: state.queue.interested,
+  playing: state.queue.playing,
+  joined: state.queue.joined,
+  maxPlayers: state.queue.maxPlayers,
+  roomCode: state.queue.roomCode,
+  streamerSeat: state.queue.streamerSeat,
+  isQueueOpen: state.queue.isQueueOpen,
+  randCount: state.queue.randCount,
+  signupMessage: state.queue.signupMessage
+});
+const mapDispatchToProps = () => ({
+  clearQueue,
+  clearRoomCode,
+  closeQueue,
+  incrementRandomCount,
+  openQueue,
+  removeUser,
+  resetRandomCount,
+  setFakeQueueStates,
+  setMaxPlayers,
+  setRoomCode,
+  toggleStreamerSeat,
+  updateColumnForUser,
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps(),
+  null,
+  { forwardRef: true }
+)(PlayerQueue);
