@@ -13,6 +13,9 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  // {'0.5.6': [
+  //   'Fix: Updated chat command routing (whoopsie daisy!)',
+  // ]},
   {'0.5.5': [
     'Security updates and performance improvements',
     (
@@ -133,6 +136,9 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
             <b>HEADS UP!</b> If you&apos;re reading this notice for the first time, you may need to log out and log back in to approve additional permissions in order for some new and upcoming features to work correctly.
           </div>
         </div>
+        <strong>Version 0.5.6</strong>
+        <ul className="ms-5 pb-2"><li>Fix: Updated chat command routing <span className="smaller">(a.k.a. &quot;a minor whoopsie&quot;)</span></li></ul>
+
         {renderLog(changelogArray[0])}
         <hr />
         <Collapse in={showPastUpdates}>
