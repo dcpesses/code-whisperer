@@ -20,10 +20,15 @@ export const changelogArray = [
         <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
       </>
     ),
-    'Fix: Display "Priority Seat" styling to users added via `!adduser` command',
+    (
+      <>
+        Fix: Display &quot;Priority Seat&quot; styling to users added via <span className="font-monospace">!adduser</span> command
+      </>
+    ),
     'Fix: Prevent Ko-fi cookies from loading until menu button is clicked',
     'Migrated additional components to use Redux stores',
     'Fixed issue with chat client improperly disconnecting',
+    'Minor UI tweaks',
     'Updated and increased unit-test coverage',
   ]},
   {'0.5.0': [
