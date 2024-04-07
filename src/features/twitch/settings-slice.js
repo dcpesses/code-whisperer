@@ -20,6 +20,9 @@ export const settingsSlice = createSlice({
     clearAppSettings: (state) => {
       state.app = {};
     },
+    setFakeSettingsStates: (state, action) => {
+      if (action.payload.app) {state.user = action.payload.app;}
+    },
     updateAppSettings: (state, action) => {
       state.setCount += 1;
       if (action.payload) {
@@ -38,6 +41,6 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { clearAppSettings, updateAppSettings } = settingsSlice.actions;
+export const { clearAppSettings, setFakeSettingsStates, updateAppSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
