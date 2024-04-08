@@ -126,34 +126,26 @@ describe('noop', () => {
 describe('MainScreen', () => {
 
   describe('constructor', () => {
+    let updateAppSettings;
+
+    beforeEach(() => {
+      updateAppSettings = vi.fn();
+    });
+
     test('should load and initialize settings from localStorage', () => {
       vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(JSON.stringify({customDelimiter: true}));
-      const mainScreen = new MainScreenComponent({});
-      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
-        {
-          "customDelimiter": true,
-          "enableRoomCode": true,
-        }
-      `);
-    });
-    test('should initialize settings without any saved data from localStorage', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
-      const mainScreen = new MainScreenComponent({});
-      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
-        {
-          "enableRoomCode": true,
-        }
-      `);
+      const mainScreen = new MainScreenComponent({updateAppSettings});
+      expect(updateAppSettings).toBeCalledWith({
+        'customDelimiter': true,
+        'enableRoomCode': true,
+      });
+      expect(mainScreen).toBeDefined();
     });
     test('should handle any errors that occur when initializing settings and use the default settings', () => {
       vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('{]');
-      // vi.spyOn(JSON, 'parse').mockReturnValue()
-      const mainScreen = new MainScreenComponent({});
-      expect(mainScreen.state.settings).toMatchInlineSnapshot(`
-        {
-          "enableRoomCode": true,
-        }
-      `);
+      const mainScreen = new MainScreenComponent({updateAppSettings});
+      expect(updateAppSettings).not.toHaveBeenCalled();
+      expect(mainScreen).toBeDefined();
     });
   });
 
@@ -190,10 +182,8 @@ describe('MainScreen', () => {
 
     test('should load fake state data', () => {
       vi.spyOn(window.location, 'hash', 'get').mockReturnValue('?fakestate=true');
-      vi.spyOn(mainScreen, 'setState');
 
       mainScreen.componentDidMount();
-      expect(mainScreen.setState).toHaveBeenCalled();
       expect(mainScreen.props.setFakeUserStates).toHaveBeenCalled();
       expect(mainScreen.props.setFakeChannelStates).toHaveBeenCalled();
       expect(mainScreen.props.setFakeSettingsStates).toHaveBeenCalled();
@@ -421,29 +411,19 @@ describe('MainScreen', () => {
         setFakeUserStates: vi.fn(),
         setFakeChannelStates: vi.fn(),
       });
-      vi.spyOn(mainScreen, 'setState').mockImplementation((state, callbackFn) => {
-        typeof state === 'function' && state({}); callbackFn && callbackFn();
-      });
       optionsDebugMenu = mainScreen.getOptionsDebugMenu();
     });
     test('should be defined', () => {
       expect(optionsDebugMenu).toBeDefined();
       expect(optionsDebugMenu.every(item => !!item.label && !!item.onClick)).toBeTruthy();
     });
-    test('should load mock game requests', () => {
-      let menuItem = optionsDebugMenu.find(item => item.label === 'Load Mock Game Requests');
-      expect(menuItem).toBeDefined();
-      expect(menuItem.onClick()).not.toBeDefined();
-      expect(mainScreen.setState).toHaveBeenCalled();
-    });
-    test('should load mock game and player requests', () => {
-      let menuItem = optionsDebugMenu.find(item => item.label === 'Load Mock Game & Player Requests');
+    test('should load mock player requests', () => {
+      let menuItem = optionsDebugMenu.find(item => item.label === 'Load Mock Player Requests');
       expect(menuItem).toBeDefined();
       expect(menuItem.onClick()).not.toBeDefined();
       expect(mainScreen.props.setFakeQueueStates).toHaveBeenCalled();
       expect(mainScreen.props.setFakeUserStates).toHaveBeenCalled();
       expect(mainScreen.props.setFakeChannelStates).toHaveBeenCalled();
-      expect(mainScreen.setState).toHaveBeenCalled();
     });
     test('should log the debug environment', () => {
       let menuItem = optionsDebugMenu.find(item => item.label === 'Log Debug Environment');
@@ -451,10 +431,11 @@ describe('MainScreen', () => {
       expect(menuItem.onClick()).not.toBeDefined();
     });
     test('should toggle the user message logging', () => {
+      vi.spyOn(mainScreen, 'toggleUserMessageLogging');
       let menuItem = optionsDebugMenu.find(item => item.label === 'Toggle User Message Logging');
       expect(menuItem).toBeDefined();
       expect(menuItem.onClick()).not.toBeDefined();
-      expect(mainScreen.setState).toHaveBeenCalled();
+      expect(mainScreen.toggleUserMessageLogging).toHaveBeenCalled();
     });
   });
 
@@ -506,11 +487,11 @@ describe('MainScreen', () => {
 
     test('should update settings in state, save to localStorage, and call updateMessageHandler', () => {
       const nextSettings = { enableRoomCode: false };
-      // mainScreen.setState = vi.fn();
-      vi.spyOn(mainScreen, 'setState').mockImplementation((state, callbackFn)=>{callbackFn();});
+
       mainScreen.onSettingsUpdate(nextSettings);
-      expect(mainScreen.setState).toHaveBeenCalledWith({ settings: nextSettings }, expect.any(Function));
+
       expect(localStorage.setItem).toHaveBeenCalledWith('__settings', JSON.stringify(nextSettings));
+      expect(mainScreen.props.updateAppSettings).toHaveBeenCalled();
       expect(mainScreen.updateMessageHandler).toHaveBeenCalled();
     });
   });

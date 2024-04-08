@@ -50,9 +50,6 @@ export class MainScreen extends Component {
       const savedSettings = localStorage.getItem('__settings');
       if (savedSettings) {
         settings = Object.assign({}, settings, JSON.parse(savedSettings));
-        if (!isJestEnv) {
-          console.log('Saved settings loaded!');
-        }
         this.props.updateAppSettings(settings);
         if (!isJestEnv) {
           console.log('Saved settings updated in store!');
@@ -77,7 +74,6 @@ export class MainScreen extends Component {
       history: [GAME_PLACEHOLDER], // requested / played games
       logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
-      settings,
       showChangelogModal: (lastVersion !== version),
       showOptionsMenu: false,
       showOptionsModal: false,
@@ -110,7 +106,6 @@ export class MainScreen extends Component {
       this.messageHandler = this.initMessageHandler();
     }
     if (window.location.hash.indexOf('fakestate=true') !== -1) {
-      this.setState(fakeStates.MainScreen);
       this.props.setFakeUserStates(fakeStates.UserStore);
       this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
       this.props.setFakeSettingsStates({app: fakeStates.SettingsStore.app});
@@ -254,17 +249,12 @@ export class MainScreen extends Component {
   };
   getOptionsDebugMenu = () => {
     return [{
-      label: 'Load Mock Game Requests',
-      onClick: () => {
-        return this.setState(fakeStates.MainScreen);
-      }
-    }, {
-      label: 'Load Mock Game & Player Requests',
+      label: 'Load Mock Player Requests',
       onClick: () => {
         this.props.setFakeQueueStates(fakeStates.PlayerSelect);
         this.props.setFakeUserStates(fakeStates.UserStore);
         this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
-        return this.setState(fakeStates.MainScreen);
+        return;
       }
     }, {
       label: 'Log Debug Environment',
@@ -322,9 +312,7 @@ export class MainScreen extends Component {
       console.log('Settings saved:', mergedSettings);
       this.props.updateAppSettings(mergedSettings);
       console.log('called updateAppSettings:', mergedSettings);
-      return this.setState({
-        settings: mergedSettings
-      }, () => this.updateMessageHandler());
+      return this.updateMessageHandler();
     } catch (e) {
       window.console.warn(e);
     }
