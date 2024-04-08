@@ -33,7 +33,6 @@ export const settingsSlice = createSlice({
         });
         // state.app = Object.assign({}, state.app, action.payload);
         // state = action.payload;
-        state.setCount += 1;
       } else {
         window.console.log('updateAppSettings', {action});
       }

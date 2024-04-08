@@ -164,6 +164,7 @@ describe('MainScreen', () => {
       mainScreen = new MainScreenComponent({
         setFakeUserStates: vi.fn(),
         setFakeChannelStates: vi.fn(),
+        setFakeSettingsStates: vi.fn(),
       });
       vi.spyOn(mainScreen, 'initMessageHandler');
     });
@@ -195,6 +196,7 @@ describe('MainScreen', () => {
       expect(mainScreen.setState).toHaveBeenCalled();
       expect(mainScreen.props.setFakeUserStates).toHaveBeenCalled();
       expect(mainScreen.props.setFakeChannelStates).toHaveBeenCalled();
+      expect(mainScreen.props.setFakeSettingsStates).toHaveBeenCalled();
     });
 
   });
@@ -493,6 +495,7 @@ describe('MainScreen', () => {
       vi.spyOn(window.localStorage.__proto__, 'setItem');
       mainScreen = new MainScreenComponent({});
       mainScreen.updateMessageHandler = vi.fn();
+      mainScreen.props.updateAppSettings = vi.fn();
     });
 
     test('should update settings in state, save to localStorage, and call updateMessageHandler', () => {

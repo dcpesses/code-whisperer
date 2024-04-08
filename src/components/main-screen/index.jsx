@@ -17,6 +17,7 @@ import {
 } from '@/features/player-queue/queue-slice';
 import { listInterestedQueue, listPlayingQueue, routeJoinRequest, routeLeaveRequest } from '@/utils/queue';
 import { setFakeChannelStates, setUserLookup } from '@/features/twitch/channel-slice';
+import { setFakeSettingsStates, updateAppSettings } from '@/features/twitch/settings-slice';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
@@ -42,7 +43,8 @@ export class MainScreen extends Component {
   constructor(props) {
     super(props);
 
-    let settings = {enableRoomCode: true};
+    let settings = Object.assign({enableRoomCode: true}, props.settings);
+
     try {
       const isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
       const savedSettings = localStorage.getItem('__settings');
@@ -50,6 +52,10 @@ export class MainScreen extends Component {
         settings = Object.assign({}, settings, JSON.parse(savedSettings));
         if (!isJestEnv) {
           console.log('Saved settings loaded!');
+        }
+        this.props.updateAppSettings(settings);
+        if (!isJestEnv) {
+          console.log('Saved settings updated in store!');
         }
       } else {
         if (!isJestEnv) {
@@ -95,7 +101,6 @@ export class MainScreen extends Component {
 
     this.twitchApi = this.props.twitchApi;
     this.messageHandler = this.initMessageHandler();
-
   }
 
   componentDidMount() {
@@ -108,6 +113,7 @@ export class MainScreen extends Component {
       this.setState(fakeStates.MainScreen);
       this.props.setFakeUserStates(fakeStates.UserStore);
       this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
+      this.props.setFakeSettingsStates({app: fakeStates.SettingsStore.app});
     }
   }
   componentDidUpdate = (prevProps, prevState) => {
@@ -308,11 +314,18 @@ export class MainScreen extends Component {
   onSettingsUpdate = (nextSettings) => {
     const {settings} = this.state;
     const mergedSettings = Object.assign({}, settings, nextSettings);
-    localStorage.setItem('__settings', JSON.stringify(mergedSettings));
-    console.log('Settings saved:', mergedSettings);
-    return this.setState({
-      settings: mergedSettings
-    }, () => this.updateMessageHandler());
+    window.console.log({mergedSettings});
+    try {
+      localStorage.setItem('__settings', JSON.stringify(mergedSettings));
+      console.log('Settings saved:', mergedSettings);
+      this.props.updateAppSettings(mergedSettings);
+      console.log('called updateAppSettings:', mergedSettings);
+      return this.setState({
+        settings: mergedSettings
+      }, () => this.updateMessageHandler());
+    } catch (e) {
+      window.console.warn(e);
+    }
   };
 
   toggleChangelogModal = () => {
@@ -417,11 +430,14 @@ MainScreen.propTypes = {
   setChatterInfo: PropTypes.func.isRequired,
   setFakeChannelStates: PropTypes.func.isRequired,
   setFakeQueueStates: PropTypes.func.isRequired,
+  setFakeSettingsStates: PropTypes.func.isRequired,
   setFakeUserStates: PropTypes.func.isRequired,
   setUserLookup: PropTypes.func.isRequired,
   setWhisperStatus: PropTypes.func.isRequired,
+  settings: PropTypes.object,
   showModalCommandList: PropTypes.func.isRequired,
   twitchApi: PropTypes.object.isRequired,
+  updateAppSettings: PropTypes.func.isRequired,
   userLookup: PropTypes.object,
 };
 MainScreen.defaultProps = {
@@ -430,6 +446,7 @@ MainScreen.defaultProps = {
   moderators: null,
   onLogOut: null,
   profile_image_url: null,
+  settings: {},
   twitchApi: null,
   updateUsername: null,
   userInfo: null,
@@ -451,6 +468,7 @@ const mapStateToProps = state => ({
   interested: state.queue.interested,
   playing: state.queue.playing,
   isQueueOpen: state.queue.isQueueOpen,
+  settings: state.settings.app,
   streamerSeat: state.queue.streamerSeat,
   userLookup: state.channel.lookup,
   user: state.user,
@@ -460,9 +478,11 @@ const mapDispatchToProps = () => ({
   setChatterInfo,
   setFakeChannelStates,
   setFakeQueueStates,
+  setFakeSettingsStates,
   setFakeUserStates,
   setUserLookup,
   setWhisperStatus,
+  updateAppSettings,
 
   clearQueue,
   clearRoomCode,
