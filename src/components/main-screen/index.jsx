@@ -116,7 +116,7 @@ export class MainScreen extends Component {
       this.props.setFakeSettingsStates({app: fakeStates.SettingsStore.app});
     }
   }
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = (prevProps) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
       || !this.messageHandler && this.props.twitchApi?.isChatConnected) {
       this.messageHandler = this.initMessageHandler();
@@ -124,11 +124,13 @@ export class MainScreen extends Component {
       this.updateMessageHandler(this.props, this.state);
 
       // remove any custom command terms if necessary
-      if (!this.state.settings?.customJoinCommand && prevState.settings?.customJoinCommand) {
-        this.messageHandler.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+      if (!this.props.settings?.customJoinCommand && prevProps.settings?.customJoinCommand) {
+        console.log('calling updateChatCommandTerm(joinQueue)');
+        this.messageHandler.updateChatCommandTerm('joinQueue', this.props.settings.customJoinCommand);
       }
-      if (!this.state.settings?.customLeaveCommand && prevState.settings?.customLeaveCommand) {
-        this.messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+      if (!this.props.settings?.customLeaveCommand && prevProps.settings?.customLeaveCommand) {
+        console.log('calling updateChatCommandTerm(leaveQueue)');
+        this.messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
       }
     }
   };
@@ -160,7 +162,7 @@ export class MainScreen extends Component {
       // previousGames: this.state.history.slice(0, this.state.nextGameIdx),
       // removeSelectedGameFromHistory: this.removeSelectedGameFromHistory.bind(this),
       // setNextGame: this.setNextGame.bind(this),
-      settings: this.state.settings,
+      settings: this.props.settings,
       // startGame: this.startGame.bind(this),
       // toggleAllowGameRequests: this.toggleAllowGameRequests.bind(this),
       twitchApi: this.props.twitchApi,
@@ -169,11 +171,11 @@ export class MainScreen extends Component {
 
     messageHandler.client = this.props.twitchApi._chatClient;
     this.props.twitchApi.onMessage = messageHandler.onMessage;
-    if (this.state.settings?.customJoinCommand ) {
-      messageHandler.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+    if (this.props.settings?.customJoinCommand ) {
+      messageHandler.updateChatCommandTerm('joinQueue', this.props.settings.customJoinCommand);
     }
-    if (this.state.settings?.customLeaveCommand) {
-      messageHandler.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+    if (this.props.settings?.customLeaveCommand) {
+      messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
     }
     return messageHandler;
   };
@@ -215,8 +217,8 @@ export class MainScreen extends Component {
     if (JSON.stringify(this.messageHandler.moderators) !== JSON.stringify(props.moderators)) {
       this.messageHandler.moderators = props.moderators;
     }
-    if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(state.settings)) {
-      this.messageHandler.settings = state.settings;
+    if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(props.settings)) {
+      this.messageHandler.settings = props.settings;
     }
     // if (this.messageHandler.nextGameIdx !== state.nextGameIdx ||
     // JSON.stringify(this.messageHandler.history) !== JSON.stringify(state.history)) {
@@ -224,22 +226,22 @@ export class MainScreen extends Component {
     //   this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
     // }
     // update any custom command terms from settings
-    if (state.settings.customJoinCommand) {
-      this.messageHandler.updateChatCommandTerm('joinQueue', state.settings.customJoinCommand);
+    if (props.settings.customJoinCommand) {
+      this.messageHandler.updateChatCommandTerm('joinQueue', props.settings.customJoinCommand);
     }
-    if (state.settings.customLeaveCommand) {
-      this.messageHandler.updateChatCommandTerm('leaveQueue', state.settings.customLeaveCommand);
+    if (props.settings.customLeaveCommand) {
+      this.messageHandler.updateChatCommandTerm('leaveQueue', props.settings.customLeaveCommand);
     }
     return null;
   };
 
   onMessageHandlerInit = () => {
     if (!this.messageHandler) {return;}
-    if (this.state.settings?.customJoinCommand ) {
-      this.messageHandler?.updateChatCommandTerm('joinQueue', this.state.settings.customJoinCommand);
+    if (this.props.settings?.customJoinCommand ) {
+      this.messageHandler?.updateChatCommandTerm('joinQueue', this.props.settings.customJoinCommand);
     }
-    if (this.state.settings?.customLeaveCommand) {
-      this.messageHandler?.updateChatCommandTerm('leaveQueue', this.state.settings.customLeaveCommand);
+    if (this.props.settings?.customLeaveCommand) {
+      this.messageHandler?.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
     }
   };
 
@@ -391,7 +393,7 @@ export class MainScreen extends Component {
           onSettingsUpdate={this.onSettingsUpdate}
           parentState={this.state}
           reloadGameList={this.messageHandler?.reloadGameList}
-          settings={this.state.settings}
+          // settings={this.props.settings}
           showOptionsMenu={this.state.showOptionsMenu}
           toggleChangelogModal={this.toggleChangelogModal}
           twitchApi={this.props.twitchApi}
@@ -403,7 +405,7 @@ export class MainScreen extends Component {
             gamesList={gamesList}
             sendMessage={this.twitchApi?.sendMessage}
             sendWhisper={this.sendWhisper}
-            settings={this.state.settings}
+            // settings={this.props.settings}
             twitchApi={this.props.twitchApi}
             userLookup={this.props.userLookup}
           />

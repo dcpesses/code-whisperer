@@ -7,7 +7,7 @@ const initialState = {
     customLeaveCommand: null,
     enableJoinConfirmationMessage: true,
     enableLeaveConfirmationMessage: true,
-    enableModeratedChannelsOption: true,
+    enableModeratedChannelsOption: false,
     enableRoomCode: true,
     enableSubRequests: false,
   },

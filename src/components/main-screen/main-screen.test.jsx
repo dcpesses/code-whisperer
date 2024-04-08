@@ -249,22 +249,26 @@ describe('MainScreen', () => {
         updateChatCommandTerm: vi.fn()
       };
       mainScreen.props = {
+        settings: {
+          customJoinCommand: null,
+          customLeaveCommand: null,
+        },
         twitchApi: {
           isChatConnected: true
         }
       };
-      const prevState = {
+
+      const prevProps = {
         settings: {
           customJoinCommand: '!joinme',
           customLeaveCommand: '!leaveme',
+        },
+        twitchApi: {
+          isChatConnected: true
         }
       };
 
-      mainScreen.state.settings = {
-        customJoinCommand: null,
-        customLeaveCommand: null,
-      };
-      mainScreen.componentDidUpdate(mainScreen.props, prevState);
+      mainScreen.componentDidUpdate(prevProps);
       expect(mainScreen.updateMessageHandler).toHaveBeenCalled();
       expect(mainScreen.messageHandler.updateChatCommandTerm).toHaveBeenCalledTimes(2);
       expect(mainScreen.initMessageHandler).not.toHaveBeenCalled();
@@ -280,7 +284,7 @@ describe('MainScreen', () => {
           isChatConnected: false
         }
       };
-      mainScreen.componentDidUpdate(prevProps, {});
+      mainScreen.componentDidUpdate(prevProps);
       expect(mainScreen.initMessageHandler).not.toHaveBeenCalled();
       expect(mainScreen.updateMessageHandler).not.toHaveBeenCalled();
     });
@@ -290,7 +294,7 @@ describe('MainScreen', () => {
         twitchApi: null
       };
       const prevProps = {};
-      mainScreen.componentDidUpdate(prevProps, {});
+      mainScreen.componentDidUpdate(prevProps);
       expect(mainScreen.initMessageHandler).not.toHaveBeenCalled();
       expect(mainScreen.updateMessageHandler).not.toHaveBeenCalled();
     });
@@ -310,10 +314,12 @@ describe('MainScreen', () => {
     });
 
     test('should initialize messageHandler correctly if twitchApi is available', () => {
-      mainScreen.props = { twitchApi: getMockTwitchApi() };
-      mainScreen.state.settings = {
-        customJoinCommand: '!joinme',
-        customLeaveCommand: '!leaveme',
+      mainScreen.props = {
+        settings: {
+          customJoinCommand: '!joinme',
+          customLeaveCommand: '!leaveme',
+        },
+        twitchApi: getMockTwitchApi()
       };
       const messageHandler = mainScreen.initMessageHandler();
       expect(messageHandler).toBeTruthy();
@@ -335,7 +341,7 @@ describe('MainScreen', () => {
       mainScreen.state.logUserMessages = true;
       mainScreen.state.messages = { 'gameObj-longName': {} };
       mainScreen.props.moderators = { player1: {id: '11'} };
-      mainScreen.state.settings = {
+      mainScreen.props.settings = {
         customJoinCommand: '!joinme',
         customLeaveCommand: '!leaveme',
       };
@@ -374,7 +380,7 @@ describe('MainScreen', () => {
     });
 
     test('should update chat command terms if settings are updated', () => {
-      mainScreen.state = {
+      mainScreen.props = {
         settings: {
           customJoinCommand: '!customJoin',
           customLeaveCommand: '!customLeave'
@@ -390,7 +396,7 @@ describe('MainScreen', () => {
     });
 
     test('should not update chat command terms if settings are not updated', () => {
-      mainScreen.state = { settings: null };
+      mainScreen.props = { settings: null };
       vi.spyOn(mainScreen.messageHandler, 'updateChatCommandTerm');
 
       mainScreen.onMessageHandlerInit();

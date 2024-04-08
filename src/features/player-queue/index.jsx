@@ -449,7 +449,8 @@ const mapStateToProps = state => ({
   streamerSeat: state.queue.streamerSeat,
   isQueueOpen: state.queue.isQueueOpen,
   randCount: state.queue.randCount,
-  signupMessage: state.queue.signupMessage
+  signupMessage: state.queue.signupMessage,
+  settings: state.settings.app,
 });
 const mapDispatchToProps = () => ({
   clearQueue,
