@@ -27,7 +27,7 @@ export const settingsSlice = createSlice({
       state.setCount += 1;
       if (action.payload) {
         Object.keys(action.payload).forEach(p => {
-          if (state.app[p]) {
+          if (state.app[p] !== undefined) {
             state.app[p] = action.payload[p];
           }
         });
