@@ -138,8 +138,6 @@ export class MainScreen extends Component {
     }
     let messageHandler = new MessageHandler({
       access_token: this.props.access_token,
-      // allowGameRequests: this.state.allowGameRequests,
-      // changeNextGameIdx: this.changeNextGameIdx,
       channel: this.props.channel,
       clearQueueHandler: this.routeClearQueueRequest.bind(this),
       closeQueueHandler: this.routeCloseQueueRequest.bind(this),
@@ -148,20 +146,13 @@ export class MainScreen extends Component {
       logUserMessages: this.state.logUserMessages,
       messages: this.state.messages,
       moderators: this.props.moderators,
-      // onDelete: this.removeGame.bind(this),
-      // onInit: this.onMessageHandlerInit.bind(this),
       onMessageCallback: this.onMessage.bind(this),
       onSettingsUpdate: this.onSettingsUpdate.bind(this),
       openQueueHandler: this.routeOpenQueueRequest.bind(this),
       playerExitHandler: this.routeLeaveRequest.bind(this),
-      // previousGames: this.state.history.slice(0, this.state.nextGameIdx),
-      // removeSelectedGameFromHistory: this.removeSelectedGameFromHistory.bind(this),
-      // setNextGame: this.setNextGame.bind(this),
       settings: this.props.settings,
       // startGame: this.startGame.bind(this),
-      // toggleAllowGameRequests: this.toggleAllowGameRequests.bind(this),
       twitchApi: this.props.twitchApi,
-      // upcomingGames: this.state.history.slice(this.state.nextGameIdx),
     });
 
     messageHandler.client = this.props.twitchApi._chatClient;
@@ -184,7 +175,9 @@ export class MainScreen extends Component {
         this.twitchApi = props.twitchApi;
         this.messageHandler = this.initMessageHandler();
       } else {
-        console.log('main-screen - updateMessageHandler: cannot update, chat not yet initialized');
+        if (this.debug || this.state.logUserMessages) {
+          console.log('main-screen - updateMessageHandler: cannot update, chat not yet initialized');
+        }
       }
       return;
     }
@@ -197,9 +190,6 @@ export class MainScreen extends Component {
     if (this.messageHandler.allowGameRequests !== state.allowGameRequests) {
       this.messageHandler.allowGameRequests = state.allowGameRequests;
     }
-    // if (this.messageHandler.changeNextGameIdx !== this.changeNextGameIdx) {
-    //   this.messageHandler.changeNextGameIdx = this.changeNextGameIdx;
-    // }
     if (this.messageHandler.channel !== props.channel) {
       this.messageHandler.channel = props.channel;
     }
@@ -215,11 +205,7 @@ export class MainScreen extends Component {
     if (JSON.stringify(this.messageHandler.settings) !== JSON.stringify(props.settings)) {
       this.messageHandler.settings = props.settings;
     }
-    // if (this.messageHandler.nextGameIdx !== state.nextGameIdx ||
-    // JSON.stringify(this.messageHandler.history) !== JSON.stringify(state.history)) {
-    //   this.messageHandler.previousGames = state.history.slice(0, state.nextGameIdx);
-    //   this.messageHandler.upcomingGames = state.history.slice(state.nextGameIdx);
-    // }
+
     // update any custom command terms from settings
     if (props.settings.customJoinCommand) {
       this.messageHandler.updateChatCommandTerm('joinQueue', props.settings.customJoinCommand);
@@ -287,7 +273,7 @@ export class MainScreen extends Component {
   handleOpenModalCommandList = () => this.props.showModalCommandList();
 
   onMessage = async(message, user, metadata) => {
-    if (this.debug) {window.console.log('MainScreen - onMessage', {message, user, metadata});}
+    if (this.debug || this.state.logUserMessages) {window.console.log('MainScreen - onMessage', {message, user, metadata});}
     this.twitchApi.updateLastMessageTime(user);
     try {
       if (!this.props.userLookup[user] && metadata?.['user-id']) {
@@ -306,12 +292,10 @@ export class MainScreen extends Component {
   onSettingsUpdate = (nextSettings) => {
     const {settings} = this.state;
     const mergedSettings = Object.assign({}, settings, nextSettings);
-    window.console.log({mergedSettings});
     try {
       localStorage.setItem('__settings', JSON.stringify(mergedSettings));
-      console.log('Settings saved:', mergedSettings);
       this.props.updateAppSettings(mergedSettings);
-      console.log('called updateAppSettings:', mergedSettings);
+      if (this.debug || this.state.logUserMessages) {console.log('Settings updated:', mergedSettings);}
       return this.updateMessageHandler();
     } catch (e) {
       window.console.warn(e);
@@ -361,7 +345,7 @@ export class MainScreen extends Component {
       this.props.setWhisperStatus({login: player.username, response});
       return true;
     }
-    if (this.debug) {window.console.log('MainScreen - sendWhisper: no whisper sent', player, msg);}
+    if (this.debug || this.state.logUserMessages) {window.console.log('MainScreen - sendWhisper: no whisper sent', player, msg);}
     return;
   };
 
@@ -381,7 +365,6 @@ export class MainScreen extends Component {
           onSettingsUpdate={this.onSettingsUpdate}
           parentState={this.state}
           reloadGameList={this.messageHandler?.reloadGameList}
-          // settings={this.props.settings}
           showOptionsMenu={this.state.showOptionsMenu}
           toggleChangelogModal={this.toggleChangelogModal}
           twitchApi={this.props.twitchApi}
@@ -393,7 +376,6 @@ export class MainScreen extends Component {
             gamesList={gamesList}
             sendMessage={this.twitchApi?.sendMessage}
             sendWhisper={this.sendWhisper}
-            // settings={this.props.settings}
             twitchApi={this.props.twitchApi}
             userLookup={this.props.userLookup}
           />

@@ -298,12 +298,7 @@ class AuthenticatedApp extends Component {
           channel={this.state.username}
           moderators={this.state.moderators}
           onLogOut={this.logOut}
-          profile_image_url={this.state.profile_image_url}
           twitchApi={this.twitchApi}
-          userInfo={this.state.userInfo}
-          user_id={this.state.user_id}
-          username={this.state.username}
-          updateUsername={this.updateUsername}
           vips={this.state.vips}
         />
       );
