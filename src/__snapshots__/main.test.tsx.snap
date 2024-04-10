@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Main > should match the snapshot when the JSXElement is rendered as component 1`] = `
+<div>
+  <div
+    id="authenticated-app container text-center"
+  >
+    <div
+      class="col display-6 text-center full-pg"
+    >
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
+    </div>
+  </div>
+</div>
+`;
