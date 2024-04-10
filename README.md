@@ -50,6 +50,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 * `!version` - Posts the version of the app and its url
 * `!whichpack GAME` - replies with the Jackbox Party Pack of a given game
 * `!commands` - Lists all available commands
+* `!queue` - Lists all player in the queue
 #### Mods / Streamer Commands:
 * `!open` - Opens the Interested queue
 * `!close` - Closes the Interested queue
@@ -68,7 +69,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - [x] Using icons in place of text
 - [ ] Game description lookup via command
 - [ ] Player blacklisting
-- [ ] Possible usage in other channels (Moderation privileges required)
+- [x] Possible usage in other channels (Moderation privileges required)
 
 ## Support
 
