@@ -1,5 +1,6 @@
 import {Fragment, useState} from 'react';
 import ModalReusable from '@/components/modal';
+import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 
@@ -12,6 +13,27 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  // {'0.5.6': [
+  //   'Fix: Updated chat command routing (whoopsie daisy!)',
+  // ]},
+  {'0.5.5': [
+    'Security updates and performance improvements',
+    (
+      <>
+        <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
+      </>
+    ),
+    (
+      <>
+        Fix: Display &quot;Priority Seat&quot; styling to users added via <span className="font-monospace">!adduser</span> command
+      </>
+    ),
+    'Fix: Prevent Ko-fi cookies from loading until menu button is clicked',
+    'Migrated additional components to use Redux stores',
+    'Fixed issue with chat client improperly disconnecting',
+    'Minor UI tweaks',
+    'Updated and increased unit-test coverage',
+  ]},
   {'0.5.0': [
     'Added Beta Options section to Settings menu',
     'Allow Twitch moderators to listen to chat commands on another stream.',
@@ -106,7 +128,7 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
   };
 
   return (
-    <ModalReusable show={show} title="What's New" handleClose={handleClose}>
+    <ModalReusable id="modal-changelog" show={show} title="What's New" handleClose={handleClose}>
       <>
         <div className="alert alert-warning d-flex align-items-center" role="alert">
           <i className="bi-exclamation-triangle-fill fs-1"></i>
@@ -114,6 +136,9 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
             <b>HEADS UP!</b> If you&apos;re reading this notice for the first time, you may need to log out and log back in to approve additional permissions in order for some new and upcoming features to work correctly.
           </div>
         </div>
+        <strong>Version 0.5.6</strong>
+        <ul className="ms-5 pb-2"><li>Fix: Updated chat command routing <span className="smaller">(a.k.a. &quot;a minor whoopsie&quot;)</span></li></ul>
+
         {renderLog(changelogArray[0])}
         <hr />
         <Collapse in={showPastUpdates}>

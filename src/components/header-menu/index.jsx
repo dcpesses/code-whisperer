@@ -71,10 +71,10 @@ export class HeaderMenu extends Component {
     this.updateCustomJoinCommand = this.updateInputOption.bind(this, 'customJoinCommand');
     this.updateCustomLeaveCommand = this.updateInputOption.bind(this, 'customLeaveCommand');
 
-    this.toggleEnableRoomCode = this.toggleOption.bind(this, 'enableRoomCode');
-    this.toggleJoinConfirmationMessage = this.toggleOption.bind(this, 'enableJoinConfirmationMessage');
-    this.toggleLeaveConfirmationMessage = this.toggleOption.bind(this, 'enableLeaveConfirmationMessage');
-    this.toggleEnableModeratedChannelsOption = this.toggleOption.bind(this, 'enableModeratedChannelsOption');
+    this.toggleEnableRoomCode = this.toggleOption.bind(this, 'enableRoomCode', true);
+    this.toggleJoinConfirmationMessage = this.toggleOption.bind(this, 'enableJoinConfirmationMessage', true);
+    this.toggleLeaveConfirmationMessage = this.toggleOption.bind(this, 'enableLeaveConfirmationMessage', true);
+    this.toggleEnableModeratedChannelsOption = this.toggleOption.bind(this, 'enableModeratedChannelsOption', false);
 
     this.offcanvasRef;
   }
@@ -176,12 +176,28 @@ export class HeaderMenu extends Component {
    * @param {string} optionName Name of the setting to change
    * @param {boolean} defaultValue (optional) Value to assign if not yet initialized. Default: `true`
    */
-  toggleOption = (optionName, defaultValue=true) => {
+  toggleOption = (optionName, defaultValue=true /*, evt*/) => {
     if (typeof optionName !== 'string') {return;}
     const {settings, onSettingsUpdate} = this.props;
-    const value = (typeof settings?.[optionName] === 'boolean')
+    let value = (typeof settings?.[optionName] === 'boolean')
       ? !settings[optionName]
       : defaultValue;
+
+    /*
+    // debug clicks on sibling elements
+    if (evt.target?.type !== 'checkbox') {
+      if (evt.target?.nextElementSibling?.type === 'checkbox') {
+        evt = evt.target.nextElementSibling;
+      } else if (evt.target?.previousElementSibling?.type === 'checkbox') {
+        evt = evt.target.previousElementSibling;
+      }
+    }
+
+    if (evt.target?.type === 'checkbox') {
+      value = evt.target.checked;
+    }
+    */
+
     onSettingsUpdate({[optionName]: value});
     return;
   };
@@ -191,24 +207,6 @@ export class HeaderMenu extends Component {
     this.props.onSettingsUpdate({[optionName]: this.sanitizeInputEventTargetValue(e)});
     return;
   };
-  /*
-  const toggleSubRequests = this.toggleOption.bind(this, 'enableSubRequests');
-  const toggleSubRequestLimithis.toggleOption.bind(this, 'enableSubRequestLimit');
-  const toggleClearSeatsAftethis.toggleOption.bind(this, 'clearSeatsAfterRedeem');
-  */
-  // updateCustomDelimiter = (e) => {
-  //   this.props.onSettingsUpdate({customDelimiter: this.sanitizeInputEventTargetValue(e)});
-  // };
-  // updateCustomJoinCommand = (e) => {
-  //   this.props.onSettingsUpdate({customJoinCommand: this.sanitizeInputEventTargetValue(e)});
-  // };
-  // updateCustomLeaveCommand = (e) => {
-  //   this.props.onSettingsUpdate({customLeaveCommand: this.sanitizeInputEventTargetValue(e)});
-  // };
-
-  // setOffcanvasRef = (ref) => {
-  //   this.offcanvasRef = ref;
-  // };
 
   render() {
     let {channelInfo, debugItems, userInfo, settings/*, onSettingsUpdate*/} = this.props;
@@ -275,7 +273,7 @@ export class HeaderMenu extends Component {
                 Options
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body className="fw-medium" ref={this.setOffcanvasRef}>
+            <Offcanvas.Body className="fw-medium">
               <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
                 <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
                 <hr className="border-bottom my-2" />
@@ -429,6 +427,7 @@ const mapStateToProps = state => ({
   channelInfo: state.channel.user,
   modal: state.modal,
   moderatedChannels: state.user.moderatedChannels,
+  settings: state.settings.app,
   userInfo: state.user.info,
 });
 const mapDispatchToProps = () => ({

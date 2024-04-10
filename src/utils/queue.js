@@ -9,7 +9,7 @@ export const addUserToColumn = (props, user, column) => {
   return true;
 };
 
-export const handleNewPlayerRequest = (props, username, {isPrioritySeat}) => {
+export const handleNewPlayerRequest = (props, username, {isPrioritySeat=false}) => {
 
   if (isPrioritySeat) {
     // even if the queue is closed, still add them to the interested column for consideration
@@ -56,10 +56,10 @@ export const playerCount = ({playing, streamerSeat}) => {
 };
 
 // routePlayRequest
-export const routeJoinRequest = ({isQueueOpen, twitchApi}, user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
+export const routeJoinRequest = ({interested, playing, isQueueOpen, twitchApi, updateColumnForUser}, user, {sendConfirmationMsg = true, isPrioritySeat = false}) => {
   try {
     const msg = isQueueOpen
-      ? handleNewPlayerRequest(user, {isPrioritySeat})
+      ? handleNewPlayerRequest({interested, playing, isQueueOpen, twitchApi, updateColumnForUser}, user, {isPrioritySeat})
       : 'sign-ups are currently closed; try again after this game wraps up!';
 
     if (sendConfirmationMsg) {

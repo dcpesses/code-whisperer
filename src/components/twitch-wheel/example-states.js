@@ -680,8 +680,22 @@ const stateUserStore = {
   }
 };
 
+const stateSettingsStore = {
+  app: {
+    customDelimiter: ' | ',
+    customJoinCommand: '!_join',
+    customLeaveCommand: '!_leave',
+    enableJoinConfirmationMessage: true,
+    enableLeaveConfirmationMessage: true,
+    enableModeratedChannelsOption: true,
+    enableRoomCode: true,
+    enableSubRequests: false,
+  }
+};
+
 export {
   stateMainScreen as MainScreen,
   statePlayerSelect as PlayerSelect,
+  stateSettingsStore as SettingsStore,
   stateUserStore as UserStore,
 };
