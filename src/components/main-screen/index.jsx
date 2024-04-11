@@ -17,7 +17,7 @@ import {
 } from '@/features/player-queue/queue-slice';
 import { listInterestedQueue, listPlayingQueue, routeJoinRequest, routeLeaveRequest } from '@/utils/queue';
 import { setFakeChannelStates, setUserLookup } from '@/features/twitch/channel-slice';
-import { setFakeSettingsStates, updateAppSettings } from '@/features/twitch/settings-slice';
+import { LOCALSETTINGS_KEY, setFakeSettingsStates, updateAppSettings } from '@/features/twitch/settings-slice';
 import * as fakeStates from '../twitch-wheel/example-states';
 
 import {version} from '../../../package.json';
@@ -47,7 +47,7 @@ export class MainScreen extends Component {
 
     try {
       const isJestEnv = (import.meta.env.VITEST_WORKER_ID !== undefined);
-      const savedSettings = localStorage.getItem('__settings');
+      const savedSettings = localStorage.getItem(LOCALSETTINGS_KEY);
       if (savedSettings) {
         settings = Object.assign({}, settings, JSON.parse(savedSettings));
         this.props.updateAppSettings(settings);

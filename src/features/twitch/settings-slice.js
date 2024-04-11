@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const LOCALSETTINGS_KEY = '__settings';
+
 const initialState = {
   app: {
     customDelimiter: null,
@@ -38,10 +40,9 @@ export const settingsSlice = createSlice({
 });
 
 export const updateAppSettingsListener = (action, listenerApi) => {
-  window.console.log('updateAppSettingsListener action.payload', action.payload);
   const {settings} = listenerApi.getState();
   const mergedSettings = Object.assign({}, settings.app, action.payload);
-  localStorage.setItem('__app_settings', JSON.stringify(mergedSettings));
+  localStorage.setItem(LOCALSETTINGS_KEY, JSON.stringify(mergedSettings));
 };
 
 export const { clearAppSettings, setFakeSettingsStates, updateAppSettings } = settingsSlice.actions;

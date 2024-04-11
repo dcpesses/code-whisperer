@@ -56,20 +56,30 @@ describe('settings reducer', () => {
     expect(actual.app.enableNonPredefinedSetting).toBeUndefined();
     expect(actual.app).toEqual(settingsState.app);
   });
+});
 
-  it('should merge the app settings from the payload and save to localStorage', () => {
+describe('updateAppSettingsListener', () => {
+  test('should merge the app settings from the payload and save to localStorage', () => {
     vi.spyOn(window.localStorage.__proto__, 'setItem');
     let action = {
-      payload: {}
+      payload: {
+        customDelimiter: ' / ',
+        customJoinCommand: '!join',
+      }
     };
     let listenerApi = {
       getState: vi.fn().mockReturnValue({
         settings: settingsState
       })
     };
-    const nextSettings = settingsState.app;
+    const nextSettings = {
+      ...settingsState.app,
+      customDelimiter: ' / ',
+      customJoinCommand: '!join'
+    };
+
     updateAppSettingsListener(action, listenerApi);
 
-    expect(localStorage.setItem).toHaveBeenCalledWith('__app_settings', JSON.stringify(nextSettings));
+    expect(localStorage.setItem).toHaveBeenCalledWith('__settings', JSON.stringify(nextSettings));
   });
 });
