@@ -1,8 +1,10 @@
 /* eslint-env jest */
+import {vi} from 'vitest';
 import settingsReducer, {
   clearAppSettings,
   setFakeSettingsStates,
-  updateAppSettings
+  updateAppSettings,
+  updateAppSettingsListener
 } from './settings-slice';
 
 const settingsState = {
@@ -55,4 +57,19 @@ describe('settings reducer', () => {
     expect(actual.app).toEqual(settingsState.app);
   });
 
+  it('should merge the app settings from the payload and save to localStorage', () => {
+    vi.spyOn(window.localStorage.__proto__, 'setItem');
+    let action = {
+      payload: {}
+    };
+    let listenerApi = {
+      getState: vi.fn().mockReturnValue({
+        settings: settingsState
+      })
+    };
+    const nextSettings = settingsState.app;
+    updateAppSettingsListener(action, listenerApi);
+
+    expect(localStorage.setItem).toHaveBeenCalledWith('__app_settings', JSON.stringify(nextSettings));
+  });
 });

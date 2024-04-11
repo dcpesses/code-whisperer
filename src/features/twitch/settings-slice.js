@@ -37,6 +37,13 @@ export const settingsSlice = createSlice({
   },
 });
 
+export const updateAppSettingsListener = (action, listenerApi) => {
+  window.console.log('updateAppSettingsListener action.payload', action.payload);
+  const {settings} = listenerApi.getState();
+  const mergedSettings = Object.assign({}, settings.app, action.payload);
+  localStorage.setItem('__app_settings', JSON.stringify(mergedSettings));
+};
+
 export const { clearAppSettings, setFakeSettingsStates, updateAppSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
