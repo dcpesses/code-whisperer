@@ -573,7 +573,7 @@ describe('TwitchApi', () => {
   });
 
   describe('requestUserInfo', () => {
-    test('should return information about one or more users', async() => {
+    test('should return information about a single user', async() => {
       vi.spyOn(global, 'fetch').mockResolvedValue({
         json: () => Promise.resolve({ access_token: 'mockAccessToken' })
       });
@@ -587,6 +587,46 @@ describe('TwitchApi', () => {
         },
       });
       expect(response).toEqual({ access_token: 'mockAccessToken' });
+    });
+  });
+
+  describe('requestUserInfoBatch', () => {
+    test('should return information about the specified users', async() => {
+      const fetchResponse = {
+        json: vi.fn().mockResolvedValue({ access_token: 'mockAccessToken' })
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue(fetchResponse);
+
+      const props = {ids: [12345678, 23456789], logins: ['username', 'another_user']};
+      const response = await twitchApi.requestUserInfoBatch(props);
+
+      expect(fetch).toHaveBeenCalledWith('https://api.twitch.tv/helix/users?id=12345678&id=23456789&login=username&login=another_user', {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(fetchResponse.json).toHaveBeenCalled();
+      expect(response).toEqual({ access_token: 'mockAccessToken' });
+    });
+    test('should return error information', async() => {
+      const fetchResponse = {
+        json: vi.fn().mockResolvedValue({ access_token: 'mockAccessToken' }),
+        status: 500
+      };
+      vi.spyOn(global, 'fetch').mockRejectedValue(fetchResponse);
+
+      const props = {ids: [12345678, 23456789], logins: ['username', 'another_user']};
+      const response = await twitchApi.requestUserInfoBatch(props);
+
+      expect(fetch).toHaveBeenCalledWith('https://api.twitch.tv/helix/users?id=12345678&id=23456789&login=username&login=another_user', {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(fetchResponse.json).not.toHaveBeenCalled();
+      expect(response.status).toEqual(500);
     });
   });
 
