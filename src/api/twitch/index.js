@@ -479,6 +479,31 @@ export default class TwitchApi {
     }
   };
 
+  requestUserInfoBatch = async({ids=[], logins=[]}) => {
+    let userIds, userLogins;
+    if (ids.length > 0) {
+      userIds = `id=${ids.join('&id=')}`;
+    }
+    if (logins.length > 0) {
+      userLogins = `login=${logins.join('&login=')}`;
+    }
+    const requestParams = [userIds, userLogins].filter(param => param && param !== '').join('&');
+    try {
+      const response = await this.refetch(`https://api.twitch.tv/helix/users?${requestParams}`, {
+        headers: {
+          'Client-ID': this._clientId,
+          Authorization: `Bearer ${this._accessToken}`
+        }
+      });
+      const responseJson = await response.json();
+      if (this.debug) {window.console.log('TwitchApi - requestUserInfoBatch: responseJson', responseJson);}
+      return responseJson;
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestUserInfoBatch: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
   requestUsers = async(access_token) => {
     if (access_token) {
       this._accessToken = access_token;
