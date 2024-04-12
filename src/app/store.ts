@@ -1,20 +1,38 @@
-import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
+import {configureStore, ThunkAction, Action, createListenerMiddleware, Tuple} from '@reduxjs/toolkit';
 import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
-// import twitchReducer from '../features/twitch/twitchSlice';
 import channelReducer from '@/features/twitch/channel-slice.js';
 import userReducer from '@/features/player-queue/user-slice.js';
 import queueReducer from '@/features/player-queue/queue-slice';
+import settingsReducer, { updateAppSettings, updateAppSettingsListener } from '@/features/twitch/settings-slice';
+
+const settingsListenerMiddleware = createListenerMiddleware();
+
+settingsListenerMiddleware.startListening({
+  actionCreator: updateAppSettings,
+  effect: updateAppSettingsListener
+});
 
 const reducer = {
   channel: channelReducer,
   modal: modalCommandListReducer,
   queue: queueReducer,
+  settings: settingsReducer,
   user: userReducer,
 };
-export const store = configureStore({ reducer });
+
+const middleware = () => new Tuple(settingsListenerMiddleware.middleware);
+
+export const store = configureStore({
+  reducer,
+  middleware,
+});
 
 export function getStoreWithState(preloadedState?: RootState) {
-  return configureStore({ reducer, preloadedState });
+  return configureStore({
+    reducer,
+    preloadedState,
+    middleware,
+  });
 }
 
 export type AppDispatch = typeof store.dispatch;

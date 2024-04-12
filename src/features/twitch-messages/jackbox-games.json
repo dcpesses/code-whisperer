@@ -44,7 +44,7 @@
     }
   },
   "Party Pack 1": {
-    "You Don't Know Jack": {
+    "You Don't Know Jack 2015": {
       "Min players": 1,
       "Max players": 4,
       "Variants": [
@@ -574,6 +574,7 @@
         "do re mee",
         "doreme",
         "doremi",
+        "ddrm",
         "drm"
       ]
     },
@@ -632,7 +633,7 @@
         "draw full 2"
       ]
     },
-    "What the Dub?!": {
+    "What The Dub?!": {
       "Min players": 2,
       "Max players": 6,
       "Variants": [

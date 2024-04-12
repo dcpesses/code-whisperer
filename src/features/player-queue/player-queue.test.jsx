@@ -610,7 +610,7 @@ describe('PlayerQueue', () => {
   });
 
   describe('sendCodeToAll', () => {
-    test('should whisper the room code to all 3 users in the Playing queue using a custom delimiter', () => {
+    test('should whisper the room code to all 3 users in the Playing queue using a custom delimiter', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
         playing: [
@@ -624,19 +624,24 @@ describe('PlayerQueue', () => {
           customDelimiter: ' | '
         },
         twitchApi: {
+          requestUserInfoBatch: vi.fn().mockResolvedValue({data: [
+            {display_name: 'Player1', id: '1', login: 'player1'},
+            {display_name: 'Player2', id: '2', login: 'player2'},
+            {display_name: 'Player3', id: '3', login: 'player3'},
+          ]}),
           sendMessage: vi.fn()
         },
       });
       const component = new PlayerQueueComponent(props);
       vi.spyOn(component, 'sendCode');
 
-      component.sendCodeToAll();
+      await component.sendCodeToAll();
       vi.advanceTimersByTime(4000);
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(3);
       vi.useRealTimers();
     });
-    test('should whisper the room code to the single user in the Playing queue', () => {
+    test('should whisper the room code to the single user in the Playing queue', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
         playing: [
@@ -648,19 +653,22 @@ describe('PlayerQueue', () => {
           customDelimiter: null
         },
         twitchApi: {
+          requestUserInfoBatch: vi.fn().mockResolvedValue({data: [
+            {display_name: 'Player1', id: '1', login: 'player1'},
+          ]}),
           sendMessage: vi.fn()
         },
       });
       const component = new PlayerQueueComponent(props);
       vi.spyOn(component, 'sendCode');
 
-      component.sendCodeToAll();
+      await component.sendCodeToAll();
       vi.advanceTimersByTime(1000);
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(1);
       vi.useRealTimers();
     });
-    test('should message chat that there is no one in the Playing queue', () => {
+    test('should message chat that there is no one in the Playing queue', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
         playing: [],
@@ -673,13 +681,13 @@ describe('PlayerQueue', () => {
       const component = new PlayerQueueComponent(props);
       vi.spyOn(component, 'sendCode');
 
-      component.sendCodeToAll();
+      await component.sendCodeToAll();
       vi.advanceTimersByTime(1000);
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(0);
       vi.useRealTimers();
     });
-    test('should return when no room code is set', () => {
+    test('should return when no room code is set', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
         playing: [],
@@ -691,7 +699,7 @@ describe('PlayerQueue', () => {
       const component = new PlayerQueueComponent(props);
       vi.spyOn(component, 'sendCode');
 
-      component.sendCodeToAll();
+      await component.sendCodeToAll();
       vi.advanceTimersByTime(1000);
       expect(props.twitchApi.sendMessage).not.toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(0);

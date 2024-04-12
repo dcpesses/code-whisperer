@@ -323,7 +323,7 @@ export class PlayerQueue extends Component {
     return await this.props.sendWhisper(player, this.props.roomCode);
   };
 
-  sendCodeToAll = () => {
+  sendCodeToAll = async() => {
     let {playing, roomCode, settings, twitchApi} = this.props;
     if (!roomCode) {
       return;
@@ -332,19 +332,36 @@ export class PlayerQueue extends Component {
       twitchApi.sendMessage('Sorry, can\'t send the code to 0 players. :p');
       return;
     }
+
+    // TODO: Fix app to properly lookup and recall user info (specifically user ids)
+    // prior to sending to all users, which may involve including an api call within
+    // queue.addUserToColumn as well as adding something like the following code:
+    //
+    // playing = playing.map(player => {
+    //   return {...player, ...this.props.userLookup[player.username]};
+    // });
+
+    const batchusers = await twitchApi.requestUserInfoBatch({logins: playing.map(p => p.username)});
+
+    const players = batchusers.data.map(u => ({
+      username: u.login,
+      'user-id': u.id,
+      'display-name': u.display_name
+    }));
+
     const pipe = (settings?.customDelimiter)
       ? ` ${settings.customDelimiter} `
       : ' ⋆ ';
-    const recipients = playing.map(user => '@'+user['display-name']).join(pipe);
+    const recipients = players.map(user => '@'+user['display-name']).join(pipe);
 
     let sendingToMsg = 'Sending room code to';
-    if (playing.length === 1) {
+    if (players.length === 1) {
       twitchApi.sendMessage(`${sendingToMsg} 1 person: ${recipients}`);
     } else {
-      twitchApi.sendMessage(`${sendingToMsg} ${playing.length} people: ${recipients}`);
+      twitchApi.sendMessage(`${sendingToMsg} ${players.length} people: ${recipients}`);
     }
 
-    return playing.forEach((user, i) => {
+    return players.forEach((user, i) => {
       (function(i, user, sendCode) {
         setTimeout(() => {
           return sendCode(user);
@@ -449,7 +466,8 @@ const mapStateToProps = state => ({
   streamerSeat: state.queue.streamerSeat,
   isQueueOpen: state.queue.isQueueOpen,
   randCount: state.queue.randCount,
-  signupMessage: state.queue.signupMessage
+  signupMessage: state.queue.signupMessage,
+  settings: state.settings.app,
 });
 const mapDispatchToProps = () => ({
   clearQueue,

@@ -11,7 +11,8 @@ vi.mock('../../../package.json', () => {
     version: '0.0.0'
   };
 });
-const storeState = {
+
+const getMockStoreState = (overrides={}) => Object.assign({
   channel: {
     user: {
       id: '1',
@@ -74,8 +75,20 @@ const storeState = {
         }
       },
     }
+  },
+  settings: {
+    app: {
+      customDelimiter: null,
+      customJoinCommand: null,
+      customLeaveCommand: null,
+      enableJoinConfirmationMessage: true,
+      enableLeaveConfirmationMessage: true,
+      enableModeratedChannelsOption: false,
+      enableRoomCode: true,
+      enableSubRequests: false,
+    },
   }
-};
+}, overrides);
 
 describe('noop', () => {
   test('should execute without error', () => {
@@ -164,7 +177,18 @@ describe('HeaderMenu', () => {
 
   describe('render', () => {
     beforeEach(()=>{
-      store = getStoreWithState(storeState);
+      store = getStoreWithState(
+        getMockStoreState({
+          settings: {
+            app: {
+              enableModeratedChannelsOption: false,
+              enableRoomCode: true,
+              enableSubRequests: false,
+              customDelimiter: null
+            }
+          }
+        })
+      );
       props = {
         gamesList: {
           maxPlayersList: [4, 6, 7, 8, 9, 10, 12, 16, 20],
@@ -308,7 +332,18 @@ describe('HeaderMenu', () => {
     });
 
     test('Should render with moderated channels menu', () => {
-      props.settings.enableModeratedChannelsOption = true;
+      store = getStoreWithState(
+        getMockStoreState({
+          settings: {
+            app: {
+              enableModeratedChannelsOption: true,
+              enableRoomCode: true,
+              enableSubRequests: false,
+              customDelimiter: null
+            }
+          }
+        })
+      );
       const {container} = render(
         <Provider store={store}>
           <HeaderMenu {...props} />

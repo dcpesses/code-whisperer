@@ -19,10 +19,14 @@ const root = createRoot(container);
 //   </React.StrictMode>
 // );
 
-root.render(
+const Main = (
   <Provider store={store}>
     <HashRouter>
       <App />
     </HashRouter>
   </Provider>
 );
+
+export default Main;
+
+root.render(Main);

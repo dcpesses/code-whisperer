@@ -114,9 +114,9 @@ export const DefaultChatCommands = [
         scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
         return true;
       }
-      const redeemingUser = message.replace('!adduser', '').replace('!redeemseat', '').replace('@', '').trim();
+      const redeemingUser = message.replace('!adduser', '').replace('@', '').trim();
       if (redeemingUser === '') {
-        scope.sendMessage(`/me @${username}, please specify the user who has redeemed a priority seat in the next game: for example, ${message.startsWith('!a') ? '!adduser' : '!redeemseat'} @asukii314`);
+        scope.sendMessage(`/me @${username}, please specify the user who has redeemed a priority seat in the queue: for example, !adduser @asukii314`);
         return true;
       }
       scope.joinQueueHandler(redeemingUser, {
@@ -139,7 +139,7 @@ export const DefaultChatCommands = [
       }
       const exitingUser = message.replace('!removeuser', '').replace('@', '').trim();
       if (exitingUser === '') {
-        scope.sendMessage(`/me @${username}, please specify the user who will be removed in the next game: for example, !removeuser @dewinblack`);
+        scope.sendMessage(`/me @${username}, please specify the user who will be removed in the queue: for example, !removeuser @dewinblack`);
         return true;
       }
       scope.playerExitHandler(exitingUser);
@@ -233,6 +233,8 @@ export const DefaultChatCommands = [
         scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
         return true;
       }
+      scope.clearQueueHandler();
+      scope.openQueueHandler();
       if (scope.startGame()) {
         scope.sendMessage(`/me @${username}, the game has been started.`);
       } else {
@@ -305,39 +307,38 @@ export const noop = () => {};
 export default class MessageHandler {
   constructor({
     access_token,
-    addGameRequest=noop,
-    allowGameRequests,
-    joinQueueHandler=noop,
-    changeNextGameIdx,
+    // addGameRequest=noop,
+    // allowGameRequests,
+    // changeNextGameIdx,
     channel,
     clearQueueHandler=noop,
     closeQueueHandler=noop,
+    debug=false,
+    joinQueueHandler=noop,
     logUserMessages,
     listQueueHandler=noop,
-    messages,
+    // messages,
     moderators,
     onDelete=noop,
     onInit=noop,
     onMessageCallback=noop,
-    onSettingsUpdate=noop,
     openQueueHandler=noop,
     playerExitHandler=noop,
-    previousGames,
-    removeSelectedGameFromHistory=noop,
-    setNextGame=noop,
+    // previousGames,
+    // removeSelectedGameFromHistory=noop,
+    // setNextGame=noop,
     settings,
     startGame=noop,
-    toggleAllowGameRequests=noop,
+    // toggleAllowGameRequests=noop,
     twitchApi,
-    upcomingGames,
-    debug=false,
+    // upcomingGames,
     init=true,
   }) {
 
     this.access_token = access_token;
-    this.addGameRequest = addGameRequest;
-    this.allowGameRequests = allowGameRequests;
-    this.changeNextGameIdx = changeNextGameIdx;
+    // this.addGameRequest = addGameRequest;
+    // this.allowGameRequests = allowGameRequests;
+    // this.changeNextGameIdx = changeNextGameIdx;
     this.channel = channel;
     this.clearQueueHandler = clearQueueHandler;
     this.closeQueueHandler = closeQueueHandler;
@@ -345,22 +346,21 @@ export default class MessageHandler {
     this.joinQueueHandler = joinQueueHandler;
     this.logUserMessages = logUserMessages;
     this.listQueueHandler = listQueueHandler;
-    this.messages = messages;
+    // this.messages = messages;
     this.moderators = moderators;
     this.onDelete = onDelete;
     this._onInitCallback = onInit ?? noop;
     this.onMessageCallback = onMessageCallback;
     this.openQueueHandler = openQueueHandler;
     this.playerExitHandler = playerExitHandler;
-    this.previousGames = previousGames;
-    this.removeSelectedGameFromHistory = removeSelectedGameFromHistory;
-    this.setNextGame = setNextGame;
+    // this.previousGames = previousGames;
+    // this.removeSelectedGameFromHistory = removeSelectedGameFromHistory;
+    // this.setNextGame = setNextGame;
     this.settings = settings;
-    this.onSettingsUpdate = onSettingsUpdate;
     this.startGame = startGame;
-    this.toggleAllowGameRequests = toggleAllowGameRequests;
+    // this.toggleAllowGameRequests = toggleAllowGameRequests;
     this.twitchApi = twitchApi;
-    this.upcomingGames = upcomingGames;
+    // this.upcomingGames = upcomingGames;
 
     // this.validCommands = jsonCommandList;
     this.validGames = jsonJackboxGameList;
@@ -474,9 +474,9 @@ export default class MessageHandler {
       this.onMessageCallback(msg, tags.username, tags);
     }
 
-
     const cleanedMsg = msg.trim().toLowerCase();
     if (this.checkUserCommands(cleanedMsg, tags.username)) {return;}
+
     // let gameObj = this.checkForGameCommand(cleanedMsg, tags.username);
     // if (!gameObj) {return;}
 
