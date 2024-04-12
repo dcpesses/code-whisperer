@@ -47,8 +47,8 @@ class AuthenticatedApp extends Component {
       setVIPs: () => void 0,
     };
   }
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       userInfo: {},
       username: localStorage.getItem('__username') || '',
@@ -202,29 +202,6 @@ class AuthenticatedApp extends Component {
     }
   };
 
-  handleUsername = async() => {
-    try {
-      await this.twitchApi.validateToken();
-      const login = this.state.username;
-      console.log('handleUsername', {login});
-      const userInfo = await this.twitchApi.requestUserInfo({login});
-      console.log({userInfo: JSON.stringify(userInfo)});
-      this.setState({
-        userInfo,
-        username: userInfo.data[0].login,
-        user_id: userInfo.data[0].id,
-        profile_image_url: userInfo.data[0].profile_image_url,
-      });
-    } catch (e) {
-      console.warn('handleUsername: error', e);
-      this.logOut();
-    }
-  };
-
-  updateUsername = (username) => {
-    this.setState({username}, this.handleUsername);
-  };
-
   updateModeratedChannels = async() => {
     try {
       await this.twitchApi.validateToken();
@@ -239,22 +216,22 @@ class AuthenticatedApp extends Component {
   };
 
   updateModsAndVIPs = async() => {
-    console.log('updateModsAndVIPs');
     try {
       await this.twitchApi.validateToken();
       this.updateModerators();
       this.updateVIPs();
-      this.updateModeratedChannels();
+      await this.updateModeratedChannels();
     } catch (e) {
       console.warn('updateModsAndVIPs: error', e);
     }
   };
 
   updateModerators = async() => {
+    const props = this.props;
     try {
       const id = this.state.user_id;
       const moderators = await this.twitchApi.requestModerators(id);
-      this.props.setModerators(moderators);
+      props.setModerators(moderators);
     } catch (e) {
       console.warn('updateModerators: error', e);
     }
