@@ -13,9 +13,26 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
-  // {'0.5.6': [
-  //   'Fix: Updated chat command routing (whoopsie daisy!)',
-  // ]},
+  {'0.6.0': [
+    'Fix: Users info no longer "undefined" when sending out codes',
+    [
+      (
+        <>
+          Should resolve the infamous Error 400: <span className="font-monospace small bg-secondary-subtle">to_user_id &quot;undefined&quot; must be numeric</span>
+        </>
+      )
+    ],
+    (
+      <>
+        Updated list of games returned via <span className="font-monospace">!whichpack</span>
+      </>
+    ),
+    'Internal: Migrated Settings to use Redux store',
+    'Updated and increased unit-test coverage to aid in bug squashing 🐛',
+  ]},
+  {'0.5.6': [
+    'Fix: Updated chat command routing (whoopsie daisy!)',
+  ]},
   {'0.5.5': [
     'Security updates and performance improvements',
     (
@@ -38,9 +55,9 @@ export const changelogArray = [
     'Added Beta Options section to Settings menu',
     'Allow Twitch moderators to listen to chat commands on another stream.',
     [
-      '- Must opt-in under Settings -> Beta Options to enable ',
-      '- Only available on channels where the logged in user can moderate.',
-      '- When enabled, moderated channels are listed in the new dropdown at the top left.',
+      'Must opt-in under Settings -> Beta Options to enable ',
+      'Only available on channels where the logged in user can moderate.',
+      'When enabled, moderated channels are listed in the new dropdown at the top left.',
     ],
     'New command `!queue` lists all of the people in the Playing queue',
     'Migrated several component states to use Redux stores',
@@ -130,14 +147,12 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
   return (
     <ModalReusable id="modal-changelog" show={show} title="What's New" handleClose={handleClose}>
       <>
-        <div className="alert alert-warning d-flex align-items-center" role="alert">
+        {/* <div className="alert alert-warning d-flex align-items-center" role="alert">
           <i className="bi-exclamation-triangle-fill fs-1"></i>
           <div className="ms-3">
             <b>HEADS UP!</b> If you&apos;re reading this notice for the first time, you may need to log out and log back in to approve additional permissions in order for some new and upcoming features to work correctly.
           </div>
-        </div>
-        <strong>Version 0.5.6</strong>
-        <ul className="ms-5 pb-2"><li>Fix: Updated chat command routing <span className="smaller">(a.k.a. &quot;a minor whoopsie&quot;)</span></li></ul>
+        </div> */}
 
         {renderLog(changelogArray[0])}
         <hr />
