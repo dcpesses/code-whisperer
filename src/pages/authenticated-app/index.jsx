@@ -12,6 +12,8 @@ import MainScreen from '@/components/main-screen';
 import { clearUserInfo, setModeratedChannels, setUserInfo } from '@/features/player-queue/user-slice.js';
 import { clearChannelInfo, clearModerators, clearVIPs, setChannelInfo, setModerators, setVIPs } from '@/features/twitch/channel-slice.js';
 
+export const noop = () => void 0;
+
 const TWITCH_API = new TwitchApi({
   redirectUri: import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE,
   clientId: import.meta.env.VITE_APP_TWITCH_CLIENT_ID,
@@ -36,15 +38,15 @@ class AuthenticatedApp extends Component {
   }
   static get defaultProps() {
     return {
-      clearChannelInfo: () => void 0,
-      clearModerators: () => void 0,
-      clearUserInfo: () => void 0,
-      clearVIPs: () => void 0,
-      setChannelInfo: () => void 0,
-      setModeratedChannels: () => void 0,
-      setModerators: () => void 0,
-      setUserInfo: () => void 0,
-      setVIPs: () => void 0,
+      clearChannelInfo: noop,
+      clearModerators: noop,
+      clearUserInfo: noop,
+      clearVIPs: noop,
+      setChannelInfo: noop,
+      setModeratedChannels: noop,
+      setModerators: noop,
+      setUserInfo: noop,
+      setVIPs: noop,
     };
   }
   constructor(props) {

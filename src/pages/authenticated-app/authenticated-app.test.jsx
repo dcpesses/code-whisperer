@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/render-result-naming-convention */
 /* eslint-env jest */
-import AuthenticatedApp, {AuthenticatedApp as AuthenticatedAppComponent} from '@/pages/authenticated-app';
+import AuthenticatedApp, {AuthenticatedApp as AuthenticatedAppComponent, noop} from '@/pages/authenticated-app';
 import {createRenderer} from 'react-test-renderer/shallow';
 import { render } from '@testing-library/react';
 // import MainScreen from '../landing/MainScreen';
@@ -98,6 +98,12 @@ const storeState = {
 };
 
 
+describe('noop', () => {
+  test('should execute without error', () => {
+    expect(noop()).toBeUndefined();
+  });
+});
+
 describe('AuthenticatedApp', () => {
 
   let props = {
@@ -164,6 +170,170 @@ describe('AuthenticatedApp', () => {
       expect(component.onTwitchAuthInit).toHaveBeenCalled();
     });
 
+    test('should attempt to reuse existing access token, handle error response, and call init', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499163700000'; // October 26, 1985 1:35:00 AM PST
+        }
+        return null;
+      });
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        init: vi.fn().mockResolvedValue({
+          oauth: {}, users: {}, valid: {}, instance: {}
+        }),
+        resume: vi.fn().mockResolvedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+          error: {},
+        })
+      };
+
+      await component.onMount();
+      expect(component.twitchApi.accessToken).toBe('MOCK TOKEN');
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
+    test('should catch errors on attempt to reuse existing access token and call init', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499163700000'; // October 26, 1985 1:35:00 AM PST
+        }
+        return null;
+      });
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        resume: vi.fn().mockRejectedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+          error: {},
+        }),
+        init: vi.fn().mockResolvedValue({
+          oauth: {}, users: {}, valid: {}, instance: {}
+        })
+      };
+
+      await component.onMount();
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
+    test('should use refresh token from localStorage to generate new token', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__refresh_token') {
+          return 'MOCK REFRESH TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499162800000'; // October 26, 1985 1:20:00 AM PST
+        }
+        return null;
+      });
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        requestRefreshToken: vi.fn().mockResolvedValue({
+          access_token: 'MOCK TOKEN'
+        }),
+        _requestToken: null,
+        resume: vi.fn().mockResolvedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+        })
+      };
+
+      await component.onMount();
+      // expect(component.twitchApi.requestToken).toBe('MOCK REFRESH TOKEN');
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
+    test('should attempt to use refresh token to generate new token, handle error response, and call init', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__refresh_token') {
+          return 'MOCK REFRESH TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499162800000'; // October 26, 1985 1:20:00 AM PST
+        }
+        return null;
+      });
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        init: vi.fn().mockResolvedValue({
+          oauth: {}, users: {}, valid: {}, instance: {}
+        }),
+        requestRefreshToken: vi.fn().mockResolvedValue({
+          error: 'mock error response'
+        }),
+        _requestToken: null,
+        resume: vi.fn().mockResolvedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+          error: {},
+        })
+      };
+
+      await component.onMount();
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
+    test('should catch errors on attempt to use refresh token to generate new token and call init', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+        if (label === '__access_token') {
+          return 'MOCK TOKEN';
+        }
+        if (label === '__refresh_token') {
+          return 'MOCK REFRESH TOKEN';
+        }
+        if (label === '__expiry_time') {
+          return '499162800000'; // October 26, 1985 1:20:00 AM PST
+        }
+        return null;
+      });
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      component.twitchApi = {
+        accessToken: null,
+        requestRefreshToken: vi.fn().mockResolvedValue({
+          error: 'mock error response'
+        }),
+        _requestToken: null,
+        resume: vi.fn().mockRejectedValue({
+          oauth: {},
+          users: {},
+          valid: {},
+          error: {},
+        }),
+        init: vi.fn().mockResolvedValue({
+          oauth: {}, users: {}, valid: {}, instance: {}
+        })
+      };
+
+      await component.onMount();
+      expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
     test('should initialize the Twitch API class and call onTwitchAuthInit when completed', async() => {
       vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
@@ -175,6 +345,42 @@ describe('AuthenticatedApp', () => {
 
       await component.onMount();
       expect(component.onTwitchAuthInit).toHaveBeenCalled();
+    });
+
+    test('should throw a No Response error when initializing the Twitch API class', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      vi.spyOn(component, 'onTwitchAuthError');
+      component.twitchApi = {
+        _accessToken: null,
+        init: vi.fn().mockResolvedValue(null)
+      };
+      try {
+        await component.onMount();
+      } catch (error) {
+        expect(error).toBe('No Response');
+        expect(component.onTwitchAuthError).toHaveBeenCalled();
+        expect(component.onTwitchAuthInit).not.toHaveBeenCalled();
+      }
+    });
+
+    test('should throw the initResponse error response when initializing the Twitch API class', async() => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      let component = new AuthenticatedAppComponent();
+      vi.spyOn(component, 'onTwitchAuthInit');
+      vi.spyOn(component, 'onTwitchAuthError');
+      component.twitchApi = {
+        _accessToken: null,
+        init: vi.fn().mockResolvedValue({error: true})
+      };
+      try {
+        await component.onMount();
+      } catch (error) {
+        expect(error.error).toBeTruthy();
+        expect(component.onTwitchAuthError).toHaveBeenCalled();
+        expect(component.onTwitchAuthInit).not.toHaveBeenCalled();
+      }
     });
   });
 
