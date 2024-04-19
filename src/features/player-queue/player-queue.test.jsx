@@ -2,6 +2,7 @@
 import {vi} from 'vitest';
 import { render } from '@testing-library/react';
 import * as queueUtils from '@/utils/queue';
+import * as Utils from '@/utils';
 // import { fireEvent, render, screen } from '@testing-library/react';
 // import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -610,6 +611,9 @@ describe('PlayerQueue', () => {
   });
 
   describe('sendCodeToAll', () => {
+    beforeEach(()=>{
+      vi.spyOn(Utils, 'delay').mockResolvedValue();
+    });
     test('should whisper the room code to all 3 users in the Playing queue using a custom delimiter', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
@@ -636,7 +640,6 @@ describe('PlayerQueue', () => {
       vi.spyOn(component, 'sendCode');
 
       await component.sendCodeToAll();
-      vi.advanceTimersByTime(4000);
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(3);
       vi.useRealTimers();

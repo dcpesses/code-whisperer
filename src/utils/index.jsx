@@ -40,7 +40,14 @@ export const Debounce = function(func, wait, immediate) {
   };
 };
 
-
+/**
+ * Pauses the execution within an async function
+ * @param {number} msecs Milliseconds to delay
+ * @returns Promise
+ */
+export function delay(msecs) {
+  return new Promise((resolve) => setTimeout(resolve, msecs));
+}
 
 /**
  * Convert a date to a relative time string, such as

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
-import {getRelativeTimeString} from '@/utils';
+import {delay, getRelativeTimeString} from '@/utils';
 import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
@@ -361,13 +361,26 @@ export class PlayerQueue extends Component {
       twitchApi.sendMessage(`${sendingToMsg} ${players.length} people: ${recipients}`);
     }
 
-    return players.forEach((user, i) => {
-      (function(i, user, sendCode) {
-        setTimeout(() => {
-          return sendCode(user);
-        }, 1000 * (i+1));
-      }(i, user, this.sendCode));
-    });
+
+    // // Old method:
+    // return players.forEach((user, i) => {
+    //   (function(i, user, sendCode) {
+    //     setTimeout(() => {
+    //       return sendCode(user);
+    //     }, 1000 * (i+1));
+    //   }(i, user, this.sendCode));
+    // });
+
+    let responses = [];
+    for (var i = 0; i < players.length; i++) {
+      let user = players[i];
+      let resp = await this.sendCode(user);
+      responses.push(resp);
+      await delay(1000);
+    }
+
+    // console.log({responses});
+    return responses;
   };
 
   render() {
