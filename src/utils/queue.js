@@ -6,6 +6,8 @@ export const addUserToColumn = (props, user, column) => {
 
   props.updateColumnForUser({user, column});
 
+  // TODO: can we lookup user info here
+
   return true;
 };
 

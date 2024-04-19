@@ -28,7 +28,7 @@ export class PlayerQueue extends Component {
       sendWhisper: PropTypes.any,
       settings: PropTypes.object,
       twitchApi: PropTypes.any.isRequired,
-      userLookup: PropTypes.any,
+      userLookup: PropTypes.object,
 
       interested: PropTypes.array,
       playing: PropTypes.array,
@@ -320,6 +320,9 @@ export class PlayerQueue extends Component {
       id: userObj['user-id'],
       username: userObj.username
     };
+    if (userObj.isFake === true) { // used with mock demo data
+      return await this.props.twitchApi.sendMessage(`Code sent to @${player.username} [MOCK TEST]`);
+    }
     return await this.props.sendWhisper(player, this.props.roomCode);
   };
 
@@ -336,18 +339,39 @@ export class PlayerQueue extends Component {
     // TODO: Fix app to properly lookup and recall user info (specifically user ids)
     // prior to sending to all users, which may involve including an api call within
     // queue.addUserToColumn as well as adding something like the following code:
-    //
-    // playing = playing.map(player => {
-    //   return {...player, ...this.props.userLookup[player.username]};
-    // });
 
-    const batchusers = await twitchApi.requestUserInfoBatch({logins: playing.map(p => p.username)});
+    // workaround to lookup missing user ids
+    const requestLogins = playing.map(player => {
+      return (!this.props.userLookup?.[player.username])
+        ? player
+        : null;
+    }).filter(m => m).map(p => p.username);
 
-    const players = batchusers.data.map(u => ({
-      username: u.login,
-      'user-id': u.id,
-      'display-name': u.display_name
-    }));
+    let respBatchUserInfo = [];
+    if (requestLogins.length > 0) {
+      try {
+        respBatchUserInfo = await twitchApi.requestUserInfoBatch({logins: requestLogins});
+        respBatchUserInfo = respBatchUserInfo.data;
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    // Merge existing and response user data
+    const players = playing.map(player => {
+      let lookup = {};
+      const respInfo = respBatchUserInfo.find(m => m.login === player.username);
+      if (respInfo) {
+        lookup = {
+          username: respInfo.login,
+          'user-id': respInfo.id,
+          'display-name': respInfo.display_name,
+        };
+      } else if (this.props.userLookup?.[player.username]) {
+        lookup = this.props.userLookup[player.username];
+      }
+      return {...player, ...lookup};
+    });
 
     const pipe = (settings?.customDelimiter)
       ? ` ${settings.customDelimiter} `
@@ -361,26 +385,19 @@ export class PlayerQueue extends Component {
       twitchApi.sendMessage(`${sendingToMsg} ${players.length} people: ${recipients}`);
     }
 
-
-    // // Old method:
-    // return players.forEach((user, i) => {
-    //   (function(i, user, sendCode) {
-    //     setTimeout(() => {
-    //       return sendCode(user);
-    //     }, 1000 * (i+1));
-    //   }(i, user, this.sendCode));
-    // });
-
     let responses = [];
     for (var i = 0; i < players.length; i++) {
       let user = players[i];
-      let resp = await this.sendCode(user);
-      responses.push(resp);
+      try {
+        let resp = await this.sendCode(user);
+        responses.push(resp);
+      } catch (e) {
+        console.warn(e);
+      }
       await delay(1000);
     }
 
-    // console.log({responses});
-    return responses;
+    return players;
   };
 
   render() {
@@ -470,6 +487,7 @@ export class PlayerQueue extends Component {
 const mapStateToProps = state => ({
   channelInfo: state.channel.user,
   userInfo: state.user.info,
+  userLookup: state.channel.lookup,
   // queue related
   interested: state.queue.interested,
   playing: state.queue.playing,
