@@ -2,6 +2,7 @@
 import {vi} from 'vitest';
 import { render } from '@testing-library/react';
 import * as queueUtils from '@/utils/queue';
+import * as Utils from '@/utils';
 // import { fireEvent, render, screen } from '@testing-library/react';
 // import * as fakeStates from '@/components/twitch-wheel/example-states';
 
@@ -50,6 +51,7 @@ const storeState = {
     ],
     joined: [],
     maxPlayers: 8,
+    userLookup: {},
     roomCode: null,
     streamerSeat: false,
     isQueueOpen: true,
@@ -607,12 +609,34 @@ describe('PlayerQueue', () => {
 
       expect(props.sendWhisper).toHaveBeenCalled();
     });
+    test('should not whisper the room code for fake demo data', async() => {
+      const props = Object.assign({}, state, {
+        roomCode: 'CODE',
+        sendWhisper: vi.fn().mockResolvedValue(),
+        twitchApi: {
+          sendMessage: vi.fn().mockResolvedValue()
+        }
+      });
+      const component = new PlayerQueueComponent(props);
+
+      await component.sendCode({
+        isFake: true,
+        'user-id': '42',
+        username: 'player1'
+      });
+
+      expect(props.twitchApi.sendMessage).toHaveBeenCalled();
+    });
   });
 
   describe('sendCodeToAll', () => {
+    beforeEach(()=>{
+      vi.spyOn(Utils, 'delay').mockResolvedValue();
+    });
     test('should whisper the room code to all 3 users in the Playing queue using a custom delimiter', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
+        userLookup: {},
         playing: [
           {'user-id': '1', username: 'player1'},
           {'user-id': '2', username: 'player2'},
@@ -636,16 +660,23 @@ describe('PlayerQueue', () => {
       vi.spyOn(component, 'sendCode');
 
       await component.sendCodeToAll();
-      vi.advanceTimersByTime(4000);
+      expect(props.twitchApi.requestUserInfoBatch).toHaveBeenCalled();
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(3);
       vi.useRealTimers();
     });
-    test('should whisper the room code to the single user in the Playing queue', async() => {
+    test('should whisper the room code to the single user in the Playing queue using existing lookup data', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
+        userLookup: {
+          player1: {
+            'display-name': 'Player1',
+            'user-id': '1',
+            'username': 'player1'
+          }
+        },
         playing: [
-          {'user-id': '1', username: 'player1'},
+          {username: 'player1'},
         ],
         roomCode: 'CODE',
         sendWhisper: vi.fn().mockResolvedValue(),
@@ -664,6 +695,7 @@ describe('PlayerQueue', () => {
 
       await component.sendCodeToAll();
       vi.advanceTimersByTime(1000);
+      expect(props.twitchApi.requestUserInfoBatch).not.toHaveBeenCalled();
       expect(props.twitchApi.sendMessage).toHaveBeenCalled();
       expect(component.sendCode).toHaveBeenCalledTimes(1);
       vi.useRealTimers();
@@ -671,6 +703,7 @@ describe('PlayerQueue', () => {
     test('should message chat that there is no one in the Playing queue', async() => {
       vi.useFakeTimers();
       const props = Object.assign({}, state, {
+        userLookup: {},
         playing: [],
         roomCode: 'CODE',
         sendWhisper: vi.fn().mockResolvedValue(),

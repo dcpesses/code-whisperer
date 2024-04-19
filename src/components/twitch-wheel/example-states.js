@@ -40,7 +40,7 @@ const generateMockUserInfo = (max) => {
           'subscriber': false,
           'tmi-sent-ts': (Date.now() - (n * 15000)).toString(),
           'turbo': false,
-          'user-id': n.toString(),
+          'user-id': 'undefined', // n.toString() // prevent from ACTUALLY sending generated data by mistake
           'user-type': null,
           'username': `player${n}`,
         },
@@ -599,37 +599,46 @@ const statePlayerSelect = {
   'interested': [
     {
       'username': 'player6',
+      'isFake': true,
       'isPrioritySeat': false
     },
     {
       'username': 'player3',
+      'isFake': true,
       'isPrioritySeat': false
     },
     {
-      'username': 'player4'
+      'username': 'player4',
+      'isFake': true
     },
     {
-      'username': 'dcpesses'
+      'username': 'dcpesses',
+      'isFake': true
     }
   ],
   'playing': [
     {
       'username': 'player1',
+      'isFake': true,
       'isPrioritySeat': true
     },
     {
       'username': 'player7',
+      'isFake': true,
       'isPrioritySeat': false
     },
     {
-      'username': 'player8'
+      'username': 'player8',
+      'isFake': true
     },
     {
       'username': 'player5',
+      'isFake': true,
       'isPrioritySeat': true
     },
     {
       'username': 'player2',
+      'isFake': true,
       'isPrioritySeat': true
     }
   ],

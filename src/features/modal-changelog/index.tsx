@@ -13,6 +13,11 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  {'0.6.1': [
+    'Updated to wait for previous whisper to finish before sending the next (when sending to the entire queue)',
+    'Updated workaround for loading missing user info',
+    'Fix: Prevent sending whispers to mock users',
+  ]},
   {'0.6.0': [
     'Fix: Users info no longer "undefined" when sending out codes',
     [
