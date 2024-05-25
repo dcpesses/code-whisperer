@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
+import './onboarding.css';
+
 const OnboardingOverlay = ({ body, children, placement, step }) => {
   const onboarding = useSelector((state) => state.onboarding);
   const dispatch = useDispatch();
@@ -21,7 +23,7 @@ const OnboardingOverlay = ({ body, children, placement, step }) => {
   };
 
   const popover = (
-    <Popover>
+    <Popover className="onboarding-popover">
       <Popover.Header as="h3">
         Step {step} of {onboarding.maxSteps}
       </Popover.Header>
@@ -29,7 +31,6 @@ const OnboardingOverlay = ({ body, children, placement, step }) => {
         {body}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={skipHandler}>Skip</Button>
-
           <Button size="sm" onClick={nextHandler}>
             {(onboarding.maxSteps === step) ? 'Done' : 'Next'}
           </Button>

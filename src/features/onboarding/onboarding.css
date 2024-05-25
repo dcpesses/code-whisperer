@@ -1,0 +1,8 @@
+
+.onboarding-popover.bs-popover-bottom {
+  /* background-color: var(--bs-popover-header-bg); */
+  --bs-popover-bg: var(--bs-popover-header-bg);
+}
+.onboarding-popover.bs-popover-bottom .popover-body {
+  background-color: var(--bs-body-bg);
+}
