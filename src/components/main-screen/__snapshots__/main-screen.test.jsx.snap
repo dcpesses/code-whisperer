@@ -240,6 +240,14 @@ exports[`MainScreen > render > Should render without error 1`] = `
                 role="button"
                 tabindex="0"
               >
+                View Walkthrough
+              </a>
+              <a
+                class="nav-link"
+                href="#"
+                role="button"
+                tabindex="0"
+              >
                 What's New
               </a>
               <div

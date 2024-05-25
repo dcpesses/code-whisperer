@@ -8,6 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { setChannelInfo } from '@/features/twitch/channel-slice';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
+import { showOnboarding } from '@/features/onboarding/onboarding-slice';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
 import {version} from '../../../package.json';
@@ -30,6 +31,7 @@ export class HeaderMenu extends Component {
       settings: PropTypes.object,
       setChannelInfo: PropTypes.func,
       showModalCommandList: PropTypes.func,
+      showOnboarding: PropTypes.func,
       toggleChangelogModal: PropTypes.func,
       twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
@@ -50,6 +52,7 @@ export class HeaderMenu extends Component {
       settings: {},
       setChannelInfo: noop,
       showModalCommandList: noop,
+      showOnboarding: noop,
       toggleChangelogModal: noop,
       twitchApi: null,
       userInfo: {},
@@ -61,6 +64,7 @@ export class HeaderMenu extends Component {
     this.state = {
       showKofiOverlay: false,
       showGameList: false,
+      showOptionsMenu: false,
       showSettingsMenu: false,
     };
     this.toggleGameList = this.toggleGameList.bind(this);
@@ -158,6 +162,13 @@ export class HeaderMenu extends Component {
     }
   };
 
+  onViewWalkthrough = () => {
+    this.setState({
+      showOptionsMenu: false
+    });
+    this.props.showOnboarding();
+  };
+
   sanitizeInputEventTargetValue = (e) => {
     let {value} = e.target;
     if (!value) {
@@ -169,6 +180,7 @@ export class HeaderMenu extends Component {
 
   toggleKofiOverlay = () => this.setState((state) => ({showKofiOverlay: !state.showKofiOverlay}));
   toggleGameList = () => this.setState((state) => ({showGameList: !state.showGameList}));
+  toggleOptionsMenu = () => this.setState((state) => ({showOptionsMenu: !state.showOptionsMenu}));
   toggleSettingsMenu = () => this.setState((state) => ({showSettingsMenu: !state.showSettingsMenu}));
 
   /**
@@ -256,7 +268,7 @@ export class HeaderMenu extends Component {
     }
 
     return (
-      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font">
+      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font" onToggle={this.toggleOptionsMenu}>
         <Container fluid>
 
           {dropdownNavbarBrand}
@@ -267,6 +279,7 @@ export class HeaderMenu extends Component {
             aria-labelledby="navbar-options-menu-label"
             placement="end"
             className="raleway-font"
+            show={this.state.showOptionsMenu}
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="navbar-options-menu-label" className="fw-bold fs-4">
@@ -376,6 +389,7 @@ export class HeaderMenu extends Component {
                 </Collapse>
                 {/* {optionMenuItems} */}
                 <Nav.Link onClick={()=>this.props.showModalCommandList()}>View Chat Commands</Nav.Link>
+                <Nav.Link onClick={this.onViewWalkthrough}>View Walkthrough</Nav.Link>
                 <Nav.Link onClick={this.props.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
@@ -433,6 +447,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = () => ({
   setChannelInfo,
   showModalCommandList,
+  showOnboarding,
 });
 export default connect(
   mapStateToProps,
