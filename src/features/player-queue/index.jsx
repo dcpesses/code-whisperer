@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
+import OnboardingOverlay from '@/features/onboarding';
 import {delay, getRelativeTimeString} from '@/utils';
 import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
@@ -417,12 +418,16 @@ export class PlayerQueue extends Component {
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
-          <GameCodeForm
-            value={roomCode || ''}
-            onInputChange={this.handleRoomCodeChange}
-            onSendToAll={this.sendCodeToAll}
-            disabled={playing.length===0 || !roomCode}
-          />
+          <OnboardingOverlay placement="bottom" step={3} body="Enter the room code here you want to send to all of in the Playing queue.">
+            <div>
+              <GameCodeForm
+                value={roomCode || ''}
+                onInputChange={this.handleRoomCodeChange}
+                onSendToAll={this.sendCodeToAll}
+                disabled={playing.length===0 || !roomCode}
+              />
+            </div>
+          </OnboardingOverlay>
         </div>
 
         <div className="queue my-1 px-md-1 col-12">
@@ -438,47 +443,50 @@ export class PlayerQueue extends Component {
         </div>
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
-          <div className="bg-body rounded shadow-sm p-2">
-            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="queue-header me-auto align-self-center">
-                <i className="bi-people text-purple-1 fs-5" /> Interested
-              </span>
+          <OnboardingOverlay step={1} body="Step 1 Body">
+            <div className="bg-body rounded shadow-sm p-2">
+              <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+                <span className="queue-header me-auto align-self-center">
+                  <i className="bi-people text-purple-1 fs-5" /> Interested
+                </span>
 
-              <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
-                {btnRandomizeLabel}
-              </button>
-            </h6>
-            <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
+                <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
+                  {btnRandomizeLabel}
+                </button>
+              </h6>
+              <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
 
-              {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-              {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+                {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+                {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
 
+              </div>
             </div>
-          </div>
+          </OnboardingOverlay>
         </div>
 
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
-          <div className="bg-body rounded shadow-sm p-2">
-            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="queue-header me-auto align-self-center">
-                <i className="bi-people-fill text-purple-1 fs-5" /> Playing
-              </span>
+          <OnboardingOverlay step={2} body="Step 2 Body">
+            <div className="bg-body rounded shadow-sm p-2">
+              <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+                <span className="queue-header me-auto align-self-center">
+                  <i className="bi-people-fill text-purple-1 fs-5" /> Playing
+                </span>
 
-              <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
-                Clear Seats
-              </button>
-            </h6>
-            <div className="d-flex flex-column text-body playing-queue">
+                <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
+                  Clear Seats
+                </button>
+              </h6>
+              <div className="d-flex flex-column text-body playing-queue">
 
-              {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-              {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+                {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+                {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+
+              </div>
 
             </div>
-
-          </div>
+          </OnboardingOverlay>
         </div>
-
       </div>
     );
   }

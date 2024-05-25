@@ -8,34 +8,36 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
     <div
       class="queue my-1 px-md-1 col-12"
     >
-      <div
-        class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
-      >
+      <div>
         <div
-          class="input-group"
+          class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
         >
-          <input
-            aria-autocomplete="none"
-            aria-describedby="btn-send-to-queue"
-            aria-label="Enter Room Code"
-            autocomplete="false"
-            class="form-control libre-franklin-font"
-            name="room-code"
-            placeholder="ENTER ROOM CODE"
-            role="presentation"
-            title="Paste Room Code Here"
-            type="text"
-            value=""
-          />
-          <button
-            class="btn btn-primary libre-franklin-font text-uppercase"
-            disabled=""
-            id="btn-send-to-queue"
-            title="Send Code to All Players"
-            type="button"
+          <div
+            class="input-group"
           >
-            Send to Queue
-          </button>
+            <input
+              aria-autocomplete="none"
+              aria-describedby="btn-send-to-queue"
+              aria-label="Enter Room Code"
+              autocomplete="false"
+              class="form-control libre-franklin-font"
+              name="room-code"
+              placeholder="ENTER ROOM CODE"
+              role="presentation"
+              title="Paste Room Code Here"
+              type="text"
+              value=""
+            />
+            <button
+              class="btn btn-primary libre-franklin-font text-uppercase"
+              disabled=""
+              id="btn-send-to-queue"
+              title="Send Code to All Players"
+              type="button"
+            >
+              Send to Queue
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1127,34 +1129,36 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
     <div
       class="queue my-1 px-md-1 col-12"
     >
-      <div
-        class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
-      >
+      <div>
         <div
-          class="input-group"
+          class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
         >
-          <input
-            aria-autocomplete="none"
-            aria-describedby="btn-send-to-queue"
-            aria-label="Enter Room Code"
-            autocomplete="false"
-            class="form-control libre-franklin-font"
-            name="room-code"
-            placeholder="ENTER ROOM CODE"
-            role="presentation"
-            title="Paste Room Code Here"
-            type="text"
-            value=""
-          />
-          <button
-            class="btn btn-primary libre-franklin-font text-uppercase"
-            disabled=""
-            id="btn-send-to-queue"
-            title="Send Code to All Players"
-            type="button"
+          <div
+            class="input-group"
           >
-            Send to Queue
-          </button>
+            <input
+              aria-autocomplete="none"
+              aria-describedby="btn-send-to-queue"
+              aria-label="Enter Room Code"
+              autocomplete="false"
+              class="form-control libre-franklin-font"
+              name="room-code"
+              placeholder="ENTER ROOM CODE"
+              role="presentation"
+              title="Paste Room Code Here"
+              type="text"
+              value=""
+            />
+            <button
+              class="btn btn-primary libre-franklin-font text-uppercase"
+              disabled=""
+              id="btn-send-to-queue"
+              title="Send Code to All Players"
+              type="button"
+            >
+              Send to Queue
+            </button>
+          </div>
         </div>
       </div>
     </div>

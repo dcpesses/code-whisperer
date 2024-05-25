@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { RootState } from '@/app/store';
 
 export interface OnboardingState {
   isOnboarding: boolean;
@@ -10,7 +9,7 @@ export interface OnboardingState {
 const initialState: OnboardingState = {
   isOnboarding: false,
   activeStep: 0,
-  maxSteps: 4,
+  maxSteps: 3,
 };
 
 
@@ -45,8 +44,6 @@ export const OnboardingSlice = createSlice({
     },
   },
 });
-
-// export const selectOnboarding = (state: RootState) => state.onboarding.isOnboarding;
 
 export const { hideOnboarding, showOnboarding, showNextStep, showPrevStep } = OnboardingSlice.actions;
 
