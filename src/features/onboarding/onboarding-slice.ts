@@ -45,6 +45,6 @@ export const OnboardingSlice = createSlice({
   },
 });
 
-export const { hideOnboarding, showOnboarding, showNextStep, showPrevStep } = OnboardingSlice.actions;
+export const { hideOnboarding, showOnboarding, showNextStep, showPrevStep, updateMaxSteps } = OnboardingSlice.actions;
 
 export default OnboardingSlice.reducer;

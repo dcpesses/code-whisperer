@@ -8,7 +8,7 @@ import Popover from 'react-bootstrap/Popover';
 
 import './onboarding.css';
 
-const OnboardingOverlay = ({ body, children, placement, step }) => {
+const OnboardingOverlay = ({ body, className, children, placement, step }) => {
   const onboarding = useSelector((state) => state.onboarding);
   const dispatch = useDispatch();
 
@@ -39,9 +39,18 @@ const OnboardingOverlay = ({ body, children, placement, step }) => {
     </Popover>
   );
 
+  const active = (onboarding.activeStep === step);
+
   return (
-    <OverlayTrigger overlay={popover} trigger={[]} placement={placement} show={onboarding.activeStep === step}>
-      {children}
+    <OverlayTrigger
+      overlay={popover}
+      placement={placement}
+      show={active}
+      trigger={[]}
+    >
+      <div className={(active) ? `${className} onboarding-active` : className}>
+        {children}
+      </div>
     </OverlayTrigger>
   );
 };
@@ -57,10 +66,12 @@ OnboardingOverlay.propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]).isRequired,
+  className: PropTypes.string,
   placement: PropTypes.string,
   step: PropTypes.number,
 };
 OnboardingOverlay.defaultProps = {
+  className: null,
   placement: 'top',
   step: -1
 };

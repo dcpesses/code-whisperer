@@ -419,14 +419,12 @@ export class PlayerQueue extends Component {
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
           <OnboardingOverlay placement="bottom" step={3} body="Enter the room code here you want to send to all of in the Playing queue.">
-            <div>
-              <GameCodeForm
-                value={roomCode || ''}
-                onInputChange={this.handleRoomCodeChange}
-                onSendToAll={this.sendCodeToAll}
-                disabled={playing.length===0 || !roomCode}
-              />
-            </div>
+            <GameCodeForm
+              value={roomCode || ''}
+              onInputChange={this.handleRoomCodeChange}
+              onSendToAll={this.sendCodeToAll}
+              disabled={playing.length===0 || !roomCode}
+            />
           </OnboardingOverlay>
         </div>
 
@@ -466,25 +464,25 @@ export class PlayerQueue extends Component {
 
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
-          <OnboardingOverlay step={2} body="Step 2 Body">
-            <div className="bg-body rounded shadow-sm p-2">
-              <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-                <span className="queue-header me-auto align-self-center">
-                  <i className="bi-people-fill text-purple-1 fs-5" /> Playing
-                </span>
+          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={2} body="Step 2 Body">
 
-                <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
-                  Clear Seats
-                </button>
-              </h6>
-              <div className="d-flex flex-column text-body playing-queue">
+            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+              <span className="queue-header me-auto align-self-center">
+                <i className="bi-people-fill text-purple-1 fs-5" /> Playing
+              </span>
 
-                {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
-                {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
+                Clear Seats
+              </button>
+            </h6>
+            <div className="d-flex flex-column text-body playing-queue">
 
-              </div>
+              {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
+              {playing.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}
 
             </div>
+
+
           </OnboardingOverlay>
         </div>
       </div>
