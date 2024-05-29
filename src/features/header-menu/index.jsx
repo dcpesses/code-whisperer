@@ -9,7 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { setChannelInfo } from '@/features/twitch/channel-slice';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { showOnboarding } from '@/features/onboarding/onboarding-slice';
-import { toggleGameList, toggleKofiOverlay, toggleOptionsMenu, toggleSettingsMenu, updateOptionsMenu } from '@/components/header-menu/menu-slice';
+import { toggleGameList, toggleKofiOverlay, toggleOptionsMenu, toggleSettingsMenu, updateOptionsMenu } from '@/features/header-menu/menu-slice';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
 import {version} from '../../../package.json';
@@ -187,11 +187,6 @@ export class HeaderMenu extends Component {
       return value.trim();
     }
   };
-
-  // toggleKofiOverlay = () => this.setState((state) => ({showKofiOverlay: !state.showKofiOverlay}));
-  // toggleGameList = () => this.setState((state) => ({showGameList: !state.showGameList}));
-  // toggleOptionsMenu = () => this.setState((state) => ({showOptionsMenu: !state.showOptionsMenu}));
-  // toggleSettingsMenu = () => this.setState((state) => ({showSettingsMenu: !state.showSettingsMenu}));
 
   /**
    * Toggles the value of the specified option in the settings

@@ -1,5 +1,5 @@
 import {configureStore, ThunkAction, Action, createListenerMiddleware, Tuple} from '@reduxjs/toolkit';
-import menuReducer from '@/components/header-menu/menu-slice';
+import menuReducer from '@/features/header-menu/menu-slice';
 import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
 import channelReducer from '@/features/twitch/channel-slice.js';
 import onboardingReducer from '@/features/onboarding/onboarding-slice.js';
