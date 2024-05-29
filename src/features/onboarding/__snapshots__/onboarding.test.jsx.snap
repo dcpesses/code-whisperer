@@ -17,13 +17,21 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
   <h3
     class="popover-header"
   >
-    Step 
-    1
-     of 
-    2
+    <span>
+      Step 
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     Popover body text
     <div
@@ -31,15 +39,17 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
     >
       <button
         class="btn btn-secondary btn-sm"
+        disabled=""
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Next
+         &gt;
       </button>
     </div>
   </div>
@@ -63,13 +73,21 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   <h3
     class="popover-header"
   >
-    Step 
-    2
-     of 
-    2
+    <span>
+      Step 
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     Second Popover body
     <div
@@ -79,13 +97,14 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
         class="btn btn-secondary btn-sm"
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Done
+         &gt;
       </button>
     </div>
   </div>
@@ -109,13 +128,21 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   <h3
     class="popover-header"
   >
-    Step 
-    2
-     of 
-    2
+    <span>
+      Step 
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     Second Popover body
     <div
@@ -125,13 +152,14 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
         class="btn btn-secondary btn-sm"
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Done
+         &gt;
       </button>
     </div>
   </div>
@@ -155,13 +183,21 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   <h3
     class="popover-header"
   >
-    Step 
-    1
-     of 
-    2
+    <span>
+      Step 
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div
@@ -169,15 +205,128 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     >
       <button
         class="btn btn-secondary btn-sm"
+        disabled=""
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Next
+         &gt;
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and go back to previous popover > Back btn pressed 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      Step 
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        &lt; Back
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next
+         &gt;
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and go back to previous popover > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      Step 
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        &lt; Back
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done
+         &gt;
       </button>
     </div>
   </div>
@@ -201,13 +350,21 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
   <h3
     class="popover-header"
   >
-    Step 
-    1
-     of 
-    2
+    <span>
+      Step 
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div
@@ -215,15 +372,17 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     >
       <button
         class="btn btn-secondary btn-sm"
+        disabled=""
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Next
+         &gt;
       </button>
     </div>
   </div>
@@ -247,13 +406,21 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
   <h3
     class="popover-header"
   >
-    Step 
-    1
-     of 
-    2
+    <span>
+      Step 
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
   </h3>
   <div
-    class="popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div
@@ -261,15 +428,17 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     >
       <button
         class="btn btn-secondary btn-sm"
+        disabled=""
         type="button"
       >
-        Skip
+        &lt; Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
         Next
+         &gt;
       </button>
     </div>
   </div>

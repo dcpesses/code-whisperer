@@ -47,13 +47,6 @@ describe('OnboardingOverlay', () => {
   });
 
   test('Should render with popover and display sequentially', async() => {
-    store = getStoreWithState({
-      onboarding: {
-        isOnboarding: false,
-        activeStep: 0,
-        maxSteps: 2,
-      }
-    });
     store.dispatch({ type: 'onboarding/showOnboarding' });
     render(
       <Provider store={store}>
@@ -69,13 +62,33 @@ describe('OnboardingOverlay', () => {
     );
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
-    fireEvent.click(await screen.findByText('Next'));
+    fireEvent.click(await screen.findByText('Next >'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Next btn pressed');
 
-    fireEvent.click(await screen.findByText('Done'));
+    fireEvent.click(await screen.findByText('Done >'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Done btn pressed');
   });
 
+  test('Should render with popover and go back to previous popover', async() => {
+    store.dispatch({ type: 'onboarding/showOnboarding' });
+    store.dispatch({ type: 'onboarding/showNextStep' });
+    render(
+      <Provider store={store}>
+        <div>
+          <OnboardingOverlay body={(<>First Popover body</>)} step={1}>
+            Content
+          </OnboardingOverlay>
+          <OnboardingOverlay body={(<>Second Popover body</>)} step={2}>
+            Content
+          </OnboardingOverlay>
+        </div>
+      </Provider>
+    );
+    expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
+
+    fireEvent.click(await screen.findByText('< Back'));
+    expect(await screen.findByRole('tooltip')).toMatchSnapshot('Back btn pressed');
+  });
   test('Should render with popover and skip over additional popovers', async() => {
     store = getStoreWithState({
       onboarding: {
@@ -99,7 +112,7 @@ describe('OnboardingOverlay', () => {
     );
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
-    fireEvent.click(await screen.findByText('Skip'));
+    fireEvent.click(await screen.findByTitle('Skip and Close'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Skip btn pressed');
   });
 

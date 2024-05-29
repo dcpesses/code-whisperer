@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { hideOnboarding, showNextStep } from './onboarding-slice';
+import { hideOnboarding, showNextStep, showPrevStep } from './onboarding-slice';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -16,7 +16,10 @@ const OnboardingOverlay = ({ body, className, children, placement, step }) => {
     e.preventDefault();
     dispatch(showNextStep());
   };
-
+  const prevHandler = (e) => {
+    e.preventDefault();
+    dispatch(showPrevStep());
+  };
   const skipHandler = (e) => {
     e.preventDefault();
     dispatch(hideOnboarding());
@@ -25,14 +28,20 @@ const OnboardingOverlay = ({ body, className, children, placement, step }) => {
   const popover = (
     <Popover className="onboarding-popover">
       <Popover.Header as="h3">
-        Step {step} of {onboarding.maxSteps}
+        <span>
+          Step {step} of {onboarding.maxSteps}
+        </span>
+        <button type="button" className="btn-close ms-auto p-0" aria-label="Close" title="Skip and Close" onClick={skipHandler} />
       </Popover.Header>
-      <Popover.Body>
+      <Popover.Body className="rounded-bottom">
         {body}
         <div className="d-flex justify-content-between pt-3">
-          <Button variant="secondary" size="sm" onClick={skipHandler}>Skip</Button>
+          <Button variant="secondary" size="sm" onClick={prevHandler}
+            disabled={(step - 1 === 0)}>
+            &lt; Back
+          </Button>
           <Button size="sm" onClick={nextHandler}>
-            {(onboarding.maxSteps === step) ? 'Done' : 'Next'}
+            {(onboarding.maxSteps === step) ? 'Done' : 'Next'} &gt;
           </Button>
         </div>
       </Popover.Body>
