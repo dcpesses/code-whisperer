@@ -1,0 +1,285 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OnboardingOverlay > Should render with popover 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    1
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    Popover body text
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > Done btn pressed 1`] = `
+<div
+  class="fade onboarding-popover popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    2
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > Next btn pressed 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    2
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    1
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and skip over additional popovers > Skip btn pressed 1`] = `
+<div
+  class="fade onboarding-popover popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    1
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and skip over additional popovers > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    Step 
+    1
+     of 
+    2
+  </h3>
+  <div
+    class="popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        Skip
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render without popover 1`] = `
+<div>
+  <div>
+    Content
+  </div>
+</div>
+`;
