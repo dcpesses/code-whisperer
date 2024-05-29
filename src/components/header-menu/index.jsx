@@ -9,6 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { setChannelInfo } from '@/features/twitch/channel-slice';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { showOnboarding } from '@/features/onboarding/onboarding-slice';
+import { toggleGameList, toggleKofiOverlay, toggleOptionsMenu, toggleSettingsMenu, updateOptionsMenu } from '@/components/header-menu/menu-slice';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
 import {version} from '../../../package.json';
@@ -25,6 +26,7 @@ export class HeaderMenu extends Component {
       channelInfo: PropTypes.object,
       debugItems: PropTypes.array,
       // gamesList: PropTypes.object,
+      menu: PropTypes.object.isRequired,
       moderatedChannels: PropTypes.array,
       onLogout: PropTypes.func,
       onSettingsUpdate: PropTypes.func,
@@ -35,6 +37,11 @@ export class HeaderMenu extends Component {
       toggleChangelogModal: PropTypes.func,
       twitchApi: PropTypes.object,
       userInfo: PropTypes.object,
+      // toggleGameList: PropTypes.func,
+      toggleKofiOverlay: PropTypes.func,
+      toggleOptionsMenu: PropTypes.func,
+      toggleSettingsMenu: PropTypes.func,
+      updateOptionsMenu: PropTypes.func,
     };
   }
   static get defaultProps() {
@@ -54,6 +61,11 @@ export class HeaderMenu extends Component {
       showModalCommandList: noop,
       showOnboarding: noop,
       toggleChangelogModal: noop,
+      toggleGameList: noop,
+      toggleKofiOverlay: noop,
+      toggleOptionsMenu: noop,
+      toggleSettingsMenu: noop,
+      updateOptionsMenu: noop,
       twitchApi: null,
       userInfo: {},
     };
@@ -61,15 +73,15 @@ export class HeaderMenu extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      showKofiOverlay: false,
-      showGameList: false,
-      showOptionsMenu: false,
-      showSettingsMenu: false,
-    };
-    this.toggleGameList = this.toggleGameList.bind(this);
-    this.toggleKofiOverlay = this.toggleKofiOverlay.bind(this);
-    this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
+    // this.state = {
+    //   showKofiOverlay: false,
+    //   showGameList: false,
+    //   showOptionsMenu: false,
+    //   showSettingsMenu: false,
+    // };
+    // this.toggleGameList = this.toggleGameList.bind(this);
+    // this.toggleKofiOverlay = this.toggleKofiOverlay.bind(this);
+    // this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
 
     this.updateCustomDelimiter = this.updateInputOption.bind(this, 'customDelimiter');
     this.updateCustomJoinCommand = this.updateInputOption.bind(this, 'customJoinCommand');
@@ -163,9 +175,7 @@ export class HeaderMenu extends Component {
   };
 
   onViewWalkthrough = () => {
-    this.setState({
-      showOptionsMenu: false
-    });
+    this.props.updateOptionsMenu(false);
     this.props.showOnboarding();
   };
 
@@ -178,10 +188,10 @@ export class HeaderMenu extends Component {
     }
   };
 
-  toggleKofiOverlay = () => this.setState((state) => ({showKofiOverlay: !state.showKofiOverlay}));
-  toggleGameList = () => this.setState((state) => ({showGameList: !state.showGameList}));
-  toggleOptionsMenu = () => this.setState((state) => ({showOptionsMenu: !state.showOptionsMenu}));
-  toggleSettingsMenu = () => this.setState((state) => ({showSettingsMenu: !state.showSettingsMenu}));
+  // toggleKofiOverlay = () => this.setState((state) => ({showKofiOverlay: !state.showKofiOverlay}));
+  // toggleGameList = () => this.setState((state) => ({showGameList: !state.showGameList}));
+  // toggleOptionsMenu = () => this.setState((state) => ({showOptionsMenu: !state.showOptionsMenu}));
+  // toggleSettingsMenu = () => this.setState((state) => ({showSettingsMenu: !state.showSettingsMenu}));
 
   /**
    * Toggles the value of the specified option in the settings
@@ -221,7 +231,7 @@ export class HeaderMenu extends Component {
   };
 
   render() {
-    let {channelInfo, debugItems, userInfo, settings/*, onSettingsUpdate*/} = this.props;
+    let {channelInfo, debugItems, menu, userInfo, settings/*, onSettingsUpdate*/} = this.props;
     const debugMenuItems = this.createDropdownItems(debugItems);
 
     // user may not always be same as broadcaster/channel
@@ -268,7 +278,7 @@ export class HeaderMenu extends Component {
     }
 
     return (
-      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font" onToggle={this.toggleOptionsMenu}>
+      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font" onToggle={this.props.toggleOptionsMenu} expanded={menu.showOptions}>
         <Container fluid>
 
           {dropdownNavbarBrand}
@@ -279,7 +289,6 @@ export class HeaderMenu extends Component {
             aria-labelledby="navbar-options-menu-label"
             placement="end"
             className="raleway-font"
-            show={this.state.showOptionsMenu}
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="navbar-options-menu-label" className="fw-bold fs-4">
@@ -290,10 +299,10 @@ export class HeaderMenu extends Component {
               <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
                 <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
                 <hr className="border-bottom my-2" />
-                <Nav.Link className="settings-menu" onClick={this.toggleSettingsMenu}>
+                <Nav.Link className="settings-menu" onClick={this.props.toggleSettingsMenu}>
                   Settings
                 </Nav.Link>
-                <Collapse in={this.state.showSettingsMenu}>
+                <Collapse in={menu.showSettings}>
                   <div id="settings-menu" className="accordion-dark accordion accordion-flush">
                     <div className="accordion-body">
                       <Button variant="link" id="enable-room-code" className="btn settings-menu"
@@ -388,25 +397,25 @@ export class HeaderMenu extends Component {
                   </div>
                 </Collapse>
                 {/* {optionMenuItems} */}
-                <Nav.Link onClick={()=>this.props.showModalCommandList()}>View Chat Commands</Nav.Link>
+                <Nav.Link onClick={this.props.showModalCommandList}>View Chat Commands</Nav.Link>
                 <Nav.Link onClick={this.onViewWalkthrough}>View Walkthrough</Nav.Link>
                 <Nav.Link onClick={this.props.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
                   <OverlayTrigger
-                    show={this.state.showKofiOverlay}
-                    onToggle={this.toggleKofiOverlay}
+                    show={menu.showKofi}
+                    onToggle={this.props.toggleKofiOverlay}
                     trigger="click"
                     placement="top"
                     overlay={
                       <div className="kofi-overlay" style={{zIndex: 1046}}>
                         {
-                          (this.state.showKofiOverlay) && (
+                          (menu.showKofi) && (
                             <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="dcpesses"></iframe>
                           )
                         }
                         <div className="position-absolute top-0 end-0 p-2">
-                          <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
+                          <CloseButton id="close-kofi-overlay" onClick={this.props.toggleKofiOverlay} />
                         </div>
                       </div>
                     }
@@ -439,6 +448,7 @@ export class HeaderMenu extends Component {
 
 const mapStateToProps = state => ({
   channelInfo: state.channel.user,
+  menu: state.menu,
   modal: state.modal,
   moderatedChannels: state.user.moderatedChannels,
   settings: state.settings.app,
@@ -448,6 +458,11 @@ const mapDispatchToProps = () => ({
   setChannelInfo,
   showModalCommandList,
   showOnboarding,
+  toggleGameList,
+  toggleKofiOverlay,
+  toggleOptionsMenu,
+  toggleSettingsMenu,
+  updateOptionsMenu,
 });
 export default connect(
   mapStateToProps,
