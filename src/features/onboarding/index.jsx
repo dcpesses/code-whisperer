@@ -8,7 +8,7 @@ import Popover from 'react-bootstrap/Popover';
 
 import './onboarding.css';
 
-const OnboardingOverlay = ({ body, className, children, placement, step }) => {
+const OnboardingOverlay = ({ className, children, content, placement, step }) => {
   const onboarding = useSelector((state) => state.onboarding);
   const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ const OnboardingOverlay = ({ body, className, children, placement, step }) => {
         <button type="button" className="btn-close ms-auto p-0" aria-label="Close" title="Skip and Close" onClick={skipHandler} />
       </Popover.Header>
       <Popover.Body className="rounded-bottom raleway-font">
-        {body}
+        {content}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
             disabled={(step - 1 === 0)}>
@@ -65,17 +65,17 @@ const OnboardingOverlay = ({ body, className, children, placement, step }) => {
 };
 
 OnboardingOverlay.propTypes = {
-  body: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-    PropTypes.func,
-  ]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
     PropTypes.func,
   ]).isRequired,
   className: PropTypes.string,
+  content: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.func,
+  ]).isRequired,
   placement: PropTypes.string,
   step: PropTypes.number,
 };

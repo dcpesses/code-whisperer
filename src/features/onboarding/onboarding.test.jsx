@@ -24,7 +24,7 @@ describe('OnboardingOverlay', () => {
   test('Should render without popover', () => {
     const {container} = render(
       <Provider store={store}>
-        <OnboardingOverlay body={body} step={1}>
+        <OnboardingOverlay content={body} step={1}>
           Content
         </OnboardingOverlay>
       </Provider>
@@ -36,7 +36,7 @@ describe('OnboardingOverlay', () => {
     store.dispatch({ type: 'onboarding/showOnboarding' });
     render(
       <Provider store={store}>
-        <OnboardingOverlay body={body} step={1}>
+        <OnboardingOverlay content={body} step={1}>
           Content
         </OnboardingOverlay>
       </Provider>
@@ -51,10 +51,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay body={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay body={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
             Content
           </OnboardingOverlay>
         </div>
@@ -75,10 +75,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay body={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay body={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
             Content
           </OnboardingOverlay>
         </div>
@@ -101,10 +101,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay body={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay body={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
             Content
           </OnboardingOverlay>
         </div>
