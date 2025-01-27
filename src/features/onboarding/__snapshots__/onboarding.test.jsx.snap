@@ -31,7 +31,7 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     Popover body text
     <div
@@ -87,7 +87,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     Second Popover body
     <div
@@ -142,7 +142,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     Second Popover body
     <div
@@ -197,7 +197,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     First Popover body
     <div
@@ -253,7 +253,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     First Popover body
     <div
@@ -309,7 +309,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     Second Popover body
     <div
@@ -364,7 +364,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     First Popover body
     <div
@@ -420,7 +420,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     />
   </h3>
   <div
-    class="rounded-bottom popover-body"
+    class="rounded-bottom raleway-font popover-body"
   >
     First Popover body
     <div

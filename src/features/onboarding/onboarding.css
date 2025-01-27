@@ -13,6 +13,10 @@
 .onboarding-popover .popover-header {
   display: flex;
 }
+.onboarding-popover .popover-body {
+  font-weight: 600;
+}
+
 /* .onboarding-active {
   animation: 1.5s ease-in-out infinite alternate pulsate;
 }

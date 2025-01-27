@@ -33,7 +33,7 @@ const OnboardingOverlay = ({ body, className, children, placement, step }) => {
         </span>
         <button type="button" className="btn-close ms-auto p-0" aria-label="Close" title="Skip and Close" onClick={skipHandler} />
       </Popover.Header>
-      <Popover.Body className="rounded-bottom">
+      <Popover.Body className="rounded-bottom raleway-font">
         {body}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
