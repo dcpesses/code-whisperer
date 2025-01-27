@@ -273,7 +273,9 @@ export class MainScreen extends Component {
   handleOpenModalCommandList = () => this.props.showModalCommandList();
 
   onMessage = async(message, user, metadata) => {
-    if (this.debug || this.state.logUserMessages) {window.console.log('MainScreen - onMessage', {message, user, metadata});}
+    if (this.debug || this.state.logUserMessages) {
+      window.console.log('MainScreen - onMessage', {message, user, metadata});
+    }
     this.twitchApi.updateLastMessageTime(user);
     try {
       if (!this.props.userLookup[user] && metadata?.['user-id']) {
@@ -314,7 +316,8 @@ export class MainScreen extends Component {
     }));
   };
 
-  routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => routeJoinRequest(this.props, user, {sendConfirmationMsg, isPrioritySeat});
+  routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) =>
+    routeJoinRequest(this.props, user, {sendConfirmationMsg, isPrioritySeat});
 
   routeLeaveRequest = (user, {sendConfirmationMsg = true}) => routeLeaveRequest(this.props, user, {sendConfirmationMsg});
 
