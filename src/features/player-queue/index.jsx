@@ -8,6 +8,7 @@ import OnboardingOverlay from '@/features/onboarding';
 import {delay, getRelativeTimeString} from '@/utils';
 import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
+import {DefaultChatCommands} from '@/features/twitch-messages/message-handler';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
@@ -88,6 +89,11 @@ export class PlayerQueue extends Component {
   }
   constructor(props) {
     super(props);
+
+    let joinQueueCommand = DefaultChatCommands.find(cmd => cmd.id === 'joinQueue');
+    if (joinQueueCommand?.commands?.[0]) {
+      joinQueueCommand = joinQueueCommand.commands[0];
+    }
 
     this.state = {
       time: null
@@ -402,7 +408,7 @@ export class PlayerQueue extends Component {
   };
 
   render() {
-    let {interested, playing, maxPlayers, randCount, roomCode} = this.props;
+    let {interested, playing, maxPlayers, randCount, roomCode, settings} = this.props;
 
     const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
@@ -415,10 +421,33 @@ export class PlayerQueue extends Component {
       btnRandomizeLabel = 'Add All to Playing';
     }
 
+    const joinCommand = settings?.customJoinCommand || '!join';
+
+    // step 1
+    const stepInterested = (
+      <>
+        People who want to play will type the <b>{joinCommand}</b> command in chat; those users will be listed in the Interested section.
+      </>
+    );
+
+    // step 2
+    const stepPlaying = (
+      <>
+        Then, <i>YOU</i> chose who you want to join the game; those users will be listed in the Playing section.
+      </>
+    );
+
+    // step 3
+    const stepSendQueue = (
+      <>
+        Lastly, enter the room code you want to send to everyone in the Playing queue; press <i>SEND TO QUEUE</i> to whisper them.
+      </>
+    );
+
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
-          <OnboardingOverlay placement="bottom" step={3} body="Enter the room code here you want to send to all of in the Playing queue.">
+          <OnboardingOverlay placement="bottom" step={3} content={stepSendQueue}>
             <GameCodeForm
               value={roomCode || ''}
               onInputChange={this.handleRoomCodeChange}
@@ -441,7 +470,7 @@ export class PlayerQueue extends Component {
         </div>
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
-          <OnboardingOverlay step={1} body="Step 1 Body">
+          <OnboardingOverlay step={1} content={stepInterested}>
             <div className="bg-body rounded shadow-sm p-2">
               <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
                 <span className="queue-header me-auto align-self-center">
@@ -464,7 +493,7 @@ export class PlayerQueue extends Component {
 
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
-          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={2} body="Step 2 Body">
+          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={2} content={stepPlaying}>
 
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="queue-header me-auto align-self-center">

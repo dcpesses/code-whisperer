@@ -8,6 +8,8 @@ import PlayerQueueCard from './player-queue-card';
 
 
 describe('PlayerQueueCard', () => {
+  const mockNow = 1704067200000; // Jan 1, 2024
+
   let store;
   beforeEach(() => {
     store = getStoreWithState();
@@ -28,6 +30,8 @@ describe('PlayerQueueCard', () => {
   });
 
   test('Should render as a user in the interested queue', () => {
+    vi.spyOn(Date, 'now').mockReturnValue(mockNow);
+
     store = getStoreWithState({
       user: {
         chatters: {
@@ -77,6 +81,8 @@ describe('PlayerQueueCard', () => {
   });
 
   test('Should render as a whispered user in the playing queue', () => {
+    vi.spyOn(Date, 'now').mockReturnValue(mockNow);
+
     store = getStoreWithState({
       user: {
         chatters: {
