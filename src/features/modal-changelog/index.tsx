@@ -13,6 +13,15 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  {'0.7.0': [
+    (
+      <>
+        <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Added an app walkthrough for first time users, which can be replayed from the Options menu
+      </>
+    ),
+    'Graduated the Moderated Channels Menu option out of beta. 🎓',
+    'Updated and increased unit-test coverage to aid in bug squashing 🐛',
+  ]},
   {'0.6.1': [
     'Updated to wait for previous whisper to finish before sending the next (when sending to the entire queue)',
     'Updated workaround for loading missing user info',
@@ -162,7 +171,7 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
         {renderLog(changelogArray[0])}
         <hr />
         <Collapse in={showPastUpdates}>
-          <div id="past-updates-collapse">
+          <div id="past-updates-collapse" data-testid="past-updates">
             <div className="pb-3">
               <h5 className="fw-light pb-2">Past Updates</h5>
               {changelogArray.slice(1).map(log => renderLog(log))}
