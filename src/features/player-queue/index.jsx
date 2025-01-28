@@ -9,6 +9,7 @@ import {delay, getRelativeTimeString} from '@/utils';
 import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
 import {DefaultChatCommands} from '@/features/twitch-messages/message-handler';
+import { updateMaxSteps } from '../onboarding/onboarding-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
@@ -50,6 +51,7 @@ export class PlayerQueue extends Component {
       setMaxPlayers: PropTypes.func,
       setRoomCode: PropTypes.func,
       toggleStreamerSeat: PropTypes.func,
+      updateMaxSteps: PropTypes.func.isRequired,
     };
   }
   static get defaultProps() {
@@ -111,6 +113,7 @@ export class PlayerQueue extends Component {
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
 
+    this.props.updateMaxSteps(5);
     return;
   }
 
@@ -573,6 +576,7 @@ const mapDispatchToProps = () => ({
   setRoomCode,
   toggleStreamerSeat,
   updateColumnForUser,
+  updateMaxSteps,
 });
 export default connect(
   mapStateToProps,

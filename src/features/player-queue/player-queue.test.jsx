@@ -188,6 +188,17 @@ describe('PlayerQueue', () => {
     };
   });
 
+  describe('componentDidMount', () => {
+    test('should update the max number of onboarding steps', () => {
+      const component = new PlayerQueueComponent({
+        updateMaxSteps: vi.fn(),
+      });
+      vi.resetAllMocks();
+      component.componentDidMount();
+      expect(component.props.updateMaxSteps).toHaveBeenCalled();
+    });
+  });
+
   describe('handleNewPlayerRequest', () => {
     let component;
 
