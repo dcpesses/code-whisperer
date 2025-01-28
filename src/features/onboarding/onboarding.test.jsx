@@ -9,6 +9,7 @@ import OnboardingOverlay from './index';
 
 describe('OnboardingOverlay', () => {
   let body;
+  let btnOptions;
 
   let store;
   beforeEach(() => {
@@ -20,11 +21,12 @@ describe('OnboardingOverlay', () => {
       }
     });
     body = (<>Popover body text</>);
+    btnOptions = {showIcons: false};
   });
   test('Should render without popover', () => {
     const {container} = render(
       <Provider store={store}>
-        <OnboardingOverlay content={body} step={1}>
+        <OnboardingOverlay content={body} step={1} btnOptions={btnOptions}>
           Content
         </OnboardingOverlay>
       </Provider>
@@ -36,7 +38,7 @@ describe('OnboardingOverlay', () => {
     store.dispatch({ type: 'onboarding/showOnboarding' });
     render(
       <Provider store={store}>
-        <OnboardingOverlay content={body} step={1}>
+        <OnboardingOverlay content={body} step={1} btnOptions={btnOptions}>
           Content
         </OnboardingOverlay>
       </Provider>
@@ -51,10 +53,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
         </div>
@@ -62,10 +64,10 @@ describe('OnboardingOverlay', () => {
     );
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
-    fireEvent.click(await screen.findByText('Next >'));
+    fireEvent.click(await screen.findByText('Next'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Next btn pressed');
 
-    fireEvent.click(await screen.findByText('Done >'));
+    fireEvent.click(await screen.findByText('Done'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Done btn pressed');
   });
 
@@ -75,10 +77,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
         </div>
@@ -86,7 +88,7 @@ describe('OnboardingOverlay', () => {
     );
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
-    fireEvent.click(await screen.findByText('< Back'));
+    fireEvent.click(await screen.findByText('Back'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Back btn pressed');
   });
   test('Should render with popover and skip over additional popovers', async() => {
@@ -101,10 +103,10 @@ describe('OnboardingOverlay', () => {
     render(
       <Provider store={store}>
         <div>
-          <OnboardingOverlay content={(<>First Popover body</>)} step={1}>
+          <OnboardingOverlay content={(<>First Popover body</>)} step={1} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
-          <OnboardingOverlay content={(<>Second Popover body</>)} step={2}>
+          <OnboardingOverlay content={(<>Second Popover body</>)} step={2} btnOptions={btnOptions}>
             Content
           </OnboardingOverlay>
         </div>

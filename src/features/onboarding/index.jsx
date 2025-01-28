@@ -8,7 +8,7 @@ import Popover from 'react-bootstrap/Popover';
 
 import './onboarding.css';
 
-const OnboardingOverlay = ({ className, children, content, placement, step }) => {
+const OnboardingOverlay = ({ btnOptions, className, children, content, placement, step }) => {
   const onboarding = useSelector((state) => state.onboarding);
   const dispatch = useDispatch();
 
@@ -25,11 +25,52 @@ const OnboardingOverlay = ({ className, children, content, placement, step }) =>
     dispatch(hideOnboarding());
   };
 
+  /*
+
+  TODO: Finish implementing all of these options
+  btnOptions = {
+    bsVariants: {
+      done: 'primary',
+      next: 'primary',
+      prev: 'secondary',
+    },
+    icons: {
+      done: (<i className="bi bi-check-circle-fill"></i>),
+      next: (<i className="bi bi-arrow-right-circle-fill"></i>),
+      prev: (<i className="bi bi-arrow-left-circle-fill"></i>),
+    },
+    label: {
+      done: 'Done',
+      next: 'Next',
+      prev: 'Prev',
+    },
+    showIcons: true,
+    showText: true,
+  };
+  */
+
+  const doneIcon = btnOptions?.icons?.done
+  || (<i className="bi bi-check-circle-fill"></i>);
+  const nextIcon = btnOptions?.icons?.next
+  || (<i className="bi bi-arrow-right-circle-fill"></i>);
+  const prevIcon = btnOptions?.icons?.prev
+    || (<i className="bi bi-arrow-left-circle-fill"></i>);
+  const stepIcon = (<i className="bi bi-card-checklist"></i>);
+
+  const showIcons = btnOptions?.showIcons || true;
+  const showText = btnOptions?.showText || true;
+
+  const labels = {
+    done: 'Done',
+    next: 'Next',
+    prev: 'Back',
+  };
+
   const popover = (
     <Popover className="onboarding-popover">
       <Popover.Header as="h3">
         <span>
-          Step {step} of {onboarding.maxSteps}
+          {stepIcon} Step {step} of {onboarding.maxSteps}
         </span>
         <button type="button" className="btn-close ms-auto p-0" aria-label="Close" title="Skip and Close" onClick={skipHandler} />
       </Popover.Header>
@@ -38,10 +79,20 @@ const OnboardingOverlay = ({ className, children, content, placement, step }) =>
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
             disabled={(step - 1 === 0)}>
-            &lt; Back
+            {showIcons === true ? prevIcon : '❮'}
+            {showText === true && ` ${labels.prev}`}
           </Button>
           <Button size="sm" onClick={nextHandler}>
-            {(onboarding.maxSteps === step) ? 'Done' : 'Next'} &gt;
+            {
+              (showText === true)
+                ? (onboarding.maxSteps === step) ? `${labels.done} ` : `${labels.next} `
+                : null
+            }
+            {
+              (showIcons === true)
+                ? (onboarding.maxSteps === step) ? doneIcon : nextIcon
+                : '❯'
+            }
           </Button>
         </div>
       </Popover.Body>
@@ -50,6 +101,11 @@ const OnboardingOverlay = ({ className, children, content, placement, step }) =>
 
   const active = (onboarding.activeStep === step);
 
+  const onboardingClassNames = [
+    className,
+    (active) ? 'onboarding-active' : null
+  ].filter(c => c).join(' ');
+
   return (
     <OverlayTrigger
       overlay={popover}
@@ -57,7 +113,7 @@ const OnboardingOverlay = ({ className, children, content, placement, step }) =>
       show={active}
       trigger={[]}
     >
-      <div className={(active) ? `${className} onboarding-active` : className}>
+      <div className={onboardingClassNames}>
         {children}
       </div>
     </OverlayTrigger>
@@ -65,6 +121,7 @@ const OnboardingOverlay = ({ className, children, content, placement, step }) =>
 };
 
 OnboardingOverlay.propTypes = {
+  btnOptions: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -80,6 +137,10 @@ OnboardingOverlay.propTypes = {
   step: PropTypes.number,
 };
 OnboardingOverlay.defaultProps = {
+  btnOptions: {
+    showIcons: true,
+    showText: true,
+  },
   className: null,
   placement: 'top',
   step: -1

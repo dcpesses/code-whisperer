@@ -18,7 +18,10 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       1
        of 
       2
@@ -42,14 +45,19 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
         disabled=""
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Next
-         &gt;
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -74,7 +82,10 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       2
        of 
       2
@@ -97,14 +108,19 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
         class="btn btn-secondary btn-sm"
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Done
-         &gt;
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -129,7 +145,10 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       2
        of 
       2
@@ -152,14 +171,19 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
         class="btn btn-secondary btn-sm"
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Done
-         &gt;
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -184,7 +208,10 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       1
        of 
       2
@@ -208,14 +235,19 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
         disabled=""
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Next
-         &gt;
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -240,7 +272,10 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       1
        of 
       2
@@ -264,14 +299,19 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
         disabled=""
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Next
-         &gt;
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -296,7 +336,10 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       2
        of 
       2
@@ -319,14 +362,19 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
         class="btn btn-secondary btn-sm"
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Done
-         &gt;
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -351,7 +399,10 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       1
        of 
       2
@@ -375,14 +426,19 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
         disabled=""
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Next
-         &gt;
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -407,7 +463,10 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     class="popover-header"
   >
     <span>
-      Step 
+      <i
+        class="bi bi-card-checklist"
+      />
+       Step 
       1
        of 
       2
@@ -431,14 +490,19 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
         disabled=""
         type="button"
       >
-        &lt; Back
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
       </button>
       <button
         class="btn btn-primary btn-sm"
         type="button"
       >
-        Next
-         &gt;
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
       </button>
     </div>
   </div>
@@ -447,7 +511,9 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
 
 exports[`OnboardingOverlay > Should render without popover 1`] = `
 <div>
-  <div>
+  <div
+    class=""
+  >
     Content
   </div>
 </div>
