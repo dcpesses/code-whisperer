@@ -484,16 +484,41 @@ export default class MessageHandler {
   };
 
   updateChatCommandTerm = (key, term) => {
-    if (!key) {
+    // if (!key) {
+    //   return false;
+    // }
+    // const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === key);
+    // if (chatCommandIndex === -1) {
+    //   return false;
+    // }
+    // let chatCommand = DefaultChatCommands.find(cmd => cmd.id === key);
+    // if (term && term.trim() !== '') {
+    //   chatCommand.commands[0] = term.trim();
+    // }
+    // this.chatCommands[chatCommandIndex] = chatCommand;
+    // return true;
+    return this.updateChatCommand(key, 'commands', term);
+  };
+
+  updateChatCommand = (id, key, val) => {
+    if (!id) {
       return false;
     }
-    const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === key);
+    const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === id);
     if (chatCommandIndex === -1) {
       return false;
     }
-    let chatCommand = DefaultChatCommands.find(cmd => cmd.id === key);
-    if (term && term.trim() !== '') {
-      chatCommand.commands[0] = term.trim();
+    let chatCommand = DefaultChatCommands.find(cmd => cmd.id === id);
+    if (!(key in chatCommand)) {
+      return false;
+    }
+
+    if (key === 'commands') {
+      if (val && val.trim() !== '') {
+        chatCommand.commands[0] = val.trim();
+      }
+    } else {
+      chatCommand[key] = val;
     }
     this.chatCommands[chatCommandIndex] = chatCommand;
     return true;

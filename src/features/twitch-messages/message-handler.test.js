@@ -1043,5 +1043,18 @@ describe('MessageHandler', () => {
       expect(messageHandler.updateChatCommandTerm()).toBeFalsy();
     });
   });
+  describe('updateChatCommand', () => {
+    test('should return true when a chat command permission is successfully updated', () => {
+      expect(messageHandler.updateChatCommand('listCommands', 'mod', true)).toBeTruthy();
+    });
+
+    test('should return false when the option is not found in the chat command', () => {
+      expect(messageHandler.updateChatCommand('listCommands', 'unknownOption', true)).toBeFalsy();
+    });
+
+    test('should return false when no id is given', () => {
+      expect(messageHandler.updateChatCommand()).toBeFalsy();
+    });
+  });
 });
 
