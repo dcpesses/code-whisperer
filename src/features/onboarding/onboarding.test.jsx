@@ -1,6 +1,5 @@
 /* eslint-env jest */
-// import {vi} from 'vitest';
-import { fireEvent, /*prettyDOM,*/ render, screen } from '@testing-library/react';
+import { fireEvent, /*prettyDOM,*/ render, screen, waitFor } from '@testing-library/react';
 
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
@@ -21,7 +20,7 @@ describe('OnboardingOverlay', () => {
       }
     });
     body = (<>Popover body text</>);
-    btnOptions = {showIcons: false};
+    btnOptions = {};
   });
   test('Should render without popover', () => {
     const {container} = render(
@@ -48,6 +47,27 @@ describe('OnboardingOverlay', () => {
     expect(popoverElement).toMatchSnapshot();
   });
 
+  test('Should render popover without text or icons', async() => {
+    store.dispatch({ type: 'onboarding/showOnboarding' });
+    let btnOptionAlt = {
+      showIcons: false,
+      showText: false
+    };
+    render(
+      <Provider store={store}>
+        <OnboardingOverlay content={body} step={1} btnOptions={btnOptionAlt}>
+          Content
+        </OnboardingOverlay>
+      </Provider>
+    );
+    await screen.findByText('❯');
+    const popoverElement = await screen.findByRole('tooltip');
+    expect(popoverElement).toHaveTextContent('Popover body text');
+    expect(popoverElement).not.toHaveTextContent('Next');
+    expect(popoverElement).toHaveTextContent('❯');
+    expect(popoverElement).toMatchSnapshot();
+  });
+
   test('Should render with popover and display sequentially', async() => {
     store.dispatch({ type: 'onboarding/showOnboarding' });
     render(
@@ -62,13 +82,16 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+    await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
     fireEvent.click(await screen.findByText('Next'));
+    await screen.findByText('Second Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Next btn pressed');
 
     fireEvent.click(await screen.findByText('Done'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Done btn pressed');
+    expect(screen.queryByText('Second Popover body')).toBeNull();
   });
 
   test('Should render with popover and go back to previous popover', async() => {
@@ -86,11 +109,14 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+    await screen.findByText('Second Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
     fireEvent.click(await screen.findByText('Back'));
+    await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Back btn pressed');
   });
+
   test('Should render with popover and skip over additional popovers', async() => {
     store = getStoreWithState({
       onboarding: {
@@ -112,10 +138,13 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+    await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
     fireEvent.click(await screen.findByTitle('Skip and Close'));
-    expect(await screen.findByRole('tooltip')).toMatchSnapshot('Skip btn pressed');
+    await waitFor(() => {
+      expect(screen.queryByText('First Popover body')).toBeNull();
+    });
   });
 
 });

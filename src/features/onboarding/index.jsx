@@ -59,8 +59,10 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
   const stepIcon = btnOptions?.icons?.step
   || (<i className="bi bi-bookmark-star-fill text-body-secondary"></i>);
 
-  const showIcons = btnOptions?.showIcons || true;
-  const showText = btnOptions?.showText || true;
+  const showIcons = (typeof btnOptions?.showIcons === 'boolean')
+    ? btnOptions?.showIcons : true;
+  const showText = (typeof btnOptions?.showText === 'boolean')
+    ? btnOptions?.showText : true;
 
   const labels = {
     close: 'Close',
