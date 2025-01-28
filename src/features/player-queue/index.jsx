@@ -431,23 +431,32 @@ export class PlayerQueue extends Component {
     );
 
     // step 2
-    const stepPlaying = (
+    const stepMaxPlayers = (
       <>
-        Then, <i>YOU</i> chose who you want to join the game; those users will be listed in the Playing section.
+        Set the maximum number of playable spots if your game has a limit, or leave it at <b><tt>0</tt></b> to disable the count.
       </>
     );
 
     // step 3
-    const stepMaxPlayers = (
+    const stepPlaying = (
       <>
-        Set the maximum number of playable spots if you like, or leave it at <tt>0</tt> to disable the count.
+        Then, <b>you</b> chose who you want to join the game; those users will be listed in the Playing section.
       </>
     );
 
     // step 4
     const stepSendQueue = (
       <>
-        Lastly, enter the room code you want to send to everyone in the Playing queue; press <b>SEND&nbsp;TO&nbsp;QUEUE</b> to whisper them.
+        Lastly, enter the room code you want to send to everyone in the Playing queue. To whisper them, press <b>SEND&nbsp;TO&nbsp;QUEUE</b>.
+      </>
+    );
+
+    // Step 5
+    const stepOptionsMenu = (
+      <>
+        You can find this walkthrough again
+        along with many other available
+        settings in the <b>Options</b> menu
       </>
     );
 
@@ -469,11 +478,12 @@ export class PlayerQueue extends Component {
 
             {this.renderStreamerSeatToggle()}
 
-            <div className="fs-6 lh-sm align-self-center">
-              <OnboardingOverlay step={3} content={stepMaxPlayers}>
-                {this.renderPlayerCount()}
-              </OnboardingOverlay>
-            </div>
+
+            <OnboardingOverlay placement="bottom" step={2} content={stepMaxPlayers}
+              className="fs-6 lh-sm align-self-center">
+              {this.renderPlayerCount()}
+            </OnboardingOverlay>
+
 
           </div>
         </div>
@@ -502,7 +512,7 @@ export class PlayerQueue extends Component {
 
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
-          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={2} content={stepPlaying}>
+          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={3} content={stepPlaying}>
 
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="queue-header me-auto align-self-center">
@@ -525,13 +535,7 @@ export class PlayerQueue extends Component {
         </div>
 
 
-        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={
-          <>
-            You can find this walkthrough again
-            along with many other available
-            settings in the <b>Options</b> menu
-          </>
-        }>
+        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={stepOptionsMenu}>
           <span className="navbar-toggler-icon invisible" />
         </OnboardingOverlay>
 
