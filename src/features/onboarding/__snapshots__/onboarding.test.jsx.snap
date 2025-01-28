@@ -19,9 +19,11 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       1
        of 
       2
@@ -41,6 +43,7 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         disabled=""
         type="button"
@@ -51,6 +54,7 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -83,9 +87,11 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       2
        of 
       2
@@ -105,6 +111,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         type="button"
       >
@@ -114,6 +121,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -146,9 +154,11 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       2
        of 
       2
@@ -168,6 +178,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         type="button"
       >
@@ -177,6 +188,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -209,9 +221,11 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       1
        of 
       2
@@ -231,6 +245,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         disabled=""
         type="button"
@@ -241,6 +256,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -273,9 +289,11 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       1
        of 
       2
@@ -295,6 +313,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         disabled=""
         type="button"
@@ -305,6 +324,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -337,9 +357,11 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       2
        of 
       2
@@ -359,6 +381,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         type="button"
       >
@@ -368,6 +391,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -400,9 +424,11 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       1
        of 
       2
@@ -422,6 +448,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         disabled=""
         type="button"
@@ -432,6 +459,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -464,9 +492,11 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
   >
     <span>
       <i
-        class="bi bi-card-checklist"
+        class="bi bi-bookmark-star-fill text-body-secondary"
       />
-       Step 
+       
+      Step
+       
       1
        of 
       2
@@ -486,6 +516,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
       class="d-flex justify-content-between pt-3"
     >
       <button
+        aria-label="Back"
         class="btn btn-secondary btn-sm"
         disabled=""
         type="button"
@@ -496,6 +527,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
          Back
       </button>
       <button
+        aria-label="Next"
         class="btn btn-primary btn-sm"
         type="button"
       >
@@ -511,9 +543,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
 
 exports[`OnboardingOverlay > Should render without popover 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     Content
   </div>
 </div>

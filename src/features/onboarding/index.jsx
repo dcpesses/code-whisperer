@@ -38,6 +38,7 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
       done: (<i className="bi bi-check-circle-fill"></i>),
       next: (<i className="bi bi-arrow-right-circle-fill"></i>),
       prev: (<i className="bi bi-arrow-left-circle-fill"></i>),
+      step: (<i className="bi bi-bookmark-star-fill text-body-secondary"></i>),
     },
     label: {
       done: 'Done',
@@ -55,34 +56,38 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
   || (<i className="bi bi-arrow-right-circle-fill"></i>);
   const prevIcon = btnOptions?.icons?.prev
     || (<i className="bi bi-arrow-left-circle-fill"></i>);
-  const stepIcon = (<i className="bi bi-card-checklist"></i>);
+  const stepIcon = btnOptions?.icons?.step
+  || (<i className="bi bi-bookmark-star-fill text-body-secondary"></i>);
 
   const showIcons = btnOptions?.showIcons || true;
   const showText = btnOptions?.showText || true;
 
   const labels = {
+    close: 'Close',
     done: 'Done',
     next: 'Next',
     prev: 'Back',
+    skip: 'Skip and Close',
+    step: 'Step',
   };
 
   const popover = (
     <Popover className="onboarding-popover">
       <Popover.Header as="h3">
         <span>
-          {stepIcon} Step {step} of {onboarding.maxSteps}
+          {stepIcon} {labels.step} {step} of {onboarding.maxSteps}
         </span>
-        <button type="button" className="btn-close ms-auto p-0" aria-label="Close" title="Skip and Close" onClick={skipHandler} />
+        <button type="button" className="btn-close ms-auto p-0" aria-label={labels.close} title={labels.skip} onClick={skipHandler} />
       </Popover.Header>
       <Popover.Body className="rounded-bottom raleway-font">
         {content}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
-            disabled={(step - 1 === 0)}>
+            disabled={(step - 1 === 0)} aria-label={labels.prev}>
             {showIcons === true ? prevIcon : '❮'}
             {showText === true && ` ${labels.prev}`}
           </Button>
-          <Button size="sm" onClick={nextHandler}>
+          <Button variant="primary" size="sm" onClick={nextHandler} aria-label={labels.next}>
             {
               (showText === true)
                 ? (onboarding.maxSteps === step) ? `${labels.done} ` : `${labels.next} `
@@ -104,7 +109,7 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
   const onboardingClassNames = [
     className,
     (active) ? 'onboarding-active' : null
-  ].filter(c => c).join(' ');
+  ].filter(c => c).join(' ') || null;
 
   return (
     <OverlayTrigger

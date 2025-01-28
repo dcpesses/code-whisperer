@@ -316,7 +316,7 @@ export class PlayerQueue extends Component {
       );
     }
     return (
-      <div className={className}>
+      <div className={`${className} py-1 px-2`}>
         {this.playerCount()} of {maxPlayers} seats claimed
       </div>
     );
@@ -438,16 +438,23 @@ export class PlayerQueue extends Component {
     );
 
     // step 3
+    const stepMaxPlayers = (
+      <>
+        Set the maximum number of playable spots if you like, or leave it at <tt>0</tt> to disable the count.
+      </>
+    );
+
+    // step 4
     const stepSendQueue = (
       <>
-        Lastly, enter the room code you want to send to everyone in the Playing queue; press <i>SEND TO QUEUE</i> to whisper them.
+        Lastly, enter the room code you want to send to everyone in the Playing queue; press <b>SEND&nbsp;TO&nbsp;QUEUE</b> to whisper them.
       </>
     );
 
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
-          <OnboardingOverlay placement="bottom" step={3} content={stepSendQueue}>
+          <OnboardingOverlay placement="bottom" step={4} content={stepSendQueue}>
             <GameCodeForm
               value={roomCode || ''}
               onInputChange={this.handleRoomCodeChange}
@@ -463,7 +470,9 @@ export class PlayerQueue extends Component {
             {this.renderStreamerSeatToggle()}
 
             <div className="fs-6 lh-sm align-self-center">
-              {this.renderPlayerCount()}
+              <OnboardingOverlay step={3} content={stepMaxPlayers}>
+                {this.renderPlayerCount()}
+              </OnboardingOverlay>
             </div>
 
           </div>
@@ -514,6 +523,18 @@ export class PlayerQueue extends Component {
 
           </OnboardingOverlay>
         </div>
+
+
+        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={
+          <>
+            You can find this walkthrough again
+            along with many other available
+            settings in the <b>Options</b> menu
+          </>
+        }>
+          <span className="navbar-toggler-icon invisible" />
+        </OnboardingOverlay>
+
       </div>
     );
   }
