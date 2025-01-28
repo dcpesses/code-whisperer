@@ -16,7 +16,7 @@ export const changelogArray = [
   {'0.7.0': [
     (
       <>
-        <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Added an app walkthrough for first time users, which can be replayed from the Options menu
+        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Added an app walkthrough for first time users, which can be replayed from the Options menu
       </>
     ),
     'Added setting for custom !queue command',
@@ -53,7 +53,7 @@ export const changelogArray = [
     'Security updates and performance improvements',
     (
       <>
-        <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
+        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
       </>
     ),
     (
