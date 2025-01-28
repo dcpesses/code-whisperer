@@ -15,6 +15,7 @@ const settingsState = {
     enableJoinConfirmationMessage: true,
     enableLeaveConfirmationMessage: true,
     enableModeratedChannelsOption: true,
+    enableRestrictedListQueue: false,
     enableRoomCode: true,
     enableSubRequests: false,
   },
@@ -29,6 +30,7 @@ describe('settings reducer', () => {
       enableJoinConfirmationMessage: true,
       enableLeaveConfirmationMessage: true,
       enableModeratedChannelsOption: false,
+      enableRestrictedListQueue: true,
       enableRoomCode: true,
       enableSubRequests: false,
     }

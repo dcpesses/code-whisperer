@@ -91,6 +91,7 @@ export class HeaderMenu extends Component {
     this.toggleJoinConfirmationMessage = this.toggleOption.bind(this, 'enableJoinConfirmationMessage', true);
     this.toggleLeaveConfirmationMessage = this.toggleOption.bind(this, 'enableLeaveConfirmationMessage', true);
     this.toggleEnableModeratedChannelsOption = this.toggleOption.bind(this, 'enableModeratedChannelsOption', false);
+    this.toggleEnableRestrictedListQueue = this.toggleOption.bind(this, 'enableRestrictedListQueue', false);
 
     this.offcanvasRef;
   }
@@ -362,6 +363,14 @@ export class HeaderMenu extends Component {
                       >
                         <input type="checkbox" role="switch"
                           checked={(settings?.enableLeaveConfirmationMessage)} readOnly /> <span>Show Leave Confirmation Message</span>
+                      </Button>
+
+                      <Button variant="link" className="btn settings-menu"
+                        onClick={this.toggleEnableRestrictedListQueue}
+                        title="Restricts the command to list all of the players in the queue to only moderators and above."
+                      >
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableRestrictedListQueue)} readOnly /> <span>Limit !queue to Mods and Above</span>
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"

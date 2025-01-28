@@ -133,6 +133,10 @@ export class MainScreen extends Component {
         console.log('calling updateChatCommandTerm(leaveQueue)');
         this.messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
       }
+      if (!this.props.settings?.enableRestrictedListQueue && prevProps.settings?.enableRestrictedListQueue) {
+        console.log('calling updateChatCommand(listQueue)');
+        this.messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
+      }
     }
   };
 
@@ -168,6 +172,9 @@ export class MainScreen extends Component {
     }
     if (this.props.settings?.customLeaveCommand) {
       messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.enableRestrictedListQueue) {
+      messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
     return messageHandler;
   };
@@ -219,6 +226,9 @@ export class MainScreen extends Component {
     if (props.settings.customLeaveCommand) {
       this.messageHandler.updateChatCommandTerm('leaveQueue', props.settings.customLeaveCommand);
     }
+    if (props.settings.enableRestrictedListQueue) {
+      this.messageHandler.updateChatCommand('listQueue', 'mod', props.settings.enableRestrictedListQueue);
+    }
     return null;
   };
 
@@ -229,6 +239,9 @@ export class MainScreen extends Component {
     }
     if (this.props.settings?.customLeaveCommand) {
       this.messageHandler?.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.enableRestrictedListQueue) {
+      this.messageHandler?.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
   };
 

@@ -153,7 +153,8 @@ export const DefaultChatCommands = [
     id: 'listQueue',
     mod: true,
     response: (scope, username) => {
-      if (!scope.isModOrBroadcaster(username)) {
+      const allowUser = scope.settings.enableRestrictedListQueue !== true;
+      if (!scope.isModOrBroadcaster(username) && allowUser === false) {
         scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
         return true;
       }

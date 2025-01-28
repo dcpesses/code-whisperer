@@ -212,6 +212,7 @@ describe('DefaultChatCommands', () => {
       expect(scope.sendMessage.mock.calls).toMatchSnapshot();
     });
     test('should not return list of players in the Playing queue when user is not a mod', () => {
+      scope.settings.enableRestrictedListQueue = true;
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
       expect(DefaultChatCommands.find(c => c.id === 'listQueue').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.sendMessage.mock.calls).toMatchSnapshot();

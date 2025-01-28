@@ -180,6 +180,21 @@ exports[`MainScreen > render > Should render without error 1`] = `
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
+                    title="Restricts the command to list all of the players in the queue to only moderators and above."
+                    type="button"
+                  >
+                    <input
+                      readonly=""
+                      role="switch"
+                      type="checkbox"
+                    />
+                     
+                    <span>
+                      Limit !queue to Mods and Above
+                    </span>
+                  </button>
+                  <button
+                    class="btn settings-menu btn btn-link"
                     title="Uses a custom character or emote to separate requests listed in the chat."
                     type="button"
                   >

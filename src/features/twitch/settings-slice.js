@@ -10,6 +10,7 @@ const initialState = {
     enableJoinConfirmationMessage: true,
     enableLeaveConfirmationMessage: true,
     enableModeratedChannelsOption: false,
+    enableRestrictedListQueue: true,
     enableRoomCode: true,
     enableSubRequests: false,
   },
