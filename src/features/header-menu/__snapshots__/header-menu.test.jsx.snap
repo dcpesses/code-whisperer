@@ -208,7 +208,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                 </button>
                 <button
                   class="btn settings-menu btn btn-link"
-                  title="Restricts the command to list all of the players in the queue to only moderators and above."
+                  title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
                   type="button"
                 >
                   <input
@@ -218,7 +218,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                   />
                    
                   <span>
-                    Limit !queue to Mods and Above
+                    Restrict !queue to Mods & Above
                   </span>
                 </button>
                 <button
@@ -240,17 +240,6 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                     value=""
                   />
                 </button>
-                <hr
-                  class="border-bottom my-2"
-                />
-                <h5>
-                  Beta Options
-                </h5>
-                <div
-                  class="smaller"
-                >
-                  These options have not been fully tested and may not work as intended.
-                </div>
                 <button
                   class="btn settings-menu btn btn-link"
                   id="enable-moderated-channels-option"
@@ -637,7 +626,7 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                 </button>
                 <button
                   class="btn settings-menu btn btn-link"
-                  title="Restricts the command to list all of the players in the queue to only moderators and above."
+                  title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
                   type="button"
                 >
                   <input
@@ -647,7 +636,7 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                   />
                    
                   <span>
-                    Limit !queue to Mods and Above
+                    Restrict !queue to Mods & Above
                   </span>
                 </button>
                 <button
@@ -669,17 +658,6 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                     value=""
                   />
                 </button>
-                <hr
-                  class="border-bottom my-2"
-                />
-                <h5>
-                  Beta Options
-                </h5>
-                <div
-                  class="smaller"
-                >
-                  These options have not been fully tested and may not work as intended.
-                </div>
                 <button
                   class="btn settings-menu btn btn-link"
                   id="enable-moderated-channels-option"

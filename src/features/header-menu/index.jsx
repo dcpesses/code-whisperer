@@ -378,10 +378,10 @@ export class HeaderMenu extends Component {
 
                       <Button variant="link" className="btn settings-menu"
                         onClick={this.toggleEnableRestrictedListQueue}
-                        title="Restricts the command to list all of the players in the queue to only moderators and above."
+                        title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
                       >
                         <input type="checkbox" role="switch"
-                          checked={(settings?.enableRestrictedListQueue)} readOnly /> <span>Limit !queue to Mods and Above</span>
+                          checked={(settings?.enableRestrictedListQueue)} readOnly /> <span>Restrict !queue to Mods &amp; Above</span>
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"
@@ -394,12 +394,15 @@ export class HeaderMenu extends Component {
                       </Button>
 
 
+                      {/*
                       <hr className="border-bottom my-2" />
 
                       <h5>Beta Options</h5>
                       <div className="smaller">
                         These options have not been fully tested and may not work as intended.
                       </div>
+                      */}
+
 
                       <Button variant="link" id="enable-moderated-channels-option" className="btn settings-menu"
                         onClick={this.toggleEnableModeratedChannelsOption}
