@@ -86,6 +86,7 @@ export class HeaderMenu extends Component {
     this.updateCustomDelimiter = this.updateInputOption.bind(this, 'customDelimiter');
     this.updateCustomJoinCommand = this.updateInputOption.bind(this, 'customJoinCommand');
     this.updateCustomLeaveCommand = this.updateInputOption.bind(this, 'customLeaveCommand');
+    this.updateCustomQueueCommand = this.updateInputOption.bind(this, 'customQueueCommand');
 
     this.toggleEnableRoomCode = this.toggleOption.bind(this, 'enableRoomCode', true);
     this.toggleJoinConfirmationMessage = this.toggleOption.bind(this, 'enableJoinConfirmationMessage', true);
@@ -363,6 +364,16 @@ export class HeaderMenu extends Component {
                       >
                         <input type="checkbox" role="switch"
                           checked={(settings?.enableLeaveConfirmationMessage)} readOnly /> <span>Show Leave Confirmation Message</span>
+                      </Button>
+
+                      <Button variant="link" className="btn settings-menu"
+                        title="Replaces the !queue command with a custom term to use to list all of the queues."
+                      >
+                        <span htmlFor="custom-queue-command">Use Custom Queue Command: </span>
+                        <input type="text" id="custom-queue-command" name="custom-queue-command"
+                          placeholder="e.g. !queue"
+                          defaultValue={settings?.customQueueCommand}
+                          onChange={this.updateCustomQueueCommand} className="form-control" spellCheck="false" />
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"

@@ -133,6 +133,10 @@ export class MainScreen extends Component {
         console.log('calling updateChatCommandTerm(leaveQueue)');
         this.messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
       }
+      if (!this.props.settings?.customQueueCommand && prevProps.settings?.customQueueCommand) {
+        console.log('calling updateChatCommandTerm(listQueue)');
+        this.messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
+      }
       if (!this.props.settings?.enableRestrictedListQueue && prevProps.settings?.enableRestrictedListQueue) {
         console.log('calling updateChatCommand(listQueue)');
         this.messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
@@ -172,6 +176,9 @@ export class MainScreen extends Component {
     }
     if (this.props.settings?.customLeaveCommand) {
       messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.customQueueCommand) {
+      messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
     }
     if (this.props.settings?.enableRestrictedListQueue) {
       messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
@@ -226,6 +233,9 @@ export class MainScreen extends Component {
     if (props.settings.customLeaveCommand) {
       this.messageHandler.updateChatCommandTerm('leaveQueue', props.settings.customLeaveCommand);
     }
+    if (props.settings.customQueueCommand) {
+      this.messageHandler.updateChatCommandTerm('listQueue', props.settings.customQueueCommand);
+    }
     if (props.settings.enableRestrictedListQueue) {
       this.messageHandler.updateChatCommand('listQueue', 'mod', props.settings.enableRestrictedListQueue);
     }
@@ -239,6 +249,9 @@ export class MainScreen extends Component {
     }
     if (this.props.settings?.customLeaveCommand) {
       this.messageHandler?.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.customQueueCommand) {
+      this.messageHandler?.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
     }
     if (this.props.settings?.enableRestrictedListQueue) {
       this.messageHandler?.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);

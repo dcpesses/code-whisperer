@@ -419,16 +419,18 @@ describe('MainScreen', () => {
       mainScreen.props = {
         settings: {
           customJoinCommand: '!customJoin',
-          customLeaveCommand: '!customLeave'
+          customLeaveCommand: '!customLeave',
+          customQueueCommand: '!customQueue'
         }
       };
       vi.spyOn(messageHandler, 'updateChatCommandTerm');
 
       mainScreen.onMessageHandlerInit();
 
-      expect(messageHandler.updateChatCommandTerm).toHaveBeenCalledTimes(2);
+      expect(messageHandler.updateChatCommandTerm).toHaveBeenCalledTimes(3);
       expect(messageHandler.updateChatCommandTerm).toHaveBeenCalledWith('joinQueue', '!customJoin');
       expect(messageHandler.updateChatCommandTerm).toHaveBeenCalledWith('leaveQueue', '!customLeave');
+      expect(messageHandler.updateChatCommandTerm).toHaveBeenCalledWith('listQueue', '!customQueue');
     });
 
     test('should not update chat command terms if settings are not updated', () => {

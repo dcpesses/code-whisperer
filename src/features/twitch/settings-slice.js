@@ -7,6 +7,7 @@ const initialState = {
     customDelimiter: null,
     customJoinCommand: null,
     customLeaveCommand: null,
+    customQueueCommand: null,
     enableJoinConfirmationMessage: true,
     enableLeaveConfirmationMessage: true,
     enableModeratedChannelsOption: false,

@@ -180,6 +180,26 @@ exports[`MainScreen > render > Should render without error 1`] = `
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
+                    title="Replaces the !queue command with a custom term to use to list all of the queues."
+                    type="button"
+                  >
+                    <span
+                      for="custom-queue-command"
+                    >
+                      Use Custom Queue Command: 
+                    </span>
+                    <input
+                      class="form-control"
+                      id="custom-queue-command"
+                      name="custom-queue-command"
+                      placeholder="e.g. !queue"
+                      spellcheck="false"
+                      type="text"
+                      value=""
+                    />
+                  </button>
+                  <button
+                    class="btn settings-menu btn btn-link"
                     title="Restricts the command to list all of the players in the queue to only moderators and above."
                     type="button"
                   >
