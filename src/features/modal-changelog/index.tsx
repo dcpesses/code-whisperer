@@ -19,6 +19,8 @@ export const changelogArray = [
         <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Added an app walkthrough for first time users, which can be replayed from the Options menu
       </>
     ),
+    'Added setting for custom !queue command',
+    'Added setting to enable the !queue command for all users or just streamer & moderators',
     'Graduated the Moderated Channels Menu option out of beta. 🎓',
     'Updated and increased unit-test coverage to aid in bug squashing 🐛',
   ]},
