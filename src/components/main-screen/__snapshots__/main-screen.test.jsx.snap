@@ -194,7 +194,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                       name="custom-delimiter"
                       spellcheck="false"
                       type="text"
-                      value=""
+                      value="true"
                     />
                   </button>
                   <hr
@@ -359,7 +359,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
               class="fs-6 lh-sm align-self-center"
             >
               <div
-                class="player-count"
+                class="player-count py-1 px-2"
               >
                 0
                  of 
@@ -439,6 +439,13 @@ exports[`MainScreen > render > Should render without error 1`] = `
               class="d-flex flex-column text-body playing-queue"
             />
           </div>
+        </div>
+        <div
+          class="queue-walkthrough-reminder pe-none"
+        >
+          <span
+            class="navbar-toggler-icon invisible"
+          />
         </div>
       </div>
     </div>

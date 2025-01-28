@@ -11,6 +11,7 @@ import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { setFakeUserStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { showOnboarding } from '@/features/onboarding/onboarding-slice.js';
 import {
   clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount,
   setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser
@@ -74,7 +75,8 @@ export class MainScreen extends Component {
       history: [GAME_PLACEHOLDER], // requested / played games
       logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
-      showChangelogModal: (lastVersion !== version),
+      showChangelogModal: (lastVersion && lastVersion !== version),
+      showOnboardingOverlays: (!lastVersion),
       showOptionsMenu: false,
       showOptionsModal: false,
       userLookup: {},
@@ -110,6 +112,10 @@ export class MainScreen extends Component {
       this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
       this.props.setFakeSettingsStates({app: fakeStates.SettingsStore.app});
     }
+    // show walkthrough if first time
+    if (this.state.showOnboardingOverlays) {
+      this.props.showOnboarding();
+    }
   }
   componentDidUpdate = (prevProps) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
@@ -131,7 +137,7 @@ export class MainScreen extends Component {
   };
 
   initMessageHandler = () => {
-    console.log('initMessageHandler');
+    // console.log('initMessageHandler');
     if (!this.props.twitchApi?.isChatConnected) {
       console.log('main-screen - initMessageHandler: cannot init; no chat client available');
       return null;
@@ -411,6 +417,7 @@ MainScreen.propTypes = {
   setWhisperStatus: PropTypes.func.isRequired,
   settings: PropTypes.object,
   showModalCommandList: PropTypes.func.isRequired,
+  showOnboarding: PropTypes.func.isRequired,
   twitchApi: PropTypes.object.isRequired,
   updateAppSettings: PropTypes.func.isRequired,
   userLookup: PropTypes.object,
@@ -472,6 +479,7 @@ const mapDispatchToProps = () => ({
   setRoomCode,
   toggleStreamerSeat,
   updateColumnForUser,
+  showOnboarding,
 });
 export default connect(
   mapStateToProps,
