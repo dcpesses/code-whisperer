@@ -3,7 +3,7 @@
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-// import {Button, Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import MessageHandler from '@/features/twitch-messages/message-handler';
 import HeaderMenu from '@/features/header-menu';
 import PlayerQueue from '@/features/player-queue';
@@ -76,7 +76,7 @@ export class MainScreen extends Component {
       logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
       showChangelogModal: (lastVersion && lastVersion !== version),
-      showOnboardingOverlays: (!lastVersion),
+      showOnboardingPromptModal: (!lastVersion),
       showOptionsMenu: false,
       showOptionsModal: false,
       userLookup: {},
@@ -112,10 +112,6 @@ export class MainScreen extends Component {
       this.props.setFakeChannelStates({lookup: fakeStates.MainScreen.userLookup});
       this.props.setFakeSettingsStates({app: fakeStates.SettingsStore.app});
     }
-    // show walkthrough if first time
-    if (this.state.showOnboardingOverlays) {
-      this.props.showOnboarding();
-    }
   }
   componentDidUpdate = (prevProps) => {
     if (prevProps.twitchApi?.isChatConnected !== this.props.twitchApi?.isChatConnected
@@ -137,10 +133,13 @@ export class MainScreen extends Component {
         console.log('calling updateChatCommandTerm(listQueue)');
         this.messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
       }
-      if (!this.props.settings?.enableRestrictedListQueue && prevProps.settings?.enableRestrictedListQueue) {
-        console.log('calling updateChatCommand(listQueue)');
-        this.messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
-      }
+      // TODO: check if needed here
+      // if (!this.props.settings?.enableRestrictedListQueue && prevProps.settings?.enableRestrictedListQueue
+      // || this.props.settings?.enableRestrictedListQueue !== prevProps.settings?.enableRestrictedListQueue
+      // ) {
+      //   console.log('calling updateChatCommand(listQueue)');
+      //   this.messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
+      // }
     }
   };
 
@@ -180,7 +179,7 @@ export class MainScreen extends Component {
     if (this.props.settings?.customQueueCommand) {
       messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
     }
-    if (this.props.settings?.enableRestrictedListQueue) {
+    if (typeof this.props.settings?.enableRestrictedListQueue === 'boolean') {
       messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
     return messageHandler;
@@ -236,7 +235,7 @@ export class MainScreen extends Component {
     if (props.settings.customQueueCommand) {
       this.messageHandler.updateChatCommandTerm('listQueue', props.settings.customQueueCommand);
     }
-    if (props.settings.enableRestrictedListQueue) {
+    if (typeof props.settings.enableRestrictedListQueue === 'boolean') {
       this.messageHandler.updateChatCommand('listQueue', 'mod', props.settings.enableRestrictedListQueue);
     }
     return null;
@@ -244,7 +243,7 @@ export class MainScreen extends Component {
 
   onMessageHandlerInit = () => {
     if (!this.messageHandler) {return;}
-    if (this.props.settings?.customJoinCommand ) {
+    if (this.props.settings?.customJoinCommand) {
       this.messageHandler?.updateChatCommandTerm('joinQueue', this.props.settings.customJoinCommand);
     }
     if (this.props.settings?.customLeaveCommand) {
@@ -253,7 +252,7 @@ export class MainScreen extends Component {
     if (this.props.settings?.customQueueCommand) {
       this.messageHandler?.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
     }
-    if (this.props.settings?.enableRestrictedListQueue) {
+    if (typeof this.props.settings?.enableRestrictedListQueue === 'boolean') {
       this.messageHandler?.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
   };
@@ -301,7 +300,6 @@ export class MainScreen extends Component {
     }];
   };
 
-
   handleOpenModalCommandList = () => this.props.showModalCommandList();
 
   onMessage = async(message, user, metadata) => {
@@ -336,6 +334,11 @@ export class MainScreen extends Component {
     }
   };
 
+  onShowOnboarding = () => {
+    this.toggleOnboardingPromptModal();
+    this.props.showOnboarding();
+  };
+
   toggleChangelogModal = () => {
     this.setState((state) => ({
       showChangelogModal: !state.showChangelogModal
@@ -345,6 +348,12 @@ export class MainScreen extends Component {
   toggleOptionsMenu = () => {
     this.setState((state) => ({
       showOptionsMenu: !state.showOptionsMenu
+    }));
+  };
+
+  toggleOnboardingPromptModal = () => {
+    this.setState((state) => ({
+      showOnboardingPromptModal: !state.showOnboardingPromptModal
     }));
   };
 
@@ -416,12 +425,37 @@ export class MainScreen extends Component {
           />
         </div>
         <ModalCommandList
-          chatCommands={this.messageHandler?.chatCommands || []}
+          chatCommands={this.messageHandler?.chatCommands}
         />
         <ModalChangelog
           handleClose={this.toggleChangelogModal}
           show={this.state.showChangelogModal}
         />
+        <Modal
+          aria-labelledby="onboarding-prompt-modal-title"
+          centered
+          onHide={this.toggleOnboardingPromptModal}
+          show={this.state.showOnboardingPromptModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="onboarding-prompt-modal-title" className="raleway-font">
+              Welcome to Code Whisperer!
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center raleway-font">
+            <h4 className="mb-3">Psst!</h4>
+            <p className="lh-base mb-3">
+              Wanna see a brief walkthrough on how to use this thing?
+            </p>
+            <p className="lh-base mb-3">
+              If not, no worries, you can always view it later under <b className="d-inline-block">Options &rarr; View Walkthrough</b>.
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="text-center d-block">
+            <Button variant="secondary" onClick={this.toggleOnboardingPromptModal}>No thanks.</Button>
+            <Button variant="primary" onClick={this.onShowOnboarding}>Yes please!</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }

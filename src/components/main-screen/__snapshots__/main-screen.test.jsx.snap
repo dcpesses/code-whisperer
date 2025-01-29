@@ -229,7 +229,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                       name="custom-delimiter"
                       spellcheck="false"
                       type="text"
-                      value="true"
+                      value="|"
                     />
                   </button>
                   <button
