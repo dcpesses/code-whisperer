@@ -685,7 +685,7 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestModerators(broadcasterId);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${broadcasterId}`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/moderators?first=100&broadcaster_id=${broadcasterId}`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,
@@ -710,7 +710,7 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestVIPs(broadcasterId);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,
@@ -731,7 +731,7 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestVIPs(broadcasterId, ['123', '456']);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}&user_id=123&user_id=456`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}&user_id=123&user_id=456`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,

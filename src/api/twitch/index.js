@@ -343,7 +343,7 @@ export default class TwitchApi {
     try {
       this._onMessageCallback(channel, tags, msg, self);
     } catch (e) {
-      window.console.warn('onMessageCallback: no callback set');
+      window.console.warn('onMessageCallback: no callback set', e);
     }
   };
 
@@ -550,10 +550,11 @@ export default class TwitchApi {
   };
 
   // Gets all users allowed to moderate the broadcaster’s chat room.
+  // TODO: set up to fetch additional moderators if over 100 (no max limit to number of mods)
   // https://dev.twitch.tv/docs/api/reference/#get-moderators
   requestModerators = async(broadcasterId) => {
     try {
-      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${broadcasterId}`, {
+      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?first=100&broadcaster_id=${broadcasterId}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
@@ -582,7 +583,7 @@ export default class TwitchApi {
       } else {
         userIds = `&user_id=${userIds.join('&user_id=')}`;
       }
-      const response = await fetch(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}${userIds}`, {
+      const response = await fetch(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}${userIds}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
