@@ -97,6 +97,12 @@ export class HeaderMenu extends Component {
     this.offcanvasRef;
   }
 
+  // prevent dispatching non-serializable value to these actions
+  showModalCommandList = () => this.props.showModalCommandList();
+  toggleChangelogModal = () => this.props.toggleChangelogModal();
+  toggleKofiOverlay = () => this.props.toggleKofiOverlay();
+  toggleSettingsMenu = () => this.props.toggleSettingsMenu();
+
   /**
    * Creates an array of DropdownItems using a given object array
    * @param {array} items Array of objects to transform into DropdownItems; Each object contains:
@@ -296,7 +302,7 @@ export class HeaderMenu extends Component {
               <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
                 <Nav.Link onClick={this.props.onLogout}>Logout</Nav.Link>
                 <hr className="border-bottom my-2" />
-                <Nav.Link className="settings-menu" onClick={this.props.toggleSettingsMenu}>
+                <Nav.Link className="settings-menu" onClick={this.toggleSettingsMenu}>
                   Settings
                 </Nav.Link>
                 <Collapse in={menu.showSettings}>
@@ -415,14 +421,14 @@ export class HeaderMenu extends Component {
                   </div>
                 </Collapse>
                 {/* {optionMenuItems} */}
-                <Nav.Link onClick={this.props.showModalCommandList}>View Chat Commands</Nav.Link>
+                <Nav.Link onClick={this.showModalCommandList}>View Chat Commands</Nav.Link>
                 <Nav.Link onClick={this.onViewWalkthrough}>View Walkthrough</Nav.Link>
-                <Nav.Link onClick={this.props.toggleChangelogModal}>What&apos;s New</Nav.Link>
+                <Nav.Link onClick={this.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
                   <OverlayTrigger
                     show={menu.showKofi}
-                    onToggle={this.props.toggleKofiOverlay}
+                    onToggle={this.toggleKofiOverlay}
                     trigger="click"
                     placement="top"
                     overlay={
@@ -433,7 +439,7 @@ export class HeaderMenu extends Component {
                           )
                         }
                         <div className="position-absolute top-0 end-0 p-2">
-                          <CloseButton id="close-kofi-overlay" onClick={this.props.toggleKofiOverlay} />
+                          <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
                         </div>
                       </div>
                     }
