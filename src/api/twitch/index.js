@@ -577,6 +577,34 @@ export default class TwitchApi {
   };
 
   /**
+   * Gets non-paginated list of all users allowed to moderate the broadcaster’s chat room.
+   * https://dev.twitch.tv/docs/api/reference/#get-moderators
+   * @param {string|number} broadcasterId  The ID of the broadcaster whose list of moderators you want to get. This ID must match the user ID in the access token.
+   * @param {string|number} after  The cursor used to get the next page of results. The Pagination object in the response contains the cursor’s value.
+   * @param {array} data  The list of moderators from a previous query to merge with the data from this response.
+   * @returns {Array} The list of moderators.
+   *  {string} user_id	String	The ID of the user that has permission to moderate the broadcaster’s channel.
+   *  {string} user_name	String	The user’s display name.
+   *  {string} user_login	String	The user’s login name.
+   */
+  requestAllModerators = async(broadcasterId, after='', data=[]) => {
+    try {
+      const response = await this.requestModerators(broadcasterId, after);
+      if (response.data.length < 1 ) {
+        return data;
+      }
+      data.push(...response.data);
+      if (response.pagination.cursor) {
+        return this.requestAllModerators(broadcasterId, response.pagination.cursor, data);
+      }
+      return data;
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestAllModerators: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
+  /**
    * Gets a list of the broadcaster’s VIPs.
    * @param {string|number} broadcasterId  The ID of the broadcaster whose list of VIPs you want to get. This ID must match the user ID in the access token.
    * @param {Array} userIds  Filters the list for specific VIPs. The maximum number of IDs that you may specify is 100. Ignores the ID of those users in the list that aren’t VIPs.

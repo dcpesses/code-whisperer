@@ -717,6 +717,61 @@ describe('TwitchApi', () => {
     });
   });
 
+
+  describe('requestAllModerators', () => {
+    test('should return information about users allowed to moderate chat for the broadcaster', async() => {
+      vi.spyOn(twitchApi, 'requestModerators')
+        .mockResolvedValueOnce({
+          data: [
+            { user_login: 'moduser1' },
+            { user_login: 'moduser2' },
+          ],
+          pagination: {
+            cursor: 'eyJiIjpudWxsLCJhIjp7'
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { user_login: 'moduser3' },
+            { user_login: 'moduser4' },
+          ],
+          pagination: {}
+        });
+      const mockModeratorResponse = [
+        { user_login: 'moduser1' },
+        { user_login: 'moduser2' },
+        { user_login: 'moduser3' },
+        { user_login: 'moduser4' },
+      ];
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestAllModerators(broadcasterId);
+
+      expect(twitchApi.requestModerators).toHaveBeenCalled();
+      expect(twitchApi.requestModerators).toHaveBeenCalledTimes(2);
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, '');
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, 'eyJiIjpudWxsLCJhIjp7');
+      expect(response).toStrictEqual(mockModeratorResponse);
+    });
+    test('should return previous data if response data is empty', async() => {
+      vi.spyOn(twitchApi, 'requestModerators')
+        .mockResolvedValue({
+          data: [],
+          pagination: {}
+        });
+      const mockModeratorResponse = [
+        { user_login: 'moduser1' },
+        { user_login: 'moduser2' },
+      ];
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestAllModerators(broadcasterId, '', mockModeratorResponse);
+
+      expect(twitchApi.requestModerators).toHaveBeenCalledTimes(1);
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, '');
+      expect(response).toStrictEqual(mockModeratorResponse);
+    });
+  });
+
+
   describe('requestVIPs', () => {
     test('should return a list of the VIPs of the broadcaster', async() => {
       const mockModeratorResponse = {
