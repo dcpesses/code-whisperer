@@ -549,12 +549,21 @@ export default class TwitchApi {
     }
   };
 
-  // Gets all users allowed to moderate the broadcaster’s chat room.
-  // TODO: set up to fetch additional moderators if over 100 (no max limit to number of mods)
-  // https://dev.twitch.tv/docs/api/reference/#get-moderators
-  requestModerators = async(broadcasterId) => {
+  /**
+   * Gets all users allowed to moderate the broadcaster’s chat room.
+   * https://dev.twitch.tv/docs/api/reference/#get-moderators
+   * @param {string|number} broadcasterId  The ID of the broadcaster whose list of moderators you want to get. This ID must match the user ID in the access token.
+   * @param {string|number} after  The cursor used to get the next page of results. The Pagination object in the response contains the cursor’s value.
+   * @returns {Object[]} data  The list of moderators.
+   *  {string} user_id	String	The ID of the user that has permission to moderate the broadcaster’s channel.
+   *  {string} user_name	String	The user’s display name.
+   *  {string} user_login	String	The user’s login name.
+   * @returns {Object[]} pagination  Contains the information used to page through the list of results. The object is empty if there are no more pages left to page through.
+   *  {string} cursor	String	The cursor used to get the next page of results. Use the cursor to set the request’s after query parameter.
+   */
+  requestModerators = async(broadcasterId, after='') => {
     try {
-      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?first=100&broadcaster_id=${broadcasterId}`, {
+      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?first=100&after=${after}&broadcaster_id=${broadcasterId}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
