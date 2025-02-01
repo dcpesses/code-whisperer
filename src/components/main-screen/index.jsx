@@ -465,7 +465,7 @@ MainScreen.propTypes = {
   channel: PropTypes.string,
   clearQueue: PropTypes.func,
   closeQueue: PropTypes.func,
-  moderators: PropTypes.object,
+  moderators: PropTypes.array,
   onLogOut: PropTypes.func,
   openQueue: PropTypes.func,
   setChatterInfo: PropTypes.func.isRequired,

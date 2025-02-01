@@ -154,7 +154,8 @@ export const DefaultChatCommands = [
     mod: true,
     response: (scope, username) => {
       const allowUser = scope.settings.enableRestrictedListQueue !== true;
-      if (!scope.isModOrBroadcaster(username) && allowUser === false) {
+      const privileges = scope.isModOrBroadcaster(username);
+      if (allowUser === false && !privileges) {
         scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
         return true;
       }
@@ -409,7 +410,14 @@ export default class MessageHandler {
   };
 
   isModOrBroadcaster = (username) => {
-    return (this.channel === username.toLowerCase() || this.moderators.includes(username.toLowerCase()));
+    let user = username.toLowerCase();
+    if (this.channel === user) {
+      return true;
+    }
+    if (this.moderators && this.moderators.findIndex(mod => mod.user_login === user) >= 0) {
+      return true;
+    }
+    return false;
   };
 
   // returns true if a known command was found & responded to

@@ -803,8 +803,8 @@ describe('MessageHandler', () => {
       messageHandler = new MessageHandler(getMessageHandlerConfig({
         channel: 'sirfarewell',
         moderators: [
-          'dcpesses',
-          'mockmoduser',
+          {user_id: '1234', user_login: 'dcpesses', 'user_name': 'dcpesses'},
+          {user_id: '1234', user_login: 'mockmoduser', 'user_name': 'mockmoduser'},
         ]
       }));
       expect(messageHandler.isModOrBroadcaster('SirFarewell')).toBeTruthy();
