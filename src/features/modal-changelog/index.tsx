@@ -16,12 +16,15 @@ export const changelogArray = [
   {'0.7.0': [
     (
       <>
-        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Added an app walkthrough for first time users, which can be replayed from the Options menu
+        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Added app walkthrough for first time users
       </>
     ),
+    'Added link to app walkthrough to the Options menu',
     'Added setting for custom !queue command',
     'Added setting to enable the !queue command for all users or just streamer & moderators',
-    'Graduated the Moderated Channels Menu option out of beta. 🎓',
+    'Updated landing page to include a brief app overview with screenshots',
+    'Updates to README in the project repository',
+    'Moved/Graduated the Moderated Channels Menu option out of beta. 🎓',
     'Updated and increased unit-test coverage to aid in bug squashing 🐛',
   ]},
   {'0.6.1': [
