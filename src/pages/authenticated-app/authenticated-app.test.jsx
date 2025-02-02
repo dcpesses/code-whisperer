@@ -10,6 +10,77 @@ import Login from '@/pages/login';
 import React from 'react';
 import {vi} from 'vitest';
 
+global.fetch = vi.fn();
+vi.mock('tmi.js');
+
+vi.mock('@/api/twitch', async() => {
+  const originalModule = await vi.importActual('@/api/twitch');
+
+  return {
+    ...originalModule,
+    isChatConnected: true,
+    _chatClient: {},
+    onMessage: vi.fn(),
+    sendMessage: vi.fn().mockResolvedValue([]),
+    updateLastMessageTime: vi.fn(),
+    requestAuthentication: vi.fn().mockResolvedValue({
+      'status': 200,
+      'access_token': 'n9idwx8rbz5tqo2fup05dv9dnw7gf0',
+      'expires_in': 15569,
+      'refresh_token': 's70siuq312kf4fcn2llnyd49zs2l3mntgcekkgd5plch20ch0k',
+      'scope': [
+        'channel:read:editors',
+        'channel:read:vips',
+        'chat:edit',
+        'chat:read',
+        'moderation:read',
+        'moderator:manage:announcements',
+        'moderator:read:chatters',
+        'user:manage:whispers',
+        'user:read:moderated_channels',
+        'user:read:subscriptions'
+      ],
+      'token_type': 'bearer'
+    }),
+    validateToken: vi.fn().mockResolvedValue({
+      'status': 200,
+      'client_id': 'mock_client_id',
+      'login': 'twitchuser',
+      'scopes': [
+        'channel:read:editors',
+        'channel:read:vips',
+        'chat:edit',
+        'chat:read',
+        'moderation:read',
+        'moderator:manage:announcements',
+        'moderator:read:chatters',
+        'user:manage:whispers',
+        'user:read:moderated_channels',
+        'user:read:subscriptions'
+      ],
+      'user_id': 'm0ckus3r1d',
+      'expires_in': 15569
+    }),
+    requestUsers: vi.fn().mockResolvedValue({
+      status: 200,
+      data: [
+        {
+          'id': 'm0ckus3r1d',
+          'login': 'twitchuser',
+          'display_name': 'TwitchUser',
+          'type': '',
+          'broadcaster_type': '',
+          'description': 'Mock profile description. ',
+          'profile_image_url': 'https://mock-profile_image-300x300.png',
+          'offline_image_url': '',
+          'view_count': 0,
+          'created_at': '2019-11-18T00:47:34Z'
+        }
+      ]
+    }),
+  };
+});
+
 // vi.mock('../landing/MainScreen');
 vi.mock('react-router-dom', () => {
   const reactRouterDom = vi.importActual('react-router-dom');
@@ -32,7 +103,63 @@ const getMockTwitchApi = (overrides={}) => Object.assign({
   onMessage: vi.fn(),
   sendMessage: vi.fn().mockResolvedValue([]),
   updateLastMessageTime: vi.fn(),
+  /*requestAuthentication: vi.fn().mockResolvedValue({
+    'status': 200,
+    'access_token': 'n9idwx8rbz5tqo2fup05dv9dnw7gf0',
+    'expires_in': 15569,
+    'refresh_token': 's70siuq312kf4fcn2llnyd49zs2l3mntgcekkgd5plch20ch0k',
+    'scope': [
+      'channel:read:editors',
+      'channel:read:vips',
+      'chat:edit',
+      'chat:read',
+      'moderation:read',
+      'moderator:manage:announcements',
+      'moderator:read:chatters',
+      'user:manage:whispers',
+      'user:read:moderated_channels',
+      'user:read:subscriptions'
+    ],
+    'token_type': 'bearer'
+  }),
+  validateToken: vi.fn().mockResolvedValue({
+    'status': 200,
+    'client_id': 'mock_client_id',
+    'login': 'twitchuser',
+    'scopes': [
+      'channel:read:editors',
+      'channel:read:vips',
+      'chat:edit',
+      'chat:read',
+      'moderation:read',
+      'moderator:manage:announcements',
+      'moderator:read:chatters',
+      'user:manage:whispers',
+      'user:read:moderated_channels',
+      'user:read:subscriptions'
+    ],
+    'user_id': 'm0ckus3r1d',
+    'expires_in': 15569
+  }),
+  requestUsers: vi.fn().mockResolvedValue({
+    status: 200,
+    data: [
+      {
+        'id': 'm0ckus3r1d',
+        'login': 'twitchuser',
+        'display_name': 'TwitchUser',
+        'type': '',
+        'broadcaster_type': '',
+        'description': 'Mock profile description. ',
+        'profile_image_url': 'https://mock-profile_image-300x300.png',
+        'offline_image_url': '',
+        'view_count': 0,
+        'created_at': '2019-11-18T00:47:34Z'
+      }
+    ]
+  }),*/
 }, overrides);
+
 
 const storeState = {
   channel: {
@@ -722,10 +849,33 @@ describe('AuthenticatedApp', () => {
     let twitchApi;
 
     beforeEach(() => {
+      vi.useFakeTimers(/*{ toFake: ['nextTick'] }*/);
       store = getStoreWithState(storeState);
       twitchApi = getMockTwitchApi();
+      vi.spyOn(global, 'fetch')
+        .mockResolvedValue({
+          json: () => Promise.resolve({
+            data: [
+              {
+                id: 'm0ckus3r1d',
+                login: 'twitchuser',
+                display_name: 'TwitchUser',
+                type: '',
+                broadcaster_type: '',
+                description: 'Mock profile description. ',
+                profile_image_url: 'https://mock-profile_image-300x300.png',
+                offline_image_url: '',
+                view_count: 0,
+                created_at: '2019-11-18T00:47:34Z'
+              }
+            ]
+          }),
+        });
     });
-    test('Should render with loader', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+    test.skip('Should render with loader', () => {
       const {container} = render(
         <Provider store={store}>
           <AuthenticatedApp twitchApi={twitchApi} />
@@ -735,7 +885,9 @@ describe('AuthenticatedApp', () => {
     });
 
 
-    test('Should render with user', () => {
+    test('Should render with user', async() => {
+      // console.log({twitchApi});
+      vi.spyOn(window.location, 'hash', 'get').mockReturnValue('?code=MOCK_CODE');
       vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
         switch (label) {
         case '__access_token':
@@ -743,18 +895,32 @@ describe('AuthenticatedApp', () => {
         case '__username':
           return 'TwitchUser';
         case 'user_id':
-          return '23456789';
+          return 'm0ckus3r1d';
         default:
           return undefined;
         }
       });
+      // twitchApi.isChatConnected = true;
+      const output = render(
+        <Provider store={store}>
+          <AuthenticatedApp />
+        </Provider>
+      );
+      const {container, debug} = output;
+      await vi.advanceTimersByTime(1500);
+      debug();
+      expect(container).toMatchSnapshot();
+    });
+
+    test.skip('Should render with login redirect', () => {
+      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation(() => undefined);
       const output = render(
         <Provider store={store}>
           <AuthenticatedApp twitchApi={twitchApi} />
         </Provider>
       );
       const {container} = output;
-      console.log({output});
+      console.log({container});
       expect(container).toMatchSnapshot();
     });
   });

@@ -81,3 +81,78 @@ exports[`AuthenticatedApp > render > should render with null 1`] = `
   </div>
 </div>
 `;
+
+exports[`AuthenticatedApp > render with store > Should render with loader 1`] = `
+<div>
+  <div
+    id="authenticated-app container text-center"
+  >
+    <div
+      class="col display-6 text-center full-pg"
+    >
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AuthenticatedApp > render with store > Should render with login redirect 1`] = `
+<div>
+  <div
+    id="authenticated-app container text-center"
+  >
+    <div
+      class="col display-6 text-center full-pg"
+    >
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AuthenticatedApp > render with store > Should render with user 1`] = `
+<div>
+  <div
+    id="authenticated-app container text-center"
+  >
+    <div
+      class="col display-6 text-center full-pg"
+    >
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
+    </div>
+  </div>
+</div>
+`;
