@@ -48,7 +48,7 @@ export const DefaultChatCommands = [
     id: 'listVersion',
     mod: false,
     response: (scope) => {
-      scope.sendMessage(`/me is using Code Whisperer v${version}, created by @dcpesses GoatEmotey More Info: https://github.com/dcpesses/code-whisperer`);
+      scope.sendMessage(`/me is using Code Whisperer v${version}, created by @dcpesses GoatEmotey More Info: https://dcpesses.github.io/code-whisperer`);
       return true;
     },
   },

@@ -23,6 +23,7 @@ export const changelogArray = [
     'Added setting for custom !queue command',
     'Added setting to enable the !queue command for all users or just streamer & moderators',
     'Updated landing page to include a brief app overview with screenshots',
+    'Updated !version command to use the landing page url',
     'Updates to README in the project repository',
     'Moved/Graduated the Moderated Channels Menu option out of beta. 🎓',
     'Updated and increased unit-test coverage to aid in bug squashing 🐛',
