@@ -8,8 +8,8 @@
 #login-screen a:not(:hover) {
   text-decoration: none;
 }
-#login-screen a {
-  color: #aaa;
+#login-screen a.emphasis {
+  color: #ccb0ff;
 }
 #login-screen small {
     font-size: calc(6px + 0.75vmin);
@@ -47,4 +47,26 @@
       transform: none;
       opacity: 0;
   }
+}
+
+
+.row-info > .col {
+  max-width: 350px;
+}
+@media (min-width: 767.98px) {
+  .row-info > .col h1 {
+    font-size: 36px!important;
+  }
+}
+
+/* courtesy of tholman/github-corners */
+.github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
+@keyframes octocat-wave {
+  0%,100% { transform: rotate(0); }
+  20%,60% { transform: rotate(-25deg); }
+  40%,80% { transform: rotate(10deg); }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm { animation: none; }
+  .github-corner .octo-arm { animation: octocat-wave 560ms ease-in-out; }
 }

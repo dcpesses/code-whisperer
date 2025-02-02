@@ -3,51 +3,194 @@
 exports[`Login > render > Should render as expected 1`] = `
 <div>
   <div
-    class="container full-pg fade-in"
+    class="container-md full-pg fade-in"
     id="login-screen"
   >
     <div
-      class="text-center pb-4"
+      class="row row-cols-auto align-items-center justify-content-center my-5"
+    >
+      <div
+        class="col text-center"
+      >
+        <div
+          class="text-center pb-1"
+        >
+          <div>
+            <img
+              alt="Logo"
+              class="login-logo w-50 mx-auto mb-3"
+              src="/code-whisperer/src/assets/new-logo.svg"
+            />
+          </div>
+          <h2
+            class="text-center mb-0"
+          >
+            Code Whisperer
+          </h2>
+          <div
+            class="text-center fs-6"
+          >
+            <small>
+              v0.0.0
+            </small>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col text-center"
+      >
+        <a
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+        >
+          Log In With 
+          <strong>
+            Twitch
+          </strong>
+        </a>
+        <div
+          class="text-center fs-6"
+        >
+          <button
+            class="btn btn-sm btn-link link-secondary text-decoration-none"
+          >
+            Having issues? 
+            <span
+              class="with-checkmark"
+            >
+              Reset application data
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row-info"
     >
       <img
-        alt="Logo"
-        class="login-logo w-50 mx-auto mb-4"
-        src="/code-whisperer/src/assets/new-logo.svg"
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
       />
     </div>
-    <a
-      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+    <div
+      class="row align-items-center justify-content-center my-4 row-info"
     >
-      Log In With 
-      <strong>
-        Twitch
-      </strong>
-    </a>
-    <div>
       <div
-        class="text-center"
+        class="col"
       >
-        <small>
-          v0.0.0
-        </small>
-      </div>
-      <button
-        class="btn btn-sm btn-link link-secondary text-decoration-none"
-      >
-        Having issues? 
-        <span
-          class="with-checkmark"
+        <div
+          class="pb-1"
         >
-          Reset application data
-        </span>
-      </button>
+          <div
+            class=""
+          >
+            <h1
+              class="fw-bold"
+            >
+              Play With Friends,
+            </h1>
+            <h1
+              class="fw-bold"
+            >
+              Not Your Foes!
+            </h1>
+            <div
+              class="fs-5 my-4"
+            >
+              Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to approved users.
+            </div>
+            <h3>
+              How It Works:
+            </h3>
+            <ul
+              class="ps-4 fs-6 my-4"
+            >
+              <li
+                class="mb-1"
+              >
+                Followers in chat who type 
+                <b>
+                  !join
+                </b>
+                 get added to the 
+                <i>
+                  Interested
+                </i>
+                 lobby.
+              </li>
+              <li
+                class="mb-1"
+              >
+                The streamer then adds any or all of them to the 
+                <i>
+                  Playing
+                </i>
+                 section. You can even randomize who gets added too!
+              </li>
+              <li
+                class="mb-1"
+              >
+                Once you enter the room code, press 
+                <i>
+                  Send to Queue
+                </i>
+                 to whisper everyone selected to play.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-auto text-center"
+      >
+        <div
+          class="text-right"
+        >
+          <img
+            alt="Twitch Chat"
+            class="twitch-chat shadow border border-secondary rounded-4 mx-auto mb-3"
+            src="/code-whisperer/src/assets/twitch-chat.png"
+          />
+        </div>
+      </div>
     </div>
-    <p
-      class="last-updated"
+    <div
+      class="col-md-auto text-center"
     >
-      <small />
-    </p>
+      <div
+        class="fs-5 my-3"
+      >
+        (Oh, and did we mention it's free to use?*)
+      </div>
+      <a
+        class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4"
+        href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+      >
+        Go ahead, log in with 
+        <strong>
+          Twitch
+        </strong>
+         and take it for a spin!
+      </a>
+    </div>
+    <div
+      class="col-md-auto text-center"
+    >
+      <div
+        class="fs-6 my-4"
+      >
+        *Yes seriously, it is free. That said, you're also welcome to 
+        <a
+          class="emphasis"
+          href="https://ko-fi.com/V7V6VSUT1"
+          rel="noreferrer"
+          target="_blank"
+        >
+          leave a tip!
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -55,59 +198,202 @@ exports[`Login > render > Should render as expected 1`] = `
 exports[`Login > render > Should render with error during development 1`] = `
 <div>
   <div
-    class="container full-pg fade-in"
+    class="container-md full-pg fade-in"
     id="login-screen"
   >
     <div
-      class="text-center pb-4"
+      class="row row-cols-auto align-items-center justify-content-center my-5"
+    >
+      <div
+        class="col text-center"
+      >
+        <div
+          class="text-center pb-1"
+        >
+          <div>
+            <img
+              alt="Logo"
+              class="login-logo w-50 mx-auto mb-3"
+              src="/code-whisperer/src/assets/new-logo.svg"
+            />
+          </div>
+          <h2
+            class="text-center mb-0"
+          >
+            Code Whisperer
+          </h2>
+          <div
+            class="text-center fs-6"
+          >
+            <small>
+              v0.0.0
+            </small>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col text-center"
+      >
+        <div>
+          <code
+            class="small w-50 fs-6 mb-3"
+          >
+            Error: 
+            Error Message
+          </code>
+        </div>
+        <a
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+        >
+          Log In With 
+          <strong>
+            Twitch
+          </strong>
+        </a>
+        <div
+          class="text-center fs-6"
+        >
+          <button
+            class="btn btn-sm btn-link link-secondary text-decoration-none"
+          >
+            Having issues? 
+            <span
+              class="with-checkmark"
+            >
+              Reset application data
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row-info"
     >
       <img
-        alt="Logo"
-        class="login-logo w-50 mx-auto mb-4"
-        src="/code-whisperer/src/assets/new-logo.svg"
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
       />
     </div>
-    <div>
-      <code
-        class="small w-50 fs-6 mb-3"
-      >
-        Error: 
-        Error Message
-      </code>
-    </div>
-    <a
-      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+    <div
+      class="row align-items-center justify-content-center my-4 row-info"
     >
-      Log In With 
-      <strong>
-        Twitch
-      </strong>
-    </a>
-    <div>
       <div
-        class="text-center"
+        class="col"
       >
-        <small>
-          v0.0.0
-        </small>
-      </div>
-      <button
-        class="btn btn-sm btn-link link-secondary text-decoration-none"
-      >
-        Having issues? 
-        <span
-          class="with-checkmark"
+        <div
+          class="pb-1"
         >
-          Reset application data
-        </span>
-      </button>
+          <div
+            class=""
+          >
+            <h1
+              class="fw-bold"
+            >
+              Play With Friends,
+            </h1>
+            <h1
+              class="fw-bold"
+            >
+              Not Your Foes!
+            </h1>
+            <div
+              class="fs-5 my-4"
+            >
+              Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to approved users.
+            </div>
+            <h3>
+              How It Works:
+            </h3>
+            <ul
+              class="ps-4 fs-6 my-4"
+            >
+              <li
+                class="mb-1"
+              >
+                Followers in chat who type 
+                <b>
+                  !join
+                </b>
+                 get added to the 
+                <i>
+                  Interested
+                </i>
+                 lobby.
+              </li>
+              <li
+                class="mb-1"
+              >
+                The streamer then adds any or all of them to the 
+                <i>
+                  Playing
+                </i>
+                 section. You can even randomize who gets added too!
+              </li>
+              <li
+                class="mb-1"
+              >
+                Once you enter the room code, press 
+                <i>
+                  Send to Queue
+                </i>
+                 to whisper everyone selected to play.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-auto text-center"
+      >
+        <div
+          class="text-right"
+        >
+          <img
+            alt="Twitch Chat"
+            class="twitch-chat shadow border border-secondary rounded-4 mx-auto mb-3"
+            src="/code-whisperer/src/assets/twitch-chat.png"
+          />
+        </div>
+      </div>
     </div>
-    <p
-      class="last-updated"
+    <div
+      class="col-md-auto text-center"
     >
-      <small />
-    </p>
+      <div
+        class="fs-5 my-3"
+      >
+        (Oh, and did we mention it's free to use?*)
+      </div>
+      <a
+        class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4"
+        href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+      >
+        Go ahead, log in with 
+        <strong>
+          Twitch
+        </strong>
+         and take it for a spin!
+      </a>
+    </div>
+    <div
+      class="col-md-auto text-center"
+    >
+      <div
+        class="fs-6 my-4"
+      >
+        *Yes seriously, it is free. That said, you're also welcome to 
+        <a
+          class="emphasis"
+          href="https://ko-fi.com/V7V6VSUT1"
+          rel="noreferrer"
+          target="_blank"
+        >
+          leave a tip!
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -115,59 +401,202 @@ exports[`Login > render > Should render with error during development 1`] = `
 exports[`Login > render > Should render without error in production 1`] = `
 <div>
   <div
-    class="container full-pg fade-in"
+    class="container-md full-pg fade-in"
     id="login-screen"
   >
     <div
-      class="text-center pb-4"
+      class="row row-cols-auto align-items-center justify-content-center my-5"
+    >
+      <div
+        class="col text-center"
+      >
+        <div
+          class="text-center pb-1"
+        >
+          <div>
+            <img
+              alt="Logo"
+              class="login-logo w-50 mx-auto mb-3"
+              src="/code-whisperer/src/assets/new-logo.svg"
+            />
+          </div>
+          <h2
+            class="text-center mb-0"
+          >
+            Code Whisperer
+          </h2>
+          <div
+            class="text-center fs-6"
+          >
+            <small>
+              v0.0.0
+            </small>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col text-center"
+      >
+        <div>
+          <code
+            class="small w-50 fs-6 mb-3"
+          >
+            Error: 
+            Error Message
+          </code>
+        </div>
+        <a
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+        >
+          Log In With 
+          <strong>
+            Twitch
+          </strong>
+        </a>
+        <div
+          class="text-center fs-6"
+        >
+          <button
+            class="btn btn-sm btn-link link-secondary text-decoration-none"
+          >
+            Having issues? 
+            <span
+              class="with-checkmark"
+            >
+              Reset application data
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row-info"
     >
       <img
-        alt="Logo"
-        class="login-logo w-50 mx-auto mb-4"
-        src="/code-whisperer/src/assets/new-logo.svg"
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
       />
     </div>
-    <div>
-      <code
-        class="small w-50 fs-6 mb-3"
-      >
-        Error: 
-        Error Message
-      </code>
-    </div>
-    <a
-      class="btn btn-sm fs-2 py-2 px-3 rounded-4"
-      href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+    <div
+      class="row align-items-center justify-content-center my-4 row-info"
     >
-      Log In With 
-      <strong>
-        Twitch
-      </strong>
-    </a>
-    <div>
       <div
-        class="text-center"
+        class="col"
       >
-        <small>
-          v0.0.0
-        </small>
-      </div>
-      <button
-        class="btn btn-sm btn-link link-secondary text-decoration-none"
-      >
-        Having issues? 
-        <span
-          class="with-checkmark"
+        <div
+          class="pb-1"
         >
-          Reset application data
-        </span>
-      </button>
+          <div
+            class=""
+          >
+            <h1
+              class="fw-bold"
+            >
+              Play With Friends,
+            </h1>
+            <h1
+              class="fw-bold"
+            >
+              Not Your Foes!
+            </h1>
+            <div
+              class="fs-5 my-4"
+            >
+              Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to approved users.
+            </div>
+            <h3>
+              How It Works:
+            </h3>
+            <ul
+              class="ps-4 fs-6 my-4"
+            >
+              <li
+                class="mb-1"
+              >
+                Followers in chat who type 
+                <b>
+                  !join
+                </b>
+                 get added to the 
+                <i>
+                  Interested
+                </i>
+                 lobby.
+              </li>
+              <li
+                class="mb-1"
+              >
+                The streamer then adds any or all of them to the 
+                <i>
+                  Playing
+                </i>
+                 section. You can even randomize who gets added too!
+              </li>
+              <li
+                class="mb-1"
+              >
+                Once you enter the room code, press 
+                <i>
+                  Send to Queue
+                </i>
+                 to whisper everyone selected to play.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-auto text-center"
+      >
+        <div
+          class="text-right"
+        >
+          <img
+            alt="Twitch Chat"
+            class="twitch-chat shadow border border-secondary rounded-4 mx-auto mb-3"
+            src="/code-whisperer/src/assets/twitch-chat.png"
+          />
+        </div>
+      </div>
     </div>
-    <p
-      class="last-updated"
+    <div
+      class="col-md-auto text-center"
     >
-      <small />
-    </p>
+      <div
+        class="fs-5 my-3"
+      >
+        (Oh, and did we mention it's free to use?*)
+      </div>
+      <a
+        class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4"
+        href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+      >
+        Go ahead, log in with 
+        <strong>
+          Twitch
+        </strong>
+         and take it for a spin!
+      </a>
+    </div>
+    <div
+      class="col-md-auto text-center"
+    >
+      <div
+        class="fs-6 my-4"
+      >
+        *Yes seriously, it is free. That said, you're also welcome to 
+        <a
+          class="emphasis"
+          href="https://ko-fi.com/V7V6VSUT1"
+          rel="noreferrer"
+          target="_blank"
+        >
+          leave a tip!
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
