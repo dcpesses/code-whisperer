@@ -22,6 +22,18 @@
   --purple-80: #5e0cc2;
   --purple-90: #470099;
 
+  --purple-rgb-0: 246, 242, 255;
+  --purple-rgb-10: 226, 212, 255;
+  --purple-rgb-20: 204, 176, 255;
+  --purple-rgb-30: 182, 140, 255;
+  --purple-rgb-40: 162, 105, 255;
+  --purple-rgb-50: 145, 70, 255;
+  --purple-rgb-60: 131, 49, 245;
+  --purple-rgb-70: 114, 29, 224;
+  --purple-rgb-75: 111, 66, 193;
+  --purple-rgb-80: 94, 12, 194;
+  --purple-rgb-90: 71, 0, 153;
+
   --scrollbar-bkgd: var(--bg-secondary);
   --scrollbar-thumb: var(--bs-secondary-text-emphasis);
   --scrollbar-thumb-active: var(--bs-secondary);

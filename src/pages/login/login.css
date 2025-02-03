@@ -1,3 +1,6 @@
+#login-screen #landing {
+  min-height: 88vh;
+}
 #login-screen .btn:not(.btn-link) {
   background-color: #663399;
   color: white;

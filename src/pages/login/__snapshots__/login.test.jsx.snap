@@ -35,7 +35,8 @@ exports[`Login > render > Should render as expected 1`] = `
       </svg>
     </a>
     <div
-      class="row row-cols-auto align-items-center justify-content-center my-5"
+      class="row row-cols-auto align-items-center justify-content-center mt-5"
+      id="landing"
     >
       <div
         class="col text-center"
@@ -68,7 +69,7 @@ exports[`Login > render > Should render as expected 1`] = `
         class="col text-center"
       >
         <a
-          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient"
           href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
         >
           Log In With 
@@ -93,16 +94,7 @@ exports[`Login > render > Should render as expected 1`] = `
       </div>
     </div>
     <div
-      class="row-info"
-    >
-      <img
-        alt="App Screenshot"
-        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
-        src="/code-whisperer/src/assets/screenshot2.png"
-      />
-    </div>
-    <div
-      class="row align-items-center justify-content-center my-4 row-info"
+      class="row align-items-center justify-content-center mb-4 row-info"
     >
       <div
         class="col"
@@ -182,6 +174,15 @@ exports[`Login > render > Should render as expected 1`] = `
           />
         </div>
       </div>
+    </div>
+    <div
+      class="row-info"
+    >
+      <img
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
+      />
     </div>
     <div
       class="col-md-auto text-center"
@@ -290,7 +291,8 @@ exports[`Login > render > Should render with error during development 1`] = `
       </svg>
     </a>
     <div
-      class="row row-cols-auto align-items-center justify-content-center my-5"
+      class="row row-cols-auto align-items-center justify-content-center mt-5"
+      id="landing"
     >
       <div
         class="col text-center"
@@ -331,7 +333,7 @@ exports[`Login > render > Should render with error during development 1`] = `
           </code>
         </div>
         <a
-          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient"
           href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
         >
           Log In With 
@@ -356,16 +358,7 @@ exports[`Login > render > Should render with error during development 1`] = `
       </div>
     </div>
     <div
-      class="row-info"
-    >
-      <img
-        alt="App Screenshot"
-        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
-        src="/code-whisperer/src/assets/screenshot2.png"
-      />
-    </div>
-    <div
-      class="row align-items-center justify-content-center my-4 row-info"
+      class="row align-items-center justify-content-center mb-4 row-info"
     >
       <div
         class="col"
@@ -445,6 +438,15 @@ exports[`Login > render > Should render with error during development 1`] = `
           />
         </div>
       </div>
+    </div>
+    <div
+      class="row-info"
+    >
+      <img
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
+      />
     </div>
     <div
       class="col-md-auto text-center"
@@ -553,7 +555,8 @@ exports[`Login > render > Should render without error in production 1`] = `
       </svg>
     </a>
     <div
-      class="row row-cols-auto align-items-center justify-content-center my-5"
+      class="row row-cols-auto align-items-center justify-content-center mt-5"
+      id="landing"
     >
       <div
         class="col text-center"
@@ -594,7 +597,7 @@ exports[`Login > render > Should render without error in production 1`] = `
           </code>
         </div>
         <a
-          class="btn btn-sm fs-2 py-2 px-3 rounded-4"
+          class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient"
           href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
         >
           Log In With 
@@ -619,16 +622,7 @@ exports[`Login > render > Should render without error in production 1`] = `
       </div>
     </div>
     <div
-      class="row-info"
-    >
-      <img
-        alt="App Screenshot"
-        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
-        src="/code-whisperer/src/assets/screenshot2.png"
-      />
-    </div>
-    <div
-      class="row align-items-center justify-content-center my-4 row-info"
+      class="row align-items-center justify-content-center mb-4 row-info"
     >
       <div
         class="col"
@@ -708,6 +702,15 @@ exports[`Login > render > Should render without error in production 1`] = `
           />
         </div>
       </div>
+    </div>
+    <div
+      class="row-info"
+    >
+      <img
+        alt="App Screenshot"
+        class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
+        src="/code-whisperer/src/assets/screenshot2.png"
+      />
     </div>
     <div
       class="col-md-auto text-center"
