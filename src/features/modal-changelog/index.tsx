@@ -13,6 +13,21 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  {'0.7.0': [
+    (
+      <>
+        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Added app walkthrough for first time users
+      </>
+    ),
+    'Added link to app walkthrough to the Options menu',
+    'Added setting for custom !queue command',
+    'Added setting to enable the !queue command for all users or just streamer & moderators',
+    'Updated landing page to include a brief app overview with screenshots',
+    'Updated !version command to use the landing page url',
+    'Updates to README in the project repository',
+    'Moved/Graduated the Moderated Channels Menu option out of beta. 🎓',
+    'Updated and increased unit-test coverage to aid in bug squashing 🐛',
+  ]},
   {'0.6.1': [
     'Updated to wait for previous whisper to finish before sending the next (when sending to the entire queue)',
     'Updated workaround for loading missing user info',
@@ -42,7 +57,7 @@ export const changelogArray = [
     'Security updates and performance improvements',
     (
       <>
-        <Badge pill bg="warning" className="smaller align-text-bottom text-black">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
+        <Badge pill bg="warning" className="badge-new">NEW!</Badge> Display an <b>&ldquo;Add All to Queue&rdquo;</b> button when everyone in the Interested queue can be added to the Playing queue
       </>
     ),
     (
@@ -162,7 +177,7 @@ function ModalChangelog(props: ModalChangelogProps): JSX.Element {
         {renderLog(changelogArray[0])}
         <hr />
         <Collapse in={showPastUpdates}>
-          <div id="past-updates-collapse">
+          <div id="past-updates-collapse" data-testid="past-updates">
             <div className="pb-3">
               <h5 className="fw-light pb-2">Past Updates</h5>
               {changelogArray.slice(1).map(log => renderLog(log))}

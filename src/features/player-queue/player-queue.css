@@ -47,6 +47,15 @@ input#reserve-seat-for-streamer:checked:after {
     content: "yes";
     margin-left: 0;
 }
+.queue-walkthrough-reminder {
+  position: fixed;
+  top: 0;
+  right: 0.5em;
+  padding: 0.25em 0.75em;
+  font-size: 1.25em;
+  line-height: 1;
+}
+
 
 /* Randomize Animation */
 .interested-queue.rand-1  .player-queue-card:nth-last-child(12n+2),

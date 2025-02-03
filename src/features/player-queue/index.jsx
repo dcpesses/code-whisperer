@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlayerQueueCard from './player-queue-card';
 import GameCodeForm from '@/components/game-code-form';
+import OnboardingOverlay from '@/features/onboarding';
 import {delay, getRelativeTimeString} from '@/utils';
 import { addUserToColumn, handleNewPlayerRequest, isUserInLobby, listInterestedQueue, listPlayingQueue, playerCount } from '@/utils/queue';
 import {clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount, setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser} from '@/features/player-queue/queue-slice';
+import {DefaultChatCommands} from '@/features/twitch-messages/message-handler';
+import { updateMaxSteps } from '../onboarding/onboarding-slice';
 import * as fakeStates from '@/components/twitch-wheel/example-states';
 
 import './player-queue.css';
@@ -48,6 +51,7 @@ export class PlayerQueue extends Component {
       setMaxPlayers: PropTypes.func,
       setRoomCode: PropTypes.func,
       toggleStreamerSeat: PropTypes.func,
+      updateMaxSteps: PropTypes.func.isRequired,
     };
   }
   static get defaultProps() {
@@ -88,6 +92,11 @@ export class PlayerQueue extends Component {
   constructor(props) {
     super(props);
 
+    let joinQueueCommand = DefaultChatCommands.find(cmd => cmd.id === 'joinQueue');
+    if (joinQueueCommand?.commands?.[0]) {
+      joinQueueCommand = joinQueueCommand.commands[0];
+    }
+
     this.state = {
       time: null
     };
@@ -104,6 +113,7 @@ export class PlayerQueue extends Component {
     // used for updating relative times about every 30 secs
     this.timestampInt = setInterval(() => this.setState({ time: Date.now() }), 30000);
 
+    this.props.updateMaxSteps(5);
     return;
   }
 
@@ -309,7 +319,7 @@ export class PlayerQueue extends Component {
       );
     }
     return (
-      <div className={className}>
+      <div className={`${className} py-1 px-2`}>
         {this.playerCount()} of {maxPlayers} seats claimed
       </div>
     );
@@ -401,7 +411,7 @@ export class PlayerQueue extends Component {
   };
 
   render() {
-    let {interested, playing, maxPlayers, randCount, roomCode} = this.props;
+    let {interested, playing, maxPlayers, randCount, roomCode, settings} = this.props;
 
     const playerCount = this.playerCount();
     let startGameClass = 'btn btn-sm strt-game';
@@ -414,15 +424,56 @@ export class PlayerQueue extends Component {
       btnRandomizeLabel = 'Add All to Playing';
     }
 
+    const joinCommand = settings?.customJoinCommand || '!join';
+
+    // step 1
+    const stepInterested = (
+      <>
+        People who want to play will type the <b>{joinCommand}</b> command in chat; those users will be listed in the Interested section.
+      </>
+    );
+
+    // step 2
+    const stepMaxPlayers = (
+      <>
+        Set the maximum number of playable spots if your game has a limit, or leave it at <b><tt>0</tt></b> to disable the count.
+      </>
+    );
+
+    // step 3
+    const stepPlaying = (
+      <>
+        Then, <b>you</b> chose who you want to join the game; those users will be listed in the Playing section.
+      </>
+    );
+
+    // step 4
+    const stepSendQueue = (
+      <>
+        Lastly, enter the room code you want to send to everyone in the Playing queue. To whisper them, press <b>SEND&nbsp;TO&nbsp;QUEUE</b>.
+      </>
+    );
+
+    // Step 5
+    const stepOptionsMenu = (
+      <>
+        You can find this walkthrough again
+        along with many other available
+        settings in the <b>Options</b> menu
+      </>
+    );
+
     return (
       <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
-          <GameCodeForm
-            value={roomCode || ''}
-            onInputChange={this.handleRoomCodeChange}
-            onSendToAll={this.sendCodeToAll}
-            disabled={playing.length===0 || !roomCode}
-          />
+          <OnboardingOverlay placement="bottom" step={4} content={stepSendQueue}>
+            <GameCodeForm
+              value={roomCode || ''}
+              onInputChange={this.handleRoomCodeChange}
+              onSendToAll={this.sendCodeToAll}
+              disabled={playing.length===0 || !roomCode}
+            />
+          </OnboardingOverlay>
         </div>
 
         <div className="queue my-1 px-md-1 col-12">
@@ -430,36 +481,42 @@ export class PlayerQueue extends Component {
 
             {this.renderStreamerSeatToggle()}
 
-            <div className="fs-6 lh-sm align-self-center">
+
+            <OnboardingOverlay placement="bottom" step={2} content={stepMaxPlayers}
+              className="fs-6 lh-sm align-self-center">
               {this.renderPlayerCount()}
-            </div>
+            </OnboardingOverlay>
+
 
           </div>
         </div>
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
-          <div className="bg-body rounded shadow-sm p-2">
-            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="queue-header me-auto align-self-center">
-                <i className="bi-people text-purple-1 fs-5" /> Interested
-              </span>
+          <OnboardingOverlay step={1} content={stepInterested}>
+            <div className="bg-body rounded shadow-sm p-2">
+              <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+                <span className="queue-header me-auto align-self-center">
+                  <i className="bi-people text-purple-1 fs-5" /> Interested
+                </span>
 
-              <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
-                {btnRandomizeLabel}
-              </button>
-            </h6>
-            <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
+                <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
+                  {btnRandomizeLabel}
+                </button>
+              </h6>
+              <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
 
-              {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
-              {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+                {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
+                {interested.filter((iObj) => !iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
 
+              </div>
             </div>
-          </div>
+          </OnboardingOverlay>
         </div>
 
 
         <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
-          <div className="bg-body rounded shadow-sm p-2">
+          <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={3} content={stepPlaying}>
+
             <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="queue-header me-auto align-self-center">
                 <i className="bi-people-fill text-purple-1 fs-5" /> Playing
@@ -476,8 +533,14 @@ export class PlayerQueue extends Component {
 
             </div>
 
-          </div>
+
+          </OnboardingOverlay>
         </div>
+
+
+        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={stepOptionsMenu}>
+          <span className="navbar-toggler-icon invisible" />
+        </OnboardingOverlay>
 
       </div>
     );
@@ -513,6 +576,7 @@ const mapDispatchToProps = () => ({
   setRoomCode,
   toggleStreamerSeat,
   updateColumnForUser,
+  updateMaxSteps,
 });
 export default connect(
   mapStateToProps,

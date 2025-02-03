@@ -685,7 +685,29 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestModerators(broadcasterId);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${broadcasterId}`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/moderators?first=100&after=&broadcaster_id=${broadcasterId}`, {
+        headers: {
+          Authorization: 'Bearer mockAccessToken',
+          'Client-ID': twitchApi._clientId,
+        },
+      });
+      expect(response).toEqual(mockModeratorResponse);
+    });
+    test('should return information about users allowed to moderate chat for the broadcaster from a given cursor', async() => {
+      const mockModeratorResponse = {
+        data: [
+          { user_login: 'moduser1' },
+          { user_login: 'moduser2' },
+        ]
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve(mockModeratorResponse)
+      });
+      const broadcasterId = 123456789;
+      const cursor = 'eyJiIjpudWxsLCJhIjp7IkN1cnNvciI6IjEwMDQ3MzA2NDo4NjQwNjU3MToxSVZCVDFKMnY5M1BTOXh3d1E0dUdXMkJOMFcifX0';
+      const response = await twitchApi.requestModerators(broadcasterId, cursor);
+
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/moderation/moderators?first=100&after=${cursor}&broadcaster_id=${broadcasterId}`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,
@@ -694,6 +716,61 @@ describe('TwitchApi', () => {
       expect(response).toEqual(mockModeratorResponse);
     });
   });
+
+
+  describe('requestAllModerators', () => {
+    test('should return information about users allowed to moderate chat for the broadcaster', async() => {
+      vi.spyOn(twitchApi, 'requestModerators')
+        .mockResolvedValueOnce({
+          data: [
+            { user_login: 'moduser1' },
+            { user_login: 'moduser2' },
+          ],
+          pagination: {
+            cursor: 'eyJiIjpudWxsLCJhIjp7'
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { user_login: 'moduser3' },
+            { user_login: 'moduser4' },
+          ],
+          pagination: {}
+        });
+      const mockModeratorResponse = [
+        { user_login: 'moduser1' },
+        { user_login: 'moduser2' },
+        { user_login: 'moduser3' },
+        { user_login: 'moduser4' },
+      ];
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestAllModerators(broadcasterId);
+
+      expect(twitchApi.requestModerators).toHaveBeenCalled();
+      expect(twitchApi.requestModerators).toHaveBeenCalledTimes(2);
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, '');
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, 'eyJiIjpudWxsLCJhIjp7');
+      expect(response).toStrictEqual(mockModeratorResponse);
+    });
+    test('should return previous data if response data is empty', async() => {
+      vi.spyOn(twitchApi, 'requestModerators')
+        .mockResolvedValue({
+          data: [],
+          pagination: {}
+        });
+      const mockModeratorResponse = [
+        { user_login: 'moduser1' },
+        { user_login: 'moduser2' },
+      ];
+      const broadcasterId = 123456789;
+      const response = await twitchApi.requestAllModerators(broadcasterId, '', mockModeratorResponse);
+
+      expect(twitchApi.requestModerators).toHaveBeenCalledTimes(1);
+      expect(twitchApi.requestModerators).toHaveBeenCalledWith(broadcasterId, '');
+      expect(response).toStrictEqual(mockModeratorResponse);
+    });
+  });
+
 
   describe('requestVIPs', () => {
     test('should return a list of the VIPs of the broadcaster', async() => {
@@ -710,7 +787,7 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestVIPs(broadcasterId);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,
@@ -731,7 +808,7 @@ describe('TwitchApi', () => {
       const broadcasterId = 123456789;
       const response = await twitchApi.requestVIPs(broadcasterId, ['123', '456']);
 
-      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}&user_id=123&user_id=456`, {
+      expect(fetch).toHaveBeenCalledWith(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}&user_id=123&user_id=456`, {
         headers: {
           Authorization: 'Bearer mockAccessToken',
           'Client-ID': twitchApi._clientId,

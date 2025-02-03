@@ -1,10 +1,8 @@
-@media (max-width: 767.98px)  {
-  .modal-body {
-    font-size: calc( var(--bs-body-font-size) * 0.9)!important;
-  }
-}
-@media (min-width: 768px)  {
-  .modal-dialog {
-    max-width: 90%!important;
-  }
+ /* equivalent styles for the following classNames:
+    smaller, text-black, align-text-bottom  */
+#modal-changelog .badge-new {
+  font-size: 11px;
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
+  vertical-align: text-bottom !important;
 }

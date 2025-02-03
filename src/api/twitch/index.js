@@ -343,7 +343,7 @@ export default class TwitchApi {
     try {
       this._onMessageCallback(channel, tags, msg, self);
     } catch (e) {
-      window.console.warn('onMessageCallback: no callback set');
+      window.console.warn('onMessageCallback: no callback set', e);
     }
   };
 
@@ -549,11 +549,21 @@ export default class TwitchApi {
     }
   };
 
-  // Gets all users allowed to moderate the broadcaster’s chat room.
-  // https://dev.twitch.tv/docs/api/reference/#get-moderators
-  requestModerators = async(broadcasterId) => {
+  /**
+   * Gets all users allowed to moderate the broadcaster’s chat room.
+   * https://dev.twitch.tv/docs/api/reference/#get-moderators
+   * @param {string|number} broadcasterId  The ID of the broadcaster whose list of moderators you want to get. This ID must match the user ID in the access token.
+   * @param {string|number} after  The cursor used to get the next page of results. The Pagination object in the response contains the cursor’s value.
+   * @returns {Object[]} data  The list of moderators.
+   *  {string} user_id	String	The ID of the user that has permission to moderate the broadcaster’s channel.
+   *  {string} user_name	String	The user’s display name.
+   *  {string} user_login	String	The user’s login name.
+   * @returns {Object[]} pagination  Contains the information used to page through the list of results. The object is empty if there are no more pages left to page through.
+   *  {string} cursor	String	The cursor used to get the next page of results. Use the cursor to set the request’s after query parameter.
+   */
+  requestModerators = async(broadcasterId, after='') => {
     try {
-      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${broadcasterId}`, {
+      const response = await fetch(`https://api.twitch.tv/helix/moderation/moderators?first=100&after=${after}&broadcaster_id=${broadcasterId}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`
@@ -562,6 +572,34 @@ export default class TwitchApi {
       return await response.json();
     } catch (error) {
       if (this.debug) {window.console.log('TwitchApi - requestModerators: error', error);}
+      return await Promise.resolve(error);
+    }
+  };
+
+  /**
+   * Gets non-paginated list of all users allowed to moderate the broadcaster’s chat room.
+   * https://dev.twitch.tv/docs/api/reference/#get-moderators
+   * @param {string|number} broadcasterId  The ID of the broadcaster whose list of moderators you want to get. This ID must match the user ID in the access token.
+   * @param {string|number} after  The cursor used to get the next page of results. The Pagination object in the response contains the cursor’s value.
+   * @param {array} data  The list of moderators from a previous query to merge with the data from this response.
+   * @returns {Array} The list of moderators.
+   *  {string} user_id	String	The ID of the user that has permission to moderate the broadcaster’s channel.
+   *  {string} user_name	String	The user’s display name.
+   *  {string} user_login	String	The user’s login name.
+   */
+  requestAllModerators = async(broadcasterId, after='', data=[]) => {
+    try {
+      const response = await this.requestModerators(broadcasterId, after);
+      if (response.data.length < 1 ) {
+        return data;
+      }
+      data.push(...response.data);
+      if (response.pagination.cursor) {
+        return this.requestAllModerators(broadcasterId, response.pagination.cursor, data);
+      }
+      return data;
+    } catch (error) {
+      if (this.debug) {window.console.log('TwitchApi - requestAllModerators: error', error);}
       return await Promise.resolve(error);
     }
   };
@@ -582,7 +620,7 @@ export default class TwitchApi {
       } else {
         userIds = `&user_id=${userIds.join('&user_id=')}`;
       }
-      const response = await fetch(`https://api.twitch.tv/helix/channels/vips?broadcaster_id=${broadcasterId}${userIds}`, {
+      const response = await fetch(`https://api.twitch.tv/helix/channels/vips?first=100&broadcaster_id=${broadcasterId}${userIds}`, {
         headers: {
           'Client-ID': this._clientId,
           Authorization: `Bearer ${this._accessToken}`

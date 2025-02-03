@@ -1,0 +1,544 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OnboardingOverlay > Should render popover without text or icons 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    Popover body text
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        ❮
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        ❯
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    Popover body text
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > Done btn pressed 1`] = `
+<div
+  class="fade onboarding-popover popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > Next btn pressed 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and display sequentially > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and go back to previous popover > Back btn pressed 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and go back to previous popover > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      2
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    Second Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Done 
+        <i
+          class="bi bi-check-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render with popover and skip over additional popovers > initial render 1`] = `
+<div
+  class="fade onboarding-popover show popover bs-popover-top"
+  data-popper-escaped="true"
+  data-popper-placement="top"
+  data-popper-reference-hidden="true"
+  role="tooltip"
+  style="position: absolute; top: auto; right: auto; bottom: 0px; left: 0px; transform: translate(0px, -8px);"
+  x-placement="top"
+>
+  <div
+    class="popover-arrow"
+    style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+  />
+  <h3
+    class="popover-header"
+  >
+    <span>
+      <i
+        class="bi bi-bookmark-star-fill text-body-secondary"
+      />
+       
+      Step
+       
+      1
+       of 
+      2
+    </span>
+    <button
+      aria-label="Close"
+      class="btn-close ms-auto p-0"
+      title="Skip and Close"
+      type="button"
+    />
+  </h3>
+  <div
+    class="rounded-bottom raleway-font popover-body"
+  >
+    First Popover body
+    <div
+      class="d-flex justify-content-between pt-3"
+    >
+      <button
+        aria-label="Back"
+        class="btn btn-secondary btn-sm"
+        disabled=""
+        type="button"
+      >
+        <i
+          class="bi bi-arrow-left-circle-fill"
+        />
+         Back
+      </button>
+      <button
+        aria-label="Next"
+        class="btn btn-primary btn-sm"
+        type="button"
+      >
+        Next 
+        <i
+          class="bi bi-arrow-right-circle-fill"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`OnboardingOverlay > Should render without popover 1`] = `
+<div>
+  <div>
+    Content
+  </div>
+</div>
+`;

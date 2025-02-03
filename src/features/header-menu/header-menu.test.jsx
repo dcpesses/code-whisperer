@@ -31,6 +31,12 @@ const getMockStoreState = (overrides={}) => Object.assign({
     vips:[{
     }],
   },
+  menu: {
+    showGames: false,
+    showKofi: false,
+    showOptions: false,
+    showSettings: false,
+  },
   modal: {
     visible: false
   },
@@ -100,6 +106,14 @@ describe('HeaderMenu', () => {
   let store;
   let props;
 
+  describe('createModeratedChannelsMenuItems', () => {
+    test('should return null when no moderated channels are available', () => {
+      const props = {};
+      const component = new HeaderMenuComponent(props);
+      expect(component.createModeratedChannelsMenuItems('')).toBeNull();
+    });
+  });
+
   describe('onModeratedChannelMenuItem', () => {
     let component;
     beforeEach(() => {
@@ -121,6 +135,19 @@ describe('HeaderMenu', () => {
       expect(props.twitchApi.switchChannel).toBeCalled();
       expect(props.setChannelInfo).toBeCalledWith({ id: '42', login: 'randomuser' });
       expect(props.clearAllQueues).toBeCalled();
+    });
+  });
+
+  describe('onViewWalkthrough', () => {
+    test('should close the options menu and show the onboarding walkthrough', () => {
+      const props = {
+        showOnboarding: vi.fn(),
+        updateOptionsMenu: vi.fn(),
+      };
+      const component = new HeaderMenuComponent(props);
+      component.onViewWalkthrough();
+      expect(props.updateOptionsMenu).toHaveBeenCalledWith(false);
+      expect(props.showOnboarding).toHaveBeenCalled();
     });
   });
 
@@ -284,6 +311,7 @@ describe('HeaderMenu', () => {
           { label: 'Load Mock Game Requests' },
           { label: 'Load Mock Game & Player Requests' },
           { label: 'Log Debug Environment' },
+          { },
           { label: 'Toggle User Message Logging' }
         ],
         items: [

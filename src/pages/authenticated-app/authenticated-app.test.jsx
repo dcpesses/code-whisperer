@@ -516,6 +516,7 @@ describe('AuthenticatedApp', () => {
           data: [{}],
           pagination: []
         }),
+        requestAllModerators: vi.fn().mockResolvedValue([]),
         requestVIPs: vi.fn().mockResolvedValue({
           data: [{}],
           pagination: []
@@ -544,7 +545,8 @@ describe('AuthenticatedApp', () => {
           requestModerators: vi.fn().mockResolvedValue({
             data: [],
             pagination: []
-          })
+          }),
+          requestAllModerators: vi.fn().mockResolvedValue([])
         }
       };
 
@@ -554,11 +556,12 @@ describe('AuthenticatedApp', () => {
         requestModerators: vi.fn().mockResolvedValue({
           data: [],
           pagination: []
-        })
+        }),
+        requestAllModerators: vi.fn().mockResolvedValue([])
       };
       await component.updateModerators();
 
-      expect(component.twitchApi.requestModerators).toHaveBeenCalled();
+      expect(component.twitchApi.requestAllModerators).toHaveBeenCalled();
       expect(props.setModerators).toHaveBeenCalled();
     });
   });

@@ -19,7 +19,7 @@ exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
         "mock": "TwitchApi",
       }
     }
-    vips={null}
+    vips={[]}
   />
 </div>
 `;

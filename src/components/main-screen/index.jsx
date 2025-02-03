@@ -3,14 +3,15 @@
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-// import {Button, Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import MessageHandler from '@/features/twitch-messages/message-handler';
-import HeaderMenu from '../header-menu';
+import HeaderMenu from '@/features/header-menu';
 import PlayerQueue from '@/features/player-queue';
 import ModalChangelog from '@/features/modal-changelog';
 import ModalCommandList from '@/features/modal-command-list';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { setFakeUserStates, setChatterInfo, setWhisperStatus } from '@/features/player-queue/user-slice.js';
+import { showOnboarding } from '@/features/onboarding/onboarding-slice.js';
 import {
   clearQueue, clearRoomCode, closeQueue, incrementRandomCount, openQueue, removeUser, resetRandomCount,
   setFakeQueueStates, setMaxPlayers, setRoomCode, toggleStreamerSeat, updateColumnForUser
@@ -74,7 +75,8 @@ export class MainScreen extends Component {
       history: [GAME_PLACEHOLDER], // requested / played games
       logUserMessages: !!(!import.meta.env.PROD & import.meta.env.MODE !== 'test'),
       nextGameIdx: 0,
-      showChangelogModal: (lastVersion !== version),
+      showChangelogModal: (lastVersion && lastVersion !== version),
+      showOnboardingPromptModal: (!lastVersion),
       showOptionsMenu: false,
       showOptionsModal: false,
       userLookup: {},
@@ -127,11 +129,22 @@ export class MainScreen extends Component {
         console.log('calling updateChatCommandTerm(leaveQueue)');
         this.messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
       }
+      if (!this.props.settings?.customQueueCommand && prevProps.settings?.customQueueCommand) {
+        console.log('calling updateChatCommandTerm(listQueue)');
+        this.messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
+      }
+      // TODO: check if needed here
+      // if (!this.props.settings?.enableRestrictedListQueue && prevProps.settings?.enableRestrictedListQueue
+      // || this.props.settings?.enableRestrictedListQueue !== prevProps.settings?.enableRestrictedListQueue
+      // ) {
+      //   console.log('calling updateChatCommand(listQueue)');
+      //   this.messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
+      // }
     }
   };
 
   initMessageHandler = () => {
-    console.log('initMessageHandler');
+    // console.log('initMessageHandler');
     if (!this.props.twitchApi?.isChatConnected) {
       console.log('main-screen - initMessageHandler: cannot init; no chat client available');
       return null;
@@ -162,6 +175,12 @@ export class MainScreen extends Component {
     }
     if (this.props.settings?.customLeaveCommand) {
       messageHandler.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.customQueueCommand) {
+      messageHandler.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
+    }
+    if (typeof this.props.settings?.enableRestrictedListQueue === 'boolean') {
+      messageHandler.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
     return messageHandler;
   };
@@ -213,16 +232,28 @@ export class MainScreen extends Component {
     if (props.settings.customLeaveCommand) {
       this.messageHandler.updateChatCommandTerm('leaveQueue', props.settings.customLeaveCommand);
     }
+    if (props.settings.customQueueCommand) {
+      this.messageHandler.updateChatCommandTerm('listQueue', props.settings.customQueueCommand);
+    }
+    if (typeof props.settings.enableRestrictedListQueue === 'boolean') {
+      this.messageHandler.updateChatCommand('listQueue', 'mod', props.settings.enableRestrictedListQueue);
+    }
     return null;
   };
 
   onMessageHandlerInit = () => {
     if (!this.messageHandler) {return;}
-    if (this.props.settings?.customJoinCommand ) {
+    if (this.props.settings?.customJoinCommand) {
       this.messageHandler?.updateChatCommandTerm('joinQueue', this.props.settings.customJoinCommand);
     }
     if (this.props.settings?.customLeaveCommand) {
       this.messageHandler?.updateChatCommandTerm('leaveQueue', this.props.settings.customLeaveCommand);
+    }
+    if (this.props.settings?.customQueueCommand) {
+      this.messageHandler?.updateChatCommandTerm('listQueue', this.props.settings.customQueueCommand);
+    }
+    if (typeof this.props.settings?.enableRestrictedListQueue === 'boolean') {
+      this.messageHandler?.updateChatCommand('listQueue', 'mod', this.props.settings.enableRestrictedListQueue);
     }
   };
 
@@ -269,11 +300,12 @@ export class MainScreen extends Component {
     }];
   };
 
-
   handleOpenModalCommandList = () => this.props.showModalCommandList();
 
   onMessage = async(message, user, metadata) => {
-    if (this.debug || this.state.logUserMessages) {window.console.log('MainScreen - onMessage', {message, user, metadata});}
+    if (this.debug || this.state.logUserMessages) {
+      window.console.log('MainScreen - onMessage', {message, user, metadata});
+    }
     this.twitchApi.updateLastMessageTime(user);
     try {
       if (!this.props.userLookup[user] && metadata?.['user-id']) {
@@ -302,6 +334,11 @@ export class MainScreen extends Component {
     }
   };
 
+  onShowOnboarding = () => {
+    this.toggleOnboardingPromptModal();
+    this.props.showOnboarding();
+  };
+
   toggleChangelogModal = () => {
     this.setState((state) => ({
       showChangelogModal: !state.showChangelogModal
@@ -314,7 +351,14 @@ export class MainScreen extends Component {
     }));
   };
 
-  routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) => routeJoinRequest(this.props, user, {sendConfirmationMsg, isPrioritySeat});
+  toggleOnboardingPromptModal = () => {
+    this.setState((state) => ({
+      showOnboardingPromptModal: !state.showOnboardingPromptModal
+    }));
+  };
+
+  routePlayRequest = (user, {sendConfirmationMsg = true, isPrioritySeat = false}) =>
+    routeJoinRequest(this.props, user, {sendConfirmationMsg, isPrioritySeat});
 
   routeLeaveRequest = (user, {sendConfirmationMsg = true}) => routeLeaveRequest(this.props, user, {sendConfirmationMsg});
 
@@ -381,12 +425,37 @@ export class MainScreen extends Component {
           />
         </div>
         <ModalCommandList
-          chatCommands={this.messageHandler?.chatCommands || []}
+          chatCommands={this.messageHandler?.chatCommands}
         />
         <ModalChangelog
           handleClose={this.toggleChangelogModal}
           show={this.state.showChangelogModal}
         />
+        <Modal
+          aria-labelledby="onboarding-prompt-modal-title"
+          centered
+          onHide={this.toggleOnboardingPromptModal}
+          show={this.state.showOnboardingPromptModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="onboarding-prompt-modal-title" className="raleway-font">
+              Welcome to Code Whisperer!
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center raleway-font">
+            <h4 className="mb-3">Psst!</h4>
+            <p className="lh-base mb-3">
+              Wanna see a brief walkthrough on how to use this thing?
+            </p>
+            <p className="lh-base mb-3">
+              If not, no worries, you can always view it later under <b className="d-inline-block">Options &rarr; View Walkthrough</b>.
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="text-center d-block">
+            <Button variant="secondary" onClick={this.toggleOnboardingPromptModal}>No thanks.</Button>
+            <Button variant="primary" onClick={this.onShowOnboarding}>Yes please!</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
@@ -396,7 +465,7 @@ MainScreen.propTypes = {
   channel: PropTypes.string,
   clearQueue: PropTypes.func,
   closeQueue: PropTypes.func,
-  moderators: PropTypes.object,
+  moderators: PropTypes.array,
   onLogOut: PropTypes.func,
   openQueue: PropTypes.func,
   setChatterInfo: PropTypes.func.isRequired,
@@ -408,6 +477,7 @@ MainScreen.propTypes = {
   setWhisperStatus: PropTypes.func.isRequired,
   settings: PropTypes.object,
   showModalCommandList: PropTypes.func.isRequired,
+  showOnboarding: PropTypes.func.isRequired,
   twitchApi: PropTypes.object.isRequired,
   updateAppSettings: PropTypes.func.isRequired,
   userLookup: PropTypes.object,
@@ -469,6 +539,7 @@ const mapDispatchToProps = () => ({
   setRoomCode,
   toggleStreamerSeat,
   updateColumnForUser,
+  showOnboarding,
 });
 export default connect(
   mapStateToProps,

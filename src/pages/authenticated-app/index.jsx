@@ -25,6 +25,8 @@ const TWITCH_API = new TwitchApi({
 class AuthenticatedApp extends Component {
   static get propTypes() {
     return {
+      moderators: PropTypes.array,
+      vips: PropTypes.array,
       clearChannelInfo: PropTypes.func,
       clearModerators: PropTypes.func,
       clearUserInfo: PropTypes.func,
@@ -38,6 +40,8 @@ class AuthenticatedApp extends Component {
   }
   static get defaultProps() {
     return {
+      moderators: [],
+      vips: [],
       clearChannelInfo: noop,
       clearModerators: noop,
       clearUserInfo: noop,
@@ -232,7 +236,7 @@ class AuthenticatedApp extends Component {
     const props = this.props;
     try {
       const id = this.state.user_id;
-      const moderators = await this.twitchApi.requestModerators(id);
+      const moderators = await this.twitchApi.requestAllModerators(id);
       props.setModerators(moderators);
     } catch (e) {
       console.warn('updateModerators: error', e);
@@ -275,10 +279,10 @@ class AuthenticatedApp extends Component {
         <MainScreen
           access_token={this.twitchApi?.accessToken}
           channel={this.state.username}
-          moderators={this.state.moderators}
+          moderators={this.props.moderators}
           onLogOut={this.logOut}
           twitchApi={this.twitchApi}
-          vips={this.state.vips}
+          vips={this.props.vips}
         />
       );
     }
@@ -292,7 +296,10 @@ class AuthenticatedApp extends Component {
 }
 
 export {AuthenticatedApp};
-
+const mapStateToProps = state => ({
+  moderators: state.channel.moderators?.data,
+  vips: state.channel.vips?.data,
+});
 const mapDispatchToProps = () => ({
   clearChannelInfo,
   clearModerators,
@@ -305,6 +312,6 @@ const mapDispatchToProps = () => ({
   setVIPs,
 });
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps()
 )(withRouter(AuthenticatedApp));

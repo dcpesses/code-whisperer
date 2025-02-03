@@ -1,6 +1,8 @@
 import {configureStore, ThunkAction, Action, createListenerMiddleware, Tuple} from '@reduxjs/toolkit';
+import menuReducer from '@/features/header-menu/menu-slice';
 import modalCommandListReducer from '@/features/modal-command-list/modalSlice';
 import channelReducer from '@/features/twitch/channel-slice.js';
+import onboardingReducer from '@/features/onboarding/onboarding-slice.js';
 import userReducer from '@/features/player-queue/user-slice.js';
 import queueReducer from '@/features/player-queue/queue-slice';
 import settingsReducer, { updateAppSettings, updateAppSettingsListener } from '@/features/twitch/settings-slice';
@@ -14,7 +16,9 @@ settingsListenerMiddleware.startListening({
 
 const reducer = {
   channel: channelReducer,
+  menu: menuReducer,
   modal: modalCommandListReducer,
+  onboarding: onboardingReducer,
   queue: queueReducer,
   settings: settingsReducer,
   user: userReducer,

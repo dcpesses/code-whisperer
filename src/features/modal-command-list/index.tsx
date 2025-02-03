@@ -4,8 +4,7 @@ import {
   selectModalCommandList,
 } from './modalSlice';
 import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import ModalReusable from '@/components/modal';
 import Table from 'react-bootstrap/Table';
 import './modal-command-list.css';
 
@@ -52,30 +51,20 @@ function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
   };
 
   return (
-    <Modal show={show} fullscreen="md-down" dialogClassName="modal-90w" onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>List of Available Chat Commands</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Table striped>
-          <thead>
-            <tr>
-              <th>Command</th>
-              <th>Description</th>
-              <th>Permission</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!!chatCommands && chatCommands.map(renderTableRow)}
-          </tbody>
-        </Table>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <ModalReusable id="modal-command-list" show={show} title="List of Available Chat Commands" handleClose={handleClose}>
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Description</th>
+            <th>Permission</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!!chatCommands && chatCommands.map(renderTableRow)}
+        </tbody>
+      </Table>
+    </ModalReusable>
   );
 }
 

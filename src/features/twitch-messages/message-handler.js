@@ -48,7 +48,7 @@ export const DefaultChatCommands = [
     id: 'listVersion',
     mod: false,
     response: (scope) => {
-      scope.sendMessage(`/me is using Code Whisperer v${version}, created by @dcpesses GoatEmotey More Info: https://github.com/dcpesses/code-whisperer`);
+      scope.sendMessage(`/me is using Code Whisperer v${version}, created by @dcpesses GoatEmotey More Info: https://dcpesses.github.io/code-whisperer`);
       return true;
     },
   },
@@ -153,7 +153,9 @@ export const DefaultChatCommands = [
     id: 'listQueue',
     mod: true,
     response: (scope, username) => {
-      if (!scope.isModOrBroadcaster(username)) {
+      const allowUser = scope.settings.enableRestrictedListQueue !== true;
+      const hasPrivileges = scope.isModOrBroadcaster(username);
+      if (allowUser === false && !hasPrivileges) {
         scope.sendMessage(`/me @${username}, only channel moderators can use this command.`);
         return true;
       }
@@ -408,7 +410,18 @@ export default class MessageHandler {
   };
 
   isModOrBroadcaster = (username) => {
-    return (this.channel === username.toLowerCase() || this.moderators.includes(username.toLowerCase()));
+    let user = username.toLowerCase();
+    if (this.channel === user) {
+      return true;
+    }
+    try {
+      if (this.moderators && this.moderators.findIndex(mod => mod.user_login === user) >= 0) {
+        return true;
+      }
+    } catch (e) {
+      console.warn('isModOrBroadcaster issue:', e);
+    }
+    return false;
   };
 
   // returns true if a known command was found & responded to
@@ -484,16 +497,41 @@ export default class MessageHandler {
   };
 
   updateChatCommandTerm = (key, term) => {
-    if (!key) {
+    // if (!key) {
+    //   return false;
+    // }
+    // const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === key);
+    // if (chatCommandIndex === -1) {
+    //   return false;
+    // }
+    // let chatCommand = DefaultChatCommands.find(cmd => cmd.id === key);
+    // if (term && term.trim() !== '') {
+    //   chatCommand.commands[0] = term.trim();
+    // }
+    // this.chatCommands[chatCommandIndex] = chatCommand;
+    // return true;
+    return this.updateChatCommand(key, 'commands', term);
+  };
+
+  updateChatCommand = (id, key, val) => {
+    if (!id) {
       return false;
     }
-    const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === key);
+    const chatCommandIndex = this.chatCommands.findIndex(cmd => cmd.id === id);
     if (chatCommandIndex === -1) {
       return false;
     }
-    let chatCommand = DefaultChatCommands.find(cmd => cmd.id === key);
-    if (term && term.trim() !== '') {
-      chatCommand.commands[0] = term.trim();
+    let chatCommand = DefaultChatCommands.find(cmd => cmd.id === id);
+    if (!(key in chatCommand)) {
+      return false;
+    }
+
+    if (key === 'commands') {
+      if (val && val.trim() !== '') {
+        chatCommand.commands[0] = val.trim();
+      }
+    } else {
+      chatCommand[key] = val;
     }
     this.chatCommands[chatCommandIndex] = chatCommand;
     return true;

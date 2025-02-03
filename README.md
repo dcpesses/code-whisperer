@@ -22,7 +22,7 @@ Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twit
 > Hey! This project is still actively in development and may be subject to change without notice. YMMV.
 
 ## Overview
-<img src="/assets/screenshot.png" alt="app interface screenshot" align="right" width="25%" />
+<img src="/src/assets/screenshot2.png" align="center" alt="app interface screenshot" />
 The app uses two queues, Interested and Playing, which allows a streamer to manage who will
 be whispered. Users indicate if they want to join a game by entering commands in chat, which automatically adds them to the Interested queue. From there, the streamer can move users to and from the Playing queue; when a code is entered in the text form, all users in the Playing queue will be sent the code via a Twitch whisper.
 
@@ -34,7 +34,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 - Option to randomize user selection
 - Set the Max # of Players via Dropdown
 - Indicates if issues occur when sending whispers
-- Specify your own `!join`/`!leave` commands
+- Specify your own `!join`/`!leave`/`!queue` commands
 - More features coming soon...
 
 ### Caveats
@@ -50,7 +50,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 * `!version` - Posts the version of the app and its url
 * `!whichpack GAME` - replies with the Jackbox Party Pack of a given game
 * `!commands` - Lists all available commands
-* `!queue` - Lists all player in the queue
+* `!queue` - Lists all players in the queue*
 #### Mods / Streamer Commands:
 * `!open` - Opens the Interested queue
 * `!close` - Closes the Interested queue
@@ -63,7 +63,7 @@ be whispered. Users indicate if they want to join a game by entering commands in
 
 ### Currently Planned Features:
 - [x] Display creation date of player's account
-- [ ] In-app Documentation & Tutorial
+- [x] In-app Documentation & Tutorial
 - [ ] Usage instructions via command
 - [x] Custom join/leave commands
 - [x] Using icons in place of text

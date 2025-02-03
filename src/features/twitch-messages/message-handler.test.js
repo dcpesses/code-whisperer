@@ -212,6 +212,7 @@ describe('DefaultChatCommands', () => {
       expect(scope.sendMessage.mock.calls).toMatchSnapshot();
     });
     test('should not return list of players in the Playing queue when user is not a mod', () => {
+      scope.settings.enableRestrictedListQueue = true;
       scope.isModOrBroadcaster = vi.fn().mockReturnValue(false);
       expect(DefaultChatCommands.find(c => c.id === 'listQueue').response(scope, 'nonchannelmod')).toBeTruthy();
       expect(scope.sendMessage.mock.calls).toMatchSnapshot();
@@ -802,8 +803,8 @@ describe('MessageHandler', () => {
       messageHandler = new MessageHandler(getMessageHandlerConfig({
         channel: 'sirfarewell',
         moderators: [
-          'dcpesses',
-          'mockmoduser',
+          {user_id: '1234', user_login: 'dcpesses', 'user_name': 'dcpesses'},
+          {user_id: '1234', user_login: 'mockmoduser', 'user_name': 'mockmoduser'},
         ]
       }));
       expect(messageHandler.isModOrBroadcaster('SirFarewell')).toBeTruthy();
@@ -1041,6 +1042,19 @@ describe('MessageHandler', () => {
 
     test('should return false when no key is given', () => {
       expect(messageHandler.updateChatCommandTerm()).toBeFalsy();
+    });
+  });
+  describe('updateChatCommand', () => {
+    test('should return true when a chat command permission is successfully updated', () => {
+      expect(messageHandler.updateChatCommand('listCommands', 'mod', true)).toBeTruthy();
+    });
+
+    test('should return false when the option is not found in the chat command', () => {
+      expect(messageHandler.updateChatCommand('listCommands', 'unknownOption', true)).toBeFalsy();
+    });
+
+    test('should return false when no id is given', () => {
+      expect(messageHandler.updateChatCommand()).toBeFalsy();
     });
   });
 });

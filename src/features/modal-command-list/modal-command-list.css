@@ -1,18 +1,8 @@
-@media (max-width: 767.98px)  {
-  .modal-body {
-    font-size: calc( var(--bs-body-font-size) * 0.9)!important;
-  }
-}
-@media (min-width: 768px)  {
-  .modal-dialog {
-    max-width: 90%!important;
-  }
-}
-.chat-command-list {
+#modal-command-list .chat-command-list {
   color: var(--bs-secondary-text-emphasis)!important;
 }
 
-.chat-command {
+#modal-command-list .chat-command {
   font-family: var(--bs-font-monospace) !important;
   color: var(--bs-emphasis-color) !important;
   font-style: italic;
