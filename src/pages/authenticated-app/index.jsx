@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import LoadingRipple from '@/components/loading-ripple';
 import {Navigate} from 'react-router-dom';
-import Login from '@/pages/login';
+import Login from '@/features/login';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import MainScreen from '@/components/main-screen';

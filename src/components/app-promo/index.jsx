@@ -1,5 +1,5 @@
 
-import {getLoginUrl} from '@/pages/login';
+import {getLoginUrl} from '@/features/login';
 import twitchChat from '@/assets/twitch-chat.png';
 import screenshot2 from '@/assets/screenshot2.png';
 

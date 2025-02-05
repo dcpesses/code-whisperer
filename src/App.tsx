@@ -2,7 +2,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 
 // Pages
 import AuthenticatedApp from '@/pages/authenticated-app';
-import Login from '@/pages/login';
+import Login from '@/features/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';

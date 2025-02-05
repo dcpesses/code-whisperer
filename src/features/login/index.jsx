@@ -19,6 +19,14 @@ const scopes = [
   'user:read:subscriptions', // https://dev.twitch.tv/docs/api/reference#check-user-subscription
 ].join(' ');
 
+export const getLoginUrl = () => {
+  localStorage.removeItem('__error_msg');
+  return 'https://id.twitch.tv/oauth2/authorize'
+  + `?client_id=${import.meta.env.VITE_APP_TWITCH_CLIENT_ID}`
+  + `&response_type=code&scope=${scopes}`
+  + `&redirect_uri=${import.meta.env.VITE_APP_REDIRECT_URI}`;
+};
+
 class Login extends Component {
   constructor() {
     super();

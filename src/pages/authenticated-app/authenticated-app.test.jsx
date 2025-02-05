@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 // import MainScreen from '../landing/MainScreen';
 import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
-import Login from '@/pages/login';
+import Login from '@/features/login';
 import React from 'react';
 import {vi} from 'vitest';
 
