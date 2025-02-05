@@ -1,0 +1,19 @@
+.app-promo {
+  max-width: 960px;
+}
+
+.app-promo a {
+  color: #aaa;
+}
+.app-promo a:not(:hover) {
+  text-decoration: none;
+}
+
+.app-promo .max-w-340, .app-promo .max-w-md-340 {
+  max-width: 368px; /* 340px + 1px border + 2*12px gutters */
+}
+@media (max-width: 767.98px) {
+  .app-promo .max-w-md-340 {
+    max-width: inherit;
+  }
+}
