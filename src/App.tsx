@@ -3,6 +3,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 // Pages
 import AuthenticatedApp from '@/pages/authenticated-app';
 import Login from '@/features/login';
+import Landing from '@/pages/landing';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -37,6 +38,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/landing" element={<Landing />} />
       <Route path="/error" element={<Error404 />} />
       <Route path="/*" element={<AuthenticatedApp />} />
     </Routes>
