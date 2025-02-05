@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LandingWave > Should render as expected 1`] = `
+<div>
+  <div
+    class="landing-wave"
+  >
+    <section>
+      <div
+        class="wave wave1"
+      />
+      <div
+        class="wave wave2"
+      />
+      <div
+        class="wave wave3"
+      />
+      <div
+        class="wave wave4"
+      />
+    </section>
+  </div>
+</div>
+`;

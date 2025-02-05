@@ -1,9 +1,9 @@
 .landing-wave {
   position: absolute;
-  top: 0;
+  top: -125px;
   left: 0;
   width: 100%;
-  height: 88vh;
+  height: 125px;
   z-index: 0;
 }
 .landing-wave, .landing-wave * {
@@ -13,15 +13,7 @@
 .landing-wave > section {
   position: relative;
   width: 100%;
-  height: 88vh;
-  background-image: linear-gradient(
-    0deg,
-    rgba(var(--bg-primary-rgb), 1) 0%,
-    rgba(var(--purple-rgb-90), 0.2) 100%
-  );
-  background-size: 100vw 88vh;
-  background-position: top center;
-  background-repeat: repeat-x;
+  height: 125px;
   overflow: hidden;
 }
 .landing-wave > section .wave{
@@ -35,28 +27,28 @@
 }
 .landing-wave > section .wave.wave1{
   animation: wave 30s linear infinite;
-  z-index: 1000;
+  z-index: 99;
   opacity: 1;
   animation-delay: 0s;
   bottom: 0;
 }
 .landing-wave > section .wave.wave2{
   animation: wave2 15s linear infinite;
-  z-index: 99;
+  z-index: 98;
   opacity: 0.5;
   animation-delay: -5s;
   bottom: 10px;
 }
 .landing-wave > section .wave.wave3{
   animation: wave 30s linear infinite;
-  z-index: 98;
+  z-index: 97;
   opacity: 0.2;
   animation-delay: -2s;
   bottom: 15px;
 }
 .landing-wave > section .wave.wave4{
   animation: wave2 5s linear infinite;
-  z-index: 97;
+  z-index: 96;
   opacity: 0.7;
   animation-delay: -5s;
   bottom: 20px;
