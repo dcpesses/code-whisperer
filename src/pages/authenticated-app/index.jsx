@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import LoadingRipple from '@/components/loading-ripple';
 import {Navigate} from 'react-router-dom';
-import Login from '@/features/login';
+import Landing from '@/pages/landing';
 import TwitchApi from '@/api/twitch';
 import {withRouter, Debounce} from '@/utils';
 import MainScreen from '@/components/main-screen';
@@ -256,7 +256,7 @@ class AuthenticatedApp extends Component {
   render = () => {
     if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
       if (this.showLoginButton) {
-        return (<Login />);
+        return (<Landing />);
       }
       console.log('render: navigate to login');
       return (<Navigate to="/login" />);
