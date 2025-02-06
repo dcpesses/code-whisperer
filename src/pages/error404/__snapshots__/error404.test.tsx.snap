@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Error404 > Should render as expected 1`] = `
+<div>
+  <div
+    class="error-404 full-pg d-flex w-100 h-100 my-0 mx-auto flex-column"
+  >
+    <main
+      class="px-3 text-center"
+    >
+      <h1
+        class="display-1 ppb-4"
+      >
+        404
+      </h1>
+      <p>
+        <small
+          class="fst-italic"
+        >
+          I'm sorry, Dave. I'm afraid I can't do that.
+        </small>
+      </p>
+      <div
+        class="col-6 mx-auto"
+      >
+        <div
+          class="btn btn-outline-primary btn-lg mt-5"
+          data-to="/"
+        >
+          Go Home
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
