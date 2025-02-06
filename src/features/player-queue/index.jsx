@@ -538,7 +538,7 @@ export class PlayerQueue extends Component {
         </div>
 
 
-        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={stepOptionsMenu}>
+        <OnboardingOverlay className="queue-walkthrough-reminder pe-none no-boxshadow-padding" step={5} placement="bottom" content={stepOptionsMenu}>
           <span className="navbar-toggler-icon invisible" />
         </OnboardingOverlay>
 

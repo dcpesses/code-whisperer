@@ -466,7 +466,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
           </div>
         </div>
         <div
-          class="queue-walkthrough-reminder pe-none"
+          class="queue-walkthrough-reminder pe-none no-boxshadow-padding"
         >
           <span
             class="navbar-toggler-icon invisible"
