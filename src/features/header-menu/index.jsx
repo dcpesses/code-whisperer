@@ -445,7 +445,7 @@ export class HeaderMenu extends Component {
                     }
                   >
                     <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
-                      <img src={KofiSvg} alt="Support Me on Ko-fi" />
+                      <img src={KofiSvg} alt="Support Me on Ko-fi" className="img-fluid" />
                     </Nav.Link>
                   </OverlayTrigger>
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">

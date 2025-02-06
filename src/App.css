@@ -216,3 +216,14 @@ body {
 .btn-icon [class^="bi-"] .badge:has( [class^="bi-"] ) {
   --bs-badge-font-size: 0.75rem!important;
 }
+
+
+/* styles for when viewed in narrow OBS panel */
+@media (max-width: 447.98px) {
+  html {font-size: 62.5%;}
+  .smaller {font-size: 7px;}
+}
+@media (max-width: 319.98px) {
+  html {font-size: 50%;}
+  .smaller {font-size: 6px;}
+}

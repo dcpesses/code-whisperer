@@ -287,6 +287,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                 >
                   <img
                     alt="Support Me on Ko-fi"
+                    class="img-fluid"
                     src="/code-whisperer/src/assets/kofi.svg"
                   />
                 </a>

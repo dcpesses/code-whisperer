@@ -4,7 +4,7 @@
     align-items: center;
 }
 .toggle-streamer-seat .toggle-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     max-width: 80px;
     overflow-wrap: break-word;
     text-align: right;
