@@ -126,6 +126,12 @@ body {
 }
 
 
+.btn-purple:not(.btn-link) {
+  background-color: #663399;
+  color: white;
+}
+
+
 /* App */
 
 .App-header {

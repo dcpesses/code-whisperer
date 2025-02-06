@@ -76,10 +76,10 @@ class Login extends Component {
     }
 
     return (
-      <div id="login-screen" className="container-md full-pg fade-in">
+      <div id="login-screen" className="container-fluid d-flex flex-column">
 
-        <div id="landing" className="row row-cols-auto align-items-center justify-content-center mt-5">
-          <div className="col text-center">
+        <div id="landing" className="row row-cols-auto align-items-center justify-content-center">
+          <div className="col-8 col-md-6 text-center align-self-end align-self-md-center">
 
             <div className="text-center pb-1">
 
@@ -98,7 +98,7 @@ class Login extends Component {
             </div>
           </div>
 
-          <div className="col text-center">
+          <div className="col-8 col-md-6 text-center align-self-start align-self-md-center">
 
             {loginStatus}
 
