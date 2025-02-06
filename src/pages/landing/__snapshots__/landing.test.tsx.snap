@@ -208,11 +208,67 @@ exports[`Landing > Should render as expected 1`] = `
       <div
         class="col-md-auto text-center"
       >
-        <img
-          alt="App Screenshot"
-          class="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3"
-          src="/code-whisperer/src/assets/screenshot2.png"
-        />
+        <div
+          class="browser-screenshot rounded-1 mb-3"
+        >
+          <div
+            class="row g-1 g-sm-2 browser-bar text-start p-1 fs-6"
+          >
+            <div
+              class="col-auto"
+            >
+              <i
+                class="bi bi-arrow-left"
+              />
+              <i
+                class="bi bi-arrow-clockwise"
+              />
+            </div>
+            <div
+              class="col"
+            >
+              <div
+                class="browser-address-bar rounded-4 d-flex justify-content-between"
+              >
+                <div
+                  class="url-left"
+                >
+                  <i
+                    class="bi bi-info-circle"
+                  />
+                  <span
+                    class="browser-address-url "
+                  >
+                    http://
+                    <span>
+                      dcpesses.github.io
+                    </span>
+                    /code-whisperer
+                  </span>
+                </div>
+                <div
+                  class="url-right"
+                >
+                  <i
+                    class="bi bi-star"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-auto"
+            >
+              <i
+                class="bi bi-three-dots-vertical"
+              />
+            </div>
+          </div>
+          <img
+            alt="App Screenshot"
+            class="screenshot img-fluid shadow border border-secondary rounded-2 mx-auto mb-1"
+            src="/code-whisperer/src/assets/screenshot2.png"
+          />
+        </div>
       </div>
       <div
         class="col-md-auto text-center"

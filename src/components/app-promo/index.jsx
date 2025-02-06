@@ -56,7 +56,31 @@ function AppPromo() {
       </div>
 
       <div className="col-md-auto text-center">
-        <img src={screenshot2} className="screenshot img-fluid shadow border border-secondary roounded-4 mx-auto mb-3" alt="App Screenshot" />
+        <div className="browser-screenshot rounded-1 mb-3">
+          <div className="row g-1 g-sm-2 browser-bar text-start p-1 fs-6">
+            <div className="col-auto">
+              <i className="bi bi-arrow-left"></i>
+              <i className="bi bi-arrow-clockwise"></i>
+            </div>
+            <div className="col">
+              <div className="browser-address-bar rounded-4 d-flex justify-content-between">
+                <div className="url-left">
+                  <i className="bi bi-info-circle"></i>
+                  <span className="browser-address-url ">
+                    http://<span>dcpesses.github.io</span>/code-whisperer
+                  </span>
+                </div>
+                <div className="url-right">
+                  <i className="bi bi-star"></i>
+                </div>
+              </div>
+            </div>
+            <div className="col-auto">
+              <i className="bi bi-three-dots-vertical"></i>
+            </div>
+          </div>
+          <img src={screenshot2} className="screenshot img-fluid shadow border border-secondary rounded-2 mx-auto mb-1" alt="App Screenshot" />
+        </div>
       </div>
 
       <div className="col-md-auto text-center">
