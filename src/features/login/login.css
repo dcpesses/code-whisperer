@@ -55,3 +55,7 @@
       opacity: 0;
   }
 }
+
+#modal-confirm-clear-localstorage-data {
+  max-width: 432px;
+}

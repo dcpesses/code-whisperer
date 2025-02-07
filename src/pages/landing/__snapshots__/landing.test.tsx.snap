@@ -63,13 +63,13 @@ exports[`Landing > Should render as expected 1`] = `
               class="text-center fs-6"
             >
               <small>
-                v0.7.0
+                Version 0.7.0
               </small>
             </div>
           </div>
         </div>
         <div
-          class="col-8 col-md-6 text-center align-self-start align-self-md-center"
+          class="col-9 col-md-6 text-center align-self-start align-self-md-center"
         >
           <a
             class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient"
