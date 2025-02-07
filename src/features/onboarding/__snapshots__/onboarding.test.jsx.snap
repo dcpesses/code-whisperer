@@ -36,7 +36,7 @@ exports[`OnboardingOverlay > Should render popover without text or icons 1`] = `
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     Popover body text
     <div
@@ -98,7 +98,7 @@ exports[`OnboardingOverlay > Should render with popover 1`] = `
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     Popover body text
     <div
@@ -166,7 +166,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     Second Popover body
     <div
@@ -233,7 +233,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     Second Popover body
     <div
@@ -300,7 +300,7 @@ exports[`OnboardingOverlay > Should render with popover and display sequentially
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div
@@ -368,7 +368,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div
@@ -436,7 +436,7 @@ exports[`OnboardingOverlay > Should render with popover and go back to previous 
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     Second Popover body
     <div
@@ -503,7 +503,7 @@ exports[`OnboardingOverlay > Should render with popover and skip over additional
     />
   </h3>
   <div
-    class="rounded-bottom raleway-font popover-body"
+    class="rounded-bottom popover-body"
   >
     First Popover body
     <div

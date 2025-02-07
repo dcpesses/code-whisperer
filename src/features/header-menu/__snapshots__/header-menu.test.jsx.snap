@@ -3,7 +3,7 @@
 exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
@@ -21,7 +21,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
           type="button"
         >
           <span
-            class="fw-semibold navbar-brand"
+            class="navbar-brand"
           >
             <img
               alt="TwitchUser"
@@ -50,7 +50,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
       </button>
       <div
         aria-labelledby="navbar-options-menu-label"
-        class="raleway-font offcanvas offcanvas-end"
+        class="offcanvas offcanvas-end"
         id="navbar-options-menu"
       >
         <div
@@ -325,7 +325,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
 exports[`HeaderMenu > render > Should render with moderated channels menu 2`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
@@ -343,7 +343,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 2`] = 
           type="button"
         >
           <span
-            class="fw-semibold navbar-brand"
+            class="navbar-brand"
           >
             <img
               alt="TwitchUser"
@@ -380,7 +380,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 2`] = 
 exports[`HeaderMenu > render > Should render with moderated channels menu 3`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
@@ -398,7 +398,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 3`] = 
           type="button"
         >
           <span
-            class="fw-semibold navbar-brand"
+            class="navbar-brand"
           >
             <img
               alt="TwitchUser"
@@ -435,14 +435,14 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 3`] = 
 exports[`HeaderMenu > render > Should render without error 1`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
       class="container-fluid"
     >
       <span
-        class="fw-semibold navbar-brand"
+        class="navbar-brand"
       >
         <img
           alt="TwitchUser"
@@ -469,7 +469,7 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
       </button>
       <div
         aria-labelledby="navbar-options-menu-label"
-        class="raleway-font offcanvas offcanvas-end"
+        class="offcanvas offcanvas-end"
         id="navbar-options-menu"
       >
         <div
@@ -744,14 +744,14 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
 exports[`HeaderMenu > render > Should render without error 2`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
       class="container-fluid"
     >
       <span
-        class="fw-semibold navbar-brand"
+        class="navbar-brand"
       >
         <img
           alt="TwitchUser"
@@ -786,14 +786,14 @@ exports[`HeaderMenu > render > Should render without error 2`] = `
 exports[`HeaderMenu > render > Should render without error 3`] = `
 <div>
   <nav
-    class="bg-body-tertiary mb-3 py-0 raleway-font navbar navbar-light"
+    class="bg-body-tertiary mb-3 py-0 navbar navbar-light"
     data-bs-theme="dark"
   >
     <div
       class="container-fluid"
     >
       <span
-        class="fw-semibold navbar-brand"
+        class="navbar-brand"
       >
         <img
           alt="TwitchUser"

@@ -3,7 +3,8 @@
 exports[`GameCodeForm > Should render as expected 1`] = `
 <div>
   <div
-    class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm libre-franklin-font col-lg-8 col-xl-7 col-xxl-6 mx-auto"
+    class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm col-lg-8 col-xl-7 col-xxl-6 mx-auto"
+    id="game-code-form"
   >
     <div
       class="input-group"
@@ -13,7 +14,7 @@ exports[`GameCodeForm > Should render as expected 1`] = `
         aria-describedby="btn-send-to-queue"
         aria-label="Enter Room Code"
         autocomplete="false"
-        class="form-control libre-franklin-font"
+        class="form-control enter-room-code"
         name="room-code"
         placeholder="ENTER ROOM CODE"
         role="presentation"
@@ -22,7 +23,7 @@ exports[`GameCodeForm > Should render as expected 1`] = `
         value=""
       />
       <button
-        class="btn btn-primary libre-franklin-font text-uppercase"
+        class="btn btn-primary text-uppercase"
         disabled=""
         id="btn-send-to-queue"
         title="Send Code to All Players"

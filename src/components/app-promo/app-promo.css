@@ -9,14 +9,25 @@
   text-decoration: none;
 }
 
+.app-promo ul.text-body li b,
+.app-promo ul.text-body li i {
+  color: var(--bs-emphasis-color);
+}
+
 .app-promo .max-w-340, .app-promo .max-w-md-340 {
-  max-width: 368px; /* 340px + 1px border + 2*12px gutters */
+  max-width: 364px; /* 340px + 2*12px gutters */
 }
 @media (max-width: 767.98px) {
   .app-promo .max-w-md-340 {
     max-width: inherit;
   }
 }
+@media (min-width: 768px) {
+  .app-promo .max-w-md-340 h1 {
+    font-size: 38px;
+  }
+}
+
 
 .app-promo .browser-screenshot {
   background-color: #e2e3e5;

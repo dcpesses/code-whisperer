@@ -30,7 +30,7 @@ exports[`AppPromo > Should render as expected 1`] = `
             </span>
           </h1>
           <div
-            class="fs-5 my-4 text-center text-md-start"
+            class="text-body fs-6 my-4 text-center text-md-start"
           >
             Developed as a way to help streamers thwart Jackbox trolls, this tool gives Twitch streamers the power to decide who can play in games they host by sending invites only to approved users.
           </div>
@@ -38,7 +38,7 @@ exports[`AppPromo > Should render as expected 1`] = `
             How It Works:
           </h3>
           <ul
-            class="ps-4 fs-6 my-4"
+            class="text-body ps-4 fs-6 my-4"
           >
             <li
               class="mb-1"
@@ -159,7 +159,7 @@ exports[`AppPromo > Should render as expected 1`] = `
       <div
         class="fs-6 my-3"
       >
-        (Oh, and did we mention it's free to use?*)
+        Oh, and did we mention it's free to use?*
       </div>
       <a
         class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient"
@@ -185,7 +185,7 @@ exports[`AppPromo > Should render as expected 1`] = `
       class="col-md-8 m-auto text-center"
     >
       <div
-        class="fs-5 my-4"
+        class="fs-6 my-4"
       >
         View 
         <a
@@ -203,9 +203,9 @@ exports[`AppPromo > Should render as expected 1`] = `
       class="col-md-auto text-center"
     >
       <div
-        class="fs-6 my-4"
+        class="text-body fs-6 my-4"
       >
-        *Yes seriously, it is free. That said, 
+        * Yes seriously, it is free. That said, 
         <span
           class="d-inline-block"
         >

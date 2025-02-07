@@ -1,5 +1,7 @@
 
-.bg-purple {
-  background-color: #6f42c1;
+#game-code-form .enter-room-code,
+#game-code-form #btn-send-to-queue {
+  font-family: "Libre Franklin", sans-serif!important;
+  font-weight: 600;
 }
 

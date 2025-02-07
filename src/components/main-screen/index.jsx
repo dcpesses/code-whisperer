@@ -438,11 +438,11 @@ export class MainScreen extends Component {
           show={this.state.showOnboardingPromptModal}
         >
           <Modal.Header closeButton>
-            <Modal.Title id="onboarding-prompt-modal-title" className="raleway-font">
-              Welcome to Code Whisperer!
+            <Modal.Title id="onboarding-prompt-modal-title" className="fs-bolder">
+              Welcome<span className="d-none d-xs-inline"> to Code Whisperer</span>!
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center raleway-font">
+          <Modal.Body className="text-center">
             <h4 className="mb-3">Psst!</h4>
             <p className="lh-base mb-3">
               Wanna see a brief walkthrough on how to use this thing?

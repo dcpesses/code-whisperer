@@ -14,11 +14,9 @@
   display: flex;
 }
 .onboarding-popover .popover-body {
-  font-weight: 600;
 }
 .onboarding-popover .popover-body b {
   color: var(--bs-emphasis-color) !important;
-  font-weight: 700;
 }
 
 
