@@ -19,6 +19,10 @@ nav .navbar-pfp-img.proxy-profile-img {
 #dropdown-moderated-channels .dropdown-menu-dark {
   --bs-dropdown-link-active-bg: var(--bs-secondary-bg-subtle)!important;
 }
+#dropdown-moderated-channels .dropdown-menu.show .dropdown-item::before {
+  content: '@';
+  display: inline-block;
+}
 
 #dropdown-moderated-channels,
 #navbar-options-menu {

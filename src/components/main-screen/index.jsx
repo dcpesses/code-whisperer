@@ -443,9 +443,14 @@ export class MainScreen extends Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="text-center">
-            <h4 className="mb-3">Psst!</h4>
+            <h4 className="mb-3">
+              Psst!
+              <span className="text-purple-1 ms-2 d-xss-inline">
+                <i className="bi bi-person-raised-hand"/><i className="bi bi-chat-text-fill smaller align-top"/>
+              </span>
+            </h4>
             <p className="lh-base mb-3">
-              Wanna see a brief walkthrough on how to use this thing?
+              Would you like to see a brief walkthrough?
             </p>
             <p className="lh-base mb-3">
               If not, no worries, you can always view it later under <b className="d-inline-block">Options &rarr; View Walkthrough</b>.
