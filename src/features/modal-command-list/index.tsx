@@ -23,19 +23,19 @@ interface ModalCommandListProps {
   chatCommands: Array<ChatCommand>;
 }
 
+const commaSeparatedElements = (cmd: string, idx: number, arr: string[]) => {
+  const c = <span key={cmd} className="chat-command">{cmd}</span>;
+  if (idx !== arr.length - 1) { // can contain multiple commands
+    return [c, <Fragment key={idx}>, </Fragment>];
+  }
+  return c;
+};
+
 function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
   const show = useAppSelector(selectModalCommandList);
   const dispatch = useAppDispatch();
 
   const handleClose = () => dispatch( hideModalCommandList() );
-
-  const commaSeparatedElements = (cmd: string, idx: number, arr: string[]) => {
-    const c = <span key={cmd} className="chat-command">{cmd}</span>;
-    if (idx !== arr.length - 1) {
-      return [c, <Fragment key={idx}>, </Fragment>];
-    }
-    return c;
-  };
 
   const renderTableRow = (chatCommand: ChatCommand): JSX.Element => {
     const {commands, description, mod} = chatCommand;
@@ -69,3 +69,4 @@ function ModalCommandList( {chatCommands}: ModalCommandListProps): JSX.Element {
 }
 
 export default ModalCommandList;
+export {commaSeparatedElements};

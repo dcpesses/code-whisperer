@@ -865,3 +865,37 @@ exports[`ModalCommandList > Should render with modal and close on top-right butt
 `;
 
 exports[`ModalCommandList > Should render without modal 1`] = `<div />`;
+
+exports[`commaSeparatedElements > Should return chat commands wrapped in span elements 1`] = `
+[
+  [
+    <span
+      className="chat-command"
+    >
+      !join
+    </span>,
+  ],
+  [
+    <span
+      className="chat-command"
+    >
+      !leave
+    </span>,
+  ],
+  [
+    <span
+      className="chat-command"
+    >
+      !queue
+    </span>,
+    <React.Fragment>
+      , 
+    </React.Fragment>,
+    <span
+      className="chat-command"
+    >
+      !q
+    </span>,
+  ],
+]
+`;
