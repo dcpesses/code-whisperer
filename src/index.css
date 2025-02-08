@@ -1,7 +1,7 @@
 body {
-  font-family: 'Segoe UI', 'Roboto', 'Ubuntu', 'Droid Sans', 'Helvetica Neue',-apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
 code {
@@ -10,17 +10,10 @@ code {
 }
 
 
-
-.libre-franklin-font {
+.libre-franklin {
   font-family: "Libre Franklin", sans-serif!important;
   font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.raleway-font {
-  font-family: "Raleway", sans-serif;
-  font-optical-sizing: auto;
+  font-weight: normal;
   font-style: normal;
 }
 

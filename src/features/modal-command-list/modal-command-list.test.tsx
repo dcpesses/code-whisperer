@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
 import { DefaultChatCommands } from '@/features/twitch-messages/message-handler';
-import ModalCommandList from './index';
+import ModalCommandList, {commaSeparatedElements} from './index';
 import { Store, UnknownAction } from '@reduxjs/toolkit';
 
 type chatResponseFunctionType = (scope: unknown, username: string, message: string) => boolean;
@@ -18,6 +18,40 @@ interface ChatCommand {
   response: chatResponseFunctionType;
 }
 
+describe('commaSeparatedElements', () => {
+
+  test('Should return chat commands wrapped in span elements', () => {
+
+    const chatCommands:ChatCommand[] = [{
+      commands: ['!join'],
+      displayName: 'join',
+      description: 'Adds the user to the Interested queue',
+      id: 'joinQueue',
+      mod: false,
+      response: vi.fn()
+    }, {
+      commands: ['!leave'],
+      displayName: 'leave',
+      description: 'Removes the user from the Interested queue',
+      id: 'leaveQueue',
+      mod: false,
+      response: vi.fn()
+    }, {
+      commands: ['!queue', '!q'],
+      displayName: 'queue',
+      description: 'List all the players currently in the Playing queue',
+      id: 'listQueue',
+      mod: true,
+      response: vi.fn()
+    }];
+
+    const result = chatCommands.map(
+      (chatCommand: ChatCommand) => chatCommand.commands.flatMap(commaSeparatedElements)
+    );
+
+    expect(result).toMatchSnapshot();
+  });
+});
 
 describe('ModalCommandList', () => {
   let chatCommands: ChatCommand[];

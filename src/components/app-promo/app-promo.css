@@ -1,0 +1,85 @@
+.app-promo {
+  max-width: 960px;
+}
+
+.app-promo a {
+  color: #aaa;
+}
+.app-promo a:not(:hover) {
+  text-decoration: none;
+}
+
+.app-promo ul.text-body li b,
+.app-promo ul.text-body li i {
+  color: var(--bs-emphasis-color);
+}
+
+.app-promo .max-w-340, .app-promo .max-w-md-340 {
+  max-width: 364px; /* 340px + 2*12px gutters */
+}
+@media (max-width: 767.98px) {
+  .app-promo .max-w-md-340 {
+    max-width: inherit;
+  }
+}
+@media (min-width: 768px) {
+  .app-promo .max-w-md-340 h1 {
+    font-size: 38px;
+  }
+}
+
+
+.app-promo .browser-screenshot {
+  background-color: #e2e3e5;
+  display: inline-block;
+  padding: 2px;
+  color: #111;
+}
+.app-promo .browser-bar i {
+  padding: 5px;
+}
+.app-promo .browser-address-bar {
+  background-color: #fff;
+  color: #999;
+  width: 100%;
+  display: block;
+  height: 1.5rem;
+  position: relative;
+}
+.app-promo .browser-address-url {
+  font-size: 14px;
+  font-family: "SF Pro Display", "Segoe UI", "Lucida Grande", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: unset;
+  /* color: transparent; */
+}
+.app-promo .browser-address-url span {
+  color: #333;
+
+}
+@media (max-width: 575.98px) {
+  .app-promo .browser-bar,
+  .app-promo .browser-address-url {
+    font-size: 0.75rem!important;
+    line-height: 0.88rem!important;
+  }
+  .app-promo .browser-address-bar {
+    height: 0.9rem;
+    overflow: hidden;
+  }
+}
+@media (max-width: 447.98px) {
+  .app-promo .browser-bar,
+  .app-promo .browser-address-url {
+    font-size: 0.5rem!important;
+    line-height: 0.75rem!important;
+  }
+  .app-promo .browser-address-bar {
+    height: 0.8rem;
+  }
+}
+@media (max-width: 359.98px) {
+  .app-promo .browser-bar .bi-arrow-clockwise,
+  .app-promo .browser-address-url {
+    display: none;
+  }
+}

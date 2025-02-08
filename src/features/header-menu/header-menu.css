@@ -14,13 +14,20 @@ nav .navbar-pfp-img.proxy-profile-img {
 
 #dropdown-moderated-channels .dropdown-item {
   font-size: 14px!important;
-  font-weight: 500!important;
 }
 
 #dropdown-moderated-channels .dropdown-menu-dark {
   --bs-dropdown-link-active-bg: var(--bs-secondary-bg-subtle)!important;
 }
+#dropdown-moderated-channels .dropdown-menu.show .dropdown-item::before {
+  content: '@';
+  display: inline-block;
+}
 
+#dropdown-moderated-channels,
+#navbar-options-menu {
+  font-family: "Libre Franklin", sans-serif;
+}
 
 #navbar-options-menu .offcanvas-body {
   padding-left: calc(var(--bs-offcanvas-padding-x) * 1.75);
@@ -32,7 +39,6 @@ nav .navbar-pfp-img.proxy-profile-img {
   display: block;
   text-align: left !important;
   /* font-size: calc(1.275rem + 0.3vw) !important; */
-  font-weight: 500 !important;
   opacity:0.8;
   transition: opacity 0.125s linear;
   padding-left: 0;

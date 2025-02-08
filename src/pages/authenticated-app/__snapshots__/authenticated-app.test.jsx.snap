@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AuthenticatedApp > render > should render with Login on failed login 1`] = `<Login />`;
+exports[`AuthenticatedApp > render > should render with Landing on failed login 1`] = `<Landing />`;
 
-exports[`AuthenticatedApp > render > should render with Login on has_logged_out state 1`] = `<Login />`;
+exports[`AuthenticatedApp > render > should render with Landing on has_logged_out state 1`] = `<Landing />`;
 
 exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
 <div

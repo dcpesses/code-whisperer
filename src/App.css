@@ -4,11 +4,7 @@
   --bg-primary: #212529;
   --bg-secondary: #13111c;
 
-  /* component override examples */
-  --todo-text-primary: #fff!important;
-  --todo-bg-form-rgb: 153, 102, 204!important;
-  --todo-bg-item-rgb: 102, 153, 204!important;
-  --todo-bg-alpha: 0.35!important;
+  --bs-gradient-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
 
   --purple-0: #f6f2ff;
   --purple-10: #e2d4ff;
@@ -126,6 +122,15 @@ body {
 }
 
 
+.btn-purple:not(.btn-link) {
+  background-color: #663399;
+  color: white;
+}
+.btn.bg-gradient:hover {
+  background-image: var(--bs-gradient-hover) !important;
+}
+
+
 /* App */
 
 .App-header {
@@ -209,4 +214,22 @@ body {
 }
 .btn-icon [class^="bi-"] .badge:has( [class^="bi-"] ) {
   --bs-badge-font-size: 0.75rem!important;
+}
+
+.d-xs-inline, .d-xss-inline {display:inline!important;}
+
+/* styles for when viewed in narrow OBS panel */
+@media (max-width: 447.98px) {
+  html {font-size: 88%;}
+  .smaller {font-size: 8px;}
+}
+@media (max-width: 319.98px) {
+  html {font-size: 62.5%;}
+  .smaller {font-size: 7px;}
+  .d-xs-inline {display:none!important;}
+}
+@media (max-width: 219.98px) {
+  html {font-size: 50%;}
+  .smaller {font-size: 6px;}
+  .d-xss-inline {display:none!important;}
 }

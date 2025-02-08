@@ -1,10 +1,19 @@
+#interested-column h6,
+#playing-column h6 {
+  font-family: "Libre Franklin", sans-serif;
+  font-weight: 600;
+}
+#player-queue .toggle-streamer-seat .toggle-label,
+#player-queue .player-count {
+  font-family: "Libre Franklin", sans-serif;
+}
 
 .toggle-streamer-seat {
     display: flex;
     align-items: center;
 }
 .toggle-streamer-seat .toggle-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     max-width: 80px;
     overflow-wrap: break-word;
     text-align: right;

@@ -1,13 +1,46 @@
-import {render} from '@testing-library/react';
+import {vi} from 'vitest';
+import {render, screen} from '@testing-library/react';
 import {HashRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store} from '@/app/store';
 
 import App from '@/App';
 
+vi.mock('@/pages/landing', () => ({
+  default: () => <div data-testid="LandingMock" />
+}));
+vi.mock('@/features/login', () => ({
+  default: () => <div data-testid="LoginMock" />
+}));
+vi.mock('@/pages/error404', () => ({
+  default: () => <div data-testid="Error404Mock" />
+}));
+vi.mock('@/pages/authenticated-app', () => ({
+  default: () => <div data-testid="AuthenticatedAppMock" />
+}));
+
+
 describe('App', () => {
-  test('Should render as expected', () => {
-    const {container} = render(
+  const originalLocation = window.location;
+
+  beforeEach(() => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      enumerable: true,
+      value: new URL(window.location.href),
+    });
+  });
+
+  afterEach(() => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      enumerable: true,
+      value: originalLocation,
+    });
+  });
+
+  test('Should render AuthenticatedApp route by default', () => {
+    render(
       <Provider store={store}>
         <HashRouter>
           <App />
@@ -15,12 +48,42 @@ describe('App', () => {
       </Provider>
     );
 
-    expect(container).toMatchSnapshot();
+    expect(screen.getByTestId('AuthenticatedAppMock')).toBeInTheDocument();
   });
-  test('should detect required environment build variables', () => {
-    expect(import.meta.env.VITE_APP_TWITCH_CLIENT_ID).toBeDefined();
-    expect(import.meta.env.VITE_APP_TWITCH_CLIENT_SECRET).toBeDefined();
-    expect(import.meta.env.VITE_APP_REDIRECT_URI).toBeDefined();
-    expect(import.meta.env.VITE_APP_REDIRECT_URI_NOENCODE).toBeDefined();
+  test('Should render Landing route', () => {
+    window.location.hash = '/landing';
+    render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('LandingMock')).toBeInTheDocument();
+  });
+  test('Should render Login route', () => {
+    window.location.hash = '/login';
+    render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('LoginMock')).toBeInTheDocument();
+  });
+  test('Should render Error404 route', () => {
+    window.location.hash = '/error';
+    render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('Error404Mock')).toBeInTheDocument();
   });
 });

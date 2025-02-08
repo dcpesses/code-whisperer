@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 // import MainScreen from '../landing/MainScreen';
 import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
-import Login from '@/pages/login';
+import Landing from '@/pages/landing';
 import React from 'react';
 import {vi} from 'vitest';
 
@@ -670,7 +670,7 @@ describe('AuthenticatedApp', () => {
     });
 
 
-    test('should render with Login on failed login', () => {
+    test('should render with Landing on failed login', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
       let instance = shallowRenderer.getMountedInstance();
@@ -681,11 +681,11 @@ describe('AuthenticatedApp', () => {
         username: null
       });
       let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Login);
+      expect(component.type).toBe(Landing);
       expect(component).toMatchSnapshot();
       shallowRenderer.unmount();
     });
-    test('should render with Login on has_logged_out state', () => {
+    test('should render with Landing on has_logged_out state', () => {
       const shallowRenderer = createRenderer();
       shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
       let instance = shallowRenderer.getMountedInstance();
@@ -697,7 +697,7 @@ describe('AuthenticatedApp', () => {
         username: null
       });
       let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Login);
+      expect(component.type).toBe(Landing);
       expect(component).toMatchSnapshot();
       shallowRenderer.unmount();
     });

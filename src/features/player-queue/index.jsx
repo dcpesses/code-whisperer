@@ -304,9 +304,9 @@ export class PlayerQueue extends Component {
       ));
 
       maxPlayers = (
-        <Dropdown id="dropdown-max-player-seats" drop="down-centered" variant="link" className="d-inline">
+        <Dropdown id="dropdown-max-player-seats" drop="down-centered" variant="link" className="d-inline align-baseline">
           <Dropdown.Toggle id="dropdown-max-player-seats-toggle" variant="link"
-            className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-text-top">
+            className="link-body-emphasis link-underline-opacity-25 link-underline-opacity-100-hover p-0 m-0 lh-1 align-baseline">
             {this.props.maxPlayers}
           </Dropdown.Toggle>
           <Dropdown.Menu variant="dark">
@@ -464,7 +464,7 @@ export class PlayerQueue extends Component {
     );
 
     return (
-      <div className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
+      <div id="player-queue" className="queues d-flex flex-column flex-md-row my-2 flex-wrap" data-timestamp={this.state.time}>
         <div className="queue my-1 px-md-1 col-12">
           <OnboardingOverlay placement="bottom" step={4} content={stepSendQueue}>
             <GameCodeForm
@@ -477,13 +477,13 @@ export class PlayerQueue extends Component {
         </div>
 
         <div className="queue my-1 px-md-1 col-12">
-          <div className="bg-body rounded shadow-sm p-2 d-flex justify-content-between">
+          <div className="bg-body text-dark-emphasis rounded shadow-sm p-2 d-flex justify-content-between">
 
             {this.renderStreamerSeatToggle()}
 
 
             <OnboardingOverlay placement="bottom" step={2} content={stepMaxPlayers}
-              className="fs-6 lh-sm align-self-center">
+              className="fs-6 lh-sm align-self-center text-body-emphasis">
               {this.renderPlayerCount()}
             </OnboardingOverlay>
 
@@ -491,10 +491,10 @@ export class PlayerQueue extends Component {
           </div>
         </div>
 
-        <div className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
+        <div id="interested-column" className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
           <OnboardingOverlay step={1} content={stepInterested}>
             <div className="bg-body rounded shadow-sm p-2">
-              <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+              <h6 className="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
                 <span className="queue-header me-auto align-self-center">
                   <i className="bi-people text-purple-1 fs-5" /> Interested
                 </span>
@@ -514,10 +514,10 @@ export class PlayerQueue extends Component {
         </div>
 
 
-        <div className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
+        <div id="playing-column" className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
           <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={3} content={stepPlaying}>
 
-            <h6 className="pb-2 m-2 mb-0 libre-franklin-font text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+            <h6 className="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
               <span className="queue-header me-auto align-self-center">
                 <i className="bi-people-fill text-purple-1 fs-5" /> Playing
               </span>
@@ -538,7 +538,7 @@ export class PlayerQueue extends Component {
         </div>
 
 
-        <OnboardingOverlay className="queue-walkthrough-reminder pe-none" step={5} placement="bottom" content={stepOptionsMenu}>
+        <OnboardingOverlay className="queue-walkthrough-reminder pe-none no-boxshadow-padding" step={5} placement="bottom" content={stepOptionsMenu}>
           <span className="navbar-toggler-icon invisible" />
         </OnboardingOverlay>
 

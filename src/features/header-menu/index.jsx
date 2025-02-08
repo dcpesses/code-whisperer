@@ -262,7 +262,7 @@ export class HeaderMenu extends Component {
       );
     }
     const navbarBrand = (
-      <Navbar.Brand className="fw-semibold">{img} {displayName}</Navbar.Brand>
+      <Navbar.Brand>{img} {displayName}</Navbar.Brand>
     );
     let dropdownNavbarBrand = navbarBrand;
     if (settings.enableModeratedChannelsOption) {
@@ -281,7 +281,7 @@ export class HeaderMenu extends Component {
     }
 
     return (
-      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0 raleway-font" onToggle={this.props.toggleOptionsMenu} expanded={menu.showOptions}>
+      <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0" onToggle={this.props.toggleOptionsMenu} expanded={menu.showOptions}>
         <Container fluid>
 
           {dropdownNavbarBrand}
@@ -291,7 +291,7 @@ export class HeaderMenu extends Component {
             id="navbar-options-menu"
             aria-labelledby="navbar-options-menu-label"
             placement="end"
-            className="raleway-font"
+            className=""
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="navbar-options-menu-label" className="fw-bold fs-4">
@@ -445,7 +445,7 @@ export class HeaderMenu extends Component {
                     }
                   >
                     <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
-                      <img src={KofiSvg} alt="Support Me on Ko-fi" />
+                      <img src={KofiSvg} alt="Support Me on Ko-fi" className="img-fluid" />
                     </Nav.Link>
                   </OverlayTrigger>
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">
