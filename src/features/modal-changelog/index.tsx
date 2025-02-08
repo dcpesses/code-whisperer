@@ -13,6 +13,15 @@ interface ModalChangelogProps {
 
 
 export const changelogArray = [
+  {'0.7.1': [
+    'Updated app fonts and text styling',
+    'Optimized page styles when viewed in an OBS panel',
+    'Updated landing page with background animation and web browser frame',
+    'Added app walkthrough background overlay to better highlight featured elements',
+    'Added confirmation before resetting app data',
+    'Updated ownership information in app license',
+    'A plethora of other miscellaneous updates and tweaks 🛠️',
+  ]},
   {'0.7.0': [
     (
       <>
