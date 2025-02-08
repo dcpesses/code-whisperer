@@ -1,4 +1,5 @@
 import React from 'react';
+import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideOnboarding, showNextStep, showPrevStep } from './onboarding-slice';
@@ -8,7 +9,18 @@ import Popover from 'react-bootstrap/Popover';
 
 import './onboarding.css';
 
-const OnboardingOverlay = ({ btnOptions, className, children, content, placement, step }) => {
+const OnboardingOverlay = ({
+  children,
+  content,
+  btnOptions = {
+    showBackdrop: true,
+    showIcons: true,
+    showText: true,
+  },
+  className = null,
+  placement = 'top',
+  step = -1
+}) => {
   const onboarding = useSelector((state) => state.onboarding);
   const dispatch = useDispatch();
 
@@ -45,6 +57,7 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
       next: 'Next',
       prev: 'Prev',
     },
+    showBackdrop: true,
     showIcons: true,
     showText: true,
   };
@@ -59,6 +72,8 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
   const stepIcon = btnOptions?.icons?.step
   || (<i className="bi bi-bookmark-star-fill text-body-secondary"></i>);
 
+  const showBackdrop = (typeof btnOptions?.showBackdrop === 'boolean')
+    ? btnOptions?.showBackdrop : true;
   const showIcons = (typeof btnOptions?.showIcons === 'boolean')
     ? btnOptions?.showIcons : true;
   const showText = (typeof btnOptions?.showText === 'boolean')
@@ -81,7 +96,7 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
         </span>
         <button type="button" className="btn-close ms-auto p-0" aria-label={labels.close} title={labels.skip} onClick={skipHandler} />
       </Popover.Header>
-      <Popover.Body className="rounded-bottom raleway-font">
+      <Popover.Body className="rounded-bottom">
         {content}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
@@ -110,8 +125,14 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
 
   const onboardingClassNames = [
     className,
+    showBackdrop ? null : 'no-backdrop',
     (active) ? 'onboarding-active' : null
   ].filter(c => c).join(' ') || null;
+
+  let backdropClassNames = 'fade onboarding-backdrop';
+  if (active) {
+    backdropClassNames += ' show';
+  }
 
   return (
     <OverlayTrigger
@@ -121,6 +142,13 @@ const OnboardingOverlay = ({ btnOptions, className, children, content, placement
       trigger={[]}
     >
       <div className={onboardingClassNames}>
+        {(active && showBackdrop) && createPortal(
+          <div
+            className={backdropClassNames}
+            onClick={skipHandler}
+          />,
+          document.body,
+        )}
         {children}
       </div>
     </OverlayTrigger>
@@ -145,6 +173,7 @@ OnboardingOverlay.propTypes = {
 };
 OnboardingOverlay.defaultProps = {
   btnOptions: {
+    showBackdrop: true,
     showIcons: true,
     showText: true,
   },

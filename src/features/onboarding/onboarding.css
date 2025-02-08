@@ -14,6 +14,7 @@
   display: flex;
 }
 .onboarding-popover .popover-body {
+  font-family: 'Inter', sans-serif;
 }
 .onboarding-popover .popover-body b {
   color: var(--bs-emphasis-color) !important;
@@ -36,7 +37,6 @@
 .onboarding-active {
   position: relative;
 }
-.onboarding-active::before,
 .onboarding-active::after {
   transition: opacity .15s linear;
   content: "";
@@ -48,22 +48,13 @@
   height: calc(100% + 20px);
   z-index: 2;
 }
-.onboarding-active::before {
-  opacity: 0.5;
-  box-shadow: 0 0 0 100vw var(--bg-secondary);
-}
+
 .onboarding-active::after {
   opacity: 0;
   box-shadow: 0 0 15px 4px var(--bs-primary-text-emphasis);
   animation: 1.5s ease-in-out infinite alternate onboarding-highlight;
 }
 
-.no-backdrop.onboarding-active::before {
-  content: unset;
-  z-index: unset;
-}
-
-.no-boxshadow-padding.onboarding-active::before,
 .no-boxshadow-padding.onboarding-active::after {
   top: 0px;
   left: 0px;
@@ -77,4 +68,22 @@
   100% {
     opacity: 0.75;
   }
+}
+
+.onboarding-backdrop {
+  --bs-backdrop-zindex: 1050;
+  --bs-backdrop-opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--bs-backdrop-zindex);
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-secondary);
+}
+.onboarding-backdrop.fade {
+  opacity: 0;
+}
+.onboarding-backdrop.show {
+  opacity: var(--bs-backdrop-opacity);
 }

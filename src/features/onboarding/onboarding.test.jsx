@@ -68,6 +68,40 @@ describe('OnboardingOverlay', () => {
     expect(popoverElement).toMatchSnapshot();
   });
 
+  test('Should render popover without backdrop', async() => {
+    store.dispatch({ type: 'onboarding/showOnboarding' });
+    render(
+      <Provider store={store}>
+        <OnboardingOverlay content={body} step={1} btnOptions={{showBackdrop: false}}>
+          Content
+        </OnboardingOverlay>
+      </Provider>
+    );
+    const popoverElement = await screen.findByRole('tooltip');
+    expect(popoverElement).toHaveTextContent('Popover body text');
+    expect(popoverElement).toMatchSnapshot();
+  });
+
+  test('Should render popover and handle custom icons', async() => {
+    store.dispatch({ type: 'onboarding/showOnboarding' });
+    const icons = {
+      done: (<i className="bi bi-check-circle"></i>),
+      next: (<i className="bi bi-arrow-right-circle"></i>),
+      prev: (<i className="bi bi-arrow-left-circle"></i>),
+      step: (<i className="bi bi-bookmark-star text-body-secondary"></i>),
+    };
+    render(
+      <Provider store={store}>
+        <OnboardingOverlay content={body} step={1} btnOptions={{icons}}>
+          Content
+        </OnboardingOverlay>
+      </Provider>
+    );
+    const popoverElement = await screen.findByRole('tooltip');
+    expect(popoverElement).toHaveTextContent('Popover body text');
+    expect(popoverElement).toMatchSnapshot();
+  });
+
   test('Should render with popover and display sequentially', async() => {
     store.dispatch({ type: 'onboarding/showOnboarding' });
     render(
