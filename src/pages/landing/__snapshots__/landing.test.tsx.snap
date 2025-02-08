@@ -63,7 +63,7 @@ exports[`Landing > Should render as expected 1`] = `
               class="text-center fs-6"
             >
               <small>
-                Version 0.7.0
+                Version 0.0.0
               </small>
             </div>
           </div>
