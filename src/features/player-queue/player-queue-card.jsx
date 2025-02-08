@@ -113,14 +113,17 @@ function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, priorit
   );
 
   let btnIcon;
+  let btnClassName = 'btn btn-icon';
   if (queueName === 'playing') {
+    btnClassName += ' btn-move-to-interested';
     btnIcon = (<i className="bi-x-circle-fill text-purple-3" />);
   }
   if (queueName === 'interested') {
+    btnClassName += ' btn-move-to-playing';
     btnIcon = (<i className="bi-plus-circle-fill text-purple-4" />);
   }
   const btnAction = (
-    <button className="btn btn-icon" onClick={btnProps.onClick} title={btnProps.label}>
+    <button className={btnClassName} onClick={btnProps.onClick} title={btnProps.label}>
       {btnIcon}
     </button>
   );

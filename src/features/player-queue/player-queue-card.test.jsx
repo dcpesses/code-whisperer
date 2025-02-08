@@ -80,7 +80,115 @@ describe('PlayerQueueCard', () => {
     expect(actionHandler).toHaveBeenCalled();
   });
 
-  test('Should render as a whispered user in the playing queue', () => {
+  test('Should render as a user in the playing queue', () => {
+    vi.spyOn(Date, 'now').mockReturnValue(mockNow);
+
+    store = getStoreWithState({
+      user: {
+        chatters: {
+          dcpesses: {
+            id: '473294395',
+            login: 'dcpesses',
+            display_name: 'dcpesses',
+            type: '',
+            broadcaster_type: '',
+            description: 'Don\'t mind me, I\'m just here for the Jackbox games and to support my peeps. ',
+            profile_image_url: 'profile_image-300x300.png',
+            offline_image_url: '',
+            view_count: 0,
+            created_at: '2019-11-18T10:47:34Z'
+          }
+        },
+        whisperStatus: {}
+      }
+    });
+    const actionHandler = vi.fn();
+    const removeHandler = vi.fn();
+    const {container} = render(
+      <Provider store={store}>
+        <PlayerQueueCard
+          btnProps={{
+            label: 'Move 2 Interesting',
+            onClick: actionHandler,
+          }}
+          onRemoveUser={removeHandler}
+          onSendCode={null}
+          queueName={'playing'}
+          prioritySeat={false}
+          relativeTime={null}
+          showSendButton={true}
+          username={'dcpesses'}
+        />
+      </Provider>
+    );
+    expect(container).toMatchSnapshot();
+
+    const button1 = screen.getByTitle('Remove');
+    fireEvent.click(button1);
+    expect(removeHandler).toHaveBeenCalled();
+    const button2 = screen.getByTitle('Move 2 Interesting');
+    fireEvent.click(button2);
+    expect(actionHandler).toHaveBeenCalled();
+  });
+  test('Should render in the playing queue as a whispered user with success', () => {
+    vi.spyOn(Date, 'now').mockReturnValue(mockNow);
+
+    store = getStoreWithState({
+      user: {
+        chatters: {
+          dcpesses: {
+            id: '473294395',
+            login: 'dcpesses',
+            display_name: 'dcpesses',
+            type: '',
+            broadcaster_type: '',
+            description: 'Don\'t mind me, I\'m just here for the Jackbox games and to support my peeps. ',
+            profile_image_url: 'profile_image-300x300.png',
+            offline_image_url: '',
+            view_count: 0,
+            created_at: '2019-11-18T10:47:34Z'
+          }
+        },
+        whisperStatus: {
+          dcpesses: {
+            login: 'dcpesses',
+            response: {
+              status: 204,
+            }
+          }
+        }
+      }
+    });
+    const actionHandler = vi.fn();
+    const removeHandler = vi.fn();
+    const {container} = render(
+      <Provider store={store}>
+        <PlayerQueueCard
+          btnProps={{
+            label: 'Move 2 Interesting',
+            onClick: actionHandler,
+          }}
+          onRemoveUser={removeHandler}
+          onSendCode={null}
+          queueName={'interested'}
+          prioritySeat={false}
+          relativeTime={null}
+          showSendButton={false}
+          username={'dcpesses'}
+        />
+      </Provider>
+    );
+    expect(container).toMatchSnapshot();
+
+    const button1 = screen.getByTitle('Remove');
+    fireEvent.click(button1);
+    expect(removeHandler).toHaveBeenCalled();
+    const button2 = screen.getByTitle('Move 2 Interesting');
+    fireEvent.click(button2);
+    expect(actionHandler).toHaveBeenCalled();
+  });
+
+  test('Should render in the playing queue as a whispered user with error', () => {
     vi.spyOn(Date, 'now').mockReturnValue(mockNow);
 
     store = getStoreWithState({

@@ -152,7 +152,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                     />
                   </button>
                   <button
-                    class="btn btn-icon"
+                    class="btn btn-icon btn-move-to-playing"
                     title="Add to Playing"
                   >
                     <i
@@ -258,7 +258,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                     />
                   </button>
                   <button
-                    class="btn btn-icon"
+                    class="btn btn-icon btn-move-to-playing"
                     title="Add to Playing"
                   >
                     <i
@@ -364,7 +364,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                     />
                   </button>
                   <button
-                    class="btn btn-icon"
+                    class="btn btn-icon btn-move-to-playing"
                     title="Add to Playing"
                   >
                     <i
@@ -470,7 +470,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                     />
                   </button>
                   <button
-                    class="btn btn-icon"
+                    class="btn btn-icon btn-move-to-playing"
                     title="Add to Playing"
                   >
                     <i
@@ -615,7 +615,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                   />
                 </button>
                 <button
-                  class="btn btn-icon"
+                  class="btn btn-icon btn-move-to-interested"
                   title="Back to Interested"
                 >
                   <i
@@ -729,7 +729,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                   />
                 </button>
                 <button
-                  class="btn btn-icon"
+                  class="btn btn-icon btn-move-to-interested"
                   title="Back to Interested"
                 >
                   <i
@@ -843,7 +843,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                   />
                 </button>
                 <button
-                  class="btn btn-icon"
+                  class="btn btn-icon btn-move-to-interested"
                   title="Back to Interested"
                 >
                   <i
@@ -949,7 +949,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                   />
                 </button>
                 <button
-                  class="btn btn-icon"
+                  class="btn btn-icon btn-move-to-interested"
                   title="Back to Interested"
                 >
                   <i
@@ -1055,7 +1055,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
                   />
                 </button>
                 <button
-                  class="btn btn-icon"
+                  class="btn btn-icon btn-move-to-interested"
                   title="Back to Interested"
                 >
                   <i
