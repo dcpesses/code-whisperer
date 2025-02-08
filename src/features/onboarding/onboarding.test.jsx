@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import { fireEvent, /*prettyDOM,*/ render, screen, waitFor } from '@testing-library/react';
-
+import {vi} from 'vitest';
 import { getStoreWithState } from '@/app/store';
 import { Provider } from 'react-redux';
 import OnboardingOverlay from './index';
@@ -21,6 +21,10 @@ describe('OnboardingOverlay', () => {
     });
     body = (<>Popover body text</>);
     btnOptions = {};
+    vi.useFakeTimers({ toFake: ['nextTick'] });
+  });
+  afterEach(()=>{
+    vi.useRealTimers();
   });
   test('Should render without popover', () => {
     const {container} = render(
