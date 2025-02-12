@@ -31,8 +31,20 @@
   margin-right: calc(-0.5 * var(--bs-gutter-x));
 }
 
+.github-corner {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+.github-corner > svg {
+  fill: #ffffff;
+  color: #151513;
+}
 
 /* courtesy of tholman/github-corners */
+.github-corner .octo-arm { transform-origin: 130px 106px; }
 .github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
 @keyframes octocat-wave {
   0%,100% { transform: rotate(0); }
