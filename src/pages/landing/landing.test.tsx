@@ -8,6 +8,10 @@ vi.mock('../../../package.json', () => {
   };
 });
 
+vi.mock('@/components/chat-bubbles', () => ({
+  default: () => <div data-testid="ChatBubblesMock" />
+}));
+
 describe('Landing', () => {
   beforeEach(()=>{
     vi.stubEnv('VITE_APP_TWITCH_CLIENT_ID', 'VITE_APP_TWITCH_CLIENT_ID');

@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChatBubbles > Should render as expected 1`] = `
+<div>
+  <div
+    class="chat-bubbles"
+    style="height: 80vh;"
+  >
+    <div
+      class="chat-bubble blink_5"
+      style="font-size: 2px; top: calc(63vh - 2px); left: calc(20vw - 2px);"
+    >
+      <i
+        class="bi bi-chat-square"
+      />
+    </div>
+    <div
+      class="chat-bubble blink_4"
+      style="font-size: 3px; top: calc(47vh - 3px); left: calc(40vw - 3px);"
+    >
+      <i
+        class="bi bi-chat-square"
+      />
+    </div>
+    <div
+      class="chat-bubble blink_3"
+      style="font-size: 7px; top: calc(39vh - 7px); left: calc(50vw - 7px);"
+    >
+      <i
+        class="bi bi-chat-square"
+      />
+    </div>
+    <div
+      class="chat-bubble blink_3"
+      style="font-size: 7px; top: calc(39vh - 7px); left: calc(50vw - 7px);"
+    >
+      <i
+        class="bi bi-chat-square"
+      />
+    </div>
+  </div>
+</div>
+`;

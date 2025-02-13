@@ -1,7 +1,7 @@
-
 import AppPromo from '@/components/app-promo';
 import LandingWave from '@/components/landing-wave';
 import Login from '@/features/login';
+import ChatBubbles from '@/components/chat-bubbles';
 
 import './landing.css';
 
@@ -21,6 +21,8 @@ function Landing() {
     <div className="landing container-fluid">
 
       {githubCorner}
+
+      <ChatBubbles />
 
       <Login />
 

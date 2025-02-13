@@ -1,0 +1,49 @@
+.chat-bubbles {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  --star-color-A: white;
+  --star-color-B: transparent;
+}
+
+.chat-bubble {
+  position: absolute;
+  color: var(--star-color-A);
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+.blink_1 { animation-name: blink1_animation;}
+.blink_2 { animation-name: blink2_animation;}
+.blink_3 { animation-name: blink3_animation;}
+.blink_4 { animation-name: blink4_animation;}
+.blink_5 { animation-name: blink5_animation;}
+
+@keyframes blink1_animation {
+  0%, 100% { color: var(--star-color-A); }
+  20% { color: var(--star-color-B); }
+}
+
+@keyframes blink2_animation {
+  0%, 100% { color: var(--star-color-B); }
+  40% { color: var(--star-color-A); }
+}
+
+@keyframes blink3_animation {
+  0%, 100% { color: var(--star-color-A); }
+  60% { color: var(--star-color-B); }
+}
+
+@keyframes blink4_animation {
+  0%, 100% { color: var(--star-color-B); }
+  80% { color: var(--star-color-A); }
+}
+
+@keyframes blink5_animation {
+  0%, 100% { color: var(--star-color-A); }
+  50% { color: var(--star-color-B); }
+}

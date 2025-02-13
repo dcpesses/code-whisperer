@@ -32,6 +32,9 @@ exports[`Landing > Should render as expected 1`] = `
       </svg>
     </a>
     <div
+      data-testid="ChatBubblesMock"
+    />
+    <div
       class="container-fluid d-flex flex-column"
       id="login-screen"
     >
