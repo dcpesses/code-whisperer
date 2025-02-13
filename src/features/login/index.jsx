@@ -110,13 +110,13 @@ class Login extends Component {
 
             {loginStatus}
 
-            <a href={loginUrl} className="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient">
+            <a href={loginUrl} className="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient focus-ring" role="button" tabIndex="0">
               Log In With <strong>Twitch</strong>
             </a>
 
             <div className="text-center fs-6">
 
-              <button className="btn btn-sm btn-link link-secondary text-decoration-none" onClick={this.showClearLocalStorageDataModal}>
+              <button className="btn btn-sm btn-link link-secondary text-decoration-none" tabIndex="0" onClick={this.showClearLocalStorageDataModal}>
                 Having issues? <span className={checkmarkClassName}>
                   Reset application data
                 </span>

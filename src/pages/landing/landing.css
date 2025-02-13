@@ -23,7 +23,12 @@
   font-size: calc(6px + 0.75vmin);
   color: rgba(255, 255, 255, 0.42);
 }
-
+.landing a.btn:focus-visible {
+  box-shadow: var(--bs-btn-focus-box-shadow);
+}
+.landing .btn:not(.btn-link) {
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+}
 
 .landing .landing-wave-wrapper {
   position: relative;
