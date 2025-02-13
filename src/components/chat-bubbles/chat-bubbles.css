@@ -6,8 +6,21 @@
   left: 0;
   right: 0;
   overflow: hidden;
-  --star-color-A: white;
+  --star-color-A: rgba(var(--purple-rgb-30), 0.5);
   --star-color-B: transparent;
+  opacity: 0;
+  animation: 15s linear 0s chat-bubbles-fadein;
+  animation-fill-mode: forwards;
+}
+@media (prefers-reduced-motion) {
+  .chat-bubbles {
+    --star-color-A: rgba(var(--purple-rgb-30), 0.2);
+    animation: 25s linear 0s chat-bubbles-fadein;
+  }
+}
+@keyframes chat-bubbles-fadein {
+  from    { opacity:0; }
+  to      { opacity:0.5; }
 }
 
 .chat-bubble {

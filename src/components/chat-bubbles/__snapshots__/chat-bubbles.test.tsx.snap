@@ -4,11 +4,11 @@ exports[`ChatBubbles > Should render as expected 1`] = `
 <div>
   <div
     class="chat-bubbles"
-    style="height: 80vh;"
+    style="height: calc(75vh - 125px);"
   >
     <div
       class="chat-bubble blink_5"
-      style="font-size: 2px; top: calc(63vh - 2px); left: calc(20vw - 2px);"
+      style="font-size: 12px; top: calc(59vh - 12px - 125px); left: calc(20vw - 12px); opacity: 0.75;"
     >
       <i
         class="bi bi-chat-square"
@@ -16,7 +16,7 @@ exports[`ChatBubbles > Should render as expected 1`] = `
     </div>
     <div
       class="chat-bubble blink_4"
-      style="font-size: 3px; top: calc(47vh - 3px); left: calc(40vw - 3px);"
+      style="font-size: 12px; top: calc(44vh - 12px - 125px); left: calc(40vw - 12px); opacity: 0.75;"
     >
       <i
         class="bi bi-chat-square"
@@ -24,7 +24,7 @@ exports[`ChatBubbles > Should render as expected 1`] = `
     </div>
     <div
       class="chat-bubble blink_3"
-      style="font-size: 7px; top: calc(39vh - 7px); left: calc(50vw - 7px);"
+      style="font-size: 12px; top: calc(36.5vh - 12px - 125px); left: calc(50vw - 12px); opacity: 0.75;"
     >
       <i
         class="bi bi-chat-square"
@@ -32,7 +32,7 @@ exports[`ChatBubbles > Should render as expected 1`] = `
     </div>
     <div
       class="chat-bubble blink_3"
-      style="font-size: 7px; top: calc(39vh - 7px); left: calc(50vw - 7px);"
+      style="font-size: 12px; top: calc(36.5vh - 12px - 125px); left: calc(50vw - 12px); opacity: 0.75;"
     >
       <i
         class="bi bi-chat-square"
