@@ -14,7 +14,7 @@ exports[`Login > render > Should render as expected 1`] = `
         class="col-8 col-md-6 text-center align-self-end align-self-md-center"
       >
         <div
-          class="text-center pb-1"
+          class="text-center pt-1 pb-2"
         >
           <div>
             <img
@@ -31,9 +31,17 @@ exports[`Login > render > Should render as expected 1`] = `
           <div
             class="text-center fs-6"
           >
-            <small>
+            <small
+              class="d-block"
+            >
               Version 0.0.0
             </small>
+            <button
+              class="px-2 py-0 m-0 border-0 rounded-4 small btn btn-primary btn-sm"
+              type="button"
+            >
+              View Changelog
+            </button>
           </div>
         </div>
       </div>
@@ -86,7 +94,7 @@ exports[`Login > render > Should render with error during development 1`] = `
         class="col-8 col-md-6 text-center align-self-end align-self-md-center"
       >
         <div
-          class="text-center pb-1"
+          class="text-center pt-1 pb-2"
         >
           <div>
             <img
@@ -103,9 +111,17 @@ exports[`Login > render > Should render with error during development 1`] = `
           <div
             class="text-center fs-6"
           >
-            <small>
+            <small
+              class="d-block"
+            >
               Version 0.0.0
             </small>
+            <button
+              class="px-2 py-0 m-0 border-0 rounded-4 small btn btn-primary btn-sm"
+              type="button"
+            >
+              View Changelog
+            </button>
           </div>
         </div>
       </div>
@@ -166,7 +182,7 @@ exports[`Login > render > Should render without error in production 1`] = `
         class="col-8 col-md-6 text-center align-self-end align-self-md-center"
       >
         <div
-          class="text-center pb-1"
+          class="text-center pt-1 pb-2"
         >
           <div>
             <img
@@ -183,9 +199,17 @@ exports[`Login > render > Should render without error in production 1`] = `
           <div
             class="text-center fs-6"
           >
-            <small>
+            <small
+              class="d-block"
+            >
               Version 0.0.0
             </small>
+            <button
+              class="px-2 py-0 m-0 border-0 rounded-4 small btn btn-primary btn-sm"
+              type="button"
+            >
+              View Changelog
+            </button>
           </div>
         </div>
       </div>

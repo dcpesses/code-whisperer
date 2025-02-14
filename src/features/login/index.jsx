@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import ModalChangelog from '@/features/modal-changelog';
 import {version} from '../../../package.json';
 
 import logo from '@/assets/new-logo.svg';
@@ -32,6 +33,7 @@ class Login extends Component {
     super();
     this.state = {
       login_status: localStorage.getItem('__error_msg') || '',
+      showChangelogModal: false,
       showClearStatus: false,
       showConfirmClearLocalStorageData: false
     };
@@ -62,6 +64,12 @@ class Login extends Component {
     });
   };
 
+  toggleChangelogModal = () => {
+    this.setState((state) => ({
+      showChangelogModal: !state.showChangelogModal
+    }));
+  };
+
   showClearLocalStorageDataModal = () => {
     this.setState({
       showConfirmClearLocalStorageData: true,
@@ -89,7 +97,7 @@ class Login extends Component {
         <div id="landing" className="row row-cols-auto align-items-center justify-content-center">
           <div className="col-8 col-md-6 text-center align-self-end align-self-md-center">
 
-            <div className="text-center pb-1">
+            <div className="text-center pt-1 pb-2">
 
               <div>
                 <img src={logo} className="login-logo w-50 mx-auto mb-3" alt="Logo" />
@@ -100,7 +108,10 @@ class Login extends Component {
               </h2>
 
               <div className="text-center fs-6" title={window.lastUpdated}>
-                <small>{`Version ${version}`}</small>
+                <small className="d-block">{`Version ${version}`}</small>
+                <Button className="px-2 py-0 m-0 border-0 rounded-4 small" size="sm" onClick={this.toggleChangelogModal}>
+                  View Changelog
+                </Button>
               </div>
 
             </div>
@@ -143,6 +154,10 @@ class Login extends Component {
             <Button variant="primary" onClick={this.clearLocalStorageData}>Reset</Button>
           </Modal.Footer>
         </Modal>
+        <ModalChangelog
+          handleClose={this.toggleChangelogModal}
+          show={this.state.showChangelogModal}
+        />
         {/* <p className="last-updated">
           <small>
             { window.lastUpdated }

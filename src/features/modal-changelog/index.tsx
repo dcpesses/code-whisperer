@@ -16,6 +16,7 @@ export const changelogArray = [
   {'0.7.2': [
     'Fix: All text can be deleted from code textfield. (I know, I know.)',
     'Fix: Able to navigate to Github repo from corner banner.',
+    'Added Changelog link to landing page.',
     'Updated landing page background animation.',
     'Updated accessibility navigation styles.',
     'And lastly, updated because of you... Happy Valentine\'s Day! ❤️',
