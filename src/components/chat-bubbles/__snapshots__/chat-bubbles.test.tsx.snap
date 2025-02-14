@@ -4,39 +4,30 @@ exports[`ChatBubbles > Should render as expected 1`] = `
 <div>
   <div
     class="chat-bubbles"
-    style="height: calc(75vh - 125px);"
   >
     <div
-      class="chat-bubble blink_5"
-      style="font-size: 12px; top: calc(59vh - 12px - 125px); left: calc(20vw - 12px); opacity: 0.75;"
+      class="stars"
+      id="stars1"
+    />
+    <div
+      class="stars"
+      id="stars2"
+    />
+    <div
+      class="stars"
+      id="stars3"
+    />
+    <div
+      class="chats"
+      id="chats1"
     >
-      <i
-        class="bi bi-chat-square"
-      />
+      
     </div>
     <div
-      class="chat-bubble blink_4"
-      style="font-size: 12px; top: calc(44vh - 12px - 125px); left: calc(40vw - 12px); opacity: 0.75;"
+      class="chats"
+      id="chats2"
     >
-      <i
-        class="bi bi-chat-square"
-      />
-    </div>
-    <div
-      class="chat-bubble blink_3"
-      style="font-size: 12px; top: calc(36.5vh - 12px - 125px); left: calc(50vw - 12px); opacity: 0.75;"
-    >
-      <i
-        class="bi bi-chat-square"
-      />
-    </div>
-    <div
-      class="chat-bubble blink_3"
-      style="font-size: 12px; top: calc(36.5vh - 12px - 125px); left: calc(50vw - 12px); opacity: 0.75;"
-    >
-      <i
-        class="bi bi-chat-square"
-      />
+      
     </div>
   </div>
 </div>
