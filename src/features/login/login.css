@@ -1,5 +1,6 @@
 #login-screen {
   max-width: 678px;
+  --bs-secondary-emphasis-rgb: 167, 172, 177;
 }
 #login-screen #landing {
   min-height: 88vh;
@@ -9,18 +10,30 @@
   background-color: #663399;
   color: white;
 }
-#login-screen a {
+#login-screen a,
+#login-screen .btn-link {
     color: #aaa;
 }
-#login-screen a:not(:hover) {
+#login-screen a:not(:hover),
+#login-screen .btn-link:not(:hover) {
   text-decoration: none;
 }
-#login-screen a.emphasis {
+#login-screen a.emphasis,
+#login-screen .btn-link.emphasis {
   color: #ccb0ff;
 }
-#login-screen small {
-    font-size: calc(6px + 0.75vmin);
-    color: rgba(255, 255, 255, 0.42);
+#login-screen small,
+#login-screen .small {
+  font-size: calc(6px + 0.75vmin);
+  color: rgba(255, 255, 255, 0.42);
+}
+
+#login-screen .link-secondary  {
+  text-shadow: 0 3px 5px var(--bg-primary);
+}
+#login-screen .link-secondary:hover,
+#login-screen .link-secondary:focus {
+  color: rgba(var(--bs-secondary-emphasis-rgb), var(--bs-link-opacity, 1))!important;
 }
 
 #login-screen .checkmark-display::after {

@@ -132,6 +132,10 @@ describe('channel reducer', () => {
     const actual = queueReducer(initialState, setRoomCode('YANK'));
     expect(actual.roomCode).toEqual('YANK');
   });
+  it('should update the roomCode for an empty string', () => {
+    const actual = queueReducer(initialState, setRoomCode(''));
+    expect(actual.roomCode).toEqual('');
+  });
 
   // toggleStreamerSeat,
   it('should toggle the value of streamerSeat', () => {

@@ -23,7 +23,12 @@
   font-size: calc(6px + 0.75vmin);
   color: rgba(255, 255, 255, 0.42);
 }
-
+.landing a.btn:focus-visible {
+  box-shadow: var(--bs-btn-focus-box-shadow);
+}
+.landing .btn:not(.btn-link) {
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+}
 
 .landing .landing-wave-wrapper {
   position: relative;
@@ -31,8 +36,20 @@
   margin-right: calc(-0.5 * var(--bs-gutter-x));
 }
 
+.github-corner {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+.github-corner > svg {
+  fill: #ffffff;
+  color: #151513;
+}
 
 /* courtesy of tholman/github-corners */
+.github-corner .octo-arm { transform-origin: 130px 106px; }
 .github-corner:hover .octo-arm { animation: octocat-wave 560ms ease-in-out; }
 @keyframes octocat-wave {
   0%,100% { transform: rotate(0); }

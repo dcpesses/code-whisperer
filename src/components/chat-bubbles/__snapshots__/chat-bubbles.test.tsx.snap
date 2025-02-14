@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChatBubbles > Should render as expected 1`] = `
+<div>
+  <div
+    class="chat-bubbles"
+  >
+    <div
+      class="stars"
+      id="stars1"
+    />
+    <div
+      class="stars"
+      id="stars2"
+    />
+    <div
+      class="stars"
+      id="stars3"
+    />
+    <div
+      class="chats"
+      id="chats1"
+    >
+      
+    </div>
+    <div
+      class="chats"
+      id="chats2"
+    >
+      
+    </div>
+  </div>
+</div>
+`;

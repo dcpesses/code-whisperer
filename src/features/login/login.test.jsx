@@ -38,6 +38,15 @@ describe('Login', () => {
       vi.useRealTimers();
     });
   });
+  describe('toggleChangelogModal', () => {
+    test('should toggle the state of showChangelogModal', () => {
+      const component = new Login();
+      vi.spyOn(component, 'setState');
+      component.state.showChangelogModal = false;
+      component.toggleChangelogModal();
+      expect(component.setState.mock.calls[0][0](component.state)).toEqual({ showChangelogModal: true });
+    });
+  });
   describe('render', () => {
     beforeEach(()=>{
       vi.stubEnv('VITE_APP_TWITCH_CLIENT_ID', 'VITE_APP_TWITCH_CLIENT_ID');

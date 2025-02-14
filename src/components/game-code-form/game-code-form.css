@@ -1,7 +1,8 @@
-
 #game-code-form .enter-room-code,
 #game-code-form #btn-send-to-queue {
   font-family: "Libre Franklin", sans-serif!important;
+}
+#game-code-form .enter-room-code::placeholder,
+#game-code-form #btn-send-to-queue {
   font-weight: 600;
 }
-

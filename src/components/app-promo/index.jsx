@@ -89,7 +89,7 @@ function AppPromo() {
           Oh, and did we mention it&apos;s free to use?*
         </div>
 
-        <a href={loginUrl} className="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient">
+        <a href={loginUrl} className="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient focus-ring">
           <span className="d-inline-block">
             Go ahead, log in with <strong>Twitch</strong>
           </span> <span className="d-inline-block">

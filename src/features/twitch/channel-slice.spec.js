@@ -1,11 +1,13 @@
 /* eslint-env jest */
 import userReducer, {
-  // setFakeStates,
   clearChannelInfo,
   clearModerators,
+  clearUserLookup,
   clearVIPs,
   setChannelInfo,
+  setFakeChannelStates,
   setModerators,
+  setUserLookup,
   setVIPs
 } from './channel-slice';
 
@@ -21,6 +23,35 @@ const userState = {
     offline_image_url: '',
     view_count: 0,
     created_at: '2019-11-18T00:47:34Z'
+  },
+  lookup: {
+    dcpesses: {
+      'badges': {
+        'broadcaster': '1',
+        'twitch-recap-2023': '1'
+      },
+      'badge-info': null,
+      'badge-info-raw': null,
+      'badges-raw': 'broadcaster/1,twitch-recap-2023/1',
+      'client-nonce': 'nonce-of-ur-bidnez',
+      'color': '#1E90FF',
+      'display-name': 'dcpesses',
+      'emotes': null,
+      'emotes-raw': null,
+      'first-msg': false,
+      'flags': null,
+      'id': '12345789-abde-4013-8567-9abcd0123566',
+      'message-type': 'chat',
+      'mod': false,
+      'returning-chatter': false,
+      'room-id': '0',
+      'subscriber': false,
+      'tmi-sent-ts': '1739040334117',
+      'turbo': false,
+      'user-id': '0',
+      'user-type': null,
+      'username': 'dcpesses',
+    }
   },
   moderators: [{
   }],
@@ -72,5 +103,20 @@ describe('channel reducer', () => {
   it('should clear the list of VIPs for the broadcaster', () => {
     const actual = userReducer(userState, clearVIPs());
     expect(actual.vips).toEqual(initialState.vips);
+  });
+
+  it('should set the data for the user lookup', () => {
+    const actual = userReducer(initialState, setUserLookup(userState.lookup.dcpesses));
+    expect(actual.lookup).toEqual(userState.lookup);
+  });
+
+  it('should clear the user lookup state', () => {
+    const actual = userReducer(userState, clearUserLookup());
+    expect(actual.lookup).toEqual(initialState.lookup);
+  });
+
+  it('should set the fake data for the channel states when available', () => {
+    const actual = userReducer(initialState, setFakeChannelStates(userState));
+    expect(actual).toEqual(userState);
   });
 });

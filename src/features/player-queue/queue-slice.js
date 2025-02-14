@@ -68,7 +68,7 @@ export const queueSlice = createSlice({
     },
 
     setRoomCode: (state, action) => {
-      if (action.payload) {
+      if (action.payload !== null) {
         state.roomCode = action.payload;
       }
     },

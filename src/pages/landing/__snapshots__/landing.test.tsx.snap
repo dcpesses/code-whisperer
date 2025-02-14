@@ -13,7 +13,6 @@ exports[`Landing > Should render as expected 1`] = `
       <svg
         aria-hidden="true"
         height="80"
-        style="fill: #fff; color: #151513; position: absolute; top: 0px; border: 0px; right: 0px;"
         viewBox="0 0 250 250"
         width="80"
       >
@@ -24,7 +23,6 @@ exports[`Landing > Should render as expected 1`] = `
           class="octo-arm"
           d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
           fill="currentColor"
-          style="transform-origin: 130px 106px;"
         />
         <path
           class="octo-body"
@@ -33,6 +31,9 @@ exports[`Landing > Should render as expected 1`] = `
         />
       </svg>
     </a>
+    <div
+      data-testid="ChatBubblesMock"
+    />
     <div
       class="container-fluid d-flex flex-column"
       id="login-screen"
@@ -45,7 +46,7 @@ exports[`Landing > Should render as expected 1`] = `
           class="col-8 col-md-6 text-center align-self-end align-self-md-center"
         >
           <div
-            class="text-center pb-1"
+            class="text-center pt-1 pb-2"
           >
             <div>
               <img
@@ -62,9 +63,17 @@ exports[`Landing > Should render as expected 1`] = `
             <div
               class="text-center fs-6"
             >
-              <small>
+              <small
+                class="d-block"
+              >
                 Version 0.0.0
               </small>
+              <button
+                class="px-2 py-0 m-0 border-0 rounded-4 small btn btn-primary btn-sm"
+                type="button"
+              >
+                View Changelog
+              </button>
             </div>
           </div>
         </div>
@@ -72,8 +81,10 @@ exports[`Landing > Should render as expected 1`] = `
           class="col-9 col-md-6 text-center align-self-start align-self-md-center"
         >
           <a
-            class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient"
+            class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient focus-ring"
             href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
+            role="button"
+            tabindex="0"
           >
             Log In With 
             <strong>
@@ -85,6 +96,7 @@ exports[`Landing > Should render as expected 1`] = `
           >
             <button
               class="btn btn-sm btn-link link-secondary text-decoration-none"
+              tabindex="0"
             >
               Having issues? 
               <span
@@ -279,7 +291,7 @@ exports[`Landing > Should render as expected 1`] = `
           Oh, and did we mention it's free to use?*
         </div>
         <a
-          class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient"
+          class="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient focus-ring"
           href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"
         >
           <span
