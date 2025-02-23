@@ -92,28 +92,3 @@ exports[`TwitchApi > setChannelInfo > should save channel info to localStorage 1
   ],
 ]
 `;
-
-exports[`TwitchApi > setUserInfo > should save user info to localStorage 1`] = `
-[
-  [
-    "__channel",
-    "login",
-  ],
-  [
-    "__users",
-    "{\\"login\\":\\"login\\",\\"id\\":\\"id\\",\\"profile_image_url\\":\\"url\\"}",
-  ],
-  [
-    "__username",
-    "login",
-  ],
-  [
-    "__user_id",
-    "id",
-  ],
-  [
-    "__profile_image_url",
-    "url",
-  ],
-]
-`;

@@ -496,7 +496,13 @@ describe('TwitchApi', () => {
         profile_image_url: 'url'
       });
       expect(window.localStorage.setItem).toHaveBeenCalledTimes(5);
-      expect(window.localStorage.setItem.mock.calls).toMatchSnapshot();
+      expect(window.localStorage.setItem.mock.calls).toEqual([
+        ['__channel', 'login',],
+        ['__users', '{"login":"login","id":"id","profile_image_url":"url"}',],
+        ['__username', 'login',],
+        ['__user_id', 'id',],
+        ['__profile_image_url', 'url',],
+      ]);
     });
   });
 

@@ -94,7 +94,7 @@ describe('Login', () => {
 
       vi.useRealTimers();
     });
-    test('Should render without error in production', () => {
+    test('Should render without error message in production', () => {
       vi.stubEnv('DEV', false);
       vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(
@@ -102,7 +102,7 @@ describe('Login', () => {
       );
       expect(container).toMatchSnapshot();
     });
-    test('Should render with error during development', () => {
+    test('Should render with error message during development', () => {
       vi.stubEnv('DEV', true);
       vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(

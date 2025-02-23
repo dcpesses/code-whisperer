@@ -24,7 +24,7 @@ export default defineConfig({
       '**/{commitlint,lint-staged,karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*'
     ],
     environment: 'happy-dom',
-    setupFiles: './tests/setupTests.ts',
+    setupFiles: 'tests/setupTests.ts',
     coverage: {
       all: false,
       enabled: true,

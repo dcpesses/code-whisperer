@@ -58,8 +58,8 @@
     "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
-    "@vitejs/plugin-react-swc": "^3.3.0",
-    "@vitest/coverage-v8": "^0.34.6",
+    "@vitejs/plugin-react-swc": "^3.3.1",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -70,8 +70,8 @@
     "lint-staged": "^15.4.3",
     "react-test-renderer": "^18.2.0",
     "typescript": "^5.4.4",
-    "vite": "^4.5.3",
-    "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^0.34.1"
+    "vite": "^5.4.14",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^1.6.0"
   }
 }
