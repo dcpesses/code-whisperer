@@ -107,6 +107,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                   type="button"
                 >
                   <input
+                    checked=""
                     readonly=""
                     role="switch"
                     type="checkbox"
@@ -247,6 +248,7 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                   type="button"
                 >
                   <input
+                    checked=""
                     readonly=""
                     role="switch"
                     type="checkbox"
@@ -526,6 +528,7 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                   type="button"
                 >
                   <input
+                    checked=""
                     readonly=""
                     role="switch"
                     type="checkbox"

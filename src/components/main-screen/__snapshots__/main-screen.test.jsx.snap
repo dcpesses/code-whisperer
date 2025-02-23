@@ -99,6 +99,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -134,6 +135,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -169,6 +171,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -204,6 +207,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"

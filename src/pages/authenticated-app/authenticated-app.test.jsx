@@ -145,7 +145,7 @@ describe('AuthenticatedApp', () => {
       vi.useRealTimers();
     });
     test('should reuse existing access token from localStorage if available', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -171,7 +171,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should attempt to reuse existing access token, handle error response, and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -201,7 +201,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should catch errors on attempt to reuse existing access token and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -230,7 +230,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should use refresh token from localStorage to generate new token', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -263,7 +263,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should attempt to use refresh token to generate new token, handle error response, and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -299,7 +299,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should catch errors on attempt to use refresh token to generate new token and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -335,7 +335,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should initialize the Twitch API class and call onTwitchAuthInit when completed', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       component.twitchApi = {
@@ -348,7 +348,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should throw a No Response error when initializing the Twitch API class', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       vi.spyOn(component, 'onTwitchAuthError');
@@ -366,7 +366,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should throw the initResponse error response when initializing the Twitch API class', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       vi.spyOn(component, 'onTwitchAuthError');
@@ -453,7 +453,7 @@ describe('AuthenticatedApp', () => {
       window.location = location;
     });
     test('should log out of api and update has_logged_out state', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      vi.spyOn(window.localStorage, 'removeItem');
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'setState');
       component.twitchApi = {
@@ -461,11 +461,11 @@ describe('AuthenticatedApp', () => {
       };
       await component.logOut();
 
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalled();
+      expect(window.localStorage.removeItem).toHaveBeenCalled();
       expect(component.setState).toHaveBeenCalled();
     });
     test('should handle error and update has_logged_out state', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      vi.spyOn(window.localStorage, 'removeItem');
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'setState');
       component.twitchApi = {
@@ -474,7 +474,7 @@ describe('AuthenticatedApp', () => {
       await component.logOut();
 
       expect(component.setState).toHaveBeenCalled();
-      expect(window.localStorage.__proto__.removeItem).not.toHaveBeenCalled();
+      expect(window.localStorage.removeItem).not.toHaveBeenCalled();
     });
   });
 
@@ -595,7 +595,7 @@ describe('AuthenticatedApp', () => {
 
   describe('render', () => {
     test('should render with MainScreen', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         switch (label) {
         case '__access_token':
           return 'MOCK TOKEN';
@@ -629,7 +629,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should render with MainScreen using store', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         switch (label) {
         case '__access_token':
           return 'MOCK TOKEN';
@@ -736,7 +736,7 @@ describe('AuthenticatedApp', () => {
 
 
     test('Should render with user', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         switch (label) {
         case '__access_token':
           return 'MOCK TOKEN';

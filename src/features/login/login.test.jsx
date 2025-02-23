@@ -96,7 +96,7 @@ describe('Login', () => {
     });
     test('Should render without error in production', () => {
       vi.stubEnv('DEV', false);
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('Error Message');
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(
         <Login />
       );
@@ -104,7 +104,7 @@ describe('Login', () => {
     });
     test('Should render with error during development', () => {
       vi.stubEnv('DEV', true);
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('Error Message');
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(
         <Login />
       );

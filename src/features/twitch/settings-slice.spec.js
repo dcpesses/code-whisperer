@@ -64,7 +64,7 @@ describe('settings reducer', () => {
 
 describe('updateAppSettingsListener', () => {
   test('should merge the app settings from the payload and save to localStorage', () => {
-    vi.spyOn(window.localStorage.__proto__, 'setItem');
+    vi.spyOn(window.localStorage, 'setItem');
     let action = {
       payload: {
         customDelimiter: ' / ',
