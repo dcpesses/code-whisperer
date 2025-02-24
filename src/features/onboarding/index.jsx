@@ -171,15 +171,5 @@ OnboardingOverlay.propTypes = {
   placement: PropTypes.string,
   step: PropTypes.number,
 };
-OnboardingOverlay.defaultProps = {
-  btnOptions: {
-    showBackdrop: true,
-    showIcons: true,
-    showText: true,
-  },
-  className: null,
-  placement: 'top',
-  step: -1
-};
 
 export default OnboardingOverlay;

@@ -79,7 +79,9 @@
     "react/no-unused-state": ["error"],
     "react/no-will-update-set-state": ["error"],
     "react/prop-types": ["error"],
-    "react/require-default-props": [1],
+    "react/require-default-props": [1, {
+      "functions": "defaultArguments"
+    }],
     "react/require-render-return": ["error"],
     "react/self-closing-comp": ["error", {"component": true, "html": false}],
     "react/sort-comp": ["error"],

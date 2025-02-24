@@ -1290,16 +1290,9 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
 
 exports[`PlayerQueue > renderPlayerCard > should render the player queue card in the Playing queue with a button to send the room code 1`] = `
 <PlayerQueueCard
-  btnProps={
-    {
-      "label": "",
-      "onClick": null,
-    }
-  }
   onRemoveUser={[Function]}
   onSendCode={[Function]}
   prioritySeat={false}
-  queueName={null}
   relativeTime="1 second ago"
   showSendButton={true}
   username="player1"
