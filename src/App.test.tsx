@@ -42,7 +42,12 @@ describe('App', () => {
   test('Should render AuthenticatedApp route by default', () => {
     render(
       <Provider store={store}>
-        <HashRouter>
+        <HashRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true,
+          }}
+        >
           <App />
         </HashRouter>
       </Provider>
@@ -54,7 +59,12 @@ describe('App', () => {
     window.location.hash = '/landing';
     render(
       <Provider store={store}>
-        <HashRouter>
+        <HashRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true,
+          }}
+        >
           <App />
         </HashRouter>
       </Provider>
@@ -66,7 +76,12 @@ describe('App', () => {
     window.location.hash = '/login';
     render(
       <Provider store={store}>
-        <HashRouter>
+        <HashRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true,
+          }}
+        >
           <App />
         </HashRouter>
       </Provider>
@@ -78,7 +93,12 @@ describe('App', () => {
     window.location.hash = '/error';
     render(
       <Provider store={store}>
-        <HashRouter>
+        <HashRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true,
+          }}
+        >
           <App />
         </HashRouter>
       </Provider>

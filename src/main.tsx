@@ -21,7 +21,12 @@ const root = createRoot(container);
 
 const Main = (
   <Provider store={store}>
-    <HashRouter>
+    <HashRouter
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}
+    >
       <App />
     </HashRouter>
   </Provider>
