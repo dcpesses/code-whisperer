@@ -1,1 +1,1 @@
-lint-staged --config lint-staged.config.js
+lint-staged --config lint-staged.config.mjs
