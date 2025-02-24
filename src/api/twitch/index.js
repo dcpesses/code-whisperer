@@ -57,7 +57,7 @@ export default class TwitchApi {
 
     if (this.debug) {
       window.console.log('TwitchApi constructed');
-      window.console.log('TwitchApi:', window.location.hash);
+      window.console.log('TwitchApi:', window.location.search || window.location.hash);
     }
 
     if (init === true) {
@@ -168,7 +168,7 @@ export default class TwitchApi {
   };
 
   init = async(q) => {
-    let queryStr = q ?? window.location.hash.substring(1);
+    let queryStr = q ?? (window.location.search || window.location.hash?.substring(1));
     const queryParams = queryString.parse(queryStr);
     this.code = queryParams.code;
     if (this.debug) {
@@ -772,6 +772,7 @@ export default class TwitchApi {
     this.resetState();
     this.resetLocalStorageItems();
     window.location.hash = '';
+    window.history.replaceState(null, '', window.location.origin + window.location.pathname);
   };
 
   logOut = async() => {

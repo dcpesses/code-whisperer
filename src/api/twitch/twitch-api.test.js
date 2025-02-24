@@ -227,6 +227,15 @@ describe('TwitchApi', () => {
       expect(data).toEqual('ok');
       expect(global.console.log).toBeCalledTimes(2);
     });
+    test('should call _init for search string', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(window.location, 'search', 'get').mockReturnValue('?code=MOCK_CODE&scope=chat%3Aread');
+      vi.spyOn(twitchApi, '_init').mockResolvedValue('ok');
+      const data = await twitchApi.init();
+      expect(data).toEqual('ok');
+      expect(global.console.log).toBeCalledTimes(2);
+    });
   });
 
   describe('_init', () => {

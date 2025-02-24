@@ -1,8 +1,9 @@
 import {vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
-import {HashRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store} from '@/app/store';
+import {mockWindowLocation} from '@/../tests/mockWindowLocation';
 
 import App from '@/App';
 
@@ -42,65 +43,65 @@ describe('App', () => {
   test('Should render AuthenticatedApp route by default', () => {
     render(
       <Provider store={store}>
-        <HashRouter
+        <BrowserRouter
           future={{
             v7_relativeSplatPath: true,
             v7_startTransition: true,
           }}
         >
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
     );
 
     expect(screen.getByTestId('AuthenticatedAppMock')).toBeInTheDocument();
   });
   test('Should render Landing route', () => {
-    window.location.hash = '/landing';
+    mockWindowLocation('http://localhost:5173/landing');
     render(
       <Provider store={store}>
-        <HashRouter
+        <BrowserRouter
           future={{
             v7_relativeSplatPath: true,
             v7_startTransition: true,
           }}
         >
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
     );
 
     expect(screen.getByTestId('LandingMock')).toBeInTheDocument();
   });
   test('Should render Login route', () => {
-    window.location.hash = '/login';
+    mockWindowLocation('http://localhost:5173/login');
     render(
       <Provider store={store}>
-        <HashRouter
+        <BrowserRouter
           future={{
             v7_relativeSplatPath: true,
             v7_startTransition: true,
           }}
         >
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
     );
 
     expect(screen.getByTestId('LoginMock')).toBeInTheDocument();
   });
   test('Should render Error404 route', () => {
-    window.location.hash = '/error';
+    mockWindowLocation('http://localhost:5173/error');
     render(
       <Provider store={store}>
-        <HashRouter
+        <BrowserRouter
           future={{
             v7_relativeSplatPath: true,
             v7_startTransition: true,
           }}
         >
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
     );
 
