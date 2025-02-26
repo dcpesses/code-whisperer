@@ -823,6 +823,9 @@ export default class TwitchApi {
       this.setAuthentication(responseJson);
       return responseJson;
     } catch (e) {
+      if (this.debug) {
+        window.console.warn(e);
+      }
       this._authError = true;
     }
   };
@@ -885,6 +888,7 @@ export default class TwitchApi {
           window.console.log('TwitchApi.fetch', 'validate session: error');
           window.console.warn(error);
           window.console.warn('*** NEEDS REAUTH ***');
+          window.console.warn(err);
         }
         throw error;
       }

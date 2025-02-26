@@ -143,7 +143,6 @@ class WindowLocationMock implements Location {
     this.reload();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   reload() {
     // Do nothing
   }
@@ -194,7 +193,6 @@ export class WindowHistoryMock implements History {
   scrollRestoration = 'auto' as const;
 
   get state() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.sessionHistory[this.index].state;
   }
 
@@ -222,7 +220,6 @@ export class WindowHistoryMock implements History {
         this.sessionHistory[this.index].url
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       dispatchEvent(new PopStateEvent('popstate', { state: this.state }));
     }
   }
@@ -233,7 +230,6 @@ export class WindowHistoryMock implements History {
       (window.location as WindowLocationMock).internalSetURLFromHistory(url);
     }
     this.sessionHistory.push({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       state: structuredClone(data),
       url: window.location.href
     });
@@ -246,7 +242,6 @@ export class WindowHistoryMock implements History {
       (window.location as WindowLocationMock).internalSetURLFromHistory(url);
     }
     this.sessionHistory[this.index] = {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       state: structuredClone(data),
       url: window.location.href
     };

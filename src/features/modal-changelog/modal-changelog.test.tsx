@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import { vi } from 'vitest';
 import {fireEvent, render, screen} from '@testing-library/react';
 import ModalChangelog from './index';

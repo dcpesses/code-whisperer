@@ -21,7 +21,7 @@ export default defineConfig({
       '**/dist/**',
       '**/coverage/**',
       '**/.{idea,git,cache,output,temp,tmp}/**',
-      '**/{commitlint,lint-staged,karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*'
+      '**/{commitlint,lint-staged,karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint}.config.*'
     ],
     environment: 'happy-dom',
     setupFiles: 'tests/setupTests.ts',
