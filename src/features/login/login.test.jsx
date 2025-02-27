@@ -24,7 +24,7 @@ describe('getLoginUrl', () => {
 describe('Login', () => {
   describe('clearLocalStorageData', () => {
     test('should call setState', () => {
-      vi.useFakeTimers({ toFake: ['nextTick'] });
+      vi.useFakeTimers({ toFake: ['queueMicrotask'] });
       const component = new Login();
       vi.spyOn(component, 'setState').mockImplementation(()=>{});
       vi.spyOn(global, 'setTimeout');
@@ -63,7 +63,7 @@ describe('Login', () => {
       expect(container).toMatchSnapshot();
     });
     test('Should render and handle modal events', async() => {
-      vi.useFakeTimers({ toFake: ['nextTick'] });
+      vi.useFakeTimers({ toFake: ['queueMicrotask'] });
       render(
         <Login />
       );

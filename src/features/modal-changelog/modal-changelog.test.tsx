@@ -4,7 +4,7 @@ import ModalChangelog from './index';
 
 describe('ModalChangelog', () => {
   test('Should render modal', async() => {
-    vi.useFakeTimers({ toFake: ['nextTick'] });
+    vi.useFakeTimers({ toFake: ['queueMicrotask'] });
     render(
       <ModalChangelog
         handleClose={vi.fn()}

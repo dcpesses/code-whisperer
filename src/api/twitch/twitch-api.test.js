@@ -925,13 +925,12 @@ describe('TwitchApi', () => {
         status: 403,
         json: () => Promise.reject({status: 403, error: 'Forbidden'})
       });
-
       expect(async() => {
         const response = await twitchApi.sendWhisper(recipientUser, 'Howdy!');
-        expect(response).toEqual(`Error sending to @${recipientUser.username}, please check console for details`);
-        expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response}`);
+        expect(response.msg).toEqual(`Error sending to @${recipientUser.username}, please check console for details.`);
+        expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response.msg}`);
         expect(global.console.warn).toHaveBeenCalledTimes(1);
-      }).rejects.toThrow();
+      }).not.toThrow();
       expect(global.console.log).toHaveBeenCalledTimes(1);
     });
   });
@@ -1229,7 +1228,7 @@ describe('TwitchApi', () => {
       try {
         response = await twitchApi.refetch(...fetchArgs);
       } catch (e) {
-        expect(e.json()).resolves.toEqual({status: 500, error: 'first error'});
+        expect(await e.json()).toEqual({status: 500, error: 'first error'});
         expect(global.fetch).toHaveBeenCalledWith(...fetchArgs);
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(response).toBeUndefined();
