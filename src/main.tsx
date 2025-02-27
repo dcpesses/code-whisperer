@@ -21,13 +21,7 @@ const root = createRoot(container);
 
 const Main = (
   <Provider store={store}>
-    <BrowserRouter
-      basename="/code-whisperer"
-      future={{
-        v7_relativeSplatPath: true,
-        v7_startTransition: true,
-      }}
-    >
+    <BrowserRouter basename="/code-whisperer">
       <App />
     </BrowserRouter>
   </Provider>

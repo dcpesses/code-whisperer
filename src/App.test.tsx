@@ -43,12 +43,7 @@ describe('App', () => {
   test('Should render AuthenticatedApp route by default', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <BrowserRouter>
           <App />
         </BrowserRouter>
       </Provider>
@@ -60,12 +55,7 @@ describe('App', () => {
     mockWindowLocation('http://localhost:5173/landing');
     render(
       <Provider store={store}>
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <BrowserRouter>
           <App />
         </BrowserRouter>
       </Provider>
@@ -77,12 +67,7 @@ describe('App', () => {
     mockWindowLocation('http://localhost:5173/login');
     render(
       <Provider store={store}>
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <BrowserRouter>
           <App />
         </BrowserRouter>
       </Provider>
@@ -94,12 +79,7 @@ describe('App', () => {
     mockWindowLocation('http://localhost:5173/error');
     render(
       <Provider store={store}>
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <BrowserRouter>
           <App />
         </BrowserRouter>
       </Provider>
