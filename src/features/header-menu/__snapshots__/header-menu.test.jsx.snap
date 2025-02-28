@@ -134,7 +134,6 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                     placeholder="e.g. !join"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -169,7 +168,6 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                     placeholder="e.g. !leave"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -204,7 +202,6 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                     placeholder="e.g. !queue"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -238,7 +235,6 @@ exports[`HeaderMenu > render > Should render with moderated channels menu 1`] = 
                     name="custom-delimiter"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -555,7 +551,6 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                     placeholder="e.g. !join"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -590,7 +585,6 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                     placeholder="e.g. !leave"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -625,7 +619,6 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                     placeholder="e.g. !queue"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
@@ -659,7 +652,6 @@ exports[`HeaderMenu > render > Should render without error 1`] = `
                     name="custom-delimiter"
                     spellcheck="false"
                     type="text"
-                    value=""
                   />
                 </button>
                 <button
