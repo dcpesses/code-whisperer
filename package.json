@@ -28,6 +28,7 @@
     "build": "tsc && vite build",
     "build:ci": "tsc && vite build && cp 404.html dist/",
     "test": "vitest run",
+    "test:all": "./tests/test.sh",
     "test:watch": "vitest",
     "test:ci": "vitest run --coverage",
     "serve": "vite preview",
