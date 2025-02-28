@@ -21,7 +21,7 @@ describe('OnboardingOverlay', () => {
     });
     body = (<>Popover body text</>);
     btnOptions = {};
-    vi.useFakeTimers({ toFake: ['queueMicrotask'] });
+    vi.useFakeTimers({ toFake: ['queueMicrotask', 'requestAnimationFrame'] });
   });
   afterEach(()=>{
     vi.useRealTimers();
