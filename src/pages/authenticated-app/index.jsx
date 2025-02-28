@@ -147,7 +147,7 @@ class AuthenticatedApp extends Component {
     console.log('onDelayedMount - calling init');
     try {
       const initResponse = await this.twitchApi.init();
-      console.log('onDelayedMount - initialized response:', initResponse);
+      // console.log('onDelayedMount - initialized response:', initResponse);
       if (!initResponse) {
         throw 'No response';
       }

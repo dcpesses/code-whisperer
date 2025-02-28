@@ -1,11 +1,10 @@
 /* eslint-env jest */
 import AuthenticatedApp, {AuthenticatedApp as AuthenticatedAppComponent, TWITCH_API, noop} from '@/pages/authenticated-app';
-import {createRenderer} from 'react-test-renderer/shallow';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { mockWindowLocation } from '@/../tests/mockWindowLocation';
 import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
-import Landing from '@/pages/landing';
+// import Landing from '@/pages/landing';
 import React from 'react';
 import {vi} from 'vitest';
 
@@ -641,23 +640,6 @@ describe('AuthenticatedApp', () => {
     });
   });
 
-  describe('render (via react-test-renderer)', () => {
-    test('should render with Landing on has_logged_out state', () => {
-      const utils = createRenderer();
-      utils.render(<AuthenticatedAppComponent {...props} />);
-      let instance = utils.getMountedInstance();
-      instance._isMounted = true;
-      instance.setState({
-        access_token: null,
-        failed_login: false,
-        has_logged_out: true,
-        username: null
-      });
-      let view = utils.getRenderOutput();
-      expect(view.type).toBe(Landing);
-      utils.unmount();
-    });
-  });
 
   describe('render', () => {
     let store;
@@ -725,98 +707,69 @@ describe('AuthenticatedApp', () => {
       // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
     });
 
-    // WIP
-    test.skip('Should render Landing when user has logged out', async() => {
-      mockWindowLocation('http://localhost:5173/code-whisperer/#code=d');
+    test('Should render Landing', () => {
+
+      class AuthenticatedAppLanding extends AuthenticatedAppComponent {
+        UNSAFE_componentWillMount() {
+          this._isMounted = true;
+          return this.setState({
+            auth_pending: false,
+            failed_login: true,
+          }, () => Promise.resolve());
+        }
+      }
+
+      mockWindowLocation('http://localhost:5173/#?code=mock_code&scope=mock_scope');
       vi.spyOn(Date, 'now').mockReturnValue(499162860000);
       vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         switch (label) {
+        case '__access_token':
+          return 'MOCK TOKEN';
         case '__username':
           return 'TwitchUser';
         case '__user_id':
           return '23456789';
-        case '__access_token':
-          return 'MOCK TOKEN';
         default:
           return undefined;
         }
       });
       vi.spyOn(window.localStorage, 'setItem');
-      // vi.spyOn(TWITCH_API, 'resume').mockRejectedValue(void 0);
-      vi.spyOn(TWITCH_API, 'init').mockRejectedValue({short_circuit: true});
-      vi.spyOn(TWITCH_API, 'requestAuthentication')
-        .mockResolvedValueOnce({status: 204})
-        .mockResolvedValue({status: 403, message: 'Forbidden'});
-      vi.spyOn(TWITCH_API, 'validateToken')
-        .mockResolvedValueOnce({status: 204, login: 'username'})
-        .mockResolvedValue({status: 403, message: 'Forbidden'});
-      vi.spyOn(TWITCH_API, 'requestUsers')
-        .mockResolvedValueOnce({status: 204, data: [{login: 'username', id: 0}]})
-        .mockResolvedValue({status: 403, message: 'Forbidden'});
-      vi.spyOn(TWITCH_API, 'requestModerators').mockResolvedValue(void 0);
-      vi.spyOn(TWITCH_API, 'requestVIPs').mockResolvedValue(void 0);
-      vi.spyOn(TWITCH_API, 'requestAllModerators').mockResolvedValue(void 0);
-      vi.spyOn(TWITCH_API, 'requestModeratedChannels').mockResolvedValue({status: 204, data: []});
-      vi.spyOn(TWITCH_API, '_onInitCallback').mockResolvedValue(void 0);
+      vi.spyOn(TWITCH_API, 'requestAuthentication').mockResolvedValue({status: 204});
+      vi.spyOn(TWITCH_API, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
+      vi.spyOn(TWITCH_API, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
+      // vi.spyOn(TWITCH_API, '_authErrorCallback').mockResolvedValue(void 0);
+      // vi.spyOn(TWITCH_API, '_onInitCallback').mockResolvedValue(void 0);
       vi.spyOn(TWITCH_API, 'initChatClient').mockResolvedValue(void 0);
-      vi.spyOn(TWITCH_API, '_chatClient', 'get').mockReturnValueOnce({
+      vi.spyOn(TWITCH_API, '_chatClient', 'get').mockReturnValue({
         connect: vi.fn(),
         say: vi.fn()
       });
-      vi.spyOn(TWITCH_API, 'logOut').mockResolvedValue({status: 200});
 
       const {container} = render(
         <Provider store={store}>
-          <AuthenticatedAppComponent {...props} />
+          <AuthenticatedAppLanding {...props} />
         </Provider>
       );
-      vi.advanceTimersByTime(150);
-      // expect(container).toMatchInlineSnapshot(`
-      //   <div>
-      //     <div
-      //       data-testid="LandingMock"
-      //     />
-      //   </div>
-      // `);
-      // expect(container).toMatchSnapshot();
-      expect(screen.getByTestId('MainScreenMock')).toBeInTheDocument();
-
-      const btnLogOut = screen.getByText('Log Out');
-      fireEvent.click(btnLogOut);
-      fireEvent.click(screen.getByText('Auth'));
-      vi.advanceTimersByTime(150);
-
-
-      // expect(TWITCH_API.logOut).toHaveBeenCalledTimes(1);
-
-      mockWindowLocation('http://localhost:5173/#');
-      vi.advanceTimersByTime(150);
-
-
-      console.log('Spys:', {
-        // localStorage_getItem_mock: window.localStorage.getItem.mock,
-        localStorage_getItem: window.localStorage.getItem.mock.calls,
-        localStorage_setItem: window.localStorage.setItem.mock.calls,
-        requestAuthentication: TWITCH_API.requestAuthentication.mock.calls,
-        validateToken: TWITCH_API.validateToken.mock.calls,
-        requestUsers: TWITCH_API.requestUsers.mock.calls,
-        requestModerators: TWITCH_API.requestModerators.mock.calls,
-        requestVIPs: TWITCH_API.requestVIPs.mock.calls,
-        requestModeratedChannels: TWITCH_API.requestModeratedChannels.mock.calls,
-        requestAllModerators: TWITCH_API.requestAllModerators.mock.calls,
-        initChatClient: TWITCH_API.initChatClient.mock.calls,
-        logOut: TWITCH_API.logOut.mock.calls,
-      });
-
+      vi.advanceTimersByTime(100);
       expect(container).toMatchInlineSnapshot(`
         <div>
           <div
             data-testid="LandingMock"
-          />
+          >
+            Landing
+          </div>
         </div>
       `);
-    });
 
+      // expect(container.type).toBe(Landing);
+      expect(screen.getByTestId('LandingMock')).toBeInTheDocument();
+
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
+      expect(TWITCH_API.validateToken).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.requestUsers).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.initChatClient).toHaveBeenCalledTimes(0);
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
+    });
 
   });
 });
