@@ -169,11 +169,11 @@ class AuthenticatedApp extends Component {
       return this.setState({
         auth_pending: false,
         failed_login: true,
-      });
+      }, () => Promise.resolve());
     }
     this.props.setUserInfo(userInfo);
     this.props.setChannelInfo(userInfo);
-    this.setState({
+    return this.setState({
       username: userInfo.login,
       user_id: userInfo.id,
       profile_image_url: userInfo.profile_image_url,
@@ -187,7 +187,7 @@ class AuthenticatedApp extends Component {
     return this.setState({
       auth_pending: false,
       failed_login: true,
-    });
+    }, () => Promise.resolve());
   };
 
   logOut = async() => {
@@ -199,11 +199,15 @@ class AuthenticatedApp extends Component {
       console.log('logOut: setState - has_logged_out');
       return this.setState({
         has_logged_out: true
+      }, ()=>{
+        return Promise.resolve();
       });
     } catch (e) {
       console.log('logOut: error', e);
       return this.setState({
         has_logged_out: true
+      }, ()=>{
+        return Promise.resolve();
       });
     }
   };
@@ -254,12 +258,9 @@ class AuthenticatedApp extends Component {
   };
 
   render = () => {
-    if (this._isMounted && (this.state.failed_login === true || this.state.has_logged_out === true)) {
-      if (this.showLoginButton) {
-        return (<Landing />);
-      }
-      console.log('render: navigate to login');
-      return (<Navigate to="/login" />);
+    const {failed_login, has_logged_out, username} = this.state;
+    if (this._isMounted && (failed_login === true || has_logged_out === true)) {
+      return (<Landing />);
     }
 
     let mainContent = (
@@ -274,11 +275,11 @@ class AuthenticatedApp extends Component {
       </div>
     );
 
-    if (this.state.username && this.twitchApi?.isChatConnected) {
+    if (username && this.twitchApi?.isChatConnected) {
       mainContent = (
         <MainScreen
           access_token={this.twitchApi?.accessToken}
-          channel={this.state.username}
+          channel={username}
           moderators={this.props.moderators}
           onLogOut={this.logOut}
           twitchApi={this.twitchApi}
@@ -295,7 +296,7 @@ class AuthenticatedApp extends Component {
   };
 }
 
-export {AuthenticatedApp};
+export {AuthenticatedApp, TWITCH_API};
 const mapStateToProps = state => ({
   moderators: state.channel.moderators?.data,
   vips: state.channel.vips?.data,
