@@ -1,4 +1,4 @@
-import {ReactElement} from 'react';
+import {JSX, ReactElement} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 

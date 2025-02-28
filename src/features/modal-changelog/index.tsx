@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import {Fragment, JSX, useState} from 'react';
 import ModalReusable from '@/components/modal';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';

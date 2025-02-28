@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, JSX } from 'react';
 import {
   hideModalCommandList,
   selectModalCommandList,
