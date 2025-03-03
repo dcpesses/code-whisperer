@@ -3,7 +3,6 @@ import {version} from '../../../package.json';
 
 const REQUEST_COMMAND = '!request';
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 /*
 const ChatCommand = {
   commands: ['!command'],

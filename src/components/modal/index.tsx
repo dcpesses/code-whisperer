@@ -1,4 +1,4 @@
-import {ReactElement} from 'react';
+import {JSX, ReactElement} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -11,12 +11,9 @@ interface ModalProps {
   show: boolean;
   title: string;
 }
-ModalReusable.defaultProps = {
-  id: 'modal-reusuable'
-};
 
-function ModalReusable(props: ModalProps): JSX.Element {
-  const {children, handleClose, id, show, title} = props;
+function ModalReusable({children, handleClose, id='modal-reusuable', show, title}: ModalProps): JSX.Element {
+  // const {children, handleClose, id, show, title} = props;
   return (
     <Modal id={id} show={show} fullscreen="md-down" dialogClassName="modal-90w" onHide={handleClose} className="modal-reusable">
       <Modal.Header closeButton>

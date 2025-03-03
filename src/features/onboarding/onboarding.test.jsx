@@ -21,7 +21,7 @@ describe('OnboardingOverlay', () => {
     });
     body = (<>Popover body text</>);
     btnOptions = {};
-    vi.useFakeTimers({ toFake: ['nextTick'] });
+    vi.useFakeTimers({ toFake: ['queueMicrotask', 'requestAnimationFrame'] });
   });
   afterEach(()=>{
     vi.useRealTimers();
@@ -46,6 +46,8 @@ describe('OnboardingOverlay', () => {
         </OnboardingOverlay>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     const popoverElement = await screen.findByRole('tooltip');
     expect(popoverElement).toHaveTextContent('Popover body text');
     expect(popoverElement).toMatchSnapshot();
@@ -81,6 +83,8 @@ describe('OnboardingOverlay', () => {
         </OnboardingOverlay>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     const popoverElement = await screen.findByRole('tooltip');
     expect(popoverElement).toHaveTextContent('Popover body text');
     expect(popoverElement).toMatchSnapshot();
@@ -101,6 +105,8 @@ describe('OnboardingOverlay', () => {
         </OnboardingOverlay>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     const popoverElement = await screen.findByRole('tooltip');
     expect(popoverElement).toHaveTextContent('Popover body text');
     expect(popoverElement).toMatchSnapshot();
@@ -120,13 +126,17 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
+    vi.advanceTimersByTime(500);
     fireEvent.click(await screen.findByText('Next'));
     await screen.findByText('Second Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Next btn pressed');
 
+    vi.advanceTimersByTime(500);
     fireEvent.click(await screen.findByText('Done'));
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Done btn pressed');
     expect(screen.queryByText('Second Popover body')).toBeNull();
@@ -147,9 +157,12 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     await screen.findByText('Second Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
+    vi.advanceTimersByTime(500);
     fireEvent.click(await screen.findByText('Back'));
     await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('Back btn pressed');
@@ -176,9 +189,12 @@ describe('OnboardingOverlay', () => {
         </div>
       </Provider>
     );
+
+    vi.advanceTimersByTime(500);
     await screen.findByText('First Popover body');
     expect(await screen.findByRole('tooltip')).toMatchSnapshot('initial render');
 
+    vi.advanceTimersByTime(500);
     fireEvent.click(await screen.findByTitle('Skip and Close'));
     await waitFor(() => {
       expect(screen.queryByText('First Popover body')).toBeNull();

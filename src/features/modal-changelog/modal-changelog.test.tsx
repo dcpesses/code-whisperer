@@ -1,11 +1,10 @@
-/* eslint-disable testing-library/no-node-access */
 import { vi } from 'vitest';
 import {fireEvent, render, screen} from '@testing-library/react';
 import ModalChangelog from './index';
 
 describe('ModalChangelog', () => {
   test('Should render modal', async() => {
-    vi.useFakeTimers({ toFake: ['nextTick'] });
+    vi.useFakeTimers({ toFake: ['queueMicrotask'] });
     render(
       <ModalChangelog
         handleClose={vi.fn()}

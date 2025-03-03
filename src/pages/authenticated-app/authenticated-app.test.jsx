@@ -1,16 +1,63 @@
-/* eslint-disable testing-library/render-result-naming-convention */
 /* eslint-env jest */
-import AuthenticatedApp, {AuthenticatedApp as AuthenticatedAppComponent, noop} from '@/pages/authenticated-app';
-import {createRenderer} from 'react-test-renderer/shallow';
-import { render } from '@testing-library/react';
-// import MainScreen from '../landing/MainScreen';
+import AuthenticatedApp, {AuthenticatedApp as AuthenticatedAppComponent, TWITCH_API, noop} from '@/pages/authenticated-app';
+import { render, screen } from '@testing-library/react';
+import { mockWindowLocation } from '@/../tests/mockWindowLocation';
 import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
-import Landing from '@/pages/landing';
+// import Landing from '@/pages/landing';
 import React from 'react';
 import {vi} from 'vitest';
 
-// vi.mock('../landing/MainScreen');
+globalThis.jest = {
+  ...globalThis.jest,
+  advanceTimersByTime: vi.advanceTimersByTime.bind(vi)
+};
+
+global.fetch = vi.fn();
+vi.mock('tmi.js');
+
+// vi.mock('@/components/main-screen', () => ({
+//   default: ({onLogOut, onTwitchAuthError, has_logged_out}) => (
+//     <div data-testid="MainScreenMock">
+//       <button onClick={onLogOut}>
+//         Log Out
+//       </button>
+//       <button onClick={onTwitchAuthError}>
+//         Auth
+//       </button>
+//       <span data-testid="has_logged_out">
+//         {has_logged_out ? has_logged_out.toString() : 'null'}
+//       </span>
+//     </div>
+//   )
+// }));
+vi.mock('@/components/main-screen', () => ({
+  default: () => (
+    <div data-testid="MainScreenMock" />
+  )
+}));
+
+vi.mock('@/pages/landing', () => ({
+  default: () => (
+    <div data-testid="LandingMock">
+      Landing
+    </div>
+  )
+}));
+
+/*
+const originalSetState = React.Component.prototype.setState;
+vi.spyOn(React.Component.prototype, 'setState').mockImplementation(
+  (this, ...args) => {
+    const [update, callback] = args;
+
+    const wrappedCallback = callback && (() => act(() => callback()));
+
+    originalSetState.apply(this, [update, wrappedCallback]);
+  }
+);
+*/
+
 vi.mock('react-router-dom', () => {
   const reactRouterDom = vi.importActual('react-router-dom');
   return {
@@ -137,7 +184,7 @@ describe('AuthenticatedApp', () => {
   describe('onMount', () => {
 
     beforeEach(() => {
-      vi.useFakeTimers();
+      vi.useFakeTimers({ toFake: ['queueMicrotask'] });
       // "Calm down, Marty, Einstein and the car are completely intact."
       vi.spyOn(Date, 'now').mockReturnValue(499162860000); // October 26, 1985 1:21:00 AM PST
     });
@@ -145,7 +192,7 @@ describe('AuthenticatedApp', () => {
       vi.useRealTimers();
     });
     test('should reuse existing access token from localStorage if available', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -171,7 +218,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should attempt to reuse existing access token, handle error response, and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -201,7 +248,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should catch errors on attempt to reuse existing access token and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -230,7 +277,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should use refresh token from localStorage to generate new token', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -263,7 +310,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should attempt to use refresh token to generate new token, handle error response, and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -299,7 +346,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should catch errors on attempt to use refresh token to generate new token and call init', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         if (label === '__access_token') {
           return 'MOCK TOKEN';
         }
@@ -335,7 +382,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should initialize the Twitch API class and call onTwitchAuthInit when completed', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       component.twitchApi = {
@@ -348,7 +395,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should throw a No Response error when initializing the Twitch API class', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       vi.spyOn(component, 'onTwitchAuthError');
@@ -366,7 +413,7 @@ describe('AuthenticatedApp', () => {
     });
 
     test('should throw the initResponse error response when initializing the Twitch API class', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(undefined);
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue(undefined);
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'onTwitchAuthInit');
       vi.spyOn(component, 'onTwitchAuthError');
@@ -424,7 +471,7 @@ describe('AuthenticatedApp', () => {
       expect(component.setState).toHaveBeenCalledWith({
         auth_pending: false,
         failed_login: true,
-      });
+      }, expect.any(Function));
     });
   });
 
@@ -437,7 +484,7 @@ describe('AuthenticatedApp', () => {
       expect(component.setState).toHaveBeenCalledWith({
         auth_pending: false,
         failed_login: true,
-      });
+      }, expect.any(Function));
     });
   });
 
@@ -453,7 +500,7 @@ describe('AuthenticatedApp', () => {
       window.location = location;
     });
     test('should log out of api and update has_logged_out state', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      vi.spyOn(window.localStorage, 'removeItem');
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'setState');
       component.twitchApi = {
@@ -461,11 +508,11 @@ describe('AuthenticatedApp', () => {
       };
       await component.logOut();
 
-      expect(window.localStorage.__proto__.removeItem).toHaveBeenCalled();
+      expect(window.localStorage.removeItem).toHaveBeenCalled();
       expect(component.setState).toHaveBeenCalled();
     });
     test('should handle error and update has_logged_out state', async() => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      vi.spyOn(window.localStorage, 'removeItem');
       let component = new AuthenticatedAppComponent();
       vi.spyOn(component, 'setState');
       component.twitchApi = {
@@ -474,7 +521,7 @@ describe('AuthenticatedApp', () => {
       await component.logOut();
 
       expect(component.setState).toHaveBeenCalled();
-      expect(window.localStorage.__proto__.removeItem).not.toHaveBeenCalled();
+      expect(window.localStorage.removeItem).not.toHaveBeenCalled();
     });
   });
 
@@ -593,139 +640,21 @@ describe('AuthenticatedApp', () => {
     });
   });
 
+
   describe('render', () => {
-    test('should render with MainScreen', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
-        switch (label) {
-        case '__access_token':
-          return 'MOCK TOKEN';
-        case '__username':
-          return 'TwitchUser';
-        case 'user_id':
-          return '23456789';
-        default:
-          return undefined;
-        }
-      });
-      const shallowRenderer = createRenderer();
-      shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
-      let instance = shallowRenderer.getMountedInstance();
-      instance.twitchApi = {
-        mock: 'TwitchApi',
-        isChatConnected: true,
-        closeChatClient: vi.fn()
-      };
-      instance.setState({
-        access_token: 'yadayadayada',
-        failed_login: false,
-        moderators: [],
-        username: 'sirgoosewell',
-        has_logged_out: false,
-      });
-      let component = shallowRenderer.getRenderOutput();
-      // expect(component.props.children.type).toBe(MainScreen);
-      expect(component).toMatchSnapshot();
-      shallowRenderer.unmount();
-    });
-
-    test('should render with MainScreen using store', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
-        switch (label) {
-        case '__access_token':
-          return 'MOCK TOKEN';
-        case '__username':
-          return 'TwitchUser';
-        case 'user_id':
-          return '23456789';
-        default:
-          return undefined;
-        }
-      });
-      const store = getStoreWithState(storeState);
-      const twitchApi = getMockTwitchApi();
-
-      const shallowRenderer = createRenderer();
-      shallowRenderer.render(
-        <Provider store={store}>
-          <AuthenticatedApp twitchApi={twitchApi} />
-        </Provider>
-      );
-      // let instance = shallowRenderer.getMountedInstance();
-      // instance.twitchApi = {
-      //   mock: 'TwitchApi',
-      //   isChatConnected: true,
-      //   closeChatClient: vi.fn()
-      // };
-      // instance.setState({
-      //   access_token: 'yadayadayada',
-      //   failed_login: false,
-      //   moderators: [],
-      //   username: 'sirgoosewell',
-      //   has_logged_out: false,
-      // });
-      let component = shallowRenderer.getRenderOutput();
-      // expect(component.props.children.type).toBe(MainScreen);
-      expect(component).toMatchSnapshot();
-      shallowRenderer.unmount();
-    });
-
-
-    test('should render with Landing on failed login', () => {
-      const shallowRenderer = createRenderer();
-      shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
-      let instance = shallowRenderer.getMountedInstance();
-      instance._isMounted = true;
-      instance.setState({
-        access_token: null,
-        failed_login: true,
-        username: null
-      });
-      let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Landing);
-      expect(component).toMatchSnapshot();
-      shallowRenderer.unmount();
-    });
-    test('should render with Landing on has_logged_out state', () => {
-      const shallowRenderer = createRenderer();
-      shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
-      let instance = shallowRenderer.getMountedInstance();
-      instance._isMounted = true;
-      instance.setState({
-        access_token: null,
-        failed_login: false,
-        has_logged_out: true,
-        username: null
-      });
-      let component = shallowRenderer.getRenderOutput();
-      expect(component.type).toBe(Landing);
-      expect(component).toMatchSnapshot();
-      shallowRenderer.unmount();
-    });
-    test('should render with null', () => {
-      const shallowRenderer = createRenderer();
-      shallowRenderer.render(<AuthenticatedAppComponent {...props} />);
-      let instance = shallowRenderer.getMountedInstance();
-      instance.setState({
-        access_token: null,
-        failed_login: false,
-        username: null
-      });
-      let component = shallowRenderer.getRenderOutput();
-      // expect(component.props.children).toBeDefined();
-      expect(component).toMatchSnapshot();
-      shallowRenderer.unmount();
-    });
-  });
-
-  describe.skip('render with store', () => {
     let store;
     let twitchApi;
 
     beforeEach(() => {
       store = getStoreWithState(storeState);
       twitchApi = getMockTwitchApi();
+      vi.useFakeTimers({ toFake: ['clearImmediate', 'clearTimeout', 'queueMicrotask', 'setImmediate', 'setTimeout'] });
     });
-    test('Should render with loader', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    test('Should render with LoadingRipple', () => {
       const {container} = render(
         <Provider store={store}>
           <AuthenticatedApp twitchApi={twitchApi} />
@@ -734,28 +663,113 @@ describe('AuthenticatedApp', () => {
       expect(container).toMatchSnapshot();
     });
 
-
-    test('Should render with user', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((label) => {
+    test('Should render MainScreen', () => {
+      mockWindowLocation('http://localhost:5173/#?code=mock_code&scope=mock_scope');
+      vi.spyOn(Date, 'now').mockReturnValue(499162860000);
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
         switch (label) {
         case '__access_token':
           return 'MOCK TOKEN';
         case '__username':
           return 'TwitchUser';
-        case 'user_id':
+        case '__user_id':
           return '23456789';
         default:
           return undefined;
         }
       });
-      const output = render(
+      vi.spyOn(window.localStorage, 'setItem');
+      vi.spyOn(TWITCH_API, 'requestAuthentication').mockResolvedValue({status: 204});
+      vi.spyOn(TWITCH_API, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
+      vi.spyOn(TWITCH_API, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
+      // vi.spyOn(TWITCH_API, '_authErrorCallback').mockResolvedValue(void 0);
+      // vi.spyOn(TWITCH_API, '_onInitCallback').mockResolvedValue(void 0);
+      vi.spyOn(TWITCH_API, 'initChatClient').mockResolvedValue(void 0);
+      vi.spyOn(TWITCH_API, '_chatClient', 'get').mockReturnValue({
+        connect: vi.fn(),
+        say: vi.fn()
+      });
+
+      const {container} = render(
         <Provider store={store}>
-          <AuthenticatedApp twitchApi={twitchApi} />
+          <AuthenticatedApp {...props} />
         </Provider>
       );
-      const {container} = output;
-      console.log({output});
+      vi.advanceTimersByTime(100);
       expect(container).toMatchSnapshot();
+
+      expect(screen.getByTestId('MainScreenMock')).toBeInTheDocument();
+
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
+      expect(TWITCH_API.validateToken).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.requestUsers).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.initChatClient).toHaveBeenCalledTimes(0);
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
     });
+
+    test('Should render Landing', () => {
+
+      class AuthenticatedAppLanding extends AuthenticatedAppComponent {
+        UNSAFE_componentWillMount() {
+          this._isMounted = true;
+          return this.setState({
+            auth_pending: false,
+            failed_login: true,
+          }, () => Promise.resolve());
+        }
+      }
+
+      mockWindowLocation('http://localhost:5173/#?code=mock_code&scope=mock_scope');
+      vi.spyOn(Date, 'now').mockReturnValue(499162860000);
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation((label) => {
+        switch (label) {
+        case '__access_token':
+          return 'MOCK TOKEN';
+        case '__username':
+          return 'TwitchUser';
+        case '__user_id':
+          return '23456789';
+        default:
+          return undefined;
+        }
+      });
+      vi.spyOn(window.localStorage, 'setItem');
+      vi.spyOn(TWITCH_API, 'requestAuthentication').mockResolvedValue({status: 204});
+      vi.spyOn(TWITCH_API, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
+      vi.spyOn(TWITCH_API, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
+      // vi.spyOn(TWITCH_API, '_authErrorCallback').mockResolvedValue(void 0);
+      // vi.spyOn(TWITCH_API, '_onInitCallback').mockResolvedValue(void 0);
+      vi.spyOn(TWITCH_API, 'initChatClient').mockResolvedValue(void 0);
+      vi.spyOn(TWITCH_API, '_chatClient', 'get').mockReturnValue({
+        connect: vi.fn(),
+        say: vi.fn()
+      });
+
+      const {container} = render(
+        <Provider store={store}>
+          <AuthenticatedAppLanding {...props} />
+        </Provider>
+      );
+      vi.advanceTimersByTime(100);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <div
+            data-testid="LandingMock"
+          >
+            Landing
+          </div>
+        </div>
+      `);
+
+      // expect(container.type).toBe(Landing);
+      expect(screen.getByTestId('LandingMock')).toBeInTheDocument();
+
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
+      expect(TWITCH_API.validateToken).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.requestUsers).toHaveBeenCalledTimes(0);
+      expect(TWITCH_API.initChatClient).toHaveBeenCalledTimes(0);
+      // expect(TWITCH_API.requestAuthentication).toHaveBeenCalledTimes(1);
+    });
+
   });
 });

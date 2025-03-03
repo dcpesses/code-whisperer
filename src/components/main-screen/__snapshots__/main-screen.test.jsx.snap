@@ -99,6 +99,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -125,7 +126,6 @@ exports[`MainScreen > render > Should render without error 1`] = `
                       placeholder="e.g. !join"
                       spellcheck="false"
                       type="text"
-                      value=""
                     />
                   </button>
                   <button
@@ -134,6 +134,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -160,7 +161,6 @@ exports[`MainScreen > render > Should render without error 1`] = `
                       placeholder="e.g. !leave"
                       spellcheck="false"
                       type="text"
-                      value=""
                     />
                   </button>
                   <button
@@ -169,6 +169,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
@@ -195,7 +196,6 @@ exports[`MainScreen > render > Should render without error 1`] = `
                       placeholder="e.g. !queue"
                       spellcheck="false"
                       type="text"
-                      value=""
                     />
                   </button>
                   <button
@@ -204,6 +204,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"

@@ -145,7 +145,7 @@ describe('MainScreen', () => {
     });
 
     test('should load and initialize settings from localStorage', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation(mockLSGetItem);
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation(mockLSGetItem);
       const mainScreen = new MainScreenComponent({updateAppSettings});
       expect(updateAppSettings).toBeCalledWith({
         'customDelimiter': '|',
@@ -154,7 +154,7 @@ describe('MainScreen', () => {
       expect(mainScreen).toBeDefined();
     });
     test('should handle any errors that occur when initializing settings and use the default settings', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('{]');
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue('{]');
       const mainScreen = new MainScreenComponent({updateAppSettings});
       expect(updateAppSettings).not.toHaveBeenCalled();
       expect(mainScreen).toBeDefined();
@@ -165,7 +165,7 @@ describe('MainScreen', () => {
     let mainScreen;
 
     beforeEach(() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation(mockLSGetItem);
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation(mockLSGetItem);
       mainScreen = new MainScreenComponent({
         setFakeUserStates: vi.fn(),
         setFakeChannelStates: vi.fn(),
@@ -201,7 +201,7 @@ describe('MainScreen', () => {
     });
 
     test('should show onboarding prompt modal for first time user', () => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation(
+      vi.spyOn(window.localStorage, 'getItem').mockImplementation(
         (key) => {
           switch (key) {
           case LOCALSETTINGS_KEY:
@@ -553,7 +553,7 @@ describe('MainScreen', () => {
     let mainScreen;
 
     beforeEach(() => {
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       mainScreen = new MainScreenComponent({
         updateAppSettings: vi.fn(),
       });
