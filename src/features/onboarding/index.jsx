@@ -90,13 +90,13 @@ const OnboardingOverlay = ({
 
   const popover = (
     <Popover className="onboarding-popover">
-      <Popover.Header as="h3">
+      <Popover.Header as="h3" data-testid="Popover.Header">
         <span>
           {stepIcon} {labels.step} {step} of {onboarding.maxSteps}
         </span>
         <button type="button" className="btn-close ms-auto p-0" aria-label={labels.close} title={labels.skip} onClick={skipHandler} />
       </Popover.Header>
-      <Popover.Body className="rounded-bottom">
+      <Popover.Body className="rounded-bottom" data-testid="Popover.Body">
         {content}
         <div className="d-flex justify-content-between pt-3">
           <Button variant="secondary" size="sm" onClick={prevHandler}
