@@ -19,6 +19,12 @@ vi.mock('@/pages/error404', () => ({
 vi.mock('@/pages/authenticated-app', () => ({
   default: () => <div data-testid="AuthenticatedAppMock" />
 }));
+vi.mock('@/pages/contact', () => ({
+  default: () => <div data-testid="ContactMock" />
+}));
+vi.mock('@/pages/thanks', () => ({
+  default: () => <div data-testid="ThanksMock" />
+}));
 
 
 describe('App', () => {
@@ -50,6 +56,18 @@ describe('App', () => {
     );
 
     expect(screen.getByTestId('AuthenticatedAppMock')).toBeInTheDocument();
+  });
+  test('Should render Contact route', () => {
+    mockWindowLocation('http://localhost:5173/contact');
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('ContactMock')).toBeInTheDocument();
   });
   test('Should render Landing route', () => {
     mockWindowLocation('http://localhost:5173/landing');
@@ -86,5 +104,17 @@ describe('App', () => {
     );
 
     expect(screen.getByTestId('Error404Mock')).toBeInTheDocument();
+  });
+  test('Should render Thanks route', () => {
+    mockWindowLocation('http://localhost:5173/thanks');
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('ThanksMock')).toBeInTheDocument();
   });
 });

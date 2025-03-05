@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Thanks > Should render as expected 1`] = `
+<div>
+  <div
+    class="thanks container-fluid d-flex justify-content-center align-items-center vw-100 vh-100"
+  >
+    <main
+      class="row text-center d-flex align-items-center"
+    >
+      <h1
+        class="pb-4"
+      >
+        Thanks!
+      </h1>
+      <p>
+        We've received your submission.
+      </p>
+      <div
+        class="col-6 mx-auto"
+      >
+        <div
+          class="btn btn-outline-primary mt-5"
+          data-to="/"
+        >
+          Back
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

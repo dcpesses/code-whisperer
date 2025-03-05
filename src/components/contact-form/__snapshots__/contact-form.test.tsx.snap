@@ -1,0 +1,728 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ContactForm > Should render as expected 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class=""
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should not submit when disabled > dirty 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class="was-validated"
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should not submit when disabled > pristine 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class=""
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      disabled=""
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      disabled=""
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      disabled=""
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      disabled=""
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    disabled=""
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    disabled=""
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should not submit when form has invalid data > dirty 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class="was-validated"
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should not submit when form has invalid data > pristine 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class=""
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should submit when form has valid data > dirty 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class="was-validated"
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`ContactForm > should submit when form has valid data > pristine 1`] = `
+<form
+  accept-charset="UTF-8"
+  action="/submit"
+  class="was-validated"
+  data-testid="contact-form"
+  enctype=""
+  id="contact-form"
+  method="GET"
+  novalidate=""
+>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Full_Name"
+    >
+      Full Name *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Full_Name"
+      name="Full Name"
+      placeholder="First name"
+      required=""
+      type="text"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your full name
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Email_Address"
+    >
+      Email Address *
+    </label>
+    <input
+      class="form-control"
+      id="contact.Email_Address"
+      name="Email Address"
+      required=""
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter a valid email address
+    </div>
+  </div>
+  <div>
+    <label
+      class="form-label"
+      for="contact.Comments_Questions"
+    >
+      Comments/Questions *
+    </label>
+    <textarea
+      class="form-control"
+      id="contact.Comments_Questions"
+      name="Comments/Questions"
+      required=""
+    />
+    <div
+      class="invalid-feedback"
+    >
+      Please enter your feedback.
+    </div>
+  </div>
+  <div
+    style="opacity: 0; position: absolute; top: 0px; left: -5000px; height: 0px; width: 0px;"
+  >
+    <label
+      for="subscribe_a7fdfc1ea41e_48062"
+    />
+    <input
+      autocomplete="off"
+      id="email_subscribe_a7fdfc1ea41e_48062"
+      name="subscribe_a7fdfc1ea41e_48062"
+      placeholder="Your email here"
+      tabindex="-1"
+      type="email"
+      value=""
+    />
+  </div>
+  <input
+    autocomplete="off"
+    id="g-recaptcha-response"
+    name="g-recaptcha-response"
+    type="hidden"
+    value=""
+  />
+  <button
+    class="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
