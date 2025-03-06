@@ -16,6 +16,8 @@ import {version} from '../../../package.json';
 
 import './header-menu.css';
 import KofiSvg from '@/assets/kofi.svg';
+import KofiSymbolSvg from '@/assets/kofi_symbol.svg';
+
 
 export const noop = () => void 0;
 
@@ -73,15 +75,6 @@ export class HeaderMenu extends Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   showKofiOverlay: false,
-    //   showGameList: false,
-    //   showOptionsMenu: false,
-    //   showSettingsMenu: false,
-    // };
-    // this.toggleGameList = this.toggleGameList.bind(this);
-    // this.toggleKofiOverlay = this.toggleKofiOverlay.bind(this);
-    // this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this);
 
     this.updateCustomDelimiter = this.updateInputOption.bind(this, 'customDelimiter');
     this.updateCustomJoinCommand = this.updateInputOption.bind(this, 'customJoinCommand');
@@ -168,6 +161,31 @@ export class HeaderMenu extends Component {
       </>
     );
   };
+
+  createKofiOverlay = (menu) => (
+    <OverlayTrigger
+      show={menu.showKofi}
+      onToggle={this.toggleKofiOverlay}
+      trigger="click"
+      placement="top"
+      overlay={
+        <div className="kofi-overlay" style={{zIndex: 1046}}>
+          {
+            (menu.showKofi) && (
+              <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="Support Me on Ko-fi"></iframe>
+            )
+          }
+          <div className="position-absolute top-0 end-0 p-2">
+            <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
+          </div>
+        </div>
+      }
+    >
+      <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
+        <img src={KofiSvg} alt="Support Me on Ko-fi" className="img-fluid" />
+      </Nav.Link>
+    </OverlayTrigger>
+  )
 
   onModeratedChannelMenuItem = async(channel) => {
     try {
@@ -279,6 +297,8 @@ export class HeaderMenu extends Component {
         </Dropdown>
       );
     }
+
+    const kofi = this.createKofiOverlay(menu);
 
     return (
       <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0" onToggle={this.props.toggleOptionsMenu} expanded={menu.showOptions}>
@@ -426,28 +446,9 @@ export class HeaderMenu extends Component {
                 <Nav.Link onClick={this.toggleChangelogModal}>What&apos;s New</Nav.Link>
 
                 <div id="options-debug-menu-items" className="position-absolute bottom-0 start-0 end-0 pb-3 text-center">
-                  <OverlayTrigger
-                    show={menu.showKofi}
-                    onToggle={this.toggleKofiOverlay}
-                    trigger="click"
-                    placement="top"
-                    overlay={
-                      <div className="kofi-overlay" style={{zIndex: 1046}}>
-                        {
-                          (menu.showKofi) && (
-                            <iframe id="kofiframe" src="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" height="640" title="dcpesses"></iframe>
-                          )
-                        }
-                        <div className="position-absolute top-0 end-0 p-2">
-                          <CloseButton id="close-kofi-overlay" onClick={this.toggleKofiOverlay} />
-                        </div>
-                      </div>
-                    }
-                  >
-                    <Nav.Link title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
-                      <img src={KofiSvg} alt="Support Me on Ko-fi" className="img-fluid" />
-                    </Nav.Link>
-                  </OverlayTrigger>
+
+                  {kofi}
+
                   <Dropdown id="dropdown-debug-menu-items" drop="up-centered" variant="link">
                     <Dropdown.Toggle id="dropdown-debug-menu-items-toggle" size="sm" variant="link" className="text-decoration-none">
                       {`version ${version}`}

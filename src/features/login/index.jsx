@@ -100,7 +100,7 @@ class Login extends Component {
             <div className="text-center pt-1 pb-2">
 
               <div>
-                <img src={logo} className="login-logo w-50 mx-auto mb-3" alt="Logo" />
+                <img src={logo} className="login-logo w-50 mx-auto mb-3" alt="Code Whisperer Logo" />
               </div>
 
               <h2 className="text-center mb-0">

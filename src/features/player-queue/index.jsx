@@ -270,11 +270,23 @@ export class PlayerQueue extends Component {
   renderStreamerSeatToggle = () => {
     return (
       <div className="toggle-streamer-seat">
-        <label className="toggle-label form-check-label" htmlFor="reserve-seat-for-streamer">
+        <label
+          aria-label="reserve-seat-for-streamer"
+          id="reserve-seat-for-streamer-label"
+          className="toggle-label form-check-label"
+        >
           Reserve seat for streamer?
         </label>
         <div className="form-check form-switch">
-          <input className="form-check-input" type="checkbox" role="switch" id="reserve-seat-for-streamer" defaultChecked={this.props.streamerSeat} onChange={this.toggleStreamerSeat} />
+          <input
+            aria-labelledby="reserve-seat-for-streamer-label"
+            className="form-check-input"
+            defaultChecked={this.props.streamerSeat}
+            id="reserve-seat-for-streamer"
+            onChange={this.toggleStreamerSeat}
+            role="switch"
+            type="checkbox"
+          />
         </div>
       </div>
     );
@@ -494,15 +506,15 @@ export class PlayerQueue extends Component {
         <div id="interested-column" className="queue my-1 px-md-1 col-12 col-md-6 order-2 order-md-1">
           <OnboardingOverlay step={1} content={stepInterested}>
             <div className="bg-body rounded shadow-sm p-2">
-              <h6 className="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-                <span className="queue-header me-auto align-self-center">
+              <div className="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+                <h6 className="queue-header mb-0 me-auto align-self-center">
                   <i className="bi-people text-purple-1 fs-5" /> Interested
-                </span>
+                </h6>
 
                 <button className="btn btn-sm" onClick={this.initRandomizePlayersAnimation}>
                   {btnRandomizeLabel}
                 </button>
-              </h6>
+              </div>
               <div className={`d-flex flex-column text-body interested-queue rand-${randCount}`}>
 
                 {interested.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'interested') )}
@@ -517,15 +529,15 @@ export class PlayerQueue extends Component {
         <div id="playing-column" className="queue my-1 px-md-1 col-12 col-md-6 order-1 order-md-2">
           <OnboardingOverlay className="bg-body rounded shadow-sm p-2" step={3} content={stepPlaying}>
 
-            <h6 className="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
-              <span className="queue-header me-auto align-self-center">
+            <div className="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom">
+              <h6 className="queue-header mb-0 me-auto align-self-center">
                 <i className="bi-people-fill text-purple-1 fs-5" /> Playing
-              </span>
+              </h6>
 
               <button className={startGameClass} onClick={this.startGame} disabled={!this.canStartGame()}>
                 Clear Seats
               </button>
-            </h6>
+            </div>
             <div className="d-flex flex-column text-body playing-queue">
 
               {playing.filter((iObj) => iObj.isPrioritySeat).map((userObj, i) => this.renderPlayerCard(userObj, i, 'playing') )}

@@ -53,8 +53,9 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
           class="toggle-streamer-seat"
         >
           <label
+            aria-label="reserve-seat-for-streamer"
             class="toggle-label form-check-label"
-            for="reserve-seat-for-streamer"
+            id="reserve-seat-for-streamer-label"
           >
             Reserve seat for streamer?
           </label>
@@ -62,6 +63,7 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
             class="form-check form-switch"
           >
             <input
+              aria-labelledby="reserve-seat-for-streamer-label"
               class="form-check-input"
               id="reserve-seat-for-streamer"
               role="switch"
@@ -91,23 +93,23 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
         <div
           class="bg-body rounded shadow-sm p-2"
         >
-          <h6
-            class="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+          <div
+            class="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
           >
-            <span
-              class="queue-header me-auto align-self-center"
+            <h6
+              class="queue-header mb-0 me-auto align-self-center"
             >
               <i
                 class="bi-people text-purple-1 fs-5"
               />
                Interested
-            </span>
+            </h6>
             <button
               class="btn btn-sm"
             >
               Randomize
             </button>
-          </h6>
+          </div>
           <div
             class="d-flex flex-column text-body interested-queue rand-0"
           >
@@ -546,23 +548,23 @@ exports[`PlayerQueue > render > Should render with fake state data 1`] = `
       <div
         class="bg-body rounded shadow-sm p-2"
       >
-        <h6
-          class="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        <div
+          class="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
         >
-          <span
-            class="queue-header me-auto align-self-center"
+          <h6
+            class="queue-header mb-0 me-auto align-self-center"
           >
             <i
               class="bi-people-fill text-purple-1 fs-5"
             />
              Playing
-          </span>
+          </h6>
           <button
             class="btn btn-sm strt-game"
           >
             Clear Seats
           </button>
-        </h6>
+        </div>
         <div
           class="d-flex flex-column text-body playing-queue"
         >
@@ -1187,8 +1189,9 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
           class="toggle-streamer-seat"
         >
           <label
+            aria-label="reserve-seat-for-streamer"
             class="toggle-label form-check-label"
-            for="reserve-seat-for-streamer"
+            id="reserve-seat-for-streamer-label"
           >
             Reserve seat for streamer?
           </label>
@@ -1196,6 +1199,7 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
             class="form-check form-switch"
           >
             <input
+              aria-labelledby="reserve-seat-for-streamer-label"
               class="form-check-input"
               id="reserve-seat-for-streamer"
               role="switch"
@@ -1225,23 +1229,23 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
         <div
           class="bg-body rounded shadow-sm p-2"
         >
-          <h6
-            class="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+          <div
+            class="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
           >
-            <span
-              class="queue-header me-auto align-self-center"
+            <h6
+              class="queue-header mb-0 me-auto align-self-center"
             >
               <i
                 class="bi-people text-purple-1 fs-5"
               />
                Interested
-            </span>
+            </h6>
             <button
               class="btn btn-sm"
             >
               Add All to Playing
             </button>
-          </h6>
+          </div>
           <div
             class="d-flex flex-column text-body interested-queue rand-0"
           />
@@ -1255,23 +1259,23 @@ exports[`PlayerQueue > render > Should render without error 1`] = `
       <div
         class="bg-body rounded shadow-sm p-2"
       >
-        <h6
-          class="pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
+        <div
+          class="queue-heading pb-2 m-2 mb-0 text-dark-emphasis text-uppercase clearfix d-flex align-items-bottom"
         >
-          <span
-            class="queue-header me-auto align-self-center"
+          <h6
+            class="queue-header mb-0 me-auto align-self-center"
           >
             <i
               class="bi-people-fill text-purple-1 fs-5"
             />
              Playing
-          </span>
+          </h6>
           <button
             class="btn btn-sm strt-game disabled"
           >
             Clear Seats
           </button>
-        </h6>
+        </div>
         <div
           class="d-flex flex-column text-body playing-queue"
         />
