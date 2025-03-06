@@ -187,6 +187,22 @@ export class HeaderMenu extends Component {
     </OverlayTrigger>
   )
 
+  createKofiLink = () => (
+    <a href="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" target="_blank" title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
+      <Button size="sm" className="kofi-support">
+        <img
+          src={KofiSymbolSvg}
+          alt="Ko-fi logo"
+          className="img-fluid"
+          style={{height: '1em'}}
+        />
+        <span className="px-2 align-middle">Support me on Ko-fi </span>
+        <i className="bi bi-box-arrow-up-right small" aria-hidden="true" />
+        <span className="visually-hidden"> (link opens a new window)</span>
+      </Button>
+    </a>
+  );
+
   onModeratedChannelMenuItem = async(channel) => {
     try {
       let channelInfo = await this.props.twitchApi.switchChannel(channel.broadcaster_login);
@@ -298,7 +314,7 @@ export class HeaderMenu extends Component {
       );
     }
 
-    const kofi = this.createKofiOverlay(menu);
+    const kofi = this.createKofiLink(); //this.createKofiOverlay(menu);
 
     return (
       <Navbar expand={false} data-bs-theme="dark" className="bg-body-tertiary mb-3 py-0" onToggle={this.props.toggleOptionsMenu} expanded={menu.showOptions}>
