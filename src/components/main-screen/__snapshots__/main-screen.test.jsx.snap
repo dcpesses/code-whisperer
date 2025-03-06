@@ -77,219 +77,223 @@ exports[`MainScreen > render > Should render without error 1`] = `
               <hr
                 class="border-bottom my-2"
               />
-              <a
-                class="settings-menu nav-link"
-                href="#"
-                role="button"
-                tabindex="0"
-              >
-                Settings
-              </a>
               <div
-                class="accordion-dark accordion accordion-flush collapse"
-                id="settings-menu"
+                id="options-menu-items"
               >
-                <div
-                  class="accordion-body"
+                <a
+                  class="settings-menu nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
                 >
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    id="enable-room-code"
-                    title="Allows host to set a room code that can be whispered to players."
-                    type="button"
+                  Settings
+                </a>
+                <div
+                  class="accordion-dark accordion accordion-flush collapse"
+                  id="settings-menu"
+                >
+                  <div
+                    class="accordion-body"
                   >
-                    <input
-                      aria-labelledby="enableRoomCode-label"
-                      checked=""
-                      readonly=""
-                      role="switch"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      id="enableRoomCode-label"
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      id="enable-room-code"
+                      title="Allows host to set a room code that can be whispered to players."
+                      type="button"
                     >
-                      Enable Room Code
-                    </label>
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Replaces the !join command with a custom term to use to join the Interested queue."
-                    type="button"
-                  >
-                    <label
-                      for="custom-join-command"
+                      <input
+                        aria-labelledby="enableRoomCode-label"
+                        checked=""
+                        readonly=""
+                        role="switch"
+                        type="checkbox"
+                      />
+                       
+                      <label
+                        id="enableRoomCode-label"
+                      >
+                        Enable Room Code
+                      </label>
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Replaces the !join command with a custom term to use to join the Interested queue."
+                      type="button"
                     >
-                      Use Custom Join Command: 
-                    </label>
-                    <input
-                      class="form-control"
-                      id="custom-join-command"
-                      name="custom-join-command"
-                      placeholder="e.g. !join"
-                      spellcheck="false"
-                      type="text"
-                    />
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Messages users in chat when they've successfully joined the Interested queue."
-                    type="button"
-                  >
-                    <input
-                      aria-labelledby="enableJoinConfirmationMessage-label"
-                      checked=""
-                      readonly=""
-                      role="switch"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      id="enableJoinConfirmationMessage-label"
+                      <label
+                        for="custom-join-command"
+                      >
+                        Use Custom Join Command: 
+                      </label>
+                      <input
+                        class="form-control"
+                        id="custom-join-command"
+                        name="custom-join-command"
+                        placeholder="e.g. !join"
+                        spellcheck="false"
+                        type="text"
+                      />
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Messages users in chat when they've successfully joined the Interested queue."
+                      type="button"
                     >
-                      Show Join Confirmation Message
-                    </label>
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Replaces the !leave command with a custom term to use to leave all of the queues."
-                    type="button"
-                  >
-                    <label
-                      for="custom-leave-command"
+                      <input
+                        aria-labelledby="enableJoinConfirmationMessage-label"
+                        checked=""
+                        readonly=""
+                        role="switch"
+                        type="checkbox"
+                      />
+                       
+                      <label
+                        id="enableJoinConfirmationMessage-label"
+                      >
+                        Show Join Confirmation Message
+                      </label>
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Replaces the !leave command with a custom term to use to leave all of the queues."
+                      type="button"
                     >
-                      Use Custom Leave Command: 
-                    </label>
-                    <input
-                      class="form-control"
-                      id="custom-leave-command"
-                      name="custom-leave-command"
-                      placeholder="e.g. !leave"
-                      spellcheck="false"
-                      type="text"
-                    />
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Messages users in chat when they've successfully left the queues."
-                    type="button"
-                  >
-                    <input
-                      aria-labelledby="enableLeaveConfirmationMessage-label"
-                      checked=""
-                      readonly=""
-                      role="switch"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      id="enableLeaveConfirmationMessage-label"
+                      <label
+                        for="custom-leave-command"
+                      >
+                        Use Custom Leave Command: 
+                      </label>
+                      <input
+                        class="form-control"
+                        id="custom-leave-command"
+                        name="custom-leave-command"
+                        placeholder="e.g. !leave"
+                        spellcheck="false"
+                        type="text"
+                      />
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Messages users in chat when they've successfully left the queues."
+                      type="button"
                     >
-                      Show Leave Confirmation Message
-                    </label>
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Replaces the !queue command with a custom term to use to list all of the queues."
-                    type="button"
-                  >
-                    <label
-                      for="custom-queue-command"
+                      <input
+                        aria-labelledby="enableLeaveConfirmationMessage-label"
+                        checked=""
+                        readonly=""
+                        role="switch"
+                        type="checkbox"
+                      />
+                       
+                      <label
+                        id="enableLeaveConfirmationMessage-label"
+                      >
+                        Show Leave Confirmation Message
+                      </label>
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Replaces the !queue command with a custom term to use to list all of the queues."
+                      type="button"
                     >
-                      Use Custom Queue Command: 
-                    </label>
-                    <input
-                      class="form-control"
-                      id="custom-queue-command"
-                      name="custom-queue-command"
-                      placeholder="e.g. !queue"
-                      spellcheck="false"
-                      type="text"
-                    />
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
-                    type="button"
-                  >
-                    <input
-                      aria-labelledby="enableRestrictedListQueue-label"
-                      checked=""
-                      readonly=""
-                      role="switch"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      id="enableRestrictedListQueue-label"
+                      <label
+                        for="custom-queue-command"
+                      >
+                        Use Custom Queue Command: 
+                      </label>
+                      <input
+                        class="form-control"
+                        id="custom-queue-command"
+                        name="custom-queue-command"
+                        placeholder="e.g. !queue"
+                        spellcheck="false"
+                        type="text"
+                      />
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
+                      type="button"
                     >
-                      Restrict !queue to Mods & Above
-                    </label>
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    title="Uses a custom character or emote to separate requests listed in the chat."
-                    type="button"
-                  >
-                    <label
-                      for="custom-delimiter"
+                      <input
+                        aria-labelledby="enableRestrictedListQueue-label"
+                        checked=""
+                        readonly=""
+                        role="switch"
+                        type="checkbox"
+                      />
+                       
+                      <label
+                        id="enableRestrictedListQueue-label"
+                      >
+                        Restrict !queue to Mods & Above
+                      </label>
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      title="Uses a custom character or emote to separate requests listed in the chat."
+                      type="button"
                     >
-                      Use Custom Delimiter: 
-                    </label>
-                    <input
-                      class="form-control"
-                      id="custom-delimiter"
-                      name="custom-delimiter"
-                      spellcheck="false"
-                      type="text"
-                      value="|"
-                    />
-                  </button>
-                  <button
-                    class="btn settings-menu btn btn-link"
-                    id="enable-moderated-channels-option"
-                    title="Allows user to use this app on another channel that grants them moderation access."
-                    type="button"
-                  >
-                    <input
-                      aria-labelledby="enableModeratedChannelsOption-label"
-                      readonly=""
-                      role="switch"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      id="enableModeratedChannelsOption-label"
+                      <label
+                        for="custom-delimiter"
+                      >
+                        Use Custom Delimiter: 
+                      </label>
+                      <input
+                        class="form-control"
+                        id="custom-delimiter"
+                        name="custom-delimiter"
+                        spellcheck="false"
+                        type="text"
+                        value="|"
+                      />
+                    </button>
+                    <button
+                      class="btn settings-menu btn btn-link"
+                      id="enable-moderated-channels-option"
+                      title="Allows user to use this app on another channel that grants them moderation access."
+                      type="button"
                     >
-                      Enable Moderated Channels Menu
-                    </label>
-                  </button>
+                      <input
+                        aria-labelledby="enableModeratedChannelsOption-label"
+                        readonly=""
+                        role="switch"
+                        type="checkbox"
+                      />
+                       
+                      <label
+                        id="enableModeratedChannelsOption-label"
+                      >
+                        Enable Moderated Channels Menu
+                      </label>
+                    </button>
+                  </div>
                 </div>
+                <a
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
+                >
+                  View Chat Commands
+                </a>
+                <a
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
+                >
+                  View Walkthrough
+                </a>
+                <a
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  tabindex="0"
+                >
+                  What's New
+                </a>
               </div>
-              <a
-                class="nav-link"
-                href="#"
-                role="button"
-                tabindex="0"
-              >
-                View Chat Commands
-              </a>
-              <a
-                class="nav-link"
-                href="#"
-                role="button"
-                tabindex="0"
-              >
-                View Walkthrough
-              </a>
-              <a
-                class="nav-link"
-                href="#"
-                role="button"
-                tabindex="0"
-              >
-                What's New
-              </a>
               <div
                 class="position-absolute bottom-0 start-0 end-0 pb-3 text-center"
                 id="options-debug-menu-items"
