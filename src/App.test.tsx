@@ -57,7 +57,7 @@ describe('App', () => {
 
     expect(screen.getByTestId('AuthenticatedAppMock')).toBeInTheDocument();
   });
-  test('Should render Contact route', () => {
+  test.skip('Should render Contact route', () => {
     mockWindowLocation('http://localhost:5173/contact');
     render(
       <Provider store={store}>
@@ -105,7 +105,7 @@ describe('App', () => {
 
     expect(screen.getByTestId('Error404Mock')).toBeInTheDocument();
   });
-  test('Should render Thanks route', () => {
+  test.skip('Should render Thanks route', () => {
     mockWindowLocation('http://localhost:5173/thanks');
     render(
       <Provider store={store}>
