@@ -3,6 +3,7 @@ import {vi} from 'vitest';
 import { Provider } from 'react-redux';
 import { getStoreWithState } from '@/app/store';
 import { fireEvent, render, screen } from '@testing-library/react';
+import {Dropdown} from 'react-bootstrap';
 import HeaderMenu, {HeaderMenu as HeaderMenuComponent, noop} from './index';
 
 vi.mock('../../../package.json', () => {
@@ -106,6 +107,31 @@ describe('HeaderMenu', () => {
   let store;
   let props;
 
+  test('should confirm static values from default props', () => {
+    const component = new HeaderMenuComponent({});
+
+    expect(component.constructor.propTypes.userInfo).toBeDefined();
+  });
+
+  describe('createDropdownItems', () => {
+    test('should return empty array when no items passed', () => {
+      const component = new HeaderMenuComponent();
+      expect(component.createDropdownItems(null)).toEqual([]);
+    });
+    test('should return divider for any item with a label composed of only dashes', () => {
+      const component = new HeaderMenuComponent();
+      const output = component.createDropdownItems([{ label: '---' }]);
+      expect(output[0].type).toEqual(Dropdown.Divider);
+    });
+  });
+
+  describe('createKofiOverlay', () => {
+    test('should return overlay wrapped link', () => {
+      const component = new HeaderMenuComponent({});
+      expect(component.createKofiOverlay({showKofi: true})).toMatchSnapshot();
+    });
+  });
+
   describe('createModeratedChannelsMenuItems', () => {
     test('should return null when no moderated channels are available', () => {
       const props = {};
@@ -116,6 +142,7 @@ describe('HeaderMenu', () => {
 
   describe('onModeratedChannelMenuItem', () => {
     let component;
+    let props;
     beforeEach(() => {
       props = {
         channelInfo: { id: '42', login: 'randomuser' },
@@ -135,6 +162,28 @@ describe('HeaderMenu', () => {
       expect(props.twitchApi.switchChannel).toBeCalled();
       expect(props.setChannelInfo).toBeCalledWith({ id: '42', login: 'randomuser' });
       expect(props.clearAllQueues).toBeCalled();
+    });
+    test('should tell the app to join the channel via props.channelInfo', async() => {
+      props.twitchApi.switchChannel = vi.fn().mockResolvedValue(null);
+      component = new HeaderMenuComponent(props);
+      let channel = {
+        broadcaster_name: 'randomuser'
+      };
+      await component.onModeratedChannelMenuItem(channel);
+      expect(props.twitchApi.switchChannel).toBeCalled();
+      expect(props.setChannelInfo).toBeCalledWith({ id: '42', login: 'randomuser' });
+      expect(props.clearAllQueues).toBeCalled();
+    });
+    test('should handle any errors', async() => {
+      vi.spyOn(console, 'error').mockImplementation(()=>{});
+      props.twitchApi.switchChannel = vi.fn().mockRejectedValue();
+      component = new HeaderMenuComponent(props);
+      let channel = {
+        broadcaster_name: 'randomuser'
+      };
+      await component.onModeratedChannelMenuItem(channel);
+      expect(props.twitchApi.switchChannel).toBeCalled();
+      expect(console.error).toBeCalled();
     });
   });
 

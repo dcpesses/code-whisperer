@@ -115,7 +115,7 @@ function AppPromo() {
           * Yes seriously, it is free. That said, <span className="d-inline-block">you&apos;re also welcome to <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank">leave a tip!</a></span>
 
           <div className="py-2">
-            <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank"><img src="https://camo.githubusercontent.com/70e2ef5e0263b261f9a2a314bb1d6919d1d43292eed117fe8fc766a68c7d96ea/68747470733a2f2f6b6f2d66692e636f6d2f696d672f676974687562627574746f6e5f736d2e737667" className="img-fluid" /></a>
+            <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank"><img src="https://camo.githubusercontent.com/70e2ef5e0263b261f9a2a314bb1d6919d1d43292eed117fe8fc766a68c7d96ea/68747470733a2f2f6b6f2d66692e636f6d2f696d672f676974687562627574746f6e5f736d2e737667" className="img-fluid" alt="Support me on Ko-fi" /></a>
           </div>
 
         </div>

@@ -1,5 +1,4 @@
-#interested-column h6,
-#playing-column h6 {
+#player-queue .queue-heading {
   font-family: "Libre Franklin", sans-serif;
   font-weight: 600;
 }
@@ -7,6 +6,7 @@
 #player-queue .player-count {
   font-family: "Libre Franklin", sans-serif;
 }
+
 
 .toggle-streamer-seat {
     display: flex;

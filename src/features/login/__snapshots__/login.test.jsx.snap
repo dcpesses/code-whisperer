@@ -18,7 +18,7 @@ exports[`Login > render > Should render as expected 1`] = `
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />
@@ -98,7 +98,7 @@ exports[`Login > render > Should render with error message during development 1`
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />
@@ -186,7 +186,7 @@ exports[`Login > render > Should render without error message in production 1`] 
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />

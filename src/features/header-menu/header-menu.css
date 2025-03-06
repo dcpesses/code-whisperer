@@ -68,6 +68,10 @@ nav .navbar-pfp-img.proxy-profile-img {
   font-weight: 400;
   font-size: 0.75em
 }
+#options-menu-items {
+  padding-bottom: 4rem;
+}
+
 #dropdown-debug-menu-items.dropup .dropdown-toggle::after {
   content: unset;
 }
@@ -84,6 +88,18 @@ nav .navbar-pfp-img.proxy-profile-img {
 .settings-menu input.form-control:focus-within,
 .settings-menu input.form-control:target {
   color: var(--bs-emphasis-color)!important;
+}
+
+.btn.kofi-support,
+.btn.kofi-support:hover,
+.btn.kofi-support:focus {
+  background-color: #E3D6C6;
+  color: #202020;
+  border-radius: 20px;
+  padding: 4px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border-width: 0;
 }
 
 .kofi-overlay {
