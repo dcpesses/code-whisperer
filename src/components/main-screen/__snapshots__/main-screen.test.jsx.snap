@@ -99,26 +99,29 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      aria-labelledby="enableRoomCode-label"
                       checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
                     />
                      
-                    <span>
+                    <label
+                      id="enableRoomCode-label"
+                    >
                       Enable Room Code
-                    </span>
+                    </label>
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
                     title="Replaces the !join command with a custom term to use to join the Interested queue."
                     type="button"
                   >
-                    <span
+                    <label
                       for="custom-join-command"
                     >
                       Use Custom Join Command: 
-                    </span>
+                    </label>
                     <input
                       class="form-control"
                       id="custom-join-command"
@@ -134,26 +137,29 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      aria-labelledby="enableJoinConfirmationMessage-label"
                       checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
                     />
                      
-                    <span>
+                    <label
+                      id="enableJoinConfirmationMessage-label"
+                    >
                       Show Join Confirmation Message
-                    </span>
+                    </label>
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
                     title="Replaces the !leave command with a custom term to use to leave all of the queues."
                     type="button"
                   >
-                    <span
+                    <label
                       for="custom-leave-command"
                     >
                       Use Custom Leave Command: 
-                    </span>
+                    </label>
                     <input
                       class="form-control"
                       id="custom-leave-command"
@@ -169,26 +175,29 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      aria-labelledby="enableLeaveConfirmationMessage-label"
                       checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
                     />
                      
-                    <span>
+                    <label
+                      id="enableLeaveConfirmationMessage-label"
+                    >
                       Show Leave Confirmation Message
-                    </span>
+                    </label>
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
                     title="Replaces the !queue command with a custom term to use to list all of the queues."
                     type="button"
                   >
-                    <span
+                    <label
                       for="custom-queue-command"
                     >
                       Use Custom Queue Command: 
-                    </span>
+                    </label>
                     <input
                       class="form-control"
                       id="custom-queue-command"
@@ -204,26 +213,29 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      aria-labelledby="enableRestrictedListQueue-label"
                       checked=""
                       readonly=""
                       role="switch"
                       type="checkbox"
                     />
                      
-                    <span>
+                    <label
+                      id="enableRestrictedListQueue-label"
+                    >
                       Restrict !queue to Mods & Above
-                    </span>
+                    </label>
                   </button>
                   <button
                     class="btn settings-menu btn btn-link"
                     title="Uses a custom character or emote to separate requests listed in the chat."
                     type="button"
                   >
-                    <span
+                    <label
                       for="custom-delimiter"
                     >
                       Use Custom Delimiter: 
-                    </span>
+                    </label>
                     <input
                       class="form-control"
                       id="custom-delimiter"
@@ -240,14 +252,17 @@ exports[`MainScreen > render > Should render without error 1`] = `
                     type="button"
                   >
                     <input
+                      aria-labelledby="enableModeratedChannelsOption-label"
                       readonly=""
                       role="switch"
                       type="checkbox"
                     />
                      
-                    <span>
+                    <label
+                      id="enableModeratedChannelsOption-label"
+                    >
                       Enable Moderated Channels Menu
-                    </span>
+                    </label>
                   </button>
                 </div>
               </div>

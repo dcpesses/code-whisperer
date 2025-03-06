@@ -344,11 +344,14 @@ export class HeaderMenu extends Component {
                 <Collapse in={menu.showSettings}>
                   <div id="settings-menu" className="accordion-dark accordion accordion-flush">
                     <div className="accordion-body">
-                      <Button variant="link" id="enable-room-code" className="btn settings-menu"
+                      <Button variant="link"
+                        id="enable-room-code" className="btn settings-menu"
                         onClick={this.toggleEnableRoomCode}
                         title="Allows host to set a room code that can be whispered to players."
                       >
-                        <input type="checkbox" role="switch" checked={(settings?.enableRoomCode)} readOnly /> <span>Enable Room Code</span>
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableRoomCode)} readOnly aria-labelledby="enableRoomCode-label"
+                        /> <label id="enableRoomCode-label">Enable Room Code</label>
                       </Button>
 
                       {/*
@@ -356,26 +359,32 @@ export class HeaderMenu extends Component {
                         onClick={toggleSubRequests}
                         title="Allows subscribers to make additional game requests when enabled."
                       >
-                        <input type="checkbox" role="switch" checked={(settings?.enableSubRequests)} readOnly /> <span>Enable Sub Requests</span>
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableSubRequests)} readOnly aria-labelledby="enableSubRequests-label"
+                        /> <label id="enableSubRequests-label">Enable Sub Requests</label>
                       </Button>
                       <Button variant="link" className="btn settings-menu subsetting"
                         onClick={toggleSubRequestLimit}
                         title="Limit subscribers to one additional game requests when enabled."
                         disabled={!(settings?.enableSubRequests)}
                       >
-                        <input type="checkbox" role="switch" checked={(settings?.enableSubRequestLimit)} readOnly /> <span>Limit 1 Sub Request</span>
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableSubRequestLimit)} readOnly aria-labelledby="enableSubRequestLimit-label"
+                        /> <label id="enableSubRequestLimit-label">Limit 1 Sub Request</label>
                       </Button>
                       <Button variant="link" className="btn settings-menu"
                         onClick={toggleClearSeatsAfterRedeem}
                         title="Clears the list of player signups after a game redemption."
                       >
-                        <input type="checkbox" role="switch" checked={(settings?.clearSeatsAfterRedeem)} readOnly /> <span>Clear Seats After Redeem</span>
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.clearSeatsAfterRedeem)} readOnly aria-labelledby="clearSeatsAfterRedeem-label"
+                        /> <label id="clearSeatsAfterRedeem-label">Clear Seats After Redeem</label>
                       </Button>
-                       */}
+                      */}
                       <Button variant="link" className="btn settings-menu"
                         title="Replaces the !join command with a custom term to use to join the Interested queue."
                       >
-                        <span htmlFor="custom-join-command">Use Custom Join Command: </span>
+                        <label htmlFor="custom-join-command">Use Custom Join Command: </label>
                         <input type="text" id="custom-join-command" name="custom-join-command"
                           placeholder="e.g. !join"
                           defaultValue={settings?.customJoinCommand}
@@ -387,13 +396,14 @@ export class HeaderMenu extends Component {
                         title="Messages users in chat when they've successfully joined the Interested queue."
                       >
                         <input type="checkbox" role="switch"
-                          checked={(settings?.enableJoinConfirmationMessage)} readOnly /> <span>Show Join Confirmation Message</span>
+                          checked={(settings?.enableJoinConfirmationMessage)} readOnly aria-labelledby="enableJoinConfirmationMessage-label"
+                        /> <label id="enableJoinConfirmationMessage-label">Show Join Confirmation Message</label>
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"
                         title="Replaces the !leave command with a custom term to use to leave all of the queues."
                       >
-                        <span htmlFor="custom-leave-command">Use Custom Leave Command: </span>
+                        <label htmlFor="custom-leave-command">Use Custom Leave Command: </label>
                         <input type="text" id="custom-leave-command" name="custom-leave-command"
                           placeholder="e.g. !leave"
                           defaultValue={settings?.customLeaveCommand}
@@ -405,13 +415,14 @@ export class HeaderMenu extends Component {
                         title="Messages users in chat when they've successfully left the queues."
                       >
                         <input type="checkbox" role="switch"
-                          checked={(settings?.enableLeaveConfirmationMessage)} readOnly /> <span>Show Leave Confirmation Message</span>
+                          checked={(settings?.enableLeaveConfirmationMessage)} readOnly aria-labelledby="enableLeaveConfirmationMessage-label"
+                        /> <label id="enableLeaveConfirmationMessage-label">Show Leave Confirmation Message</label>
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"
                         title="Replaces the !queue command with a custom term to use to list all of the queues."
                       >
-                        <span htmlFor="custom-queue-command">Use Custom Queue Command: </span>
+                        <label htmlFor="custom-queue-command">Use Custom Queue Command: </label>
                         <input type="text" id="custom-queue-command" name="custom-queue-command"
                           placeholder="e.g. !queue"
                           defaultValue={settings?.customQueueCommand}
@@ -423,13 +434,14 @@ export class HeaderMenu extends Component {
                         title="Restricts the command to list all of the players in the queue to only the streamer and their moderators."
                       >
                         <input type="checkbox" role="switch"
-                          checked={(settings?.enableRestrictedListQueue)} readOnly /> <span>Restrict !queue to Mods &amp; Above</span>
+                          checked={(settings?.enableRestrictedListQueue)} readOnly aria-labelledby="enableRestrictedListQueue-label"
+                        /> <label id="enableRestrictedListQueue-label">Restrict !queue to Mods &amp; Above</label>
                       </Button>
 
                       <Button variant="link" className="btn settings-menu"
                         title="Uses a custom character or emote to separate requests listed in the chat."
                       >
-                        <span htmlFor="custom-delimiter">Use Custom Delimiter: </span>
+                        <label htmlFor="custom-delimiter">Use Custom Delimiter: </label>
                         <input type="text" id="custom-delimiter" name="custom-delimiter"
                           defaultValue={settings?.customDelimiter}
                           onChange={this.updateCustomDelimiter} className="form-control" spellCheck="false" />
@@ -450,7 +462,9 @@ export class HeaderMenu extends Component {
                         onClick={this.toggleEnableModeratedChannelsOption}
                         title="Allows user to use this app on another channel that grants them moderation access."
                       >
-                        <input type="checkbox" role="switch" checked={(settings?.enableModeratedChannelsOption)} readOnly /> <span>Enable Moderated Channels Menu</span>
+                        <input type="checkbox" role="switch"
+                          checked={(settings?.enableModeratedChannelsOption)} readOnly aria-labelledby="enableModeratedChannelsOption-label"
+                        /> <label id="enableModeratedChannelsOption-label">Enable Moderated Channels Menu</label>
                       </Button>
 
                     </div>
