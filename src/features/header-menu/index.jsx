@@ -10,13 +10,13 @@ import { setChannelInfo } from '@/features/twitch/channel-slice';
 import { showModalCommandList } from '@/features/modal-command-list/modalSlice';
 import { showOnboarding } from '@/features/onboarding/onboarding-slice';
 import { toggleGameList, toggleKofiOverlay, toggleOptionsMenu, toggleSettingsMenu, updateOptionsMenu } from '@/features/header-menu/menu-slice';
+import KofiButton from '@/components/kofi-button';
 // import OptionsGameList from './OptionsGameList';
 import PropTypes from 'prop-types';
 import {version} from '../../../package.json';
 
 import './header-menu.css';
 import KofiSvg from '@/assets/kofi.svg';
-import KofiSymbolSvg from '@/assets/kofi_symbol.svg';
 
 
 export const noop = () => void 0;
@@ -189,17 +189,7 @@ export class HeaderMenu extends Component {
 
   createKofiLink = () => (
     <a href="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" target="_blank" title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
-      <Button size="sm" className="kofi-support">
-        <img
-          src={KofiSymbolSvg}
-          alt="Ko-fi logo"
-          className="img-fluid"
-          style={{height: '1em'}}
-        />
-        <span className="px-2 align-middle">Support me on Ko-fi </span>
-        <i className="bi bi-box-arrow-up-right small" aria-hidden="true" />
-        <span className="visually-hidden"> (link opens a new window)</span>
-      </Button>
+      <KofiButton />
     </a>
   );
 

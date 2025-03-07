@@ -90,18 +90,6 @@ nav .navbar-pfp-img.proxy-profile-img {
   color: var(--bs-emphasis-color)!important;
 }
 
-.btn.kofi-support,
-.btn.kofi-support:hover,
-.btn.kofi-support:focus {
-  background-color: #E3D6C6;
-  color: #202020;
-  border-radius: 20px;
-  padding: 4px 20px;
-  font-size: 15px;
-  font-weight: 500;
-  border-width: 0;
-}
-
 .kofi-overlay {
   z-index: 2045;
   position: relative;

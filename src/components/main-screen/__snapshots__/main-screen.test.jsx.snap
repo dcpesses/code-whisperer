@@ -304,7 +304,7 @@ exports[`MainScreen > render > Should render without error 1`] = `
                   title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!"
                 >
                   <button
-                    class="kofi-support btn btn-primary btn-sm"
+                    class="kofi-button btn btn-primary btn-sm"
                     type="button"
                   >
                     <img
