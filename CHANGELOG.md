@@ -3,6 +3,15 @@
 All notable changes will be documented in this file.
 
 
+## 0.8.0 - 2025-03-06
+
+* Updated all outdated dependencies...and there were a LOT.
+* Updated components for accessibility compliance / WCAG.
+* Added official CHANGELOG.md to project
+* Updated What's New modal to pull content from CHANGELOG.md.
+* Replaced in-app Ko-fi overlay with pop out link.
+
+
 ## 0.7.2 - 2025-02-14
 
 * Fix: All text can be deleted from code textfield. (I know, I know.)
@@ -10,7 +19,7 @@ All notable changes will be documented in this file.
 * Added Changelog link to landing page.
 * Updated landing page background animation.
 * Updated accessibility navigation styles.
-* And lastly, updated because of you... Happy Valentine\'s Day! ❤️
+* And lastly, updated because of you... Happy Valentine's Day! ❤️
 
 
 ## 0.7.1 - 2025-02-07
@@ -26,7 +35,7 @@ All notable changes will be documented in this file.
 
 ## 0.7.0 - 2025-02-02
 
-* **NEW!** Added app walkthrough for first time users,
+* **NEW!** Added app walkthrough for first time users
 * Added link to app walkthrough to the Options menu
 * Added setting for custom !queue command
 * Added setting to enable the !queue command for all users or just streamer & moderators
