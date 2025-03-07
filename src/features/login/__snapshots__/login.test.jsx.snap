@@ -18,7 +18,7 @@ exports[`Login > render > Should render as expected 1`] = `
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />
@@ -80,7 +80,7 @@ exports[`Login > render > Should render as expected 1`] = `
 </div>
 `;
 
-exports[`Login > render > Should render with error during development 1`] = `
+exports[`Login > render > Should render with error message during development 1`] = `
 <div>
   <div
     class="container-fluid d-flex flex-column"
@@ -98,7 +98,7 @@ exports[`Login > render > Should render with error during development 1`] = `
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />
@@ -168,7 +168,7 @@ exports[`Login > render > Should render with error during development 1`] = `
 </div>
 `;
 
-exports[`Login > render > Should render without error in production 1`] = `
+exports[`Login > render > Should render without error message in production 1`] = `
 <div>
   <div
     class="container-fluid d-flex flex-column"
@@ -186,7 +186,7 @@ exports[`Login > render > Should render without error in production 1`] = `
         >
           <div>
             <img
-              alt="Logo"
+              alt="Code Whisperer Logo"
               class="login-logo w-50 mx-auto mb-3"
               src="/code-whisperer/src/assets/new-logo.svg"
             />
@@ -216,14 +216,6 @@ exports[`Login > render > Should render without error in production 1`] = `
       <div
         class="col-9 col-md-6 text-center align-self-start align-self-md-center"
       >
-        <div>
-          <code
-            class="small w-50 fs-6 mb-3"
-          >
-            Error: 
-            Error Message
-          </code>
-        </div>
         <a
           class="btn btn-sm fs-2 py-2 px-3 rounded-4 bg-gradient focus-ring"
           href="https://id.twitch.tv/oauth2/authorize?client_id=VITE_APP_TWITCH_CLIENT_ID&response_type=code&scope=chat:read chat:edit moderation:read user:manage:whispers moderator:read:chatters user:read:moderated_channels channel:read:vips channel:read:editors moderator:manage:announcements user:read:subscriptions&redirect_uri=VITE_APP_REDIRECT_URI"

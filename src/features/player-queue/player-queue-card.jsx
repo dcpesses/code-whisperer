@@ -7,7 +7,19 @@ import {getRelativeTimeString} from '@/utils';
 
 import './player-queue-card.css';
 
-function PlayerQueueCard({btnProps, onRemoveUser, onSendCode, queueName, prioritySeat, relativeTime, showSendButton, username}) {
+function PlayerQueueCard({
+  btnProps = {
+    label: '',
+    onClick: null,
+  },
+  onRemoveUser = null,
+  onSendCode = null,
+  queueName = null,
+  prioritySeat = false,
+  relativeTime = null,
+  showSendButton = false,
+  username = null,
+}) {
   // Extended Info Pane
   const [isExtended, setExtended] = useState(false);
   const toggleExtended = () => setExtended(!isExtended);
@@ -185,20 +197,6 @@ PlayerQueueCard.propTypes = {
   relativeTime: PropTypes.string,
   showSendButton: PropTypes.bool,
   username: PropTypes.string,
-};
-
-PlayerQueueCard.defaultProps = {
-  btnProps: {
-    label: '',
-    onClick: null,
-  },
-  onRemoveUser: null,
-  onSendCode: null,
-  queueName: null,
-  prioritySeat: false,
-  relativeTime: null,
-  showSendButton: false,
-  username: null,
 };
 
 export default PlayerQueueCard;

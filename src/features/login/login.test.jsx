@@ -24,7 +24,7 @@ describe('getLoginUrl', () => {
 describe('Login', () => {
   describe('clearLocalStorageData', () => {
     test('should call setState', () => {
-      vi.useFakeTimers({ toFake: ['nextTick'] });
+      vi.useFakeTimers({ toFake: ['queueMicrotask'] });
       const component = new Login();
       vi.spyOn(component, 'setState').mockImplementation(()=>{});
       vi.spyOn(global, 'setTimeout');
@@ -63,7 +63,7 @@ describe('Login', () => {
       expect(container).toMatchSnapshot();
     });
     test('Should render and handle modal events', async() => {
-      vi.useFakeTimers({ toFake: ['nextTick'] });
+      vi.useFakeTimers({ toFake: ['queueMicrotask'] });
       render(
         <Login />
       );
@@ -94,17 +94,17 @@ describe('Login', () => {
 
       vi.useRealTimers();
     });
-    test('Should render without error in production', () => {
+    test('Should render without error message in production', () => {
       vi.stubEnv('DEV', false);
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('Error Message');
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(
         <Login />
       );
       expect(container).toMatchSnapshot();
     });
-    test('Should render with error during development', () => {
+    test('Should render with error message during development', () => {
       vi.stubEnv('DEV', true);
-      vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('Error Message');
+      vi.spyOn(window.localStorage, 'getItem').mockReturnValue('Error Message');
       const {container} = render(
         <Login />
       );

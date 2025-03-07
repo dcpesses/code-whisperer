@@ -45,11 +45,4 @@ GameCodeForm.propTypes = {
   onSendToAll: PropTypes.func,
   value: PropTypes.string,
 };
-
-GameCodeForm.defaultProps = {
-  disabled: true,
-  onInputChange: ()=>{},
-  onSendToAll: ()=>{},
-  value: '',
-};
 export default GameCodeForm;

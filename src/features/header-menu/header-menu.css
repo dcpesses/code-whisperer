@@ -68,6 +68,10 @@ nav .navbar-pfp-img.proxy-profile-img {
   font-weight: 400;
   font-size: 0.75em
 }
+#options-menu-items {
+  padding-bottom: 4rem;
+}
+
 #dropdown-debug-menu-items.dropup .dropdown-toggle::after {
   content: unset;
 }

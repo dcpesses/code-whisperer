@@ -1,83 +1,38 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AuthenticatedApp > render > should render with Landing on failed login 1`] = `<Landing />`;
-
-exports[`AuthenticatedApp > render > should render with Landing on has_logged_out state 1`] = `<Landing />`;
-
-exports[`AuthenticatedApp > render > should render with MainScreen 1`] = `
-<div
-  id="authenticated-app container text-center"
->
-  <Memo(Connect(MainScreen))
-    channel="sirgoosewell"
-    moderators={[]}
-    onLogOut={[Function]}
-    twitchApi={
-      {
-        "closeChatClient": [MockFunction spy],
-        "isChatConnected": true,
-        "mock": "TwitchApi",
-      }
-    }
-    vips={[]}
-  />
+exports[`AuthenticatedApp > render > Should render MainScreen 1`] = `
+<div>
+  <div
+    id="authenticated-app container text-center"
+  >
+    <div
+      data-testid="MainScreenMock"
+    />
+  </div>
 </div>
 `;
 
-exports[`AuthenticatedApp > render > should render with MainScreen using store 1`] = `
-<Context.Provider
-  value={
-    {
-      "getServerState": undefined,
-      "identityFunctionCheck": "once",
-      "stabilityCheck": "once",
-      "store": {
-        "@@observable": [Function],
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "subscription": {
-        "addNestedSub": [Function],
-        "getListeners": [Function],
-        "handleChangeWrapper": [Function],
-        "isSubscribed": [Function],
-        "notifyNestedSubs": [Function],
-        "trySubscribe": [Function],
-        "tryUnsubscribe": [Function],
-      },
-    }
-  }
->
-  <Memo(Connect(ComponentWithRouterProp))
-    twitchApi={
-      {
-        "_chatClient": {},
-        "isChatConnected": true,
-        "onMessage": [MockFunction spy],
-        "sendMessage": [MockFunction spy],
-        "updateLastMessageTime": [MockFunction spy],
-      }
-    }
-  />
-</Context.Provider>
-`;
-
-exports[`AuthenticatedApp > render > should render with null 1`] = `
-<div
-  id="authenticated-app container text-center"
->
+exports[`AuthenticatedApp > render > Should render with LoadingRipple 1`] = `
+<div>
   <div
-    className="col display-6 text-center full-pg"
+    id="authenticated-app container text-center"
   >
-    <div />
-    <div>
-      <LoadingRipple />
-      <br />
-      Loading...
+    <div
+      class="col display-6 text-center full-pg"
+    >
+      <div />
+      <div>
+        <div
+          class="loading-ripple"
+        >
+          <div />
+          <div />
+        </div>
+        <br />
+        Loading...
+      </div>
+      <div />
     </div>
-    <div />
   </div>
 </div>
 `;

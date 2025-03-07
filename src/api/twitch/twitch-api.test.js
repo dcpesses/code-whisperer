@@ -42,7 +42,7 @@ describe('TwitchApi', () => {
       vi.stubEnv('VITE_APP_TWITCH_CLIENT_SECRET', 'VITE_APP_TWITCH_CLIENT_SECRET');
       vi.stubEnv('VITE_APP_REDIRECT_URI', 'VITE_APP_REDIRECT_URI');
       vi.stubEnv('VITE_APP_REDIRECT_URI_NOENCODE', 'VITE_APP_REDIRECT_URI_NOENCODE');
-      vi.spyOn(window.localStorage.__proto__, 'getItem')
+      vi.spyOn(window.localStorage, 'getItem')
         .mockReturnValueOnce('mock-access-token')
         .mockReturnValue('mock-refresh-token');
     });
@@ -227,13 +227,22 @@ describe('TwitchApi', () => {
       expect(data).toEqual('ok');
       expect(global.console.log).toBeCalledTimes(2);
     });
+    test('should call _init for search string', async() => {
+      vi.spyOn(global.console, 'log');
+      twitchApi.debug = true;
+      vi.spyOn(window.location, 'search', 'get').mockReturnValue('?code=MOCK_CODE&scope=chat%3Aread');
+      vi.spyOn(twitchApi, '_init').mockResolvedValue('ok');
+      const data = await twitchApi.init();
+      expect(data).toEqual('ok');
+      expect(global.console.log).toBeCalledTimes(2);
+    });
   });
 
   describe('_init', () => {
     beforeEach(() => {
       vi.spyOn(global.console, 'log');
       twitchApi.debug = true;
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       vi.spyOn(twitchApi, 'requestAuthentication').mockResolvedValue({status: 204});
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
@@ -311,7 +320,7 @@ describe('TwitchApi', () => {
     beforeEach(() => {
       vi.spyOn(global.console, 'log');
       twitchApi.debug = true;
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       vi.spyOn(twitchApi, 'requestAuthentication').mockResolvedValue({status: 204});
       vi.spyOn(twitchApi, 'validateToken').mockResolvedValue({status: 204, login: 'username'});
       vi.spyOn(twitchApi, 'requestUsers').mockResolvedValue({status: 204, data: [{login: 'username', id: 0}]});
@@ -489,14 +498,20 @@ describe('TwitchApi', () => {
 
   describe('setUserInfo', () => {
     test('should save user info to localStorage', () => {
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       twitchApi.setUserInfo({
         login: 'login',
         id: 'id',
         profile_image_url: 'url'
       });
       expect(window.localStorage.setItem).toHaveBeenCalledTimes(5);
-      expect(window.localStorage.setItem.mock.calls).toMatchSnapshot();
+      expect(window.localStorage.setItem.mock.calls).toEqual([
+        ['__channel', 'login',],
+        ['__users', '{"login":"login","id":"id","profile_image_url":"url"}',],
+        ['__username', 'login',],
+        ['__user_id', 'id',],
+        ['__profile_image_url', 'url',],
+      ]);
     });
   });
 
@@ -526,7 +541,7 @@ describe('TwitchApi', () => {
 
   describe('setChannelInfo', () => {
     test('should save channel info to localStorage', () => {
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       twitchApi.setChannelInfo({
         login: 'login',
         id: '1',
@@ -559,7 +574,7 @@ describe('TwitchApi', () => {
     test('should save oauth tokens and expiry time to localStorage', () => {
       vi.useFakeTimers();
       vi.spyOn(Date, 'now').mockReturnValue(1445470140000); // October 21, 2015 4:29:00 PM PST
-      vi.spyOn(window.localStorage.__proto__, 'setItem');
+      vi.spyOn(window.localStorage, 'setItem');
       twitchApi.setAuthentication({
         access_token: 'mock_access_token',
         expires_in: 14000,
@@ -910,13 +925,12 @@ describe('TwitchApi', () => {
         status: 403,
         json: () => Promise.reject({status: 403, error: 'Forbidden'})
       });
-
       expect(async() => {
         const response = await twitchApi.sendWhisper(recipientUser, 'Howdy!');
-        expect(response).toEqual(`Error sending to @${recipientUser.username}, please check console for details`);
-        expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response}`);
+        expect(response.msg).toEqual(`Error sending to @${recipientUser.username}, please check console for details.`);
+        expect(twitchApi.sendMessage).toHaveBeenCalledWith(`/me ${response.msg}`);
         expect(global.console.warn).toHaveBeenCalledTimes(1);
-      }).rejects.toThrow();
+      }).not.toThrow();
       expect(global.console.log).toHaveBeenCalledTimes(1);
     });
   });
@@ -936,7 +950,7 @@ describe('TwitchApi', () => {
 
   describe('resetLocalStorageItems', () => {
     test('should remove saved items from localStorage', () => {
-      vi.spyOn(window.localStorage.__proto__, 'removeItem');
+      vi.spyOn(window.localStorage, 'removeItem');
       twitchApi.resetLocalStorageItems();
       expect(window.localStorage.removeItem).toHaveBeenCalledTimes(10);
     });
@@ -1152,7 +1166,7 @@ describe('TwitchApi', () => {
     ];
 
     beforeEach(() => {
-      vi.spyOn(window.localStorage.__proto__, 'getItem');
+      vi.spyOn(window.localStorage, 'getItem');
       twitchApi = new TwitchApi(getTwitchApiConfig());
     });
 
@@ -1214,7 +1228,7 @@ describe('TwitchApi', () => {
       try {
         response = await twitchApi.refetch(...fetchArgs);
       } catch (e) {
-        expect(e.json()).resolves.toEqual({status: 500, error: 'first error'});
+        expect(await e.json()).toEqual({status: 500, error: 'first error'});
         expect(global.fetch).toHaveBeenCalledWith(...fetchArgs);
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(response).toBeUndefined();

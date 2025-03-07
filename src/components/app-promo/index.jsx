@@ -1,5 +1,5 @@
-
 import {getLoginUrl} from '@/features/login';
+import KofiButton from '@/components/kofi-button';
 import twitchChat from '@/assets/twitch-chat.png';
 import screenshot2 from '@/assets/screenshot2.png';
 
@@ -86,7 +86,7 @@ function AppPromo() {
       <div className="col-md-auto text-center">
 
         <div className="fs-6 my-3">
-          Oh, and did we mention it&apos;s free to use?*
+          Oh, and did we mention it&apos;s free to use?<a href="#disclaimer"><sup>*</sup></a>
         </div>
 
         <a href={loginUrl} className="btn btn-sm fs-4 py-2 px-3 rounded-4 my-4 btn-purple bg-gradient focus-ring">
@@ -112,10 +112,12 @@ function AppPromo() {
       <div className="col-md-auto text-center">
 
         <div className="text-body fs-6 my-4">
-          * Yes seriously, it is free. That said, <span className="d-inline-block">you&apos;re also welcome to <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank">leave a tip!</a></span>
+          <a name="disclaimer"><sup>*</sup></a>Yes seriously, it is free. That said, <span className="d-inline-block">you&apos;re also welcome to <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank">leave a tip!</a></span>
 
           <div className="py-2">
-            <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank"><img src="https://camo.githubusercontent.com/70e2ef5e0263b261f9a2a314bb1d6919d1d43292eed117fe8fc766a68c7d96ea/68747470733a2f2f6b6f2d66692e636f6d2f696d672f676974687562627574746f6e5f736d2e737667" className="img-fluid" /></a>
+            <a href="https://ko-fi.com/V7V6VSUT1" className="emphasis" rel="noreferrer" target="_blank">
+              <KofiButton />
+            </a>
           </div>
 
         </div>

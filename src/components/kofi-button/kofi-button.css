@@ -1,0 +1,14 @@
+.btn.kofi-button,
+.btn.kofi-button:hover,
+.btn.kofi-button:focus {
+  background-color: #E3D6C6;
+  color: #202020;
+  border-radius: 20px;
+  padding: 4px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border-width: 0;
+}
+.btn.kofi-button > img {
+  height: 1em;
+}
