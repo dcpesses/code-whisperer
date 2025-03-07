@@ -188,7 +188,7 @@ export class HeaderMenu extends Component {
   )
 
   createKofiLink = () => (
-    <a href="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" target="_blank" title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
+    <a href="https://ko-fi.com/dcpesses/?hidefeed=true&widget=true&embed=true&preview=true" rel="noreferrer" target="_blank" title="Wanna support the development of Code Whisperer? Donations are never expected but are always appreciated!">
       <KofiButton />
     </a>
   );

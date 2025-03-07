@@ -15,7 +15,6 @@ function KofiButton({opensInNewWindow = true}: KofiButtonProps): JSX.Element {
         src={KofiSymbolSvg}
         alt="Ko-fi logo"
         className="img-fluid"
-        style={{height: '1em'}}
       />
       <span className="px-2 align-middle">Support me on Ko-fi </span>
       {
