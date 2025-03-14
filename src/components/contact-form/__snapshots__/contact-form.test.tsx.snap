@@ -6,69 +6,140 @@ exports[`ContactForm > Should render as expected 1`] = `
   action="/submit"
   class=""
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -94,6 +165,65 @@ exports[`ContactForm > Should render as expected 1`] = `
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"
@@ -109,69 +239,140 @@ exports[`ContactForm > should not submit when disabled > dirty 1`] = `
   action="/submit"
   class="was-validated"
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -197,6 +398,65 @@ exports[`ContactForm > should not submit when disabled > dirty 1`] = `
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"
@@ -212,72 +472,145 @@ exports[`ContactForm > should not submit when disabled > pristine 1`] = `
   action="/submit"
   class=""
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        disabled=""
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        disabled=""
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      disabled=""
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
       disabled=""
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      disabled=""
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
       disabled=""
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -305,6 +638,66 @@ exports[`ContactForm > should not submit when disabled > pristine 1`] = `
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    disabled=""
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     disabled=""
@@ -321,69 +714,140 @@ exports[`ContactForm > should not submit when form has invalid data > dirty 1`] 
   action="/submit"
   class="was-validated"
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -409,6 +873,65 @@ exports[`ContactForm > should not submit when form has invalid data > dirty 1`] 
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"
@@ -424,69 +947,140 @@ exports[`ContactForm > should not submit when form has invalid data > pristine 1
   action="/submit"
   class=""
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -512,6 +1106,65 @@ exports[`ContactForm > should not submit when form has invalid data > pristine 1
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"
@@ -527,69 +1180,140 @@ exports[`ContactForm > should submit when form has valid data > dirty 1`] = `
   action="/submit"
   class="was-validated"
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -615,6 +1339,65 @@ exports[`ContactForm > should submit when form has valid data > dirty 1`] = `
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"
@@ -630,69 +1413,140 @@ exports[`ContactForm > should submit when form has valid data > pristine 1`] = `
   action="/submit"
   class="was-validated"
   data-testid="contact-form"
-  enctype=""
   id="contact-form"
   method="GET"
   novalidate=""
 >
-  <div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Full_Name"
+      >
+        Full Name *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Full_Name"
+        name="Full Name"
+        placeholder="First name"
+        required=""
+        type="text"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter your full name
+      </div>
+    </div>
+    <div
+      class="col-md-6 mb-3"
+    >
+      <label
+        class="form-label"
+        for="contact.Email_Address"
+      >
+        Email Address *
+      </label>
+      <input
+        class="form-control"
+        id="contact.Email_Address"
+        name="Email Address"
+        required=""
+        type="email"
+      />
+      <div
+        class="invalid-feedback"
+      >
+        Please enter a valid email address
+      </div>
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Full_Name"
+      for="contact.Category"
     >
-      Full Name *
+      Category 
+      <sup>
+        *
+      </sup>
+    </label>
+    <select
+      aria-label="Choose a category"
+      class="form-select"
+      id="contact.Category"
+      name="Category"
+      required=""
+    >
+      <option
+        value=""
+      >
+        -----
+      </option>
+      <option>
+        General Inquiry
+      </option>
+      <option>
+        Feedback / Suggestions
+      </option>
+      <option>
+        Technical Issues
+      </option>
+    </select>
+    <div
+      class="invalid-feedback"
+    >
+      Please select a category
+    </div>
+  </div>
+  <div
+    class="mb-3"
+  >
+    <label
+      class="form-label"
+      for="contact.Subject"
+    >
+      Subject *
     </label>
     <input
       class="form-control"
-      id="contact.Full_Name"
-      name="Full Name"
-      placeholder="First name"
+      id="contact.Subject"
+      name="Subject"
       required=""
       type="text"
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your full name
+      Please enter a valid subject
     </div>
   </div>
-  <div>
+  <div
+    class="mb-3"
+  >
     <label
       class="form-label"
-      for="contact.Email_Address"
+      for="contact.Message"
     >
-      Email Address *
-    </label>
-    <input
-      class="form-control"
-      id="contact.Email_Address"
-      name="Email Address"
-      required=""
-      type="email"
-    />
-    <div
-      class="invalid-feedback"
-    >
-      Please enter a valid email address
-    </div>
-  </div>
-  <div>
-    <label
-      class="form-label"
-      for="contact.Comments_Questions"
-    >
-      Comments/Questions *
+      Message *
     </label>
     <textarea
       class="form-control"
-      id="contact.Comments_Questions"
-      name="Comments/Questions"
+      id="contact.Message"
+      name="Message"
       required=""
     />
     <div
       class="invalid-feedback"
     >
-      Please enter your feedback.
+      Please enter your message.
     </div>
   </div>
   <div
@@ -718,6 +1572,65 @@ exports[`ContactForm > should submit when form has valid data > pristine 1`] = `
     type="hidden"
     value=""
   />
+  <input
+    autocomplete="off"
+    id="browser-info"
+    name="Browser_Info"
+    readonly=""
+    type="hidden"
+    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+  />
+  <div
+    class="mb-3"
+  >
+    <div
+      class="form-check form-check-inline"
+    >
+      <input
+        class="form-check-input"
+        id="contact.AcceptTerms"
+        name="AcceptTerms"
+        required=""
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="contact.AcceptTerms"
+        title=""
+      >
+        <span>
+          By submitting this form, I accept the 
+          <a
+            href="./privacy"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and the 
+          <a
+            href="./terms"
+            target="_blank"
+          >
+            Terms and Conditions
+          </a>
+           of this site.
+        </span>
+      </label>
+      <div
+        class="invalid-feedback"
+      >
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div
+    class="my-3"
+  >
+    <sup>
+      *
+    </sup>
+     All fields are required.
+  </div>
   <button
     class="btn btn-primary"
     type="submit"

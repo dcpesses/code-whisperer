@@ -16,10 +16,10 @@ function Contact() {
   };
 
   const formProps = {
-    action: '/thanks',
+    action: 'https://apps.dannyzone.com/contact_debug/',
     acceptCharset: 'UTF-8',
-    encType: 'multipart/form-data',
-    method: 'GET',
+    encType: null,
+    method: 'POST',
   };
   return (
     <div className="contact container" data-testid="contact">
@@ -31,7 +31,7 @@ function Contact() {
           onSubmit={handleSubmit}
           validated={validated}
         />
-        <div className="col-6 mx-auto">
+        <div className="mx-auto">
           <Link className="btn btn-outline-primary btn-lg mt-5" to="/">
             Go Home
           </Link>

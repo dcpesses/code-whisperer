@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 // Pages
 import AuthenticatedApp from '@/pages/authenticated-app';
-// import Contact from '@/pages/contact';
+import Contact from '@/pages/contact';
 import Error404 from '@/pages/error404';
 import Login from '@/features/login';
 import Landing from '@/pages/landing';
@@ -21,7 +21,7 @@ declare global {
 function App() {
   return (
     <Routes>
-      {/* <Route path="/contact" element={<Contact />} /> */}
+      <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
       <Route path="/landing" element={<Landing />} />
       <Route path="/error" element={<Error404 />} />

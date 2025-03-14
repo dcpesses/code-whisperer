@@ -13,13 +13,18 @@ function ContactForm({
   formProps = {
     action: '/submit',
     acceptCharset: 'UTF-8',
-    encType: '',
+    encType: null,
     method: 'GET',
   },
   onSubmit = noop,
   validated = false
 }) {
 
+  const AcceptTermsLabel = (
+    <span>
+      By submitting this form, I accept the <a href="./privacy" target="_blank">Privacy Policy</a> and the <a href="./terms" target="_blank">Terms and Conditions</a> of this site.
+    </span>
+  );
   return (
     <Form
       id="contact-form"
@@ -32,41 +37,81 @@ function ContactForm({
       onSubmit={onSubmit}
       data-testid="contact-form"
     >
-      <Form.Group controlId="contact.Full_Name">
-        <Form.Label>Full Name *</Form.Label>
+      <div className="row">
+        <Form.Group controlId="contact.Full_Name" className="col-md-6 mb-3">
+          <Form.Label>Full Name *</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            name="Full Name"
+            placeholder="First name"
+            disabled={disabled}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter your full name
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group controlId="contact.Email_Address" className="col-md-6 mb-3">
+          <Form.Label>Email Address *</Form.Label>
+          <Form.Control
+            required
+            type="email"
+            name="Email Address"
+            disabled={disabled}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid email address
+          </Form.Control.Feedback>
+        </Form.Group>
+      </div>
+      <Form.Group controlId="contact.Category" className="mb-3">
+        <Form.Label>Category <sup>*</sup></Form.Label>
+        <Form.Select
+          required
+          aria-label="Choose a category"
+          name="Category"
+          defaultValue=""
+          disabled={disabled}
+        >
+          <option value="">
+            -----
+          </option>
+          <option>
+            General Inquiry
+          </option>
+          <option>
+            Feedback / Suggestions
+          </option>
+          <option>
+            Technical Issues
+          </option>
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">
+          Please select a category
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group controlId="contact.Subject" className="mb-3">
+        <Form.Label>Subject *</Form.Label>
         <Form.Control
           required
           type="text"
-          name="Full Name"
-          placeholder="First name"
+          name="Subject"
           disabled={disabled}
         />
         <Form.Control.Feedback type="invalid">
-          Please enter your full name
+          Please enter a valid subject
         </Form.Control.Feedback>
       </Form.Group>
-      <Form.Group controlId="contact.Email_Address">
-        <Form.Label>Email Address *</Form.Label>
-        <Form.Control
-          required
-          type="email"
-          name="Email Address"
-          disabled={disabled}
-        />
-        <Form.Control.Feedback type="invalid">
-          Please enter a valid email address
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group controlId="contact.Comments_Questions">
-        <Form.Label>Comments/Questions *</Form.Label>
+      <Form.Group controlId="contact.Message" className="mb-3">
+        <Form.Label>Message *</Form.Label>
         <Form.Control
           required
           as="textarea"
-          name="Comments/Questions"
+          name="Message"
           disabled={disabled}
         />
         <Form.Control.Feedback type="invalid">
-          Please enter your feedback.
+          Please enter your message.
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -76,7 +121,22 @@ function ContactForm({
           type="email" id="email_subscribe_a7fdfc1ea41e_48062" placeholder="Your email here" onChange={noop} disabled={disabled} />
       </div>
       <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="" autoComplete="off" onChange={noop} disabled={disabled} />
+      <input type="hidden" name="Browser_Info" id="browser-info" value={`${navigator.userAgent} | ${navigator.language}`} autoComplete="off" readOnly disabled={disabled} />
 
+      <Form.Group controlId="contact.AcceptTerms" className="mb-3">
+        <Form.Check
+          inline
+          required
+          label={AcceptTermsLabel}
+          name="AcceptTerms"
+          type="checkbox"
+          feedback="You must agree before submitting."
+          feedbackType="invalid"
+        />
+      </Form.Group>
+      <div className="my-3">
+        <sup>*</sup> All fields are required.
+      </div>
       <Button type="submit" disabled={disabled}>
         Submit
       </Button>

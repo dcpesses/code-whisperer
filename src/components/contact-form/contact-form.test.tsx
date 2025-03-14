@@ -1,7 +1,13 @@
 import {render, screen} from '@testing-library/react';
 import {UserEvent, userEvent} from '@testing-library/user-event';
 import {Mock} from 'vitest';
-import ContactForm from './index';
+import ContactForm, {noop} from './index';
+
+describe('noop', () => {
+  test('should execute without error', () => {
+    expect(noop()).toBeUndefined();
+  });
+});
 
 describe('ContactForm', () => {
 
@@ -53,21 +59,30 @@ describe('ContactForm', () => {
 
     const nameInput:HTMLInputElement = screen.getByLabelText('Full Name *');
     const emailInput:HTMLInputElement = screen.getByLabelText('Email Address *');
-    const commentsInput:HTMLInputElement = screen.getByLabelText('Comments/Questions *');
+    const categorySelect:HTMLSelectElement = screen.getByLabelText('Category *');
+    const subjectInput:HTMLInputElement = screen.getByLabelText('Subject *');
+    const messageInput:HTMLInputElement = screen.getByLabelText('Message *');
+    const acceptCheckbox:HTMLFormElement = screen.getByRole('checkbox');
     const btnSubmit:HTMLButtonElement = screen.getByRole('button', { name: 'Submit' });
 
     await user.type(nameInput, 'John Doe');
     await user.type(emailInput, 'john.doe@example.com');
-    await user.type(commentsInput, 'I love this app!');
+    await user.selectOptions(categorySelect, 'Feedback / Suggestions');
+    await user.type(subjectInput, 'Great app');
+    await user.type(messageInput, 'I love this app!');
+    await user.click(acceptCheckbox);
 
     await user.click(btnSubmit);
 
     expect(onFormSubmitSpy).toBeCalled();
     expect(onFormSubmitSpy.mock.calls[0][0]).toMatchObject(
       {
-        'Comments/Questions': 'I love this app!',
+        'AcceptTerms': 'on',
+        'Category': 'Feedback / Suggestions',
         'Email Address': 'john.doe@example.com',
         'Full Name': 'John Doe',
+        'Message': 'I love this app!',
+        'Subject': 'Great app',
         'g-recaptcha-response': '',
         'subscribe_a7fdfc1ea41e_48062': '',
       }
@@ -84,10 +99,13 @@ describe('ContactForm', () => {
 
     const nameInput:HTMLInputElement = screen.getByLabelText('Full Name *');
     const emailInput:HTMLInputElement = screen.getByLabelText('Email Address *');
+    const acceptCheckbox:HTMLFormElement = screen.getByRole('checkbox');
     const btnSubmit:HTMLButtonElement = screen.getByRole('button', { name: 'Submit' });
 
     await user.type(nameInput, 'John Doe');
     await user.type(emailInput, 'john.doe');
+
+    await user.click(acceptCheckbox);
 
     await user.click(btnSubmit);
 
@@ -98,7 +116,7 @@ describe('ContactForm', () => {
 
     expect(onFormSubmitSpy.mock.calls[0][0]).toMatchObject(
       {
-        'Comments/Questions': '',
+        'Message': '',
         'Email Address': 'john.doe',
         'Full Name': 'John Doe',
         'g-recaptcha-response': '',
