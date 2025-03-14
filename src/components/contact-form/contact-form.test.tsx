@@ -9,16 +9,30 @@ describe('noop', () => {
   });
 });
 
-describe('ContactForm', () => {
+const setUserAgent = (userAgent: string) => {
+  Object.defineProperty(navigator, 'userAgent', {
+    get: function() {
+      return userAgent; // customized user agent
+    },
+    configurable: true
+  });
+};
 
+describe('ContactForm', () => {
+  const initialUserAgent = navigator.userAgent;
   let onFormSubmitSpy: Mock;
   let setValidated: React.Dispatch<React.SetStateAction<boolean>>;
   let user: UserEvent;
 
   beforeEach(()=>{
+    setUserAgent('Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0');
     onFormSubmitSpy = vi.fn();
     setValidated = vi.fn();
     user = userEvent.setup();
+  });
+
+  afterEach(()=>{
+    setUserAgent(initialUserAgent);
   });
 
   const onFormSubmit = (event: SubmitEvent) => {

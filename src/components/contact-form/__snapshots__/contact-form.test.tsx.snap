@@ -171,7 +171,7 @@ exports[`ContactForm > Should render as expected 1`] = `
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -404,7 +404,7 @@ exports[`ContactForm > should not submit when disabled > dirty 1`] = `
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -645,7 +645,7 @@ exports[`ContactForm > should not submit when disabled > pristine 1`] = `
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -879,7 +879,7 @@ exports[`ContactForm > should not submit when form has invalid data > dirty 1`] 
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -1112,7 +1112,7 @@ exports[`ContactForm > should not submit when form has invalid data > pristine 1
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -1345,7 +1345,7 @@ exports[`ContactForm > should submit when form has valid data > dirty 1`] = `
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"
@@ -1578,7 +1578,7 @@ exports[`ContactForm > should submit when form has valid data > pristine 1`] = `
     name="Browser_Info"
     readonly=""
     type="hidden"
-    value="Mozilla/5.0 (X11; Darwin x64) AppleWebKit/537.36 (KHTML, like Gecko) HappyDOM/0.0.0 | en-US"
+    value="Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0 | en-US"
   />
   <div
     class="mb-3"

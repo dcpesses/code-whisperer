@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import Contact from './index';
-import {userEvent} from '@testing-library/user-event';
+import {UserEvent, userEvent} from '@testing-library/user-event';
 // import * as ContactForm from '@/components/contact-form';
 
 interface LinkProps {
@@ -23,7 +23,27 @@ vi.mock('react-router-dom', () => {
   };
 });
 
+const setUserAgent = (userAgent: string) => {
+  Object.defineProperty(navigator, 'userAgent', {
+    get: function() {
+      return userAgent; // customized user agent
+    },
+    configurable: true
+  });
+};
+
 describe('Contact', () => {
+  const initialUserAgent = navigator.userAgent;
+  let user: UserEvent;
+
+  beforeEach(()=>{
+    setUserAgent('Mockzilla/1.0 (X11; Mock x64) HappyDOM/0.0.0');
+    user = userEvent.setup();
+  });
+
+  afterEach(()=>{
+    setUserAgent(initialUserAgent);
+  });
   test('Should render Contact page using default props', async() => {
     render(<Contact />);
 
@@ -31,7 +51,7 @@ describe('Contact', () => {
 
     const btnSubmit = screen.getByRole('button', { name: 'Submit' });
 
-    await userEvent.click(btnSubmit);
+    await user.click(btnSubmit);
 
     expect(screen.getByTestId('contact')).toBeDefined();
     expect(screen.getByTestId('contact')).toMatchSnapshot();
